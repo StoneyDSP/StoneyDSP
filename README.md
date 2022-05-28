@@ -1,4 +1,4 @@
-### Hi there 👋
+### Hi there 👋 I'm Nathan and I'm making Audio software plugins using C++!
 
 <!--
 **StoneyDSP/StoneyDSP** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
