@@ -8,7 +8,7 @@ Coffee! That's how I get things done!!
 
 If you might like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee,</a> or maybe two ;)
 
-And of course, always feel welcome to shoot me a PM or find me on Discord and Slack; just search for StoneyDSP :)
+And of course, always feel welcome to shoot me a PM to get me on Discord or Slack; alternatively, just search for StoneyDSP :)
 
 <p align="center">
  <a href= "https://www.instagram.com/stoney_dsp/"><img src="https://github.com/StoneyDSP/StoneyDSP/blob/2253d684ba99e6c072353a94b49315162c381406/Assets/instagram.png"/></a>
