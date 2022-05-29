@@ -1,10 +1,5 @@
 ### Hi there 👋 I'm Nathan and I'm making Audio software plugins using C++!
 
- ![](https://img.shields.io/badge/Code-C++-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
- ![](https://img.shields.io/badge/Code-python-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
- ![](https://img.shields.io/badge/Code-Java-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
- ![](https://img.shields.io/badge/Code-Markdown-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
-
 Here you will find public repo's of my audio plugins, which you may download, compile, use, and study for free.
 
 Coffee! That's how I get things done!! If you'd like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee</a> or two ;)
@@ -23,6 +18,12 @@ Coffee! That's how I get things done!! If you'd like to see me get more things d
 <!--
 
 And of course, always feel welcome to shoot me a PM to get me on Discord or Slack; alternatively, just search for StoneyDSP!
+
+
+ ![](https://img.shields.io/badge/Code-C++-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+ ![](https://img.shields.io/badge/Code-python-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+ ![](https://img.shields.io/badge/Code-Java-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+ ![](https://img.shields.io/badge/Code-Markdown-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
 
 **StoneyDSP/StoneyDSP** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
