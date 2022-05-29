@@ -1,6 +1,6 @@
 ### Hi there 👋 I'm Nathan and I'm making Audio software plugins using C++!
 
-Here you will repo's of my audio plugins, which you may download, compile, use, and study for free.
+Here you will find public repo's of my audio plugins, which you may download, compile, use, and study for free.
 
 Coffee! That's how I get things done!! If you might like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee,</a> or maybe two ;)
 
