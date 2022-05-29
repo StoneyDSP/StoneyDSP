@@ -6,7 +6,7 @@ Here you will repo's of my audio plugins, which you may download, compile, use, 
 
 Coffee! That's how I get things done!!
 
-If you might like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee, or maybe two ;)</a>
+If you might like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee,</a> or maybe two ;)
 
 And of course, always feel welcome to shoot me a PM or find me on Discord and Slack; just search for StoneyDSP :)
 
