@@ -14,11 +14,13 @@ Coffee! That's how I get things done!! If you might like to see me get more thin
  <a href= "https://www.facebook.com/StoneyDSP.Audio/"><img src="https://github.com/StoneyDSP/StoneyDSP/blob/9608562b09ee2708affd0c31117fc25a235672d9/Assets/facebook.png"/></a>
 </p>
 
-![](https://img.shields.io/badge/Code-C++-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-python-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Java-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Markdown-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
- 
+
+ ![](https://img.shields.io/badge/Code-C++-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+ ![](https://img.shields.io/badge/Code-python-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+ ![](https://img.shields.io/badge/Code-Java-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+ ![](https://img.shields.io/badge/Code-Markdown-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+
+
 <!--
 
 And of course, always feel welcome to shoot me a PM to get me on Discord or Slack; alternatively, just search for StoneyDSP!
