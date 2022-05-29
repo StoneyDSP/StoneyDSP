@@ -1,8 +1,8 @@
 ### Hi there 👋 I'm Nathan and I'm making Audio software plugins using C++!
 
-Here you will repo's of my audio plugins, which you may download, compile, use, and study for free.
-
 ![](https://img.shields.io/badge/Code-C++-informational?style=flat&logo=GitHub&logoColor=white&color=2bbc8a)
+
+Here you will repo's of my audio plugins, which you may download, compile, use, and study for free.
 
 Coffee! That's how I get things done!!
 
