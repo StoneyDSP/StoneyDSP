@@ -15,10 +15,8 @@ And of course, always feel welcome to shoot me a PM to get me on Discord or Slac
  <a href= "https://www.facebook.com/StoneyDSP.Audio/"><img src="https://github.com/StoneyDSP/StoneyDSP/blob/9608562b09ee2708affd0c31117fc25a235672d9/Assets/facebook.png"/></a>
 </p>
 
-https://github.com/StoneyDSP/StoneyDSP/blob/9608562b09ee2708affd0c31117fc25a235672d9/Assets/facebook.png
-<!--
 
- <a href= "https://twitter.com/benthevining/"><img src="https://github.com/benthevining/benthevining/blob/main/assets/icons/twitter.png"/></a>
+<!--
 
 **StoneyDSP/StoneyDSP** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
