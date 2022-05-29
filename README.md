@@ -1,4 +1,4 @@
-### Hi there 👋 I'm Nathan and I'm making Audio software plugins using C++!
+### Hi there 👋 I'm Nathan and I'm a musician making Audio software plugins using C++!
 
 Here you will find public repo's of my audio plugins, which you may download, compile, use, and study for free.
 
