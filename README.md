@@ -8,8 +8,6 @@ If you might like to see me get more things done, please kindly consider buying 
 
 <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">Become a Patron!</a>
 
-(if you do, I'll give you direct support, share deep insights into my creative and productive processes in coding, DSP, and audio production with you in various forms, and provide early preview builds of my new projects as they come!)
-
 And of course, always feel welcome to shoot me a PM or find me on Discord and Slack; just search for StoneyDSP :)
 
 <!--
