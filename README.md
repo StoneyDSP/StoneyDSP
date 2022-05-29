@@ -2,7 +2,7 @@
 
 Here you will find public repo's of my audio plugins, which you may download, compile, use, and study for free.
 
-Coffee! That's how I get things done!! If you might like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee,</a> or maybe two ;)
+Coffee! That's how I get things done!! If you'd like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee,</a> or maybe two ;)
 
 <p align="center">
  <a href= "https://paypal.me/StoneyDSPAudio?country.x=ES&locale.x=en_US"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"/></a>
