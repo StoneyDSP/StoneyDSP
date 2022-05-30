@@ -2,12 +2,6 @@
 
 Here you will find public repo's of my audio plugins, which you may download, compile, use, and study for free.
 
-Coffee! That's how I get things done!! If you'd like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee</a> or two ;)
-
-<p align="center">
- <a href= "https://paypal.me/StoneyDSPAudio?country.x=ES&locale.x=en_US"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"/></a>
-</p>
-
 <p align="center">
  <a href= "https://twitter.com/Stoney_DSP/"><img src="https://github.com/StoneyDSP/StoneyDSP/blob/a075caeedffe23b2733ee38b12f9800f62aab9c2/Assets/twitter.png"/></a>
  <a href= "https://www.instagram.com/stoney_dsp/"><img src="https://github.com/StoneyDSP/StoneyDSP/blob/2253d684ba99e6c072353a94b49315162c381406/Assets/instagram.png"/></a>
@@ -16,6 +10,12 @@ Coffee! That's how I get things done!! If you'd like to see me get more things d
 
 
 <!--
+
+Coffee! That's how I get things done!! If you'd like to see me get more things done, please kindly consider <a href="https://www.patreon.com/bePatron?u=8549187" data-patreon-widget-type="become-patron-button">buying me a coffee</a> or two ;)
+
+<p align="center">
+ <a href= "https://paypal.me/StoneyDSPAudio?country.x=ES&locale.x=en_US"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"/></a>
+</p>
 
 And of course, always feel welcome to shoot me a PM to get me on Discord or Slack; alternatively, just search for StoneyDSP!
 
