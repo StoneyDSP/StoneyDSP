@@ -1,6 +1,9 @@
-### Hi there 👋 I'm Nathan and I'm a musician making Audio software plugins using C++!
+### <p align="center">Hi there 👋 I'm Nathan and I'm a musician making Audio software plugins using C++!
+</p>
 
+<p align="center">
 Here you will find public repo's of my audio plugins, which you may download, compile, use, and study for free.
+</p>
 
 <p align="center">
  <a href= "https://paypal.me/StoneyDSPAudio?country.x=ES&locale.x=en_US"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif"/></a>
