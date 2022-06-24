@@ -3,11 +3,12 @@
 
     ID:             stoneydsp_filters
     vendor:         stoneydsp
-    version:        0.0.1
+    version:        0.1.1
     name:           StoneyDSP Filter classes
     description:    Lightweight filter parts as classes
     website:        github.com/StoneyDSP
     license:        Proprietary
+    minimumCppStandard: 14
 
     dependencies:   
 
