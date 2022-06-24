@@ -59,16 +59,16 @@ SampleType Transforms<SampleType>::processSample(int channel, SampleType inputVa
 {
     switch (transformType)
     {
-    case TransformationType::directFormI:
+    case TransformType::directFormI:
         inputValue = directFormI(channel, inputValue);
         break;
-    case TransformationType::directFormII:
+    case TransformType::directFormII:
         inputValue = directFormII(channel, inputValue);
         break;
-    case TransformationType::directFormItransposed:
+    case TransformType::directFormItransposed:
         inputValue = directFormITransposed(channel, inputValue);
         break;
-    case TransformationType::directFormIItransposed:
+    case TransformType::directFormIItransposed:
         inputValue = directFormIITransposed(channel, inputValue);
         break;
     default:
