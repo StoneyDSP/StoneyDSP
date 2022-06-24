@@ -40,6 +40,8 @@ template <typename SampleType>
 class Biquads
 {
 public:
+
+    using FiltShape = FilterShape;
     //==============================================================================
     /** Constructor. */
     Biquads();
@@ -55,7 +57,7 @@ public:
     void setGain(SampleType newGain);
 
     /** Sets the type of the filter. See enum for availa ble types. */
-    void setFilterType(FilterShape newFiltType);
+    void setFilterType(FiltShape newFiltType);
 
     //==============================================================================
     /** Initialises the processor. */
@@ -88,7 +90,7 @@ private:
     //==============================================================================
     /** Initialise the parameters. */
     SampleType minFreq = 20.0, maxFreq = 20000.0, hz = 1000.0, q = 0.5, g = 0.0;
-    FilterShape filtType = FilterShape::lowPass2;
+    FiltShape filtType = FiltShape::lowPass2;
 
     //==============================================================================
     /** Initialise constants. */

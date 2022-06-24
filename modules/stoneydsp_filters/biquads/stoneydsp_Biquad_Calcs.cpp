@@ -45,7 +45,7 @@ void Biquads<SampleType>::setGain(SampleType newGain)
 }
 
 template <typename SampleType>
-void Biquads<SampleType>::setFilterType(FilterShape newFiltType)
+void Biquads<SampleType>::setFilterType(FiltShape newFiltType)
 {
     if (filtType != newFiltType)
     {
