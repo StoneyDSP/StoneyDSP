@@ -57,7 +57,7 @@ void Biquads<SampleType>::setFilterType(FilterType newFiltType)
 
 //==============================================================================
 template <typename SampleType>
-void Biquads<SampleType>::prepare(int numChannels, double sampleRate)
+void Biquads<SampleType>::prepare(double sampleRate)
 {
     reset();
 
