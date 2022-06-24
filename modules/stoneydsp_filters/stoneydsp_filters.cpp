@@ -7,7 +7,8 @@
  #error "Incorrect use of cpp file"
 #endif
 
-#include "stoneydsp_filters.h"
+#include "./stoneydsp_filters.h"
 
-#include "biquads/stoneydsp_Biquad_Calcs.cpp"
-#include "biquads/stoneydsp_Transforms.cpp"
+
+#include "./biquads/stoneydsp_Biquad_Calcs.cpp"
+#include "./biquads/stoneydsp_Transforms.cpp"

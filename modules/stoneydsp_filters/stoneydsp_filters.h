@@ -8,7 +8,6 @@
     description:    Lightweight filter parts as classes
     website:        github.com/StoneyDSP
     license:        Proprietary
-    minimumCppStandard: 14
 
     dependencies:   
 
@@ -26,5 +25,5 @@
 #undef Factor
 #undef check
 
-#include "biquads/stoneydsp_Biquad_Calcs.h"
-#include "biquads/stoneydsp_Transforms.h"
+#include "./biquads/stoneydsp_Biquad_Calcs.h"
+#include "./biquads/stoneydsp_Transforms.h"
