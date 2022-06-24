@@ -18,5 +18,7 @@
 
 #define STONEYDSP_FILTERS_H_INCLUDED
 
+#include <cmath>
+
 #include "biquads/stoneydsp_Biquad_Calcs.h"
 #include "biquads/stoneydsp_Transforms.h"
