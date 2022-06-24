@@ -95,8 +95,8 @@ private:
     //==============================================================================
     /** Initialise constants. */
     const SampleType zero = (0.0), one = (1.0), two = (2.0), minusOne = (-1.0), minusTwo = (-2.0);
-    const SampleType pi = (3.1415926535897932384626433832795);
-    double sampleRate = 44100.0;
+    const SampleType pi = static_cast<SampleType>(3.1415926535897932384626433832795);
+    double currentSampleRate = 0.0;
 
     //==============================================================================
 };
