@@ -10,11 +10,16 @@
 
 #include "stoneydsp_Biquad_Calcs.h"
 
+namespace stoneydsp
+{
+namespace filters
+{
+
 //==============================================================================
 template <typename SampleType>
 Biquads<SampleType>::Biquads()
 {
-    reset(static_cast<SampleType>(0.0));
+    reset();
 }
 
 //==============================================================================
@@ -45,7 +50,7 @@ void Biquads<SampleType>::setFilterType(filterType newFiltType)
     if (filtType != newFiltType)
     {
         filtType = newFiltType;
-        reset(static_cast<SampleType>(0.0));
+        reset();
         coefficients();
     }
 }
@@ -54,7 +59,7 @@ void Biquads<SampleType>::setFilterType(filterType newFiltType)
 template <typename SampleType>
 void Biquads<SampleType>::prepare(int numChannels, double sampleRate)
 {
-    reset(static_cast<SampleType>(0.0));
+    reset();
 
     minFreq = static_cast <SampleType>(sampleRate) / static_cast <SampleType>(24576.0);
     maxFreq = static_cast <SampleType>(sampleRate) / static_cast <SampleType>(2.125);
@@ -67,7 +72,7 @@ void Biquads<SampleType>::prepare(int numChannels, double sampleRate)
 }
 
 template <typename SampleType>
-void Biquads<SampleType>::reset(SampleType initialValue)
+void Biquads<SampleType>::reset()
 {
     setFrequency(hz);
     setResonance(q);
@@ -302,3 +307,6 @@ void Biquads<SampleType>::coefficients()
 //==============================================================================
 template class Biquads<float>;
 template class Biquads<double>;
+
+} //namespace stoneydsp
+} //

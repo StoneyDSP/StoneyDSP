@@ -8,10 +8,10 @@
   ==============================================================================
 */
 
-#pragma once
-
-#ifndef BIQUAD_CALCS_H_INCLUDED
-#define BIQUAD_CALCS_H_INCLUDED
+namespace stoneydsp
+{
+namespace filters
+{
 
 #include <cmath>
 
@@ -67,7 +67,7 @@ public:
     void prepare(int numChannels, double sampleRate);
 
     /** Resets the internal state variables of the processor. */
-    void reset(SampleType initialValue);
+    void reset();
 
 private:
     //==============================================================================
@@ -104,4 +104,5 @@ private:
     //==============================================================================
 };
 
-#endif //BIQUAD_CALCS_H_INCLUDED
+} //namespace stoneydsp
+} //
