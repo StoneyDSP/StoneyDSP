@@ -29,13 +29,14 @@ template <typename SampleType>
 class Transforms
 {
 public:
+    using Trans = TransformType;
     //==============================================================================
     /** Constructor. */
     Transforms();
 
     //==============================================================================
     /** Sets the BiLinear Transform for the filter to use. See enum for availa ble types. */
-    void setTransformType(TransformType newTransformType);
+    void setTransformType(Trans newTransformType);
 
     //==============================================================================
     /** Initialises the processor. */
@@ -66,7 +67,7 @@ private:
     //==============================================================================
     /** Unit-delay objects. */
     std::vector<SampleType> Wn_1, Wn_2, Xn_1, Xn_2, Yn_1, Yn_2;
-
+    
     //==============================================================================
     /** Initialise the coefficient gains. */
     SampleType b0 = 1.0;
@@ -78,7 +79,7 @@ private:
 
     //==============================================================================
     /** Initialise the parameters. */
-    TransformType transformType = TransformType::directFormIItransposed;
+    Trans transformType = Trans::directFormIItransposed;
 };
 
 } //namespace stoneydsp

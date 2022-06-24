@@ -24,7 +24,7 @@ Transforms<SampleType>::Transforms()
 
 //==============================================================================
 template <typename SampleType>
-void Transforms<SampleType>::setTransformType(TransformType newTransformType)
+void Transforms<SampleType>::setTransformType(Trans newTransformType)
 {
     if (transformType != newTransformType)
     {
@@ -59,16 +59,16 @@ SampleType Transforms<SampleType>::processSample(int channel, SampleType inputVa
 {
     switch (transformType)
     {
-    case TransformType::directFormI:
+    case Trans::directFormI:
         inputValue = directFormI(channel, inputValue);
         break;
-    case TransformType::directFormII:
+    case Trans::directFormII:
         inputValue = directFormII(channel, inputValue);
         break;
-    case TransformType::directFormItransposed:
+    case Trans::directFormItransposed:
         inputValue = directFormITransposed(channel, inputValue);
         break;
-    case TransformType::directFormIItransposed:
+    case Trans::directFormIItransposed:
         inputValue = directFormIITransposed(channel, inputValue);
         break;
     default:
