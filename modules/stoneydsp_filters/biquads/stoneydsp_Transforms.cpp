@@ -35,7 +35,7 @@ void Transforms<SampleType>::setTransformType(TransformType newTransformType)
 
 //==============================================================================
 template <typename SampleType>
-void Transforms<SampleType>::prepare(int numChannels, double sampleRate)
+void Transforms<SampleType>::prepare(int numChannels)
 {
     Wn_1.resize(numChannels);
     Wn_2.resize(numChannels);

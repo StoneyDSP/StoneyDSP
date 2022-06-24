@@ -39,7 +39,7 @@ public:
 
     //==============================================================================
     /** Initialises the processor. */
-    void prepare(int numChannels, double sampleRate);
+    void prepare(int numChannels);
 
     /** Resets the internal state variables of the processor. */
     void reset(SampleType initialValue);
