@@ -37,14 +37,14 @@ enum class FilterShape
 */
 
 template <typename SampleType>
-class Biquads
+class BiquadCalcs
 {
 public:
 
     using FiltShape = FilterShape;
     //==============================================================================
     /** Constructor. */
-    Biquads();
+    BiquadCalcs();
 
     //==============================================================================
     /** Sets the centre Frequency of the filter. Range = 20..20000 */

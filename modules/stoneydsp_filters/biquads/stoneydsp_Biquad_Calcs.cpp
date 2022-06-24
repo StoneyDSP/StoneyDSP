@@ -17,35 +17,35 @@ namespace filters
 
 //==============================================================================
 template <typename SampleType>
-Biquads<SampleType>::Biquads()
+BiquadCalcs<SampleType>::BiquadCalcs()
 {
     reset();
 }
 
 //==============================================================================
 template <typename SampleType>
-void Biquads<SampleType>::setFrequency(SampleType newFreq)
+void BiquadCalcs<SampleType>::setFrequency(SampleType newFreq)
 {
     hz = static_cast<SampleType>(newFreq);
     coefficients();
 }
 
 template <typename SampleType>
-void Biquads<SampleType>::setResonance(SampleType newRes)
+void BiquadCalcs<SampleType>::setResonance(SampleType newRes)
 {
     q = static_cast<SampleType>(newRes);
     coefficients();
 }
 
 template <typename SampleType>
-void Biquads<SampleType>::setGain(SampleType newGain)
+void BiquadCalcs<SampleType>::setGain(SampleType newGain)
 {
     g = static_cast<SampleType>(newGain);
     coefficients();
 }
 
 template <typename SampleType>
-void Biquads<SampleType>::setFilterType(FiltShape newFiltType)
+void BiquadCalcs<SampleType>::setFilterType(FiltShape newFiltType)
 {
     if (filtType != newFiltType)
     {
@@ -57,10 +57,8 @@ void Biquads<SampleType>::setFilterType(FiltShape newFiltType)
 
 //==============================================================================
 template <typename SampleType>
-void Biquads<SampleType>::prepare(double sampleRate)
+void BiquadCalcs<SampleType>::prepare(double sampleRate)
 {
-    reset();
-
     minFreq = static_cast <SampleType>(sampleRate) / static_cast <SampleType>(24576.0);
     maxFreq = static_cast <SampleType>(sampleRate) / static_cast <SampleType>(2.125);
 
@@ -72,7 +70,7 @@ void Biquads<SampleType>::prepare(double sampleRate)
 }
 
 template <typename SampleType>
-void Biquads<SampleType>::reset()
+void BiquadCalcs<SampleType>::reset()
 {
     setFrequency(hz);
     setResonance(q);
@@ -82,7 +80,7 @@ void Biquads<SampleType>::reset()
 }
 
 template <typename SampleType>
-void Biquads<SampleType>::coefficients()
+void BiquadCalcs<SampleType>::coefficients()
 {
     SampleType omega = (hz * ((pi * two) / sampleRate));
     SampleType cos = (std::cos(omega));
@@ -102,7 +100,7 @@ void Biquads<SampleType>::coefficients()
 
     switch (filtType)
     {
-    case FilterShape::lowPass2:
+    case FiltShape::lowPass2:
 
         b_0 = (one - cos) / two;
         b_1 = one - cos;
@@ -114,7 +112,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::lowPass1:
+    case FiltShape::lowPass1:
 
         b_0 = omega / (one + omega);
         b_1 = omega / (one + omega);
@@ -126,7 +124,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::highPass2:
+    case FiltShape::highPass2:
 
         b_0 = (one + cos) / two;
         b_1 = minusOne * (one + cos);
@@ -138,7 +136,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::highPass1:
+    case FiltShape::highPass1:
 
         b_0 = one / (one + omega);
         b_1 = (one / (one + omega)) * minusOne;
@@ -150,7 +148,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::bandPass:
+    case FiltShape::bandPass:
 
         b_0 = sin / two;
         b_1 = zero;
@@ -162,7 +160,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::bandPassQ:
+    case FiltShape::bandPassQ:
 
         b_0 = alpha;
         b_1 = zero;
@@ -174,7 +172,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::lowShelf2:
+    case FiltShape::lowShelf2:
 
         b_0 = (((a + one) - ((a - one) * cos)) + sqrtA) * a;
         b_1 = (((a - one) - ((a + one) * cos)) * two) * a;
@@ -186,7 +184,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::lowShelf1:
+    case FiltShape::lowShelf1:
 
         b_0 = one + ((omega / (one + omega)) * (minusOne + (a * a)));
         b_1 = (((omega / (one + omega)) * (minusOne + (a * a))) - ((one - omega) / (one + omega)));
@@ -198,7 +196,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::lowShelf1C:
+    case FiltShape::lowShelf1C:
 
         b_0 = one + ((omega / a) / (one + (omega / a)) * (minusOne + (a * a)));
         b_1 = ((((omega / a) / (one + (omega / a))) * (minusOne + (a * a))) - ((one - (omega / a)) / (one + (omega / a))));
@@ -210,7 +208,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::highShelf2:
+    case FiltShape::highShelf2:
 
         b_0 = (((a + one) + ((a - one) * cos)) + sqrtA) * a;
         b_1 = (((a - one) + ((a + one) * cos)) * minusTwo) * a;
@@ -222,7 +220,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::highShelf1:
+    case FiltShape::highShelf1:
 
         b_0 = one + ((minusOne + (a * a)) / (one + omega));
         b_1 = minusOne * (((one - omega) / (one + omega)) + ((minusOne + (a * a)) / (one + omega)));
@@ -234,7 +232,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::highShelf1C:
+    case FiltShape::highShelf1C:
 
         b_0 = one + ((minusOne + (a * a)) / (one + (omega * a)));
         b_1 = minusOne * (((one - (omega * a)) / (one + (omega * a))) + ((minusOne + (a * a)) / (one + (omega * a))));
@@ -246,7 +244,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::peak:
+    case FiltShape::peak:
 
         b_0 = one + (alpha * a);
         b_1 = minusTwo * cos;
@@ -258,7 +256,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::notch:
+    case FiltShape::notch:
 
         b_0 = one;
         b_1 = minusTwo * cos;
@@ -270,7 +268,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case FilterShape::allPass:
+    case FiltShape::allPass:
 
         b_0 = one - alpha;
         b_1 = minusTwo * cos;
@@ -303,8 +301,8 @@ void Biquads<SampleType>::coefficients()
 }
 
 //==============================================================================
-template class Biquads<float>;
-template class Biquads<double>;
+template class BiquadCalcs<float>;
+template class BiquadCalcs<double>;
 
 } //namespace stoneydsp
 } //
