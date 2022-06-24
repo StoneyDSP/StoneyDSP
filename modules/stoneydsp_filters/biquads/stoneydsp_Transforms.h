@@ -31,7 +31,7 @@ class Transforms
 public:
     //==============================================================================
     /** Constructor. */
-    Transforms() = default;
+    Transforms();
 
     //==============================================================================
     /** Sets the BiLinear Transform for the filter to use. See enum for availa ble types. */
