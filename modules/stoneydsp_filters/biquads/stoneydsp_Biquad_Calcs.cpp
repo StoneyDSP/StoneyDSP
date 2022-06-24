@@ -57,8 +57,10 @@ void BiquadCalcs<SampleType>::setFilterType(FiltShape newFiltType)
 template <typename SampleType>
 void BiquadCalcs<SampleType>::prepare(double sampleRate)
 {
-    minFreq = static_cast <SampleType>(sampleRate) / static_cast <SampleType>(24576.0);
-    maxFreq = static_cast <SampleType>(sampleRate) / static_cast <SampleType>(2.125);
+    currentSampleRate = sampleRate;
+
+    minFreq = static_cast <SampleType>(currentSampleRate) / static_cast <SampleType>(24576.0);
+    maxFreq = static_cast <SampleType>(currentSampleRate) / static_cast <SampleType>(2.125);
 
     setFrequency(hz);
     setResonance(q);
@@ -80,7 +82,7 @@ void BiquadCalcs<SampleType>::reset()
 template <typename SampleType>
 void BiquadCalcs<SampleType>::coefficients()
 {
-    SampleType omega = (hz * ((pi * two) / sampleRate));
+    SampleType omega = (hz * ((pi * two) / static_cast<SampleType>(currentSampleRate)));
     SampleType cos = (std::cos(omega));
     SampleType sin = (std::sin(omega));
     //SampleType tan = (sin / cos);
