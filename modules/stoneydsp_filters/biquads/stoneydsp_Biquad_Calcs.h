@@ -13,8 +13,6 @@ namespace stoneydsp
 namespace filters
 {
 
-#include <cmath>
-
 enum class FilterType
 {
     lowPass2 = 0,
