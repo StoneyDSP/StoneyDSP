@@ -89,7 +89,7 @@ void Biquads<SampleType>::coefficients()
     SampleType sin = (std::sin(omega));
     //SampleType tan = (sin / cos);
     SampleType alpha = (sin * (one - q));
-    SampleType a = (juce::Decibels::decibelsToGain(static_cast<SampleType>(g * static_cast <SampleType>(0.5))));
+    SampleType a = (/*juce::Decibels::decibelsToGain*/(static_cast<SampleType>(g * static_cast <SampleType>(0.5))));
 
     auto sqrtA = (std::sqrt(a) * two) * alpha;
 
