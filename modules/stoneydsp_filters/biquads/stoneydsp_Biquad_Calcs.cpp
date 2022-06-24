@@ -8,8 +8,6 @@
   ==============================================================================
 */
 
-#include "stoneydsp_Biquad_Calcs.h"
-
 namespace stoneydsp
 {
 namespace filters

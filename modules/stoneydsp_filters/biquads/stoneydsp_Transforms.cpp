@@ -8,8 +8,6 @@
   ==============================================================================
 */
 
-#include "stoneydsp_Transforms.h"
-
 namespace stoneydsp
 {
 namespace filters
