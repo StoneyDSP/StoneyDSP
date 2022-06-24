@@ -102,7 +102,7 @@ void Biquads<SampleType>::coefficients()
 
     switch (filtType)
     {
-    case filterType::lowPass2:
+    case FilterShape::lowPass2:
 
         b_0 = (one - cos) / two;
         b_1 = one - cos;
@@ -114,7 +114,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::lowPass1:
+    case FilterShape::lowPass1:
 
         b_0 = omega / (one + omega);
         b_1 = omega / (one + omega);
@@ -126,7 +126,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::highPass2:
+    case FilterShape::highPass2:
 
         b_0 = (one + cos) / two;
         b_1 = minusOne * (one + cos);
@@ -138,7 +138,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::highPass1:
+    case FilterShape::highPass1:
 
         b_0 = one / (one + omega);
         b_1 = (one / (one + omega)) * minusOne;
@@ -150,7 +150,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::bandPass:
+    case FilterShape::bandPass:
 
         b_0 = sin / two;
         b_1 = zero;
@@ -162,7 +162,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::bandPassQ:
+    case FilterShape::bandPassQ:
 
         b_0 = alpha;
         b_1 = zero;
@@ -174,7 +174,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::lowShelf2:
+    case FilterShape::lowShelf2:
 
         b_0 = (((a + one) - ((a - one) * cos)) + sqrtA) * a;
         b_1 = (((a - one) - ((a + one) * cos)) * two) * a;
@@ -186,7 +186,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::lowShelf1:
+    case FilterShape::lowShelf1:
 
         b_0 = one + ((omega / (one + omega)) * (minusOne + (a * a)));
         b_1 = (((omega / (one + omega)) * (minusOne + (a * a))) - ((one - omega) / (one + omega)));
@@ -198,7 +198,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::lowShelf1C:
+    case FilterShape::lowShelf1C:
 
         b_0 = one + ((omega / a) / (one + (omega / a)) * (minusOne + (a * a)));
         b_1 = ((((omega / a) / (one + (omega / a))) * (minusOne + (a * a))) - ((one - (omega / a)) / (one + (omega / a))));
@@ -210,7 +210,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::highShelf2:
+    case FilterShape::highShelf2:
 
         b_0 = (((a + one) + ((a - one) * cos)) + sqrtA) * a;
         b_1 = (((a - one) + ((a + one) * cos)) * minusTwo) * a;
@@ -222,7 +222,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::highShelf1:
+    case FilterShape::highShelf1:
 
         b_0 = one + ((minusOne + (a * a)) / (one + omega));
         b_1 = minusOne * (((one - omega) / (one + omega)) + ((minusOne + (a * a)) / (one + omega)));
@@ -234,7 +234,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::highShelf1C:
+    case FilterShape::highShelf1C:
 
         b_0 = one + ((minusOne + (a * a)) / (one + (omega * a)));
         b_1 = minusOne * (((one - (omega * a)) / (one + (omega * a))) + ((minusOne + (a * a)) / (one + (omega * a))));
@@ -246,7 +246,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::peak:
+    case FilterShape::peak:
 
         b_0 = one + (alpha * a);
         b_1 = minusTwo * cos;
@@ -258,7 +258,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::notch:
+    case FilterShape::notch:
 
         b_0 = one;
         b_1 = minusTwo * cos;
@@ -270,7 +270,7 @@ void Biquads<SampleType>::coefficients()
         break;
 
 
-    case filterType::allPass:
+    case FilterShape::allPass:
 
         b_0 = one - alpha;
         b_1 = minusTwo * cos;
