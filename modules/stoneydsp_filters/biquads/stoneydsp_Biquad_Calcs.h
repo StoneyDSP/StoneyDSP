@@ -13,7 +13,7 @@ namespace stoneydsp
 namespace filters
 {
 
-enum class FilterType
+enum class FilterShape
 {
     lowPass2 = 0,
     lowPass1 = 1,
@@ -55,7 +55,7 @@ public:
     void setGain(SampleType newGain);
 
     /** Sets the type of the filter. See enum for availa ble types. */
-    void setFilterType(FilterType newFiltType);
+    void setFilterType(FilterShape newFiltType);
 
     //==============================================================================
     /** Initialises the processor. */
@@ -88,7 +88,7 @@ private:
     //==============================================================================
     /** Initialise the parameters. */
     SampleType minFreq = 20.0, maxFreq = 20000.0, hz = 1000.0, q = 0.5, g = 0.0;
-    FilterType filtType = FilterType::lowPass2;
+    FilterShape filtType = FilterShape::lowPass2;
 
     //==============================================================================
     /** Initialise constants. */
