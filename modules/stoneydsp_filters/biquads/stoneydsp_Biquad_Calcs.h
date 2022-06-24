@@ -69,10 +69,6 @@ public:
     /** Resets the internal state variables of the processor. */
     void reset();
 
-private:
-    //==============================================================================
-    void coefficients();
-
     //==============================================================================
     SampleType& getb0() { return b0; }
     SampleType& getb1() { return b1; }
@@ -80,6 +76,10 @@ private:
     SampleType& geta0() { return a0; }
     SampleType& geta1() { return a1; }
     SampleType& geta2() { return a2; }
+
+private:
+    //==============================================================================
+    void coefficients();
 
     //==============================================================================
     /** Initialise the coefficient gains. */
