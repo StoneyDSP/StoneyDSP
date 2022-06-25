@@ -18,6 +18,8 @@
 
 #define STONEYDSP_MATHS_H_INCLUDED
 
+#include <cmath>
+
 #undef Complex
 #undef Factor
 #undef check
