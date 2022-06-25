@@ -22,3 +22,4 @@
 #undef Factor
 #undef check
 
+#include "./math/stoneydsp_Operators.h"
