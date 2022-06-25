@@ -9,7 +9,7 @@
     website:        github.com/StoneyDSP
     license:        Proprietary
 
-    dependencies:   
+    dependencies:   stoneydsp_Conversion
 
     END_JUCE_MODULE_DECLARATION
 */
@@ -17,6 +17,8 @@
 #pragma once
 
 #define STONEYDSP_FILTERS_H_INCLUDED
+
+#include "../stoneydsp_maths/math/stoneydsp_Conversion.h"
 
 #include <cmath>
 #include <vector>
