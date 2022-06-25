@@ -13,6 +13,7 @@ namespace stoneydsp
 class Conversion
 {
 public:
+    //==========================================================================
     template <typename Type>
     static Type gainToDb (Type gain)
     {
