@@ -8,5 +8,3 @@
 #endif
 
 #include "./stoneydsp_maths.h"
-
-#include "./math/stoneydsp_Operators.cpp"

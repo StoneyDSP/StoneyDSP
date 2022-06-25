@@ -23,3 +23,4 @@
 #undef check
 
 #include "./math/stoneydsp_Operators.h"
+#include "./math/stoneydsp_Conversion.h"
