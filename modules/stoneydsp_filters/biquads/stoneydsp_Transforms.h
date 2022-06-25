@@ -29,21 +29,21 @@ template <typename SampleType>
 class Transforms
 {
 public:
-    using Trans = TransformType;
+    using TransType = TransformType;
     //==============================================================================
     /** Constructor. */
     Transforms();
 
     //==============================================================================
     /** Sets the BiLinear Transform for the filter to use. See enum for availa ble types. */
-    void setTransformType(Trans newTransformType);
+    void setTransformType(TransType newTransformType);
 
     //==============================================================================
     /** Initialises the processor. */
     void prepare(int numChannels);
 
     /** Resets the internal state variables of the processor. */
-    void reset(SampleType initialValue);
+    void reset(SampleType initialValue = (SampleType) (0.0));
 
     //==============================================================================
     /** Processes one sample at a time on a given channel. */
@@ -79,7 +79,11 @@ private:
 
     //==============================================================================
     /** Initialise the parameters. */
-    Trans transformType = Trans::directFormIItransposed;
+    TransType transformType = TransType::directFormIItransposed;
+
+    //==============================================================================
+    /** Initialise constants. */
+    const SampleType zero = (0.0), one = (1.0);
 };
 
 } //namespace stoneydsp

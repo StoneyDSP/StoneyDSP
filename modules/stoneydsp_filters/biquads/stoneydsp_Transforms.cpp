@@ -17,17 +17,17 @@ namespace filters
 template <typename SampleType>
 Transforms<SampleType>::Transforms()
 {
-    reset(static_cast<SampleType>(0.0));
+    reset();
 }
 
 //==============================================================================
 template <typename SampleType>
-void Transforms<SampleType>::setTransformType(Trans newTransformType)
+void Transforms<SampleType>::setTransformType(TransType newTransformType)
 {
     if (transformType != newTransformType)
     {
         transformType = newTransformType;
-        reset(static_cast<SampleType>(0.0));
+        reset();
     }
 }
 
@@ -42,7 +42,7 @@ void Transforms<SampleType>::prepare(int numChannels)
     Yn_1.resize(numChannels);
     Yn_2.resize(numChannels);
 
-    reset(static_cast<SampleType>(0.0));
+    reset();
 }
 
 template <typename SampleType>
@@ -57,16 +57,16 @@ SampleType Transforms<SampleType>::processSample(int channel, SampleType inputVa
 {
     switch (transformType)
     {
-    case Trans::directFormI:
+    case TransType::directFormI:
         inputValue = directFormI(channel, inputValue);
         break;
-    case Trans::directFormII:
+    case TransType::directFormII:
         inputValue = directFormII(channel, inputValue);
         break;
-    case Trans::directFormItransposed:
+    case TransType::directFormItransposed:
         inputValue = directFormITransposed(channel, inputValue);
         break;
-    case Trans::directFormIItransposed:
+    case TransType::directFormIItransposed:
         inputValue = directFormIITransposed(channel, inputValue);
         break;
     default:
@@ -100,7 +100,7 @@ SampleType Transforms<SampleType>::directFormII(int channel, SampleType inputVal
     auto& Wn1 = Wn_1[(size_t)channel];
     auto& Wn2 = Wn_2[(size_t)channel];
 
-    SampleType Xn = inputValue;
+    auto& Xn = inputValue;
 
     SampleType Wn = (Xn + ((Wn1 * a1) + (Wn2 * a2)));
     SampleType Yn = ((Wn * b0) + (Wn1 * b1) + (Wn2 * b2));
@@ -119,7 +119,7 @@ SampleType Transforms<SampleType>::directFormITransposed(int channel, SampleType
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    SampleType Xn = inputValue;
+    auto& Xn = inputValue;
 
     SampleType Wn = (Xn + Wn2);
     SampleType Yn = ((Wn * b0) + Xn2);
@@ -136,7 +136,7 @@ SampleType Transforms<SampleType>::directFormIITransposed(int channel, SampleTyp
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    SampleType Xn = inputValue;
+    auto& Xn = inputValue;
 
     SampleType Yn = ((Xn * b0) + (Xn2));
 
@@ -150,5 +150,5 @@ SampleType Transforms<SampleType>::directFormIITransposed(int channel, SampleTyp
 template class Transforms<float>;
 template class Transforms<double>;
 
-}
-}
+} //namespace stoneydsp
+} //
