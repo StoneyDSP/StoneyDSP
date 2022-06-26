@@ -20,6 +20,7 @@
 
 #include <cmath>
 #include <vector>
+#include <atomic>
 
 #undef Complex
 #undef Factor
