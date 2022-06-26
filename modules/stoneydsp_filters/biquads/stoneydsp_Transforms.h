@@ -30,11 +30,11 @@ class Transforms
 {
 public:
     using TransType = TransformType;
-    //==============================================================================
+    //==========================================================================
     /** Constructor. */
     Transforms();
 
-    //==============================================================================
+    //==========================================================================
     void setb0(SampleType b0new);
     void setb1(SampleType b1new);
     void setb2(SampleType b2new);
@@ -42,46 +42,43 @@ public:
     void seta1(SampleType a1new);
     void seta2(SampleType a2new);
 
-    /** Sets the BiLinear Transform for the filter to use. See enum for availa ble types. */
+    /** Sets the BiLinear Transform for the filter to use. See enum for available types. */
     void setTransformType(TransType newTransformType);
 
-    //==============================================================================
+    //==========================================================================
     /** Initialises the processor. */
     void prepare(int numChannels);
 
     /** Resets the internal state variables of the processor. */
     void reset(SampleType initialValue = (SampleType) (0.0));
 
-    //==============================================================================
+    //==========================================================================
     /** Processes one sample at a time on a given channel. */
     SampleType processSample(int channel, SampleType inputValue);
 
 private:
+    void coefficients();
+
   //==============================================================================
     SampleType directFormI(int channel, SampleType inputValue);
     SampleType directFormII(int channel, SampleType inputValue);
     SampleType directFormITransposed(int channel, SampleType inputValue);
     SampleType directFormIITransposed(int channel, SampleType inputValue);
 
-    //==============================================================================
-    /** Unit-delay objects. */
+    //==========================================================================
+    /** Unit-delay object */
     std::vector<SampleType> Wn_1, Wn_2, Xn_1, Xn_2, Yn_1, Yn_2;
     
-    //==============================================================================
-    /** Initialise the coefficient gains. */
-    SampleType b0 = 1.0;
-    SampleType b1 = 0.0;
-    SampleType b2 = 0.0;
-    SampleType a0 = 1.0;
-    SampleType a1 = 0.0;
-    SampleType a2 = 0.0;
+    //==========================================================================
+    /** Coefficient gain */
+    SampleType b0, b1, b2, a0, a1, a2;
 
-    std::atomic<SampleType>* b_0 = 1.0;
-    std::atomic<SampleType>* b_1 = 0.0;
-    std::atomic<SampleType>* b_2 = 0.0;
-    std::atomic<SampleType>* a_0 = 1.0;
-    std::atomic<SampleType>* a_1 = 0.0;
-    std::atomic<SampleType>* a_2 = 0.0;
+    std::atomic<SampleType> b_0;
+    std::atomic<SampleType> b_1;
+    std::atomic<SampleType> b_2;
+    std::atomic<SampleType> a_0;
+    std::atomic<SampleType> a_1;
+    std::atomic<SampleType> a_2;
 
     //==============================================================================
     /** Initialise the parameters. */
@@ -89,7 +86,7 @@ private:
 
     //==============================================================================
     /** Initialise constants. */
-    const SampleType zero = (0.0), one = (1.0);
+    const SampleType zero = (0.0), one = (1.0), minusOne = (-1.0);
 };
 
 } //namespace stoneydsp

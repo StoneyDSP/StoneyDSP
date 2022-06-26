@@ -15,9 +15,58 @@ namespace filters
 
 //==============================================================================
 template <typename SampleType>
-Transforms<SampleType>::Transforms()
+Transforms<SampleType>::Transforms() 
+    : 
+    b0(SampleType (1.0)),
+    b1(SampleType (0.0)),
+    b2(SampleType (0.0)),
+    a0(SampleType (1.0)),
+    a1(SampleType (0.0)),
+    a2(SampleType (0.0))
 {
     reset();
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::setb0(SampleType b0new)
+{
+    b_0.store(b0new);
+    coefficients();
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::setb1(SampleType b1new)
+{
+    b_1.store(b1new);
+    coefficients();
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::setb2(SampleType b2new)
+{
+    b_2.store(b2new);
+    coefficients();
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::seta0(SampleType a0new)
+{
+    a_0.store(a0new);
+    coefficients();
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::seta1(SampleType a1new)
+{
+    a_1.store(a1new);
+    coefficients();
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::seta2(SampleType a2new)
+{
+    a_2.store(a2new);
+    coefficients();
 }
 
 //==============================================================================
@@ -55,13 +104,6 @@ void Transforms<SampleType>::reset(SampleType initialValue)
 template <typename SampleType>
 SampleType Transforms<SampleType>::processSample(int channel, SampleType inputValue)
 {
-    b0 = b_0->load();
-    b1 = b_1->load();
-    b2 = b_2->load();
-    a0 = a_0->load();
-    a1 = a_1->load();
-    a2 = a_2->load();
-
     switch (transformType)
     {
     case TransType::directFormI:
@@ -151,6 +193,17 @@ SampleType Transforms<SampleType>::directFormIITransposed(int channel, SampleTyp
     Xn1 = ((Xn * b2) + (Yn * a2));
 
     return Yn;
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::coefficients()
+{
+    a0 = (one / a_0.load());
+    b0 = (b_0.load() * a0);
+    b1 = (b_1.load() * a0);
+    b2 = (b_2.load() * a0);
+    a1 = ((a_1.load() * a0) * minusOne);
+    a2 = ((a_2.load() * a0) * minusOne);
 }
 
 //==============================================================================
