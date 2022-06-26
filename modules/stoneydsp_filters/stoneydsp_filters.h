@@ -18,9 +18,9 @@
 
 #define STONEYDSP_FILTERS_H_INCLUDED
 
+#include <atomic>
 #include <cmath>
 #include <vector>
-#include <atomic>
 
 #undef Complex
 #undef Factor
