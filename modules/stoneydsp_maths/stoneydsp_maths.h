@@ -18,11 +18,13 @@
 
 #define STONEYDSP_MATHS_H_INCLUDED
 
+#include <atomic>
 #include <cmath>
 
 #undef Complex
 #undef Factor
 #undef check
 
-#include "./math/stoneydsp_Operators.h"
-#include "./math/stoneydsp_Conversion.h"
+#include "math/stoneydsp_Conversion.h"
+#include "math/stoneydsp_MathMod.h"
+#include "math/stoneydsp_Operators.h"
