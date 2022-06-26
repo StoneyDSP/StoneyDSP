@@ -18,6 +18,7 @@
 
 #define STONEYDSP_FILTERS_H_INCLUDED
 
+#include <atomic>
 #include <cmath>
 #include <vector>
 
