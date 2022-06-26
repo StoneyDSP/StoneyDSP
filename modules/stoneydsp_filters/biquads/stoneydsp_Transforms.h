@@ -35,6 +35,13 @@ public:
     Transforms();
 
     //==============================================================================
+    void setb0(SampleType b0new);
+    void setb1(SampleType b1new);
+    void setb2(SampleType b2new);
+    void seta0(SampleType a0new);
+    void seta1(SampleType a1new);
+    void seta2(SampleType a2new);
+
     /** Sets the BiLinear Transform for the filter to use. See enum for availa ble types. */
     void setTransformType(TransType newTransformType);
 
@@ -49,21 +56,13 @@ public:
     /** Processes one sample at a time on a given channel. */
     SampleType processSample(int channel, SampleType inputValue);
 
-    //==============================================================================
+private:
+  //==============================================================================
     SampleType directFormI(int channel, SampleType inputValue);
     SampleType directFormII(int channel, SampleType inputValue);
     SampleType directFormITransposed(int channel, SampleType inputValue);
     SampleType directFormIITransposed(int channel, SampleType inputValue);
 
-    //==============================================================================
-    SampleType& getb0() { return b0; }
-    SampleType& getb1() { return b1; }
-    SampleType& getb2() { return b2; }
-    SampleType& geta0() { return a0; }
-    SampleType& geta1() { return a1; }
-    SampleType& geta2() { return a2; }
-
-private:
     //==============================================================================
     /** Unit-delay objects. */
     std::vector<SampleType> Wn_1, Wn_2, Xn_1, Xn_2, Yn_1, Yn_2;
@@ -76,6 +75,13 @@ private:
     SampleType a0 = 1.0;
     SampleType a1 = 0.0;
     SampleType a2 = 0.0;
+
+    std::atomic<SampleType>* b_0 = 1.0;
+    std::atomic<SampleType>* b_1 = 0.0;
+    std::atomic<SampleType>* b_2 = 0.0;
+    std::atomic<SampleType>* a_0 = 1.0;
+    std::atomic<SampleType>* a_1 = 0.0;
+    std::atomic<SampleType>* a_2 = 0.0;
 
     //==============================================================================
     /** Initialise the parameters. */

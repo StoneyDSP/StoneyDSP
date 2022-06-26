@@ -55,6 +55,13 @@ void Transforms<SampleType>::reset(SampleType initialValue)
 template <typename SampleType>
 SampleType Transforms<SampleType>::processSample(int channel, SampleType inputValue)
 {
+    b0 = b_0->load();
+    b1 = b_1->load();
+    b2 = b_2->load();
+    a0 = a_0->load();
+    a1 = a_1->load();
+    a2 = a_2->load();
+
     switch (transformType)
     {
     case TransType::directFormI:
