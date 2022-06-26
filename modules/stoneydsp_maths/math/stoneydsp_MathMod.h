@@ -14,19 +14,34 @@ class MathMod
 {
 public:
     //==========================================================================
-    template <typename SampleType>
-    static SampleType xAddA(SampleType x, float a)
+    /*template <typename SampleType, typename ValueType>
+    static SampleType xAddA(SampleType x, ValueType a)
     {
-        value.store(a);
+        value->store(a);
         
-        return x += value.load();
-    }
+        return x + value->load();
+    }*/
+    template <typename SampleType>
+    static SampleType xMulA(SampleType x, float a)
+    {
+        valueF->store(a);
 
+        return x * valueF->load();
+    }
+    template <typename SampleType>
+    static SampleType xMulA(SampleType x, double a)
+    {
+        valueD->store(a);
+
+        return x * valueD->load();
+    }
 
 private:
     //==========================================================================
     MathMod() = delete;
 
-    std::atomic<float> value;
+    static std::atomic<float>* valueF;
+    static std::atomic<double>* valueD;
 };
+
 } //namespace stoneydsp
