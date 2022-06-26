@@ -24,21 +24,21 @@ BiquadCalcs<SampleType>::BiquadCalcs()
 template <typename SampleType>
 void BiquadCalcs<SampleType>::setFrequency(SampleType newFreq)
 {
-    hz = static_cast<SampleType>(newFreq);
+    hz = newFreq;
     coefficients();
 }
 
 template <typename SampleType>
 void BiquadCalcs<SampleType>::setResonance(SampleType newRes)
 {
-    q = static_cast<SampleType>(newRes);
+    q = newRes;
     coefficients();
 }
 
 template <typename SampleType>
 void BiquadCalcs<SampleType>::setGain(SampleType newGain)
 {
-    g = static_cast<SampleType>(newGain);
+    g = newGain;
     coefficients();
 }
 
@@ -49,7 +49,6 @@ void BiquadCalcs<SampleType>::setFilterType(FiltShape newFiltType)
     {
         filtType = newFiltType;
         reset();
-        coefficients();
     }
 }
 
@@ -59,14 +58,10 @@ void BiquadCalcs<SampleType>::prepare(double sampleRate)
 {
     currentSampleRate = sampleRate;
 
-    minFreq = static_cast <SampleType>(currentSampleRate) / static_cast <SampleType>(24576.0);
-    maxFreq = static_cast <SampleType>(currentSampleRate) / static_cast <SampleType>(2.125);
+    minFreq = static_cast<SampleType>(currentSampleRate / 24576.0);
+    maxFreq = static_cast<SampleType>(currentSampleRate / 2.125);
 
-    setFrequency(hz);
-    setResonance(q);
-    setGain(g);
-
-    coefficients();
+    reset();
 }
 
 template <typename SampleType>
@@ -82,22 +77,15 @@ void BiquadCalcs<SampleType>::reset()
 template <typename SampleType>
 void BiquadCalcs<SampleType>::coefficients()
 {
-    SampleType omega = (hz * ((pi * two) / static_cast<SampleType>(currentSampleRate)));
-    SampleType cos = (std::cos(omega));
-    SampleType sin = (std::sin(omega));
+    auto omega = (hz * ((pi * two) / static_cast<SampleType>(currentSampleRate)));
+    auto cos = (std::cos(omega));
+    auto sin = (std::sin(omega));
     //SampleType tan = (sin / cos);
-    SampleType alpha = (sin * (one - q));
-    //SampleType a = (juce::Decibels::decibelsToGain<SampleType>dBtoGain(static_cast<SampleType>(g * static_cast <SampleType>(0.5))));
-    SampleType a = std::pow(SampleType (10), (g * SampleType (0.5))) * SampleType (0.5);
+    auto alpha = (sin * (one - q));
+    //auto a = (juce::Decibels::decibelsToGain<SampleType>dBtoGain(static_cast<SampleType>(g * static_cast <SampleType>(0.5))));
+    auto a = std::pow(SampleType (10), (g * SampleType (0.5))) * SampleType (0.5);
 
     auto sqrtA = (std::sqrt(a) * two) * alpha;
-
-    /*SampleType b_0 = one;
-    SampleType b_1 = zero;
-    SampleType b_2 = zero;
-    SampleType a_0 = one;
-    SampleType a_1 = zero;
-    SampleType a_2 = zero;*/
 
     switch (filtType)
     {
@@ -262,7 +250,7 @@ void BiquadCalcs<SampleType>::coefficients()
         b0 = one;
         b1 = minusTwo * cos;
         b2 = one;
-        a_0 = one + alpha;
+        a0 = one + alpha;
         a1 = minusTwo * cos;
         a2 = one - alpha;
 
@@ -292,13 +280,6 @@ void BiquadCalcs<SampleType>::coefficients()
 
         break;
     }
-
-    /*a0 = (one / a_0);
-    b0 = (b_0 * a0);
-    b1 = (b_1 * a0);
-    b2 = (b_2 * a0);
-    a1 = ((a_1 * a0) * minusOne);
-    a2 = ((a_2 * a0) * minusOne);*/
 }
 
 //==============================================================================
