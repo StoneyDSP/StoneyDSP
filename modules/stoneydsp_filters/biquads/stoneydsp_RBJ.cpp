@@ -17,12 +17,12 @@ namespace filters
 template <typename SampleType>
 Biquads<SampleType>::Biquads() 
     : 
-    atomicB0(1.0),
-    atomicB1(0.0),
-    atomicB2(0.0),
     atomicA0(1.0),
     atomicA1(0.0),
     atomicA2(0.0),
+    atomicB0(1.0),
+    atomicB1(0.0),
+    atomicB2(0.0),
     hz(1000.0),
     q(0.5),
     g(0.0),
@@ -215,9 +215,7 @@ void Biquads<SampleType>::coefficients()
     auto omega = (hz.load() * ((pi * two) / static_cast<SampleType>(currentSampleRate)));
     auto cos = (std::cos(omega));
     auto sin = (std::sin(omega));
-    //SampleType tan = (sin / cos);
     auto alpha = (sin * (one - q.load()));
-    //auto a = (juce::Decibels::decibelsToGain<SampleType>dBtoGain(static_cast<SampleType>(g * static_cast <SampleType>(0.5))));
     auto a = std::pow(SampleType(10), (g.load() * SampleType(0.5)));
     auto sqrtA = (std::sqrt(a) * two) * alpha;
 
@@ -249,60 +247,60 @@ void Biquads<SampleType>::coefficients()
 
     case filterType::highPass2:
 
-        atomicB0.store((one + cos) / two);
-        atomicB1.store(minusOne * (one + cos));
-        atomicB2.store((one + cos) / two);
         atomicA0.store(one + alpha);
         atomicA1.store(minusTwo * cos);
         atomicA2.store(one - alpha);
+        atomicB0.store((one + cos) / two);
+        atomicB1.store(minusOne * (one + cos));
+        atomicB2.store((one + cos) / two);
 
         break;
 
 
     case filterType::highPass1:
 
-        atomicB0.store(one / (one + omega));
-        atomicB1.store((one / (one + omega)) * minusOne);
-        atomicB2.store(zero);
         atomicA0.store(one);
         atomicA1.store(((one - omega) / (one + omega)) * minusOne);
         atomicA2.store(zero);
+        atomicB0.store(one / (one + omega));
+        atomicB1.store((one / (one + omega)) * minusOne);
+        atomicB2.store(zero);
 
         break;
 
 
     case filterType::bandPass:
 
-        atomicB0.store(sin / two);
-        atomicB1.store(zero);
-        atomicB2.store(minusOne * (sin / two));
         atomicA0.store(one + alpha);
         atomicA1.store(minusTwo * cos);
         atomicA2.store(one - alpha);
+        atomicB0.store(sin / two);
+        atomicB1.store(zero);
+        atomicB2.store(minusOne * (sin / two));
 
         break;
 
 
     case filterType::bandPassQ:
 
-        atomicB0.store(alpha);
-        atomicB1.store(zero);
-        atomicB2.store(minusOne * alpha);
         atomicA0.store(one + alpha);
         atomicA1.store(minusTwo * cos);
         atomicA2.store(one - alpha);
+        atomicB0.store(alpha);
+        atomicB1.store(zero);
+        atomicB2.store(minusOne * alpha);
 
         break;
 
 
     case filterType::lowShelf2:
 
-        atomicB0.store((((a + one) - ((a - one) * cos)) + sqrtA) * a);
-        atomicB1.store((((a - one) - ((a + one) * cos)) * two) * a);
-        atomicB2.store((((a + one) - ((a - one) * cos)) - sqrtA) * a);
         atomicA0.store(((a + one) + ((a - one) * cos)) + sqrtA);
         atomicA1.store(((a - one) + ((a + one) * cos)) * minusTwo);
         atomicA2.store(((a + one) + ((a - one) * cos)) - sqrtA);
+        atomicB0.store((((a + one) - ((a - one) * cos)) + sqrtA) * a);
+        atomicB1.store((((a - one) - ((a + one) * cos)) * two) * a);
+        atomicB2.store((((a + one) - ((a - one) * cos)) - sqrtA) * a);
 
         break;
 
@@ -333,48 +331,48 @@ void Biquads<SampleType>::coefficients()
 
     case filterType::highShelf2:
 
-        atomicB0.store((((a + one) + ((a - one) * cos)) + sqrtA) * a);
-        atomicB1.store((((a - one) + ((a + one) * cos)) * minusTwo) * a);
-        atomicB2.store((((a + one) + ((a - one) * cos)) - sqrtA) * a);
         atomicA0.store(((a + one) - ((a - one) * cos)) + sqrtA);
         atomicA1.store(((a - one) - ((a + one) * cos)) * two);
         atomicA2.store(((a + one) - ((a - one) * cos)) - sqrtA);
+        atomicB0.store((((a + one) + ((a - one) * cos)) + sqrtA) * a);
+        atomicB1.store((((a - one) + ((a + one) * cos)) * minusTwo) * a);
+        atomicB2.store((((a + one) + ((a - one) * cos)) - sqrtA) * a);
 
         break;
 
 
     case filterType::highShelf1:
 
-        atomicB0.store(one + ((minusOne + (a * a)) / (one + omega)));
-        atomicB1.store(minusOne * (((one - omega) / (one + omega)) + ((minusOne + (a * a)) / (one + omega))));
-        atomicB2.store(zero);
         atomicA0.store(one);
         atomicA1.store(minusOne * ((one - omega) / (one + omega)));
         atomicA2.store(zero);
+        atomicB0.store(one + ((minusOne + (a * a)) / (one + omega)));
+        atomicB1.store(minusOne * (((one - omega) / (one + omega)) + ((minusOne + (a * a)) / (one + omega))));
+        atomicB2.store(zero);
 
         break;
 
 
     case filterType::highShelf1C:
 
-        atomicB0.store(one + ((minusOne + (a * a)) / (one + (omega * a))));
-        atomicB1.store(minusOne * (((one - (omega * a)) / (one + (omega * a))) + ((minusOne + (a * a)) / (one + (omega * a)))));
-        atomicB2.store(zero);
         atomicA0.store(one);
         atomicA1.store(minusOne * ((one - (omega * a)) / (one + (omega * a))));
         atomicA2.store(zero);
+        atomicB0.store(one + ((minusOne + (a * a)) / (one + (omega * a))));
+        atomicB1.store(minusOne * (((one - (omega * a)) / (one + (omega * a))) + ((minusOne + (a * a)) / (one + (omega * a)))));
+        atomicB2.store(zero);
 
         break;
 
 
     case filterType::peak:
 
-        atomicB0.store(one + (alpha * a));
-        atomicB1.store(minusTwo * cos);
-        atomicB2.store(one - (alpha * a));
         atomicA0.store(one + (alpha / a));
         atomicA1.store(minusTwo * cos);
         atomicA2.store(one - (alpha / a));
+        atomicB0.store(one + (alpha * a));
+        atomicB1.store(minusTwo * cos);
+        atomicB2.store(one - (alpha * a));
 
         break;
 
@@ -393,30 +391,28 @@ void Biquads<SampleType>::coefficients()
 
     case filterType::allPass:
 
-        atomicB0.store(one - alpha);
-        atomicB1.store(minusTwo * cos);
-        atomicB2.store(one + alpha);
         atomicA0.store(one + alpha);
         atomicA1.store(minusTwo * cos);
         atomicA2.store(one - alpha);
+        atomicB0.store(one - alpha);
+        atomicB1.store(minusTwo * cos);
+        atomicB2.store(one + alpha);
 
         break;
 
 
     default:
 
-        atomicB0.store(one);
-        atomicB1.store(zero);
-        atomicB2.store(zero);
         atomicA0.store(one);
         atomicA1.store(zero);
         atomicA2.store(zero);
+        atomicB0.store(one);
+        atomicB1.store(zero);
+        atomicB2.store(zero);
 
         break;
     }
 }
-
-
 //==============================================================================
 template class Biquads<float>;
 template class Biquads<double>;

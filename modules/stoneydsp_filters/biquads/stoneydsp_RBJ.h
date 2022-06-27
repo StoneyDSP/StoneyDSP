@@ -109,19 +109,19 @@ private:
 
     //==============================================================================
     /** Initialised coefficient gain */
-    SampleType b0 = 1.0;
-    SampleType b1 = 0.0;
-    SampleType b2 = 0.0;
     SampleType a0 = 1.0;
     SampleType a1 = 0.0;
     SampleType a2 = 0.0;
+    SampleType b0 = 1.0;
+    SampleType b1 = 0.0;
+    SampleType b2 = 0.0;
 
-    std::atomic<SampleType> atomicB0;
-    std::atomic<SampleType> atomicB1;
-    std::atomic<SampleType> atomicB2;
     std::atomic<SampleType> atomicA0;
     std::atomic<SampleType> atomicA1;
     std::atomic<SampleType> atomicA2;
+    std::atomic<SampleType> atomicB0;
+    std::atomic<SampleType> atomicB1;
+    std::atomic<SampleType> atomicB2;
 
     std::atomic<SampleType> hz;
     std::atomic<SampleType> q;
