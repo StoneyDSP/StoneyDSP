@@ -38,8 +38,11 @@ void Biquads<SampleType>::setFrequency(SampleType newFreq)
 {
     //static_assert(static_cast<SampleType>(20.0) <= newFreq && newFreq <= static_cast<SampleType>(20000.0));
 
-    hz.store(newFreq);
-    coefficients();
+    if (hz != newFreq)
+    {
+        hz.store(newFreq);
+        coefficients();
+    }
 }
 
 template <typename SampleType>
@@ -47,15 +50,21 @@ void Biquads<SampleType>::setResonance(SampleType newRes)
 {
     //static_assert(static_cast<SampleType>(0.0) <= newRes && newRes <= static_cast<SampleType>(1.0));
 
-    q.store(newRes);
-    coefficients();
+    if (q != newRes)
+    {
+        q.store(newRes);
+        coefficients();
+    }
 }
 
 template <typename SampleType>
 void Biquads<SampleType>::setGain(SampleType newGain)
 {
-    g.store(newGain);
-    coefficients();
+    if (g != newGain)
+    {
+        g.store(newGain);
+        coefficients();
+    }
 }
 
 template <typename SampleType>
@@ -65,6 +74,7 @@ void Biquads<SampleType>::setFilterType(filterType newFiltType)
     {
         filtType.store(newFiltType);
         reset();
+        coefficients();
     }
 }
 
