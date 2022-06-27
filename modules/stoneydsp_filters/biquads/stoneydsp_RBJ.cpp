@@ -219,15 +219,7 @@ void Biquads<SampleType>::coefficients()
     auto alpha = (sin * (one - q.load()));
     //auto a = (juce::Decibels::decibelsToGain<SampleType>dBtoGain(static_cast<SampleType>(g * static_cast <SampleType>(0.5))));
     auto a = std::pow(SampleType(10), (g.load() * SampleType(0.5)));
-
     auto sqrtA = (std::sqrt(a) * two) * alpha;
-
-    SampleType b_0 = one;
-    SampleType b_1 = zero;
-    SampleType b_2 = zero;
-    SampleType a_0 = one;
-    SampleType a_1 = zero;
-    SampleType a_2 = zero;
 
     switch (filtType.load())
     {
@@ -389,36 +381,36 @@ void Biquads<SampleType>::coefficients()
 
     case filterType::notch:
 
-        b_0 = one;
-        b_1 = minusTwo * cos;
-        b_2 = one;
-        a_0 = one + alpha;
-        a_1 = minusTwo * cos;
-        a_2 = one - alpha;
+        atomicB0.store(one);
+        atomicB1.store(minusTwo * cos);
+        atomicB2.store(one);
+        atomicA0.store(one + alpha);
+        atomicA1.store(minusTwo * cos);
+        atomicA2.store(one - alpha);
 
         break;
 
 
     case filterType::allPass:
 
-        b_0 = one - alpha;
-        b_1 = minusTwo * cos;
-        b_2 = one + alpha;
-        a_0 = one + alpha;
-        a_1 = minusTwo * cos;
-        a_2 = one - alpha;
+        atomicB0.store(one - alpha);
+        atomicB1.store(minusTwo * cos);
+        atomicB2.store(one + alpha);
+        atomicA0.store(one + alpha);
+        atomicA1.store(minusTwo * cos);
+        atomicA2.store(one - alpha);
 
         break;
 
 
     default:
 
-        b_0 = one;
-        b_1 = zero;
-        b_2 = zero;
-        a_0 = one;
-        a_1 = zero;
-        a_2 = zero;
+        atomicB0.store(one);
+        atomicB1.store(zero);
+        atomicB2.store(zero);
+        atomicA0.store(one);
+        atomicA1.store(zero);
+        atomicA2.store(zero);
 
         break;
     }
