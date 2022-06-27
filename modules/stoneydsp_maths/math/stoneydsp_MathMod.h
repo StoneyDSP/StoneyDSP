@@ -21,7 +21,7 @@ public:
         
         return x + value->load();
     }*/
-    template <typename SampleType>
+    /*template <typename SampleType>
     static SampleType xMulA(SampleType x, float a)
     {
         valueF->store(a);
@@ -34,17 +34,14 @@ public:
         valueD->store(a);
 
         return x * valueD->load();
-    }
+    }*/
 
 private:
     //==========================================================================
     MathMod() = delete;
 
-    static std::atomic<float>* valueF;
-    static std::atomic<double>* valueD;
+    /*static std::atomic<float>* valueF;
+    static std::atomic<double>* valueD;*/
 };
-
-std::atomic<float>* MathMod::valueF{ nullptr };
-std::atomic<double>* MathMod::valueD{ nullptr };
 
 } //namespace stoneydsp
