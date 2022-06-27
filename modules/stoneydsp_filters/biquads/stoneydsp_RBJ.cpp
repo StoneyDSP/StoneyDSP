@@ -17,12 +17,12 @@ namespace filters
 template <typename SampleType>
 Biquads<SampleType>::Biquads() 
     : 
-    atomicB0(),
-    atomicB1(nullptr),
-    atomicB2(nullptr),
-    atomicA0(nullptr),
-    atomicA1(nullptr),
-    atomicA2(nullptr),
+    atomicB0(1.0),
+    atomicB1(0.0),
+    atomicB2(0.0),
+    atomicA0(1.0),
+    atomicA1(0.0),
+    atomicA2(0.0),
     hz(1000.0),
     q(0.5),
     g(0.0),
@@ -111,6 +111,13 @@ void Biquads<SampleType>::reset(SampleType initialValue)
 template <typename SampleType>
 SampleType Biquads<SampleType>::processSample(int channel, SampleType inputValue)
 {
+    a0 = (one / atomicA0.load());
+    a1 = (atomicA1.load() * a0) * minusOne;
+    a2 = (atomicA2.load() * a0) * minusOne;
+    b0 = (atomicB0.load() * a0);
+    b1 = (atomicB1.load() * a0);
+    b2 = (atomicB2.load() * a0);
+
     switch (transformType.load())
     {
     case TransformationType::directFormI:
@@ -226,72 +233,72 @@ void Biquads<SampleType>::coefficients()
     {
     case filterType::lowPass2:
 
-        b_0 = (one - cos) / two;
-        b_1 = one - cos;
-        b_2 = (one - cos) / two;
-        a_0 = one + alpha;
-        a_1 = minusTwo * cos;
-        a_2 = one - alpha;
+        atomicB0.store((one - cos) / two);
+        atomicB1.store(one - cos);
+        atomicB2.store((one - cos) / two);
+        atomicA0.store(one + alpha);
+        atomicA1.store(minusTwo * cos);
+        atomicA2.store(one - alpha);
 
         break;
 
 
     case filterType::lowPass1:
 
-        b_0 = omega / (one + omega);
-        b_1 = omega / (one + omega);
-        b_2 = zero;
-        a_0 = one;
-        a_1 = minusOne * ((one - omega) / (one + omega));
-        a_2 = zero;
+        atomicB0.store(omega / (one + omega));
+        atomicB1.store(omega / (one + omega));
+        atomicB2.store(zero);
+        atomicA0.store(one);
+        atomicA1.store(minusOne * ((one - omega) / (one + omega)));
+        atomicA2.store(zero);
 
         break;
 
 
     case filterType::highPass2:
 
-        b_0 = (one + cos) / two;
-        b_1 = minusOne * (one + cos);
-        b_2 = (one + cos) / two;
-        a_0 = one + alpha;
-        a_1 = minusTwo * cos;
-        a_2 = one - alpha;
+        atomicB0.store((one + cos) / two);
+        atomicB1.store(minusOne * (one + cos));
+        atomicB2.store((one + cos) / two);
+        atomicA0.store(one + alpha);
+        atomicA1.store(minusTwo * cos);
+        atomicA2.store(one - alpha);
 
         break;
 
 
     case filterType::highPass1:
 
-        b_0 = one / (one + omega);
-        b_1 = (one / (one + omega)) * minusOne;
-        b_2 = zero;
-        a_0 = one;
-        a_1 = ((one - omega) / (one + omega)) * minusOne;
-        a_2 = zero;
+        atomicB0.store(one / (one + omega));
+        atomicB1.store((one / (one + omega)) * minusOne);
+        atomicB2.store(zero);
+        atomicA0.store(one);
+        atomicA1.store(((one - omega) / (one + omega)) * minusOne);
+        atomicA2.store(zero);
 
         break;
 
 
     case filterType::bandPass:
 
-        b_0 = sin / two;
-        b_1 = zero;
-        b_2 = minusOne * (sin / two);
-        a_0 = one + alpha;
-        a_1 = minusTwo * cos;
-        a_2 = one - alpha;
+        atomicB0.store(sin / two);
+        atomicB1.store(zero);
+        atomicB2.store(minusOne * (sin / two));
+        atomicA0.store(one + alpha);
+        atomicA1.store(minusTwo * cos);
+        atomicA2.store(one - alpha);
 
         break;
 
 
     case filterType::bandPassQ:
 
-        b_0 = alpha;
-        b_1 = zero;
-        b_2 = minusOne * alpha;
-        a_0 = one + alpha;
-        a_1 = minusTwo * cos;
-        a_2 = one - alpha;
+        atomicB0.store(alpha);
+        atomicB1.store(zero);
+        atomicB2.store(minusOne * alpha);
+        atomicA0.store(one + alpha);
+        atomicA1.store(minusTwo * cos);
+        atomicA2.store(one - alpha);
 
         break;
 
@@ -415,13 +422,6 @@ void Biquads<SampleType>::coefficients()
 
         break;
     }
-
-    a0 = static_cast <SampleType>(one / a_0);
-    a1 = static_cast <SampleType>((a_1 * a0) * minusOne);
-    a2 = static_cast <SampleType>((a_2 * a0) * minusOne);
-    b0 = static_cast <SampleType>(b_0 * a0);
-    b1 = static_cast <SampleType>(b_1 * a0);
-    b2 = static_cast <SampleType>(b_2 * a0);
 }
 
 
