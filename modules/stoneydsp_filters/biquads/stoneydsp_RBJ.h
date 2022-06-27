@@ -104,11 +104,11 @@ private:
     SampleType directFormIITransposed(int channel, SampleType inputValue);
 
     //==============================================================================
-    /** Unit-delay objects. */
+    /** Unit-delay object */
     std::vector<SampleType> Wn_1, Wn_2, Xn_1, Xn_2, Yn_1, Yn_2;
 
     //==============================================================================
-    /** Initialise the coefficient gains. */
+    /** Initialised coefficient gain */
     SampleType b0 = 1.0;
     SampleType b1 = 0.0;
     SampleType b2 = 0.0;
@@ -117,11 +117,11 @@ private:
     SampleType a2 = 0.0;
 
     std::atomic<SampleType> atomicB0;
-    std::atomic<SampleType>* atomicB1;
-    std::atomic<SampleType>* atomicB2;
-    std::atomic<SampleType>* atomicA0;
-    std::atomic<SampleType>* atomicA1;
-    std::atomic<SampleType>* atomicA2;
+    std::atomic<SampleType> atomicB1;
+    std::atomic<SampleType> atomicB2;
+    std::atomic<SampleType> atomicA0;
+    std::atomic<SampleType> atomicA1;
+    std::atomic<SampleType> atomicA2;
 
     std::atomic<SampleType> hz;
     std::atomic<SampleType> q;
@@ -130,13 +130,11 @@ private:
     std::atomic<transformationType> transformType;
 
     //==============================================================================
-    /** Initialise the parameters. */
+    /** Initialised parameter */
     SampleType minFreq = 20.0, maxFreq = 20000.0;
-    //filterType filtType = filterType::lowPass2;
-    //transformationType transformType = transformationType::directFormIItransposed;
 
     //==============================================================================
-    /** Initialise constants. */
+    /** Initialised constant */
     const SampleType zero = (0.0), one = (1.0), two = (2.0), minusOne = (-1.0), minusTwo = (-2.0);
     const SampleType pi = static_cast<SampleType>(3.1415926535897932384626433832795);
     double currentSampleRate = 0.0;
