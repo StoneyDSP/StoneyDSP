@@ -8,8 +8,6 @@
   ==============================================================================
 */
 
-
-
 namespace stoneydsp
 {
 namespace filters
@@ -50,7 +48,7 @@ template <typename SampleType>
 class Biquads
 {
 public:
-
+    //==============================================================================
     using filterType = FilterType;
     using transformationType = TransformationType;
 
@@ -79,19 +77,19 @@ public:
     void prepare(int numChannels, double sampleRate);
 
     /** Resets the internal state variables of the processor. */
-    void reset(SampleType initialValue = SampleType 0.0);
+    void reset(SampleType initialValue = {0.0});
 
     //==============================================================================
     /** Processes one sample at a time on a given channel. */
     SampleType processSample(int channel, SampleType inputValue);
 
     //==============================================================================
-    SampleType& getb0() { return static_cast<SampleType>(b0); }
-    SampleType& getb1() { return static_cast<SampleType>(b1); }
-    SampleType& getb2() { return static_cast<SampleType>(b2); }
-    SampleType& geta0() { return static_cast<SampleType>(a0); }
-    SampleType& geta1() { return static_cast<SampleType>(a1); }
-    SampleType& geta2() { return static_cast<SampleType>(a2); }
+    SampleType getb0() { return static_cast<SampleType>(b0); }
+    SampleType getb1() { return static_cast<SampleType>(b1); }
+    SampleType getb2() { return static_cast<SampleType>(b2); }
+    SampleType geta0() { return static_cast<SampleType>(a0); }
+    SampleType geta1() { return static_cast<SampleType>(a1); }
+    SampleType geta2() { return static_cast<SampleType>(a2); }
 
 private:
     //==============================================================================
@@ -118,18 +116,31 @@ private:
     SampleType a1 = 0.0;
     SampleType a2 = 0.0;
 
+    std::atomic<SampleType> atomicB0;
+    std::atomic<SampleType>* atomicB1;
+    std::atomic<SampleType>* atomicB2;
+    std::atomic<SampleType>* atomicA0;
+    std::atomic<SampleType>* atomicA1;
+    std::atomic<SampleType>* atomicA2;
+
+    std::atomic<SampleType> hz;
+    std::atomic<SampleType> q;
+    std::atomic<SampleType> g;
+    std::atomic<filterType> filtType;
+    std::atomic<transformationType> transformType;
+
     //==============================================================================
     /** Initialise the parameters. */
-    SampleType minFreq = 20.0, maxFreq = 20000.0, hz = 1000.0, q = 0.5, g = 0.0;
-    filterType filtType = filterType::lowPass2;
-    transformationType transformType = transformationType::directFormIItransposed;
+    SampleType minFreq = 20.0, maxFreq = 20000.0;
+    //filterType filtType = filterType::lowPass2;
+    //transformationType transformType = transformationType::directFormIItransposed;
 
     //==============================================================================
     /** Initialise constants. */
     const SampleType zero = (0.0), one = (1.0), two = (2.0), minusOne = (-1.0), minusTwo = (-2.0);
     const SampleType pi = static_cast<SampleType>(3.1415926535897932384626433832795);
+    double currentSampleRate = 0.0;
 
-    //==============================================================================
 };
 
 } //namespace filters

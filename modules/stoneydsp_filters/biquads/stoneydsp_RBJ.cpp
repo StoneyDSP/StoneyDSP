@@ -15,37 +15,46 @@ namespace filters
 
 //==============================================================================
 template <typename SampleType>
-Biquads<SampleType>::Biquads()
+Biquads<SampleType>::Biquads() 
+    : 
+    atomicB0(),
+    atomicB1(nullptr),
+    atomicB2(nullptr),
+    atomicA0(nullptr),
+    atomicA1(nullptr),
+    atomicA2(nullptr),
+    hz(1000.0),
+    q(0.5),
+    g(0.0),
+    filtType(filterType::lowPass2),
+    transformType(transformationType::directFormIItransposed)
 {
-    reset(static_cast<SampleType>(0.0));
+    reset();
 }
 
 //==============================================================================
 template <typename SampleType>
 void Biquads<SampleType>::setFrequency(SampleType newFreq)
 {
-    static_assert(static_cast<SampleType>(20.0) <= newFreq && newFreq <= static_cast<SampleType>(20000.0));
+    //static_assert(static_cast<SampleType>(20.0) <= newFreq && newFreq <= static_cast<SampleType>(20000.0));
 
-    hz = static_cast<SampleType>(juce::jlimit(minFreq, maxFreq, newFreq));
-    frq.setTargetValue(hz);
+    hz.store(newFreq);
     coefficients();
 }
 
 template <typename SampleType>
 void Biquads<SampleType>::setResonance(SampleType newRes)
 {
-    jassert(static_cast<SampleType>(0.0) <= newRes && newRes <= static_cast<SampleType>(1.0));
+    //static_assert(static_cast<SampleType>(0.0) <= newRes && newRes <= static_cast<SampleType>(1.0));
 
-    q = static_cast<SampleType>(juce::jlimit(SampleType(0.0), SampleType(1.0), newRes));
-    res.setTargetValue(q);
+    q.store(newRes);
     coefficients();
 }
 
 template <typename SampleType>
 void Biquads<SampleType>::setGain(SampleType newGain)
 {
-    g = static_cast<SampleType>(newGain);
-    lev.setTargetValue(g);
+    g.store(newGain);
     coefficients();
 }
 
@@ -54,9 +63,8 @@ void Biquads<SampleType>::setFilterType(filterType newFiltType)
 {
     if (filtType != newFiltType)
     {
-        filtType = newFiltType;
-        reset(static_cast<SampleType>(0.0));
-        coefficients();
+        filtType.store(newFiltType);
+        reset();
     }
 }
 
@@ -65,9 +73,8 @@ void Biquads<SampleType>::setTransformType(transformationType newTransformType)
 {
     if (transformType != newTransformType)
     {
-        transformType = newTransformType;
-        reset(static_cast<SampleType>(0.0));
-        coefficients();
+        transformType.store(newTransformType);
+        reset();
     }
 }
 
@@ -75,6 +82,8 @@ void Biquads<SampleType>::setTransformType(transformationType newTransformType)
 template <typename SampleType>
 void Biquads<SampleType>::prepare(int numChannels, double sampleRate)
 {
+    currentSampleRate = sampleRate;
+
     Wn_1.resize(numChannels);
     Wn_2.resize(numChannels);
     Xn_1.resize(numChannels);
@@ -82,43 +91,27 @@ void Biquads<SampleType>::prepare(int numChannels, double sampleRate)
     Yn_1.resize(numChannels);
     Yn_2.resize(numChannels);
 
+    minFreq = static_cast <SampleType>(currentSampleRate / 24576.0);
+    maxFreq = static_cast <SampleType>(currentSampleRate / 2.125);
+
     reset();
-
-    minFreq = static_cast <SampleType>(sampleRate / 24576.0);
-    maxFreq = static_cast <SampleType>(sampleRate / 2.125);
-
-    setFrequency(hz);
-    setResonance(q);
-    setGain(g);
-
-    coefficients();
 }
 
 template <typename SampleType>
 void Biquads<SampleType>::reset(SampleType initialValue)
 {
+    setFrequency(hz.load());
+    setResonance(q.load());
+    setGain(g.load());
+
     for (auto v : { &Wn_1, &Wn_2, &Xn_1, &Xn_2, &Yn_1, &Yn_2 })
         std::fill(v->begin(), v->end(), initialValue);
-
-    frq.reset(sampleRate, rampDurationSeconds);
-    res.reset(sampleRate, rampDurationSeconds);
-    lev.reset(sampleRate, rampDurationSeconds);
-
-    coefficients();
 }
 
 template <typename SampleType>
 SampleType Biquads<SampleType>::processSample(int channel, SampleType inputValue)
 {
-    jassert(juce::isPositiveAndBelow(channel, Wn_1.size()));
-    jassert(juce::isPositiveAndBelow(channel, Wn_2.size()));
-    jassert(juce::isPositiveAndBelow(channel, Xn_1.size()));
-    jassert(juce::isPositiveAndBelow(channel, Xn_2.size()));
-    jassert(juce::isPositiveAndBelow(channel, Yn_1.size()));
-    jassert(juce::isPositiveAndBelow(channel, Yn_1.size()));
-
-
-    switch (transformType)
+    switch (transformType.load())
     {
     case TransformationType::directFormI:
         inputValue = directFormI(channel, inputValue);
@@ -147,7 +140,7 @@ SampleType Biquads<SampleType>::directFormI(int channel, SampleType inputValue)
     auto& Yn1 = Yn_1[(size_t)channel];
     auto& Yn2 = Yn_2[(size_t)channel];
 
-    SampleType Xn = inputValue;
+    auto& Xn = inputValue;
 
     SampleType Yn = ((Xn * b0) + (Xn1 * b1) + (Xn2 * b2) + (Yn1 * a1) + (Yn2 * a2));
 
@@ -163,7 +156,7 @@ SampleType Biquads<SampleType>::directFormII(int channel, SampleType inputValue)
     auto& Wn1 = Wn_1[(size_t)channel];
     auto& Wn2 = Wn_2[(size_t)channel];
 
-    SampleType Xn = inputValue;
+    auto& Xn = inputValue;
 
     SampleType Wn = (Xn + ((Wn1 * a1) + (Wn2 * a2)));
     SampleType Yn = ((Wn * b0) + (Wn1 * b1) + (Wn2 * b2));
@@ -182,7 +175,7 @@ SampleType Biquads<SampleType>::directFormITransposed(int channel, SampleType in
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    SampleType Xn = inputValue;
+    auto& Xn = inputValue;
 
     SampleType Wn = (Xn + Wn2);
     SampleType Yn = ((Wn * b0) + Xn2);
@@ -199,7 +192,7 @@ SampleType Biquads<SampleType>::directFormIITransposed(int channel, SampleType i
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    SampleType Xn = inputValue;
+    auto& Xn = inputValue;
 
     SampleType Yn = ((Xn * b0) + (Xn2));
 
@@ -212,14 +205,13 @@ SampleType Biquads<SampleType>::directFormIITransposed(int channel, SampleType i
 template <typename SampleType>
 void Biquads<SampleType>::coefficients()
 {
-    SampleType omega = static_cast <SampleType>(frq.getNextValue() * ((pi * two) / sampleRate));
-    SampleType cos = static_cast <SampleType>(std::cos(omega));
-    SampleType sin = static_cast <SampleType>(std::sin(omega));
-    SampleType tan = static_cast <SampleType>(sin / cos);
-    SampleType alpha = static_cast <SampleType>(sin * (one - res.getNextValue()));
-    SampleType a = static_cast <SampleType>(juce::Decibels::decibelsToGain(static_cast<SampleType>(lev.getNextValue() * static_cast <SampleType>(0.5))));
-
-    juce::ignoreUnused(tan);
+    auto omega = (hz.load() * ((pi * two) / static_cast<SampleType>(currentSampleRate)));
+    auto cos = (std::cos(omega));
+    auto sin = (std::sin(omega));
+    //SampleType tan = (sin / cos);
+    auto alpha = (sin * (one - q.load()));
+    //auto a = (juce::Decibels::decibelsToGain<SampleType>dBtoGain(static_cast<SampleType>(g * static_cast <SampleType>(0.5))));
+    auto a = std::pow(SampleType(10), (g.load() * SampleType(0.5)));
 
     auto sqrtA = (std::sqrt(a) * two) * alpha;
 
@@ -230,7 +222,7 @@ void Biquads<SampleType>::coefficients()
     SampleType a_1 = zero;
     SampleType a_2 = zero;
 
-    switch (filtType)
+    switch (filtType.load())
     {
     case filterType::lowPass2:
 
