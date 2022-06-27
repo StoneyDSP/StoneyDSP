@@ -44,4 +44,7 @@ private:
     static std::atomic<double>* valueD;
 };
 
+std::atomic<float>* MathMod::valueF{ nullptr };
+std::atomic<double>* MathMod::valueD{ nullptr };
+
 } //namespace stoneydsp
