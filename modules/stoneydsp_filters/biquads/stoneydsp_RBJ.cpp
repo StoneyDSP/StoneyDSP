@@ -233,24 +233,24 @@ void Biquads<SampleType>::coefficients()
     {
     case filterType::lowPass2:
 
-        atomicB0.store((one - cos) / two);
-        atomicB1.store(one - cos);
-        atomicB2.store((one - cos) / two);
         atomicA0.store(one + alpha);
         atomicA1.store(minusTwo * cos);
         atomicA2.store(one - alpha);
+        atomicB0.store((one - cos) / two);
+        atomicB1.store(one - cos);
+        atomicB2.store((one - cos) / two);
 
         break;
 
 
     case filterType::lowPass1:
 
-        atomicB0.store(omega / (one + omega));
-        atomicB1.store(omega / (one + omega));
-        atomicB2.store(zero);
         atomicA0.store(one);
         atomicA1.store(minusOne * ((one - omega) / (one + omega)));
         atomicA2.store(zero);
+        atomicB0.store(omega / (one + omega));
+        atomicB1.store(omega / (one + omega));
+        atomicB2.store(zero);
 
         break;
 
@@ -305,36 +305,36 @@ void Biquads<SampleType>::coefficients()
 
     case filterType::lowShelf2:
 
-        b_0 = (((a + one) - ((a - one) * cos)) + sqrtA) * a;
-        b_1 = (((a - one) - ((a + one) * cos)) * two) * a;
-        b_2 = (((a + one) - ((a - one) * cos)) - sqrtA) * a;
-        a_0 = ((a + one) + ((a - one) * cos)) + sqrtA;
-        a_1 = ((a - one) + ((a + one) * cos)) * minusTwo;
-        a_2 = ((a + one) + ((a - one) * cos)) - sqrtA;
+        atomicB0.store((((a + one) - ((a - one) * cos)) + sqrtA) * a);
+        atomicB1.store((((a - one) - ((a + one) * cos)) * two) * a);
+        atomicB2.store((((a + one) - ((a - one) * cos)) - sqrtA) * a);
+        atomicA0.store(((a + one) + ((a - one) * cos)) + sqrtA);
+        atomicA1.store(((a - one) + ((a + one) * cos)) * minusTwo);
+        atomicA2.store(((a + one) + ((a - one) * cos)) - sqrtA);
 
         break;
 
 
     case filterType::lowShelf1:
 
-        b_0 = one + ((omega / (one + omega)) * (minusOne + (a * a)));
-        b_1 = (((omega / (one + omega)) * (minusOne + (a * a))) - ((one - omega) / (one + omega)));
-        b_2 = zero;
-        a_0 = one;
-        a_1 = minusOne * ((one - omega) / (one + omega));
-        a_2 = zero;
+        atomicA0.store(one);
+        atomicA1.store(minusOne * ((one - omega) / (one + omega)));
+        atomicA2.store(zero);
+        atomicB0.store(one + ((omega / (one + omega)) * (minusOne + (a * a))));
+        atomicB1.store((((omega / (one + omega)) * (minusOne + (a * a))) - ((one - omega) / (one + omega))));
+        atomicB2.store(zero);
 
         break;
 
 
     case filterType::lowShelf1C:
 
-        b_0 = one + ((omega / a) / (one + (omega / a)) * (minusOne + (a * a)));
-        b_1 = ((((omega / a) / (one + (omega / a))) * (minusOne + (a * a))) - ((one - (omega / a)) / (one + (omega / a))));
-        b_2 = zero;
-        a_0 = one;
-        a_1 = minusOne * ((one - (omega / a)) / (one + (omega / a)));
-        a_2 = zero;
+        atomicA0.store(one);
+        atomicA1.store(minusOne * ((one - (omega / a)) / (one + (omega / a))));
+        atomicA2.store(zero);
+        atomicB0.store(one + ((omega / a) / (one + (omega / a)) * (minusOne + (a * a))));
+        atomicB1.store(((((omega / a) / (one + (omega / a))) * (minusOne + (a * a))) - ((one - (omega / a)) / (one + (omega / a)))));
+        atomicB2.store(zero);
 
         break;
 
