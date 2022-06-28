@@ -108,24 +108,9 @@ private:
     std::vector<SampleType> Wn_1, Wn_2, Xn_1, Xn_2, Yn_1, Yn_2;
 
     //==============================================================================
-    /** Initialised coefficient gain */
-    SampleType a0 = 1.0;
-    SampleType a1 = 0.0;
-    SampleType a2 = 0.0;
-    SampleType b0 = 1.0;
-    SampleType b1 = 0.0;
-    SampleType b2 = 0.0;
-
-    std::atomic<SampleType> atomicA0;
-    std::atomic<SampleType> atomicA1;
-    std::atomic<SampleType> atomicA2;
-    std::atomic<SampleType> atomicB0;
-    std::atomic<SampleType> atomicB1;
-    std::atomic<SampleType> atomicB2;
-
-    std::atomic<SampleType> hz;
-    std::atomic<SampleType> q;
-    std::atomic<SampleType> g;
+    /** Atomic coefficient gain */
+    std::atomic<SampleType> a0, a1, a2, b0, b1, b2;
+    std::atomic<SampleType> hz, q, g;
     std::atomic<filterType> filtType;
     std::atomic<transformationType> transformType;
 
