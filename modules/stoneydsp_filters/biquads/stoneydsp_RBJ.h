@@ -84,23 +84,21 @@ public:
     SampleType processSample(int channel, SampleType inputValue);
 
     //==============================================================================
-    SampleType getb0() { return static_cast<SampleType>(b0); }
-    SampleType getb1() { return static_cast<SampleType>(b1); }
-    SampleType getb2() { return static_cast<SampleType>(b2); }
-    SampleType geta0() { return static_cast<SampleType>(a0); }
-    SampleType geta1() { return static_cast<SampleType>(a1); }
-    SampleType geta2() { return static_cast<SampleType>(a2); }
+    SampleType getb0() { return b0; }
+    SampleType getb1() { return b1; }
+    SampleType getb2() { return b2; }
+    SampleType geta0() { return a0; }
+    SampleType geta1() { return a1; }
+    SampleType geta2() { return a2; }
 
 private:
     //==============================================================================
     void coefficients();
 
+    //==============================================================================
     SampleType directFormI(int channel, SampleType inputValue);
-
     SampleType directFormII(int channel, SampleType inputValue);
-
     SampleType directFormITransposed(int channel, SampleType inputValue);
-
     SampleType directFormIITransposed(int channel, SampleType inputValue);
 
     //==============================================================================
@@ -109,21 +107,19 @@ private:
 
     //==============================================================================
     /** Atomic coefficient gain */
-    std::atomic<SampleType> a0, a1, a2, b0, b1, b2;
-    std::atomic<SampleType> hz, q, g;
+    std::atomic<SampleType> a0, a1, a2, b0, b1, b2, hz, q, g;
     std::atomic<filterType> filtType;
     std::atomic<transformationType> transformType;
 
     //==============================================================================
     /** Initialised parameter */
-    SampleType minFreq = 20.0, maxFreq = 20000.0;
+    SampleType minFreq, maxFreq, loop, outputSample;
 
     //==============================================================================
     /** Initialised constant */
     const SampleType zero = (0.0), one = (1.0), two = (2.0), minusOne = (-1.0), minusTwo = (-2.0);
     const SampleType pi = static_cast<SampleType>(3.1415926535897932384626433832795);
     double currentSampleRate = 0.0;
-
 };
 
 } //namespace filters

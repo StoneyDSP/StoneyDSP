@@ -20,7 +20,9 @@ Biquads<SampleType>::Biquads()
     a0(1.0), a1(0.0), a2(0.0), b0(1.0), b1(0.0), b2(0.0),
     hz(1000.0), q(0.5), g(0.0),
     filtType(filterType::lowPass2),
-    transformType(transformationType::directFormIItransposed)
+    transformType(transformationType::directFormIItransposed), 
+    maxFreq(20000.0), minFreq(20.0),
+    loop(0.0), outputSample(0.0)
 {
     reset();
 }
@@ -29,7 +31,7 @@ Biquads<SampleType>::Biquads()
 template <typename SampleType>
 void Biquads<SampleType>::setFrequency(SampleType newFreq)
 {
-    //static_assert(static_cast<SampleType>(20.0) <= newFreq && newFreq <= static_cast<SampleType>(20000.0));
+    assert(static_cast<SampleType>(20.0) <= newFreq && newFreq <= static_cast<SampleType>(20000.0));
 
     if (hz != newFreq)
     {
@@ -41,7 +43,7 @@ void Biquads<SampleType>::setFrequency(SampleType newFreq)
 template <typename SampleType>
 void Biquads<SampleType>::setResonance(SampleType newRes)
 {
-    //static_assert(static_cast<SampleType>(0.0) <= newRes && newRes <= static_cast<SampleType>(1.0));
+    assert(static_cast<SampleType>(0.0) <= newRes && newRes <= static_cast<SampleType>(1.0));
 
     if (q != newRes)
     {
@@ -66,8 +68,8 @@ void Biquads<SampleType>::setFilterType(filterType newFiltType)
     if (filtType != newFiltType)
     {
         filtType = newFiltType;
-        reset();
         coefficients();
+        reset();
     }
 }
 
@@ -85,7 +87,16 @@ void Biquads<SampleType>::setTransformType(transformationType newTransformType)
 template <typename SampleType>
 void Biquads<SampleType>::prepare(int numChannels, double sampleRate)
 {
+    assert(sampleRate > 0.0);
+    assert(numChannels > 0.0);
+
     currentSampleRate = sampleRate;
+
+    minFreq = static_cast <SampleType> (currentSampleRate / 24576.0);
+    maxFreq = static_cast <SampleType> (currentSampleRate / 2.125);
+
+    assert(static_cast <SampleType>(20.0) >= minFreq && minFreq <= static_cast <SampleType>(20000.0));
+    assert(static_cast <SampleType>(20.0) <= maxFreq && maxFreq >= static_cast <SampleType>(20000.0));
 
     Wn_1.resize(numChannels);
     Wn_2.resize(numChannels);
@@ -94,58 +105,63 @@ void Biquads<SampleType>::prepare(int numChannels, double sampleRate)
     Yn_1.resize(numChannels);
     Yn_2.resize(numChannels);
 
-    minFreq = static_cast <SampleType>(currentSampleRate / 24576.0);
-    maxFreq = static_cast <SampleType>(currentSampleRate / 2.125);
-
     reset();
 }
 
 template <typename SampleType>
 void Biquads<SampleType>::reset(SampleType initialValue)
 {
+    for (auto v : { &Wn_1, &Wn_2, &Xn_1, &Xn_2, &Yn_1, &Yn_2 })
+        std::fill(v->begin(), v->end(), initialValue);
+
     setFrequency(hz);
     setResonance(q);
     setGain(g);
-
-    for (auto v : { &Wn_1, &Wn_2, &Xn_1, &Xn_2, &Yn_1, &Yn_2 })
-        std::fill(v->begin(), v->end(), initialValue);
 }
 
 template <typename SampleType>
-SampleType Biquads<SampleType>::processSample(int channel, SampleType inputValue)
+SampleType Biquads<SampleType>::processSample(int channel, SampleType inputSample)
 {
+    assert(channel < Wn_1.size());
+    assert(channel < Wn_2.size());
+    assert(channel < Xn_1.size());
+    assert(channel < Xn_2.size());
+    assert(channel < Yn_1.size());
+    assert(channel < Yn_2.size());
+
     switch (transformType)
     {
     case TransformationType::directFormI:
-        inputValue = directFormI(channel, inputValue);
+        inputSample = directFormI(channel, inputSample);
         break;
     case TransformationType::directFormII:
-        inputValue = directFormII(channel, inputValue);
+        inputSample = directFormII(channel, inputSample);
         break;
     case TransformationType::directFormItransposed:
-        inputValue = directFormITransposed(channel, inputValue);
+        inputSample = directFormITransposed(channel, inputSample);
         break;
     case TransformationType::directFormIItransposed:
-        inputValue = directFormIITransposed(channel, inputValue);
+        inputSample = directFormIITransposed(channel, inputSample);
         break;
     default:
-        inputValue = directFormIITransposed(channel, inputValue);
+        inputSample = directFormIITransposed(channel, inputSample);
     }
 
-    return inputValue;
+    return inputSample;
 }
 
 template <typename SampleType>
-SampleType Biquads<SampleType>::directFormI(int channel, SampleType inputValue)
+SampleType Biquads<SampleType>::directFormI(int channel, SampleType inputSample)
 {
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
     auto& Yn1 = Yn_1[(size_t)channel];
     auto& Yn2 = Yn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Yn = ((Xn * b0) + (Xn1 * b1) + (Xn2 * b2) + (Yn1 * a1) + (Yn2 * a2));
+    Yn = ((Xn * b0) + (Xn1 * b1) + (Xn2 * b2) + (Yn1 * a1) + (Yn2 * a2));
 
     Xn2 = Xn1, Yn2 = Yn1;
     Xn1 = Xn, Yn1 = Yn;
@@ -154,15 +170,17 @@ SampleType Biquads<SampleType>::directFormI(int channel, SampleType inputValue)
 }
 
 template <typename SampleType>
-SampleType Biquads<SampleType>::directFormII(int channel, SampleType inputValue)
+SampleType Biquads<SampleType>::directFormII(int channel, SampleType inputSample)
 {
     auto& Wn1 = Wn_1[(size_t)channel];
     auto& Wn2 = Wn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Wn = loop;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Wn = (Xn + ((Wn1 * a1) + (Wn2 * a2)));
-    SampleType Yn = ((Wn * b0) + (Wn1 * b1) + (Wn2 * b2));
+    Wn = (Xn + ((Wn1 * a1) + (Wn2 * a2)));
+    Yn = ((Wn * b0) + (Wn1 * b1) + (Wn2 * b2));
 
     Wn2 = Wn1;
     Wn1 = Wn;
@@ -171,17 +189,19 @@ SampleType Biquads<SampleType>::directFormII(int channel, SampleType inputValue)
 }
 
 template <typename SampleType>
-SampleType Biquads<SampleType>::directFormITransposed(int channel, SampleType inputValue)
+SampleType Biquads<SampleType>::directFormITransposed(int channel, SampleType inputSample)
 {
     auto& Wn1 = Wn_1[(size_t)channel];
     auto& Wn2 = Wn_2[(size_t)channel];
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Wn = loop;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Wn = (Xn + Wn2);
-    SampleType Yn = ((Wn * b0) + Xn2);
+    Wn = (Xn + Wn2);
+    Yn = ((Wn * b0) + Xn2);
 
     Xn2 = ((Wn * b1) + Xn1), Wn2 = ((Wn * a1) + Wn1);
     Xn1 = (Wn * b2), Wn1 = (Wn * a2);
@@ -190,16 +210,17 @@ SampleType Biquads<SampleType>::directFormITransposed(int channel, SampleType in
 }
 
 template <typename SampleType>
-SampleType Biquads<SampleType>::directFormIITransposed(int channel, SampleType inputValue)
+SampleType Biquads<SampleType>::directFormIITransposed(int channel, SampleType inputSample)
 {
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Yn = ((Xn * b0) + (Xn2));
+    Yn = ((Xn * b0) + (Xn2));
 
-    Xn2 = ((Xn * b1) + (Xn1)+(Yn * a1));
+    Xn2 = ((Xn * b1) + (Xn1) + (Yn * a1));
     Xn1 = ((Xn * b2) + (Yn * a2));
 
     return Yn;
@@ -212,7 +233,7 @@ void Biquads<SampleType>::coefficients()
     auto cos = (std::cos(omega));
     auto sin = (std::sin(omega));
     auto alpha = (sin * (one - q));
-    auto a = std::pow(SampleType(10), (g * SampleType(0.5)));
+    auto a = std::pow(SampleType(10), (g * SampleType(0.05)));
     auto sqrtA = (std::sqrt(a) * two) * alpha;
 
     switch (filtType)
