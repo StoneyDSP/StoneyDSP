@@ -233,7 +233,7 @@ void Biquads<SampleType>::coefficients()
     auto cos = (std::cos(omega));
     auto sin = (std::sin(omega));
     auto alpha = (sin * (one - q));
-    auto a = std::pow(SampleType(10), (g * SampleType(0.5)));
+    auto a = std::pow(SampleType(10), (g * SampleType(0.05)));
     auto sqrtA = (std::sqrt(a) * two) * alpha;
 
     switch (filtType)
