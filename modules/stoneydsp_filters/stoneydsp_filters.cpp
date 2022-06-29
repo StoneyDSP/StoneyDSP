@@ -9,6 +9,6 @@
 
 #include "stoneydsp_filters.h"
 
-#include "biquads/stoneydsp_Biquad_Calcs.cpp"
-#include "biquads/stoneydsp_RBJ.cpp"
-#include "biquads/stoneydsp_Transforms.cpp"
+#include "biquads/stoneydsp_2nd_Order_Coefficients.cpp"
+#include "biquads/stoneydsp_2nd_Order_Transforms.cpp"
+#include "biquads/stoneydsp_2nd_Order_Filter.cpp"

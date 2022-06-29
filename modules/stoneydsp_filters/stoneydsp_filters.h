@@ -27,6 +27,6 @@
 #undef Factor
 #undef check
 
-#include "biquads/stoneydsp_Biquad_Calcs.h"
-#include "biquads/stoneydsp_RBJ.h"
-#include "biquads/stoneydsp_Transforms.h"
+#include "biquads/stoneydsp_2nd_Order_Coefficients.h"
+#include "biquads/stoneydsp_2nd_Order_Transforms.h"
+#include "biquads/stoneydsp_2nd_Order_Filter.h"
