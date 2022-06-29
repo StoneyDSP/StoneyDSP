@@ -9,6 +9,9 @@
 
 #include "stoneydsp_filters.h"
 
+#include "IIR/stoneydsp_1st_Order_Coefficients.cpp"
+#include "IIR/stoneydsp_1st_Order_Transforms.cpp"
+#include "IIR/stoneydsp_1st_Order_Filters.cpp"
 #include "IIR/stoneydsp_2nd_Order_Coefficients.cpp"
 #include "IIR/stoneydsp_2nd_Order_Transforms.cpp"
 #include "IIR/stoneydsp_2nd_Order_Filters.cpp"
