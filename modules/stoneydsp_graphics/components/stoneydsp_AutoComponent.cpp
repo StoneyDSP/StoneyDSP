@@ -68,7 +68,14 @@ AutoComponentLookAndFeel::~AutoComponentLookAndFeel()
   ==============================================================================
 */
 
-AutoComponent::AutoComponent(juce::AudioProcessor& p, APVTS& apvts, Lambda& onValueChange, TextFromVal& textFromValue, ValFromText& valueFromText)
+AutoComponent::AutoComponent(juce::AudioProcessor& p, APVTS& apvts, Lambda& onValueChange, TextFromVal& textFromValue, ValFromText& valueFromText) 
+    :
+    audioProcessor(p),
+    state(apvts),
+    lookAndfeel(),
+    sliders(),
+    boxes(),
+    buttons()
 {
     auto addSlider = [=, &apvts](juce::AudioParameterFloat* param)
     {

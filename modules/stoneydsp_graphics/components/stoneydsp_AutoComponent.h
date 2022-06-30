@@ -90,6 +90,8 @@ private:
     //==========================================================================
     /** Instantiate members. */
     //Lambda& lambda;
+    juce::AudioProcessor& audioProcessor;
+    APVTS& state;
     AutoComponentLookAndFeel lookAndfeel;
     juce::OwnedArray<SliderWithAttachment> sliders;
     juce::OwnedArray<BoxWithAttachment> boxes;
