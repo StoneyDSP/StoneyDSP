@@ -25,6 +25,7 @@
 #undef Factor
 #undef check
 
+#include "math/stoneydsp_Constants.h"
 #include "math/stoneydsp_Conversion.h"
 #include "math/stoneydsp_MathMod.h"
 #include "math/stoneydsp_Operators.h"
