@@ -104,7 +104,6 @@ private:
     //==============================================================================
     /** Unit-delay object */
     std::vector<SampleType> Wn_1, Wn_2, Xn_1, Xn_2, Yn_1, Yn_2;
-    //std::vector<std::atomic<SampleType>> coeffs[6];
 
     //==============================================================================
     /** Atomic coefficient gain */
