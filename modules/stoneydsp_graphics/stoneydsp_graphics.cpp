@@ -7,12 +7,12 @@
  #error "Incorrect use of cpp file"
 #endif
 
-#include <stoneydsp_graphics.h>
+#include "stoneydsp_graphics.h"
 
 #include <juce_audio_basics/juce_audio_basics.cpp>
-#include <../JUCE/modules/juce_audio_processors/juce_audio_processors.cpp>
-#include <../JUCE/modules/juce_graphics/juce_graphics.cpp>
-#include <../JUCE/modules/juce_gui_basics/juce_gui_basics.cpp>
-#include <../JUCE/modules/juce_gui_extra/juce_gui_extra.cpp>
+#include <juce_audio_processors/juce_audio_processors.cpp>
+#include <juce_graphics/juce_graphics.cpp>
+#include <juce_gui_basics/juce_gui_basics.cpp>
+#include <juce_gui_extra/juce_gui_extra.cpp>
 
-#include <components/stoneydsp_AutoComponent.cpp>
+#include "components/stoneydsp_AutoComponent.cpp"
