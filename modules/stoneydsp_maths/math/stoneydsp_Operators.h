@@ -63,12 +63,12 @@ public:
         return (g);
     }
 
-private:
+//private:
     //==========================================================================
     template <typename Type>
     static Type addition(Type a, Type b)
     {
-        return (a + b);
+        return static_cast<Type>(a + b);
     }
 
     template <typename Type>
