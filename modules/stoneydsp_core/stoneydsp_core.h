@@ -15,3 +15,7 @@
 #pragma once
 
 #define STONEYDSP_CORE_H_INCLUDED
+
+#include "core/stoneydsp_bit.h"
+#include "core/stoneydsp_const.h"
+#include "core/stoneydsp_math.h"
