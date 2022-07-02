@@ -1,4 +1,7 @@
 {
+    "editor.tokenColorCustomizations": {
+        "functions": "#e3e7a7"
+    },
     "files.associations": {
         "atomic": "cpp",
         "bit": "cpp",
