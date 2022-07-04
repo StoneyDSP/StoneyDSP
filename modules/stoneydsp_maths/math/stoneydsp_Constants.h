@@ -29,7 +29,7 @@ public:
 
 private:
     Unary() = delete;
-}
+};
 
 template<typename Type>
 class Binary
