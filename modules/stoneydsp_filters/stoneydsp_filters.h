@@ -33,3 +33,4 @@
 #include "IIR/stoneydsp_2nd_Order_Coefficients.h"
 #include "IIR/stoneydsp_2nd_Order_Transforms.h"
 #include "IIR/stoneydsp_2nd_Order_Filters.h"
+#include "IIR/stoneydsp_coefficient.h"
