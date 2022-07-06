@@ -107,7 +107,8 @@ private:
 
     //==============================================================================
     /** Atomic coefficient gain */
-    std::atomic<SampleType> a0, b0, a1, b1, a2, b2, hz, q, g;
+    stoneydsp::filters::Coefficient<SampleType> a0, b0, a1, b1, a2, b2;
+    SampleType hz, q, g;
     std::atomic<filterType> filtType;
     std::atomic<transformationType> transformType;
 
