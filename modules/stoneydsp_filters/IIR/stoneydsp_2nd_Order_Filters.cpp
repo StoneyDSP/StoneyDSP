@@ -16,7 +16,7 @@ namespace filters
 template <typename SampleType>
 Biquads<SampleType>::Biquads() 
     : 
-    a0(1.0), b0(1.0), a1(0.0), b1(0.0), a2(0.0), b2(0.0),
+    a0(one), b0(one), a1(zero), b1(zero), a2(zero), b2(zero),
     hz(1000.0), q(0.5), g(0.0),
     filtType(filterType::lowPass2),
     transformType(transformationType::directFormIItransposed), 
