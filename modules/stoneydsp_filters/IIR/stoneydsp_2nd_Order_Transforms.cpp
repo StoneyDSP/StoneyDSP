@@ -17,7 +17,8 @@ namespace filters
 template <typename SampleType>
 Transforms<SampleType>::Transforms() 
     : 
-    a0(1.0), b0(1.0), a1(0.0), b1(0.0), a2(0.0), b2(0.0),
+    Wn_1(zero), Wn_2(zero), Xn_1(zero), Xn_2(zero), Yn_1(zero), Yn_2(zero),
+    a0(one), b0(one), a1(zero), b1(zero), a2(zero), b2(zero),
     transformType(TransType::directFormIItransposed),
     loop(0.0), outputSample(0.0)
 {
@@ -25,68 +26,62 @@ Transforms<SampleType>::Transforms()
 }
 
 template <typename SampleType>
-void Transforms<SampleType>::seta0(SampleType& a0new)
+void Transforms<SampleType>::seta0(SampleType a0new)
 {
     if (a0 != a0new)
     {
         a0 = a0new;
-        coefficients();
     }
 }
 
 template <typename SampleType>
-void Transforms<SampleType>::setb0(SampleType& b0new)
+void Transforms<SampleType>::setb0(SampleType b0new)
 {
     if (b0 != b0new)
     {
         b0 = b0new;
-        coefficients();
     }
 }
 
 template <typename SampleType>
-void Transforms<SampleType>::seta1(SampleType& a1new)
+void Transforms<SampleType>::seta1(SampleType a1new)
 {
     if (a1 != a1new)
     {
         a1 = a1new;
-        coefficients();
     }
 }
 
 template <typename SampleType>
-void Transforms<SampleType>::setb1(SampleType& b1new)
+void Transforms<SampleType>::setb1(SampleType b1new)
 {
     if (b1 != b1new)
     {
         b1 = b1new;
-        coefficients();
     }
 }
 
 template <typename SampleType>
-void Transforms<SampleType>::seta2(SampleType& a2new)
+void Transforms<SampleType>::seta2(SampleType a2new)
 {
     if (a2 != a2new)
     {
         a2 = a2new;
-        coefficients();
     }
 }
 
 template <typename SampleType>
-void Transforms<SampleType>::setb2(SampleType& b2new)
+void Transforms<SampleType>::setb2(SampleType b2new)
 {
     if (b2 != b2new)
     {
         b2 = b2new;
-        coefficients();
     }
 }
 
 //==============================================================================
 template <typename SampleType>
-void Transforms<SampleType>::setTransformType(TransType& newTransformType)
+void Transforms<SampleType>::setTransformType(TransType newTransformType)
 {
     if (transformType != newTransformType)
     {
@@ -99,7 +94,7 @@ void Transforms<SampleType>::setTransformType(TransType& newTransformType)
 template <typename SampleType>
 void Transforms<SampleType>::prepare(int numChannels)
 {
-    assert(numChannels > 0.0);
+    assert(numChannels > 0);
 
     Wn_1.resize(numChannels);
     Wn_2.resize(numChannels);
@@ -219,21 +214,10 @@ SampleType Transforms<SampleType>::directFormIITransposed(int channel, SampleTyp
 
     Yn = ((Xn * b0) + (Xn2));
 
-    Xn2 = ((Xn * b1) + (Xn1)+(Yn * a1));
+    Xn2 = ((Xn * b1) + (Xn1) + (Yn * a1));
     Xn1 = ((Xn * b2) + (Yn * a2));
 
     return Yn;
-}
-
-template <typename SampleType>
-void Transforms<SampleType>::coefficients()
-{
-    a0 = (one / a0);
-    b0 = (b0 * a0);
-    a1 = ((a1 * a0) * minusOne);
-    b1 = (b1 * a0);
-    a2 = ((a2 * a0) * minusOne);
-    b2 = (b2 * a0);
 }
 
 //==============================================================================
