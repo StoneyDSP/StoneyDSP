@@ -20,28 +20,54 @@ class Coefficient
 {
 public:
     Coefficient(SampleType init);
+    Coefficient(const Coefficient& other) noexcept;
     ~Coefficient();
 
+    //==========================================================================
     /** Returns the coefficient's current value. */
     SampleType get() const noexcept { return value; }
 
     /** Returns the coefficient's current value. */
     operator SampleType() const noexcept { return value; }
 
+    //==========================================================================
     /** Changes the coefficient's current value. */
     Coefficient& operator= (SampleType newValue);
 
+    /** Atomically adds a number from the coefficient value, returning the new value. */
+    Coefficient& operator+= (SampleType amountToAdd) noexcept { return value += amountToAdd; }
+
+    /** Atomically subtracts a number from the coefficient value, returning the new value. */
+    Coefficient& operator-= (SampleType amountToSub) noexcept { return value -= amountToSub; }
+
+    /** Atomically multiplies the coefficient by a number, returning the new value. */
+    Coefficient& operator*= (SampleType amountToMul) noexcept { return value *= amountToMul; }
+
+    /** Atomically divides the coefficient by a number, returning the new value. */
+    Coefficient& operator/= (SampleType amountToDiv) noexcept { return value /= amountToDiv; }
+
+    /** Atomically increments this value, returning the new value. */
+    Coefficient& operator++() noexcept { return ++value; }
+
+    /** Atomically decrements this value, returning the new value. */
+    Coefficient& operator--() noexcept { return --value; }
+
+    /** Atomically inverts this value, returning the new value. */
+    Coefficient& operator-() noexcept { return -value; };
+
 protected:
+    //==========================================================================
     /** Override this method if you are interested in receiving callbacks
-        when the parameter value changes.
+        when the value changes.
     */
     void valueChanged(SampleType newValue);
 
 private:
-    //==============================================================================
+    //==========================================================================
     SampleType getValue() const;
     void setValue(SampleType newValue);
 
+    //==========================================================================
     std::atomic<SampleType> value;
 };
 

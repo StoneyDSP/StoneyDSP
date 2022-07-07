@@ -21,10 +21,15 @@ Coefficient<SampleType>::Coefficient(SampleType init) : value(init)
 }
 
 template <typename SampleType>
+Coefficient<SampleType>::Coefficient(const Coefficient& other) : value(other.get())
+{
+}
+
+template <typename SampleType>
 Coefficient<SampleType>::~Coefficient()
 {
     static_assert (std::atomic<SampleType>::is_always_lock_free,
-        "Coefficient requires a lock-free std::atomic<float>");
+        "This class can only be used for lock-free types");
 }
 
 template <typename SampleType>
