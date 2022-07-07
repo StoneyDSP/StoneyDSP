@@ -20,7 +20,7 @@ Transforms<SampleType>::Transforms()
     Wn_1(zero), Wn_2(zero), Xn_1(zero), Xn_2(zero), Yn_1(zero), Yn_2(zero),
     a0(one), b0(one), a1(zero), b1(zero), a2(zero), b2(zero),
     transformType(TransType::directFormIItransposed),
-    loop(0.0), outputSample(0.0)
+    loop(zero), outputSample(zero)
 {
     reset();
 }
