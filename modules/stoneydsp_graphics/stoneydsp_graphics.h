@@ -30,3 +30,4 @@
 
 #include "components/stoneydsp_AutoComponent.h"
 #include "components/stoneydsp_HorizontalMeter.h"
+#include "components/stoneydsp_VerticalMeter.h"
