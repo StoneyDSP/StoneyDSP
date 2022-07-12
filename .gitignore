@@ -1,1 +1,3 @@
-﻿modules/stoneydsp_filters/biquads/.vscode
+﻿build
+modules\stoneydsp_core
+workbench

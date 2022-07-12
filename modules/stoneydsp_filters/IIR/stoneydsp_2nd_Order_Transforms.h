@@ -1,9 +1,12 @@
+
 /*
   ==============================================================================
 
     Transforms.h
-    Created: 16 May 2022 2:54:47am
-    Author:  StoneyDSP
+    Created: 6 Jul 2022 05:53:03am
+    Author:  Nathan J. Hood
+    Website: github.com/StoneyDSP
+    email:   nathanjhood@googlemail.com
 
   ==============================================================================
 */
@@ -13,7 +16,7 @@ namespace stoneydsp
 namespace filters
 {
 
-enum class TransformType
+enum struct TransformType
 {
     directFormI = 0,
     directFormII = 1,
@@ -36,11 +39,11 @@ public:
 
     //==========================================================================
     void setb0(SampleType b0new);
-    void setb1(SampleType b1new);
-    void setb2(SampleType b2new);
     void seta0(SampleType a0new);
     void seta1(SampleType a1new);
+    void setb1(SampleType b1new);
     void seta2(SampleType a2new);
+    void setb2(SampleType b2new);
 
     /** Sets the BiLinear Transform for the filter to use. See enum for available types. */
     void setTransformType(TransType newTransformType);
@@ -50,16 +53,14 @@ public:
     void prepare(int numChannels);
 
     /** Resets the internal state variables of the processor. */
-    void reset(SampleType initialValue = (SampleType) (0.0));
+    void reset(SampleType initialValue = { 0.0 });
 
     //==========================================================================
     /** Processes one sample at a time on a given channel. */
     SampleType processSample(int channel, SampleType inputValue);
 
 private:
-    void coefficients();
-
-  //==============================================================================
+    //==========================================================================
     SampleType directFormI(int channel, SampleType inputValue);
     SampleType directFormII(int channel, SampleType inputValue);
     SampleType directFormITransposed(int channel, SampleType inputValue);
@@ -71,22 +72,17 @@ private:
     
     //==========================================================================
     /** Coefficient gain */
-    SampleType b0, b1, b2, a0, a1, a2;
+    stoneydsp::filters::Coefficient<SampleType> a0, b0, a1, b1, a2, b2;
 
-    std::atomic<SampleType> b_0;
-    std::atomic<SampleType> b_1;
-    std::atomic<SampleType> b_2;
-    std::atomic<SampleType> a_0;
-    std::atomic<SampleType> a_1;
-    std::atomic<SampleType> a_2;
-
-    //==============================================================================
+    //==========================================================================
     /** Initialise the parameters. */
-    TransType transformType = TransType::directFormIItransposed;
+    std::atomic<TransType> transformType;
 
-    //==============================================================================
+    SampleType loop, outputSample;
+
+    //==========================================================================
     /** Initialise constants. */
-    const SampleType zero = (0.0), one = (1.0), minusOne = (-1.0);
+    const SampleType zero = (0.0), one = (+1.0), minusOne = (-1.0);
 };
 
 } //namespace stoneydsp

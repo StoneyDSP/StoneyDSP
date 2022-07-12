@@ -10,17 +10,51 @@
 
 namespace stoneydsp
 {
-class Operators
+namespace operators
+{
+class Unary
 {
 public:
     //==========================================================================
-
     template <typename Type>
-    static Type oneDivX (Type x)
+    static Type operation(Type x, Type(*functocall)(Type))
     {
-        return x != Type (0.0) ? Type (1.0) / x : Type (0.0);
+        Type g;
+        g = (*functocall)(x);
+        return (g);
+    }
+private:
+    //==========================================================================
+    template <typename Type>
+    static Type abs(Type x)
+    {
+        return (std::abs(x));
     }
 
+    template <typename Type>
+    static Type inv(Type x)
+    {
+        return (x * Type(-1.0));
+    }
+
+    template <typename Type>
+    static Type oneDivX(Type x)
+    {
+        return (x != Type(0.0) ? Type(1.0) / x : Type(0.0));
+    }
+
+    template <typename Type>
+    static Type powTwo(Type x)
+    {
+        return (x * x);
+    }
+    //==========================================================================
+    Unary() = delete;
+};
+class Binary
+{
+public:
+    //==========================================================================
     template <typename Type>
     static Type operation(Type x, Type y, Type(*functocall)(Type, Type))
     {
@@ -29,12 +63,12 @@ public:
         return (g);
     }
 
-private:
+//private:
     //==========================================================================
     template <typename Type>
     static Type addition(Type a, Type b)
     {
-        return (a + b);
+        return static_cast<Type>(a + b);
     }
 
     template <typename Type>
@@ -56,6 +90,8 @@ private:
     }
 
     //==========================================================================
-    Operators() = delete;
+    Binary() = delete;
 };
+
+} //namespace operators
 } //namespace stoneydsp

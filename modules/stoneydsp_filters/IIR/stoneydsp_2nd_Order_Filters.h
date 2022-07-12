@@ -84,12 +84,12 @@ public:
     SampleType processSample(int channel, SampleType inputValue);
 
     //==============================================================================
-    SampleType getb0() { return b0; }
-    SampleType getb1() { return b1; }
-    SampleType getb2() { return b2; }
     SampleType geta0() { return a0; }
+    SampleType getb0() { return b0; }
     SampleType geta1() { return a1; }
+    SampleType getb1() { return b1; }
     SampleType geta2() { return a2; }
+    SampleType getb2() { return b2; }
 
 private:
     //==============================================================================
@@ -107,7 +107,8 @@ private:
 
     //==============================================================================
     /** Atomic coefficient gain */
-    std::atomic<SampleType> a0, a1, a2, b0, b1, b2, hz, q, g;
+    stoneydsp::filters::Coefficient<SampleType> a0, b0, a1, b1, a2, b2;
+    SampleType hz, q, g;
     std::atomic<filterType> filtType;
     std::atomic<transformationType> transformType;
 

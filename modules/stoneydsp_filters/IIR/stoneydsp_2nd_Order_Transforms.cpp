@@ -17,56 +17,66 @@ namespace filters
 template <typename SampleType>
 Transforms<SampleType>::Transforms() 
     : 
-    b0(SampleType (1.0)),
-    b1(SampleType (0.0)),
-    b2(SampleType (0.0)),
-    a0(SampleType (1.0)),
-    a1(SampleType (0.0)),
-    a2(SampleType (0.0))
+    Wn_1(zero), Wn_2(zero), Xn_1(zero), Xn_2(zero), Yn_1(zero), Yn_2(zero),
+    a0(one), b0(one), a1(zero), b1(zero), a2(zero), b2(zero),
+    transformType(TransType::directFormIItransposed),
+    loop(zero), outputSample(zero)
 {
     reset();
 }
 
 template <typename SampleType>
-void Transforms<SampleType>::setb0(SampleType b0new)
-{
-    b_0.store(b0new);
-    coefficients();
-}
-
-template <typename SampleType>
-void Transforms<SampleType>::setb1(SampleType b1new)
-{
-    b_1.store(b1new);
-    coefficients();
-}
-
-template <typename SampleType>
-void Transforms<SampleType>::setb2(SampleType b2new)
-{
-    b_2.store(b2new);
-    coefficients();
-}
-
-template <typename SampleType>
 void Transforms<SampleType>::seta0(SampleType a0new)
 {
-    a_0.store(a0new);
-    coefficients();
+    if (a0 != a0new)
+    {
+        a0 = a0new;
+    }
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::setb0(SampleType b0new)
+{
+    if (b0 != b0new)
+    {
+        b0 = b0new;
+    }
 }
 
 template <typename SampleType>
 void Transforms<SampleType>::seta1(SampleType a1new)
 {
-    a_1.store(a1new);
-    coefficients();
+    if (a1 != a1new)
+    {
+        a1 = a1new;
+    }
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::setb1(SampleType b1new)
+{
+    if (b1 != b1new)
+    {
+        b1 = b1new;
+    }
 }
 
 template <typename SampleType>
 void Transforms<SampleType>::seta2(SampleType a2new)
 {
-    a_2.store(a2new);
-    coefficients();
+    if (a2 != a2new)
+    {
+        a2 = a2new;
+    }
+}
+
+template <typename SampleType>
+void Transforms<SampleType>::setb2(SampleType b2new)
+{
+    if (b2 != b2new)
+    {
+        b2 = b2new;
+    }
 }
 
 //==============================================================================
@@ -84,6 +94,8 @@ void Transforms<SampleType>::setTransformType(TransType newTransformType)
 template <typename SampleType>
 void Transforms<SampleType>::prepare(int numChannels)
 {
+    assert(numChannels > 0);
+
     Wn_1.resize(numChannels);
     Wn_2.resize(numChannels);
     Xn_1.resize(numChannels);
@@ -104,6 +116,13 @@ void Transforms<SampleType>::reset(SampleType initialValue)
 template <typename SampleType>
 SampleType Transforms<SampleType>::processSample(int channel, SampleType inputValue)
 {
+    assert(channel < Wn_1.size());
+    assert(channel < Wn_2.size());
+    assert(channel < Xn_1.size());
+    assert(channel < Xn_2.size());
+    assert(channel < Yn_1.size());
+    assert(channel < Yn_2.size());
+
     switch (transformType)
     {
     case TransType::directFormI:
@@ -126,16 +145,17 @@ SampleType Transforms<SampleType>::processSample(int channel, SampleType inputVa
 }
 
 template <typename SampleType>
-SampleType Transforms<SampleType>::directFormI(int channel, SampleType inputValue)
+SampleType Transforms<SampleType>::directFormI(int channel, SampleType inputSample)
 {
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
     auto& Yn1 = Yn_1[(size_t)channel];
     auto& Yn2 = Yn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Yn = ((Xn * b0) + (Xn1 * b1) + (Xn2 * b2) + (Yn1 * a1) + (Yn2 * a2));
+    Yn = ((Xn * b0) + (Xn1 * b1) + (Xn2 * b2) + (Yn1 * a1) + (Yn2 * a2));
 
     Xn2 = Xn1, Yn2 = Yn1;
     Xn1 = Xn, Yn1 = Yn;
@@ -144,15 +164,17 @@ SampleType Transforms<SampleType>::directFormI(int channel, SampleType inputValu
 }
 
 template <typename SampleType>
-SampleType Transforms<SampleType>::directFormII(int channel, SampleType inputValue)
+SampleType Transforms<SampleType>::directFormII(int channel, SampleType inputSample)
 {
     auto& Wn1 = Wn_1[(size_t)channel];
     auto& Wn2 = Wn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Wn = loop;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Wn = (Xn + ((Wn1 * a1) + (Wn2 * a2)));
-    SampleType Yn = ((Wn * b0) + (Wn1 * b1) + (Wn2 * b2));
+    Wn = (Xn + ((Wn1 * a1) + (Wn2 * a2)));
+    Yn = ((Wn * b0) + (Wn1 * b1) + (Wn2 * b2));
 
     Wn2 = Wn1;
     Wn1 = Wn;
@@ -161,17 +183,19 @@ SampleType Transforms<SampleType>::directFormII(int channel, SampleType inputVal
 }
 
 template <typename SampleType>
-SampleType Transforms<SampleType>::directFormITransposed(int channel, SampleType inputValue)
+SampleType Transforms<SampleType>::directFormITransposed(int channel, SampleType inputSample)
 {
     auto& Wn1 = Wn_1[(size_t)channel];
     auto& Wn2 = Wn_2[(size_t)channel];
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Wn = loop;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Wn = (Xn + Wn2);
-    SampleType Yn = ((Wn * b0) + Xn2);
+    Wn = (Xn + Wn2);
+    Yn = ((Wn * b0) + Xn2);
 
     Xn2 = ((Wn * b1) + Xn1), Wn2 = ((Wn * a1) + Wn1);
     Xn1 = (Wn * b2), Wn1 = (Wn * a2);
@@ -180,30 +204,20 @@ SampleType Transforms<SampleType>::directFormITransposed(int channel, SampleType
 }
 
 template <typename SampleType>
-SampleType Transforms<SampleType>::directFormIITransposed(int channel, SampleType inputValue)
+SampleType Transforms<SampleType>::directFormIITransposed(int channel, SampleType inputSample)
 {
     auto& Xn1 = Xn_1[(size_t)channel];
     auto& Xn2 = Xn_2[(size_t)channel];
 
-    auto& Xn = inputValue;
+    auto& Xn = inputSample;
+    auto& Yn = outputSample;
 
-    SampleType Yn = ((Xn * b0) + (Xn2));
+    Yn = ((Xn * b0) + (Xn2));
 
-    Xn2 = ((Xn * b1) + (Xn1)+(Yn * a1));
+    Xn2 = ((Xn * b1) + (Xn1) + (Yn * a1));
     Xn1 = ((Xn * b2) + (Yn * a2));
 
     return Yn;
-}
-
-template <typename SampleType>
-void Transforms<SampleType>::coefficients()
-{
-    a0 = (one / a_0.load());
-    b0 = (b_0.load() * a0);
-    b1 = (b_1.load() * a0);
-    b2 = (b_2.load() * a0);
-    a1 = ((a_1.load() * a0) * minusOne);
-    a2 = ((a_2.load() * a0) * minusOne);
 }
 
 //==============================================================================
