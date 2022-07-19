@@ -1,0 +1,2 @@
+C:/Users/Nathan/DSP/StoneyDSP/bin/CMakeFiles/ALL_BUILD.dir
+C:/Users/Nathan/DSP/StoneyDSP/bin/CMakeFiles/ZERO_CHECK.dir

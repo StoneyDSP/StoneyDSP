@@ -9,7 +9,7 @@
     website:        github.com/StoneyDSP
     license:        Proprietary
 
-    dependencies:   
+    dependencies:   juce_audio_basics, juce_audio_processors, juce_dsp
 
     END_JUCE_MODULE_DECLARATION
 */
@@ -27,6 +27,10 @@
 #undef Factor
 #undef check
 
+#include <juce_audio_basics/juce_audio_basics.h>
+#include <juce_audio_processors/juce_audio_processors.h>
+#include <juce_dsp/juce_dsp.h>
+
 #include "IIR/stoneydsp_1st_Order_Coefficients.h"
 #include "IIR/stoneydsp_1st_Order_Transforms.h"
 #include "IIR/stoneydsp_1st_Order_Filters.h"
@@ -34,3 +38,4 @@
 #include "IIR/stoneydsp_2nd_Order_Transforms.h"
 #include "IIR/stoneydsp_2nd_Order_Filters.h"
 #include "IIR/stoneydsp_coefficient.h"
+#include "IIR/stoneydsp_Matched_Biquads.h"
