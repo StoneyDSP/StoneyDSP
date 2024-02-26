@@ -242,70 +242,70 @@ jobs:
 
     - name: Upload Zip Source
       if: ${{ matrix.name == 'Linux' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: StoneyDSP-0.0.1-Source.zip
         path: './install/StoneyDSP-0.0.1-Source.zip'
         
     - name: Upload Tar Source
       if: ${{ matrix.name == 'Linux' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: StoneyDSP-0.0.1-Source.tar.gz
         path: './install/StoneyDSP-0.0.1-Source.tar.gz'
 
     - name: Upload Zip Build (Linux)
       if: ${{ matrix.name == 'Linux' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: StoneyDSP-0.0.1-Linux-x86_64-JUCE_7.0.10.zip
         path: './install/StoneyDSP-0.0.1-Linux-x86_64-JUCE_7.0.10.zip'
         
     - name: Upload Zip Build (macOS)
       if: ${{ matrix.name == 'macOS' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: StoneyDSP-0.0.1-Darwin-arm64-JUCE_7.0.10.zip
         path: './install/StoneyDSP-0.0.1-Darwin-arm64-JUCE_7.0.10.zip'
 
     - name: Upload Zip Build (Windows)
       if: ${{ matrix.name == 'Windows' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: StoneyDSP-0.0.1-Windows-AMD64-JUCE_7.0.10.zip
         path: '.\install\StoneyDSP-0.0.1-Windows-AMD64-JUCE_7.0.10.zip'
 
     - name: Upload Tar Build (Linux)
       if: ${{ matrix.name == 'Linux' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: StoneyDSP-0.0.1-Linux-x86_64-JUCE_7.0.10.tar.gz
         path: './install/StoneyDSP-0.0.1-Linux-x86_64-JUCE_7.0.10.tar.gz'
 
     - name: Upload Tar Build (macOS)
       if: ${{ matrix.name == 'macOS' }}
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: StoneyDSP-0.0.1-Darwin-arm64-JUCE_7.0.10.tar.gz
         path: './install/StoneyDSP-0.0.1-Darwin-arm64-JUCE_7.0.10.tar.gz'
 
   #  - name: Upload Shell Installer (Linux)
   #    if: ${{ matrix.name == 'Linux' }}
-  #    uses: actions/upload-artifact@v3
+  #    uses: actions/upload-artifact@v4
   #    with:
   #      name: StoneyDSP-0.0.1-Linux-x86_64-JUCE_7.0.10.sh
   #      path: './install/StoneyDSP-0.0.1-Linux-x86_64-JUCE_7.0.10.sh'
 
   #  - name: Upload Exe Installer (Windows)
   #    if: ${{ matrix.name == 'Windows' }}
-  #    uses: actions/upload-artifact@v3
+  #    uses: actions/upload-artifact@v4
   #    with:
   #      name: StoneyDSP-0.0.1-Windows-AMD64-JUCE_7.0.10.exe
   #      path: './install/StoneyDSP-0.0.1-Windows-AMD64-JUCE_7.0.10.exe'
 
   #  - name: Upload DMG Installer (macOS)
   #    if: ${{ matrix.name == 'macOS' }}
-  #    uses: actions/upload-artifact@v3
+  #    uses: actions/upload-artifact@v4
   #    with:
   #      name: StoneyDSP-0.0.1-Darwin-arm64-JUCE_7.0.10.dmg
   #      path: './install/StoneyDSP-0.0.1-Darwin-arm64-JUCE_7.0.10.dmg'
