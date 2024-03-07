@@ -4,11 +4,11 @@ SOURCE_FILES := $(shell find ../../modules -type f -name "stoneydsp_*.h" -or -na
 
 .PHONY: clean
 
-doc/index.html: build/stoneydsp_modules.dox Doxyfile
-	doxygen
-
 build/juce_modules.dox: process_source_files.py $(SOURCE_FILES)
 	python $< ../../modules build
+
+doc/index.html: build/stoneydsp_modules.dox Doxyfile
+	doxygen
 
 clean:
 	rm -rf build doc
