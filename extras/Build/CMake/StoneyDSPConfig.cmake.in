@@ -1,0 +1,83 @@
+#[=============================================================================[
+This file is part of the StoneyDSP library.
+Copyright (c) 2024 - StoneyDSP
+Home: https://www.stoneydsp.com
+Source: https://github.com/StoneyDSP/StoneyDSP
+
+StoneyDSP is an open source library subject to open-source licensing.
+
+By using StoneyDSP, you agree to the terms of the StoneyDSP End-User License
+Agreement and also the StoneyDSP Privacy Policy.
+
+End User License Agreement: www.stoneydsp.com/LICENSE
+Privacy Policy: www.stoneydsp.com/privacy-policy
+
+By using StoneyDSP, you must also agree to the terms of both the JUCE 7 End-User
+License Agreement and JUCE Privacy Policy.
+
+End User License Agreement: www.juce.com/juce-7-licence
+Privacy Policy: www.juce.com/juce-privacy-policy
+
+Or: You may also use this code under the terms of the GPL v3 (see
+www.gnu.org/licenses).
+
+STONEYDSP IS PROVIDED "AS IS" WITHOUT ANY WARRANTY, AND ALL WARRANTIES, WHETHER
+EXPRESSED OR IMPLIED, INCLUDING MERCHANTABILITY AND FITNESS FOR PURPOSE, ARE
+DISCLAIMED.
+]=============================================================================]#
+
+@PACKAGE_INIT@
+
+if(NOT TARGET StoneyDSP::stoneyhelper)
+    add_executable(StoneyDSP::stoneyhelper IMPORTED)
+    set_target_properties(StoneyDSP::stoneyhelper PROPERTIES
+        IMPORTED_LOCATION "@PACKAGE_STONEYDSP_STONEYHELPER_PATH@")
+endif()
+
+check_required_components("@PROJECT_NAME@")
+
+set(STONEYDSP_MODULES_DIR "@PACKAGE_STONEYDSP_MODULE_PATH@" CACHE INTERNAL "The path to STONEYDSP modules")
+
+include(CMakeFindDependencyMacro)
+
+find_package (JUCE 7.0.10 CONFIG REQUIRED)
+
+set(_stoneydsp_modules
+    stoneydsp_audio
+    stoneydsp_core
+    stoneydsp_graphics
+	# stoneydsp_web
+)
+
+set(_targets_defined)
+set(_targets_expected)
+
+foreach(_stoneydsp_module IN LISTS _stoneydsp_modules)
+    list(APPEND _targets_expected ${_stoneydsp_module} StoneyDSP::${_stoneydsp_modules})
+    if(TARGET ${_stoneydsp_module})
+        list(APPEND _targets_defined ${_stoneydsp_module})
+    endif()
+
+    if(TARGET StoneyDSP::${_stoneydsp_module})
+        list(APPEND _targets_defined StoneyDSP::${_stoneydsp_module})
+    endif()
+endforeach()
+
+if("${_targets_defined}" STREQUAL "${_targets_expected}")
+    unset(_targets_defined)
+    unset(_targets_expected)
+    return()
+endif()
+
+if(NOT "${_targets_defined}" STREQUAL "")
+    message(FATAL_ERROR "Some targets in this export set were already defined.")
+endif()
+
+unset(_targets_defined)
+unset(_targets_expected)
+
+foreach(_stoneydsp_module IN LISTS _stoneydsp_modules)
+    juce_add_module("@PACKAGE_STONEYDSP_MODULE_PATH@/${_stoneydsp_module}" ALIAS_NAMESPACE StoneyDSP)
+endforeach()
+
+unset(_stoneydsp_modules)

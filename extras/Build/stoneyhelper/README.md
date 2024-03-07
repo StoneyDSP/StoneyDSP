@@ -1,0 +1,15 @@
+# StoneyDSP::stoneyhelper
+
+```stoneyhelper``` is a traditional command-line tool, primarily useful for reporting various configurational aspects of the current installation of the ```StoneyDSP``` library.
+
+Currently, the ```stoneyhelper``` project codebase is essentially empty, being only a JUCE console application that currently does nothing more than print it's input arguments to the standard output (i.e., the calling terminal instance). This codebase has been added to the build now because we need some targets to validate our library as early as possible, to ensure that no configuration issues shall arise later on. The functionality given shall be derived partially from the ```StoneyDSP``` library itself, providing a means of self-testing as well as consistent behaviour. Since ```stoneyhelper``` is a sub-project of ```StoneyDSP```, it will likely recieve it's own version number, and possibly be moved into a git submodule, in due course.
+
+```stoneyhelper``` might be used to report on the current ```StoneyDSP``` library installation, providing useful information such as installation paths, version numbers, and a micro package-manager functionality for managing versions and dependencies.
+
+```stoneyhelper``` might also be used to provide additional control over CMake project configurations, to run unit tests, to create installable packages for distro, and to provide helpful functionality for CI/CD (think cygpath/wslpath, msystem, etc).
+
+```stoneyhelper``` sits in the same location in the ```StoneyDSP``` library project structure as ```juceaide``` does in ```JUCE```, and will likely continue to follow a similar design model as ```juceaide```, although the final functionality will most likely be quite distinct from that tool, and shall be useful for allowing some amount of deeper customization over ```JUCE``` projects which used the ```StoneyDSP``` library.
+
+We are also very open to thoughts and suggestions, particularly regarding functionality which the official ```JUCE``` project chooses to not support or pursue, but which might still be seen as desireable for some users and specific scenarios, most likely appealing to more advanced CMake users who wish to customize their ```JUCE``` projects with some additional tooling.
+
+(For us, one example useage is that we would like to strengthen the useage of ```find_package(JUCE CONFIG REQUIRED)```, as to allow ```JUCE``` - and it's dependency chain - to be easier to pick up from package managers such as vcpkg, rather than requiring a submodule and a seperate task for dependencies. Although the existing functionality largely works for most systems and setups, it also fails cryptically in other cases, such as our current action for building on ```x64-osx``` where ```find_package()``` fails to locate ```JUCEConfig.cmake```, somehow. Official advice is to consume ```JUCE``` as a submodule instead of a package, but there are still particular cases and workflows where this is less desireable than using the likes of vcpkg instead.)

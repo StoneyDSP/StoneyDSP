@@ -1,9 +1,70 @@
+pluginval
+!public
+!*.png
+
+.bash*
+.env
+.i18n*
+.less*
+.profile*
+.sudo*
+.wget*
+
+.certs
+.dotnet
+.gnome
+.npm
+.nvm
+.pki
+.subversion
+.vcpkg
+.yarn
+.yarnrc
+
+compile_commands.json
+yarn.lock
+package.json
+
+# https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+.vscode-remote-containers
+.vscode-server
+
+# USER
+.cache
+.config
+.local
+
+Desktop
+Development
+Documents
+Downloads
+Music
+Pictures
+Public
+Templates
+Videos
+
 # Custom
+vcpkg_installed
+install
 !lib
 build
 package-lock.json
 yarn.lock
-.vscode
+!*.ico
+!.npmrc
+!public/**/*.png
+.gnupg
+.ssh
+.w3m
 
 # https://github.com/github/gitignore/blob/main/C%2B%2B.gitignore
 

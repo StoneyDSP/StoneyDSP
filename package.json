@@ -1,19 +1,33 @@
 {
   "name": "@stoneydsp/stoneydsp",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "index.js",
-  "repository": "https://github.com/StoneyDSP/StoneyDSP",
-  "author": "StoneyDSP <nathanjhood@googlemail.com>",
+  "author": {
+		"email": "nathanjhood@googlemail.com",
+		"name": "Nathan J. Hood",
+		"url": "https://github.com/nathanjhood"
+	},
+	"repository": {
+		"url": "https://github.com/StoneyDSP/StoneyDSP.git",
+		"type": "git"
+	},
+	"readme": "https://github.com/StoneyDSP/StoneyDSP/README.md",
   "license": "MIT",
   "scripts": {
-    "configure":    "cmake -S . -B         ./build -DStoneyDSP_IS_INSTALLABLE:BOOL=TRUE -DBUILD_TESTS:BOOL=TRUE -DCMAKE_INSTALL_PREFIX:PATH=./install",
-    "reconfigure":  "cmake --fresh -S . -B ./build -DStoneyDSP_IS_INSTALLABLE:BOOL=TRUE -DBUILD_TESTS:BOOL=TRUE -DCMAKE_INSTALL_PREFIX:PATH=./install",
+    "configure":    "cmake         -S . -B ./build -DSTONEYDSP_BUILD_TESTS:BOOL=FALSE -DSTONEYDSP_BUILD_EXTRAS:BOOL=TRUE -DSTONEYDSP_BUILD_EXAMPLES:BOOL=TRUE -DCMAKE_INSTALL_PREFIX:PATH=./install -GNinja",
+    "reconfigure":  "cmake --fresh -S . -B ./build -DSTONEYDSP_BUILD_TESTS:BOOL=FALSE -DSTONEYDSP_BUILD_EXTRAS:BOOL=TRUE -DSTONEYDSP_BUILD_EXAMPLES:BOOL=TRUE -DCMAKE_INSTALL_PREFIX:PATH=./install -GNinja",
     "build":        "cmake --build         ./build",
     "postbuild":    "cmake --install       ./build",
     "ctest":        "ctest --test-dir      ./build --rerun-failed --output-on-failure --verbose",
     "cpack":        "cpack --config        ./build/CPackSourceConfig.cmake -B ./install",
-    "cdist":        "cpack --config        ./build/CPackConfig.cmake       -B ./install"
+    "cdist":        "cpack --config        ./build/CPackConfig.cmake       -B ./install",
+
+		"sys:config":   "cmake --fresh -S . -B ./build -DSTONEYDSP_BUILD_TESTS:BOOL=FALSE -DSTONEYDSP_BUILD_EXTRAS:BOOL=TRUE -DSTONEYDSP_BUILD_EXAMPLES:BOOL=TRUE -GNinja",
+		"sys:install":  "cmake --build         ./build && cmake --build         ./build --target install"
   },
+	"engines": {
+		"node": ">=16.8.0"
+	},
   "dependencies": {
     "clang-format": "^1.8.0"
   },
