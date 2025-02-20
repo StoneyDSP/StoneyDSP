@@ -16,105 +16,97 @@
 
 //====================================================================//INCLUDES
 
-  #include <cmath> // For `float_t` and `double_t`;
+  #ifdef __cplusplus
+    #include <cmath>
+  #else
+    #include <math.h>
+  #endif // __cplusplus
+
+//=====================================================================//DEFINES
+
+  #ifdef __cplusplus
+    /**
+     * @brief
+     *
+     */
+    #define STONEYDSP_FLOAT_T ::std::float_t
+    /**
+     * @brief
+     *
+     */
+    #define STONEYDSP_DOUBLE_T ::std::double_t
+  #else // !__cplusplus
+    /**
+     * @brief
+     *
+     */
+    #define STONEYDSP_FLOAT_T float_t
+    /**
+     * @brief
+     *
+     */
+    #define STONEYDSP_DOUBLE_T double_t
+  #endif // __cplusplus
+
+//====================================================================//TYPEDEFS
+
+/**
+ * @brief
+ *
+ */
+typedef STONEYDSP_FLOAT_T stoneydsp_float_t;
+
+/**
+ * @brief
+ *
+ */
+typedef STONEYDSP_DOUBLE_T stoneydsp_double_t;
 
 //==============================================================================
 
+  #ifdef __cplusplus
+
 namespace stoneydsp
 {
-/** @addtogroup stoneydsp
- *  @{
- */
-
 namespace core
 {
-/** @addtogroup core
- *  @{
- */
-
 namespace types
 {
-/** @addtogroup types
- *  @{
- */
-
 /**
- * @brief Double-precision numerical value.
+ * @brief
  *
  */
-using double_t = ::std::double_t;
-
+using float_t = ::stoneydsp_float_t;
 /**
- * @brief Single-precision numerical value.
+ * @brief
  *
  */
-using float_t = ::std::float_t;
-
-/// @} group types
+using double_t = ::stoneydsp_double_t;
 } // namespace types
-/// @} group core
 } // namespace core
-/// @} group stoneydsp
 } // namespace stoneydsp
+
+  #endif // __cplusplus
 
 //==============================================================================
 
+  #ifdef __cplusplus
+
 namespace stoneydsp
 {
-/** @addtogroup stoneydsp
- *  @{
- */
-
 /**
- * @brief Double-precision numerical value.
- *
- */
-using double_t = ::stoneydsp::core::types::double_t;
-
-/**
- * @brief Single-precision numerical value.
+ * @brief
  *
  */
 using float_t = ::stoneydsp::core::types::float_t;
-
-/// @} group stoneydsp
+/**
+ * @brief
+ *
+ */
+using double_t = ::stoneydsp::core::types::double_t;
 } // namespace stoneydsp
 
-//==============================================================================
-
-extern "C"
-{
-
-  /**
-   * @brief Double-precision numerical value.
-   *
-   */
-  typedef stoneydsp::double_t stoneydsp_double_t;
-
-  /**
-   * @brief Single-precision numerical value.
-   *
-   */
-  typedef stoneydsp::float_t stoneydsp_float_t;
-}
-
-//==============================================================================
-
-extern "C"
-{
-
-  /**
-   * @brief Double-precision numerical value.
-   *
-   */
-  typedef stoneydsp_double_t stoneydsp_double;
-
-  /**
-   * @brief Single-precision numerical value.
-   *
-   */
-  typedef stoneydsp_float_t stoneydsp_float;
-}
+  #endif // __cplusplus
 
 //==============================================================================
 
