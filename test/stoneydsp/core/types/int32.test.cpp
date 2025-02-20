@@ -1,80 +1,99 @@
 /**
- * @file int32.test.cpp
- * @brief Test suite for stoneydsp::int32
+ * @file int32_t.test.cpp
+ * @brief Test suite for stoneydsp::int32_t
  * @copyright Copyright (c) 2025
  *
  */
 
 //==============================================================================
 
-#include "stoneydsp/core/types/int.h"
+#include "stoneydsp/core/core.h"
 
 //==============================================================================
 
-#if defined(STONEYDSP_BUILD_TEST)
+#if defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
 
 //==============================================================================
 
   #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
   #include "stoneydsp/core/types/math.h"      // for `stoneydsp::float_t`
   #include <algorithm>                        // for `std::sort`
-  #include <catch2/benchmark/catch_benchmark.hpp>
-  #include <catch2/catch_test_macros.hpp>
-  #include <limits>      // for `std::numeric_limits`
-  #include <numeric>     // for `std::accumulate`
-  #include <sstream>     // for serialization tests
+  #include <catch2/benchmark/catch_benchmark.hpp> //
+  #include <catch2/catch_test_macros.hpp>         //
+  #include <limits>                               // for `std::numeric_limits`
+  #include <numeric>                              // for `std::accumulate`
+  #include <sstream>                              // for serialization tests
   #include <type_traits> // for `is_signed` and `is_unsigned`
   #include <vector>      // for compatibility tests
 
 //======================================================================//sizeof
 
-TEST_CASE ("sizeof stoneydsp::int32 is 4 bytes", "[sizeof][int32]")
+TEST_CASE ("sizeof stoneydsp::int32_t is 4 bytes",
+           "[core][types][int32_t][sizeof]")
 {
-  REQUIRE (sizeof (::stoneydsp::int32) == 4UL);
+  REQUIRE (sizeof (::stoneydsp::int32_t) == 4UL);
 }
 
 //=====================================================================//alignof
 
-TEST_CASE ("alignof stoneydsp::int32 is 4 bytes", "[alignof][int32]")
+TEST_CASE ("alignof stoneydsp::int32_t is 4 bytes",
+           "[core][types][int32_t][alignof]")
 {
-  REQUIRE (alignof (::stoneydsp::int32) == 4UL);
+  REQUIRE (alignof (::stoneydsp::int32_t) == 4UL);
 }
 
 //=================================================================//type_traits
 
 TEST_CASE ("Check if types are signed or unsigned",
-           "[type_traits][is_signed][int32]")
+           "[core][types][int32_t][type_traits][is_signed]")
 {
-  REQUIRE (::std::is_signed< ::stoneydsp::int32>::value);
+  REQUIRE (::std::is_signed< ::stoneydsp::int32_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int32 trivially copyable",
-           "[type_traits][is_trivially_copyable][int32]")
+TEST_CASE ("Is stoneydsp::int32_t trivially copyable",
+           "[core][types][int32_t][type_traits][is_trivially_copyable]")
 {
-  REQUIRE (::std::is_trivially_copyable< ::stoneydsp::int32>::value);
+  REQUIRE (::std::is_trivially_copyable< ::stoneydsp::int32_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int32 standard-layout conforming",
-           "[type_traits][is_standard_layout][int32]")
+TEST_CASE ("Is stoneydsp::int32_t standard-layout conforming",
+           "[core][types][int32_t][type_traits][is_standard_layout]")
 {
-  REQUIRE (::std::is_standard_layout< ::stoneydsp::int32>::value);
+  REQUIRE (::std::is_standard_layout< ::stoneydsp::int32_t>::value);
+}
+
+//==============================================================//special_values
+
+TEST_CASE ("Numeric limits of stoneydsp::int32_t",
+           "[core][types][int32_t][numeric_limits][special_values]")
+{
+  REQUIRE (::stoneydsp::int32_min // { -2147483648 }
+           == ::std::numeric_limits< ::stoneydsp::int32_t>::min ());
+  REQUIRE (::stoneydsp::int32_max // { 2147483647 }
+           == ::std::numeric_limits< ::stoneydsp::int32_t>::max ());
 }
 
 //==============================================================//numeric_limits
 
-TEST_CASE ("Numeric limits of stoneydsp::int32", "[numeric_limits][int32]")
+TEST_CASE ("Special values of stoneydsp::int32_t",
+	"[core][types][int32_t][numeric_limits]")
 {
-  REQUIRE (::stoneydsp::int32{ -2147483648 }
-           == ::std::numeric_limits< ::stoneydsp::int32>::min ());
-  REQUIRE (::stoneydsp::int32{ 2147483647 }
-           == ::std::numeric_limits< ::stoneydsp::int32>::max ());
+::stoneydsp::int32_t min_val
+= ::std::numeric_limits< ::stoneydsp::int32_t>::min ();
+::stoneydsp::int32_t max_val
+= ::std::numeric_limits< ::stoneydsp::int32_t>::max ();
+REQUIRE (min_val == -2147483648); // Minimum value for int32_t
+REQUIRE (max_val == 2147483647);  // Maximum value for int32_t
 }
 
 //==================================================================//endianness
 
-TEST_CASE ("Endianness handling for stoneydsp::int32", "[endianness][int32]")
+TEST_CASE ("Endianness handling for stoneydsp::int32_t",
+           "[core][types][int32_t][endianness]")
 {
-  ::stoneydsp::int32 value = 0x12345678;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t value = 0x12345678_int32;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0x78)
@@ -93,33 +112,25 @@ TEST_CASE ("Endianness handling for stoneydsp::int32", "[endianness][int32]")
 
 //====================================================================//rounding
 
-TEST_CASE ("Rounding behavior of stoneydsp::int32", "[rounding][int32]")
+TEST_CASE ("Rounding behavior of stoneydsp::int32_t",
+           "[core][types][int32_t][rounding]")
 {
   ::stoneydsp::float_t a = 1.5f;
-  ::stoneydsp::int32 b = static_cast< ::stoneydsp::int32> (::std::round (a));
-  REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to int32
-}
-
-//==============================================================//special_values
-
-TEST_CASE ("Special values of stoneydsp::int32",
-           "[numeric_limits][special_values][int32]")
-{
-  ::stoneydsp::int32 min_val
-      = ::std::numeric_limits< ::stoneydsp::int32>::min ();
-  ::stoneydsp::int32 max_val
-      = ::std::numeric_limits< ::stoneydsp::int32>::max ();
-  REQUIRE (min_val == -2147483648); // Minimum value for int32
-  REQUIRE (max_val == 2147483647);  // Maximum value for int32
+  ::stoneydsp::int32_t b
+      = static_cast< ::stoneydsp::int32_t> (::std::round (a));
+  REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to int32_t
 }
 
 //==================================================================//arithmetic
 
-TEST_CASE ("Arithmetic operations with stoneydsp::int32",
-           "[arithmetic][int32]")
+TEST_CASE ("Arithmetic operations with stoneydsp::int32_t",
+           "[core][types][int32_t][arithmetic]")
 {
-  ::stoneydsp::int32 a = 15000;
-  ::stoneydsp::int32 b = 20000;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 15000_int32;
+  ::stoneydsp::int32_t b = 20000_int32;
+
   REQUIRE (a + b == 35000);     // Addition
   REQUIRE (a - b == -5000);     // Subtraction
   REQUIRE (a * b == 300000000); // Multiplication
@@ -127,35 +138,45 @@ TEST_CASE ("Arithmetic operations with stoneydsp::int32",
   REQUIRE (b % a == 5000);      // Modulo
 }
 
-//===============================================================//bitwise
+//=====================================================================//bitwise
 
-TEST_CASE ("Bitwise operations with stoneydsp::int32", "[bitwise][int32]")
+TEST_CASE ("Bitwise operations with stoneydsp::int32_t",
+           "[core][types][int32_t][bitwise]")
 {
-  ::stoneydsp::int32 a = 5; // 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::int32 b = 3; // 0000 0000 0000 0000 0000 0000 0000 0011
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 5_int32; // 0000 0000 0000 0000 0000 0000 0000 0101
+  ::stoneydsp::int32_t b = 3_int32; // 0000 0000 0000 0000 0000 0000 0000 0011
 
   REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0000 0000 0000 0000 0001
   REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0111
   REQUIRE ((a ^ b) == 6); // XOR: 0000 0000 0000 0000 0000 0000 0000 0110
-  REQUIRE (~a == -6);     // NOT: considering wrap-around for int32
+  REQUIRE (~a == -6);     // NOT: considering wrap-around for int32_t
 }
 
-TEST_CASE ("Shift operations with stoneydsp::int32", "[bitwise][int32]")
+TEST_CASE ("Shift operations with stoneydsp::int32_t",
+           "[core][types][int32_t][bitwise]")
 {
-  ::stoneydsp::int32 a = 5; // 0000 0000 0000 0000 0000 0000 0000 0101
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 5_int32; // 0000 0000 0000 0000 0000 0000 0000 0101
+
   REQUIRE ((a << 1)
            == 10); // Left shift: 0000 0000 0000 0000 0000 0000 0000 1010
   REQUIRE ((a >> 1)
            == 2); // Right shift: 0000 0000 0000 0000 0000 0000 0000 0010
 }
 
-//===============================================================//comparison
+//==================================================================//comparison
 
-TEST_CASE ("Comparison operations with stoneydsp::int32",
-           "[comparison][int32]")
+TEST_CASE ("Comparison operations with stoneydsp::int32_t",
+           "[core][types][int32_t][comparison]")
 {
-  ::stoneydsp::int32 a = 5;
-  ::stoneydsp::int32 b = 3;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 5_int32;
+  ::stoneydsp::int32_t b = 3_int32;
+
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
   REQUIRE ((a > b) == true);
@@ -166,12 +187,14 @@ TEST_CASE ("Comparison operations with stoneydsp::int32",
 
 //===============================================================//serialization
 
-TEST_CASE ("Check serialization and deserialization for stoneydsp::int32",
-           "[serialization][int32]")
+TEST_CASE ("Check serialization and deserialization for stoneydsp::int32_t",
+           "[core][types][int32_t][serialization]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::std::stringstream ss;
-  ::stoneydsp::int32 originalValue = 42;
-  ::stoneydsp::int32 deserializedValue;
+  ::stoneydsp::int32_t originalValue = 42_int32;
+  ::stoneydsp::int32_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
             sizeof (originalValue));
@@ -183,42 +206,53 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::int32",
 
 //=======================================================//boundary_and_overflow
 
-TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int32",
-           "[boundary][overflow][int32]")
+TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int32_t",
+           "[core][types][int32_t][boundary][overflow]")
 {
-  ::stoneydsp::int32 a = 2147483647;
-  ::stoneydsp::int32 b = 1;
-  REQUIRE (static_cast< ::stoneydsp::int32> (a + b)
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 2147483647_int32;
+  ::stoneydsp::int32_t b = 1_int32;
+
+  REQUIRE (static_cast< ::stoneydsp::int32_t> (a + b)
            == -2147483648); // Check overflow wrap-around behaviour
 }
 
 //======================================================//boundary_and_underflow
 
-TEST_CASE ("Boundary and underflow behavior of stoneydsp::int32",
-           "[boundary][underflow][int32]")
+TEST_CASE ("Boundary and underflow behavior of stoneydsp::int32_t",
+           "[core][types][int32_t][boundary][underflow]")
 {
-  ::stoneydsp::int32 a = -2147483648;
-  ::stoneydsp::int32 b = 1;
-  REQUIRE (static_cast< ::stoneydsp::int32> (a - b)
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = -2147483648; // _int32;
+  ::stoneydsp::int32_t b = 1_int32;
+
+  REQUIRE (static_cast< ::stoneydsp::int32_t> (a - b)
            == 2147483647); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility
 
-TEST_CASE ("Compatibility of stoneydsp::int32 with standard library",
-           "[compatibility][int32]")
+TEST_CASE ("Compatibility of stoneydsp::int32_t with standard library",
+           "[core][types][int32_t][compatibility]")
 {
-  ::std::vector< ::stoneydsp::int32> vec = { 5, 3, 4, 1, 2 };
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::std::vector< ::stoneydsp::int32_t> vec
+      = { 5_int32, 3_int32, 4_int32, 1_int32, 2_int32 };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
-  REQUIRE (vec == ::std::vector< ::stoneydsp::int32>{ 1, 2, 3, 4, 5 });
+  REQUIRE (vec
+           == ::std::vector< ::stoneydsp::int32_t>{ 1_int32, 2_int32, 3_int32,
+                                                    4_int32, 5_int32 });
 
   // Use std::accumulate to sum the elements
-  ::stoneydsp::int32 sum
-      = ::std::accumulate (vec.begin (), vec.end (), ::stoneydsp::int32 (0));
+  ::stoneydsp::int32_t sum
+      = ::std::accumulate (vec.begin (), vec.end (), ::stoneydsp::int32_t (0));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -227,56 +261,71 @@ TEST_CASE ("Compatibility of stoneydsp::int32 with standard library",
 //===================================================================//benchmark
 
 // Benchmark for addition
-TEST_CASE ("Benchmark for stoneydsp::int32 addition", "[benchmark][int32]")
+TEST_CASE ("Benchmark for stoneydsp::int32_t addition",
+           "[core][types][int32_t][benchmark]")
 {
-  ::stoneydsp::int32 a = 1200;
-  ::stoneydsp::int32 b = 3400;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 1200_int32;
+  ::stoneydsp::int32_t b = 3400_int32;
 
   BENCHMARK ("Addition") { return a + b; };
 }
 
 // Benchmark for subtraction
-TEST_CASE ("Benchmark for stoneydsp::int32 subtraction", "[benchmark][int32]")
+TEST_CASE ("Benchmark for stoneydsp::int32_t subtraction",
+           "[core][types][int32_t][benchmark]")
 {
-  ::stoneydsp::int32 a = 3400;
-  ::stoneydsp::int32 b = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 3400_int32;
+  ::stoneydsp::int32_t b = 1200_int32;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
 
 // Benchmark for multiplication
-TEST_CASE ("Benchmark for stoneydsp::int32 multiplication",
-           "[benchmark][int32]")
+TEST_CASE ("Benchmark for stoneydsp::int32_t multiplication",
+           "[core][types][int32_t][benchmark]")
 {
-  ::stoneydsp::int32 a = 1200;
-  ::stoneydsp::int32 b = 2;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 1200_int32;
+  ::stoneydsp::int32_t b = 2_int32;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
 
 // Benchmark for division
-TEST_CASE ("Benchmark for stoneydsp::int32 division", "[benchmark][int32]")
+TEST_CASE ("Benchmark for stoneydsp::int32_t division",
+           "[core][types][int32_t][benchmark]")
 {
-  ::stoneydsp::int32 a = 1200;
-  ::stoneydsp::int32 b = 2;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 1200_int32;
+  ::stoneydsp::int32_t b = 2_int32;
 
   BENCHMARK ("Division") { return a / b; };
 }
 
 // Benchmark for type conversion to int
-TEST_CASE ("Benchmark for stoneydsp::int32 to int conversion",
-           "[benchmark][int32]")
+TEST_CASE ("Benchmark for stoneydsp::int32_t to int conversion",
+           "[core][types][int32_t][benchmark]")
 {
-  ::stoneydsp::int32 a = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 1200_int32;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
 
 // Benchmark for type conversion to float
-TEST_CASE ("Benchmark for stoneydsp::int32 to float conversion",
-           "[benchmark][int32]")
+TEST_CASE ("Benchmark for stoneydsp::int32_t to float conversion",
+           "[core][types][int32_t][benchmark]")
 {
-  ::stoneydsp::int32 a = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::int32_t a = 1200_int32;
 
   BENCHMARK ("Conversion to float")
   {
