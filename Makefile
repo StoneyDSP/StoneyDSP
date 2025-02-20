@@ -366,22 +366,22 @@ version-all: version-major version-minor version-patch version-tweak
 	@echo $(STONEYDSP_VERSION_MAJOR).$(STONEYDSP_VERSION_MINOR).$(STONEYDSP_VERSION_PATCH)-r$(STONEYDSP_VERSION_BUILD)
 .PHONY: version-all
 
-./.git/modules:
+.git/modules:
 	@$(GIT) submodule update --init --recursive
 
-./.git/modules/dep: ./.git/modules
+.git/modules/dep: .git/modules
 
 ## Fetch submodules
-./.git/modules/dep/vcpkg: ./.git/modules/dep
+.git/modules/dep/vcpkg: .git/modules/dep
 
 ## Bootstrap vcpkg
-./dep/vcpkg/bootstrap-vcpkg.sh: ./.git/modules/dep/vcpkg
+dep/vcpkg/bootstrap-vcpkg.sh: .git/modules/dep/vcpkg
 	@$(GIT) submodule update --init --recursive
 
 ## Use vcpkg
-./dep/vcpkg/vcpkg: ./dep/vcpkg/bootstrap-vcpkg.sh
+dep/vcpkg/vcpkg: dep/vcpkg/bootstrap-vcpkg.sh
 
-VCPKG_ROOT ?= ./dep/vcpkg
+VCPKG_ROOT ?= dep/vcpkg
 VCPKG := $(VCPKG_ROOT)/vcpkg
 
 ifdef DEBUG
@@ -411,7 +411,7 @@ CMAKE_ARGS += -DSTONEYDSP_BUILD_DSP:BOOL=$(BUILD_DSP)
 CMAKE_ARGS += -DSTONEYDSP_BUILD_TEST:BOOL=$(BUILD_TEST)
 CMAKE_ARGS += -DSTONEYDSP_BUILD_SHARED:BOOL=$(BUILD_SHARED)
 
-reconfigure: ./dep/vcpkg/vcpkg
+reconfigure: dep/vcpkg/vcpkg
 	@echo Reconfiguring with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
 	--preset $(PRESET) \
@@ -419,7 +419,7 @@ reconfigure: ./dep/vcpkg/vcpkg
 	@echo Reconfigured with CMake.
 .PHONY: reconfigure
 
-configure: ./dep/vcpkg/vcpkg
+configure: dep/vcpkg/vcpkg
 	@echo Configuring with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
 	--preset $(PRESET) $(CMAKE_ARGS)
@@ -458,7 +458,7 @@ package_source: test
 	@echo Packaged source tree with CPack.
 .PHONY: package_source
 
-workflow: ./dep/vcpkg/vcpkg
+workflow: dep/vcpkg/vcpkg
 	@echo Running workflow with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
 	--workflow \
