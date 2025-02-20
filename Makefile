@@ -269,11 +269,6 @@ BUILD_CORE ?= 1
 BUILD_DSP ?= 0
 BUILD_SIMD ?= 0
 
-## Always include the library source
-SOURCES += $(LIB_SRCS)
-OBJECTS += $(LIB_OBJS)
-INCLUDES += -I$(INCLUDE_DIR)
-
 ifeq ($(EXPERIMENTAL),1)
 	DEFINES += -DSTONEYDSP_EXPERIMENTAL=$(EXPERIMENTAL)
 endif
@@ -298,22 +293,28 @@ endif
 
 ## Optional test objects
 ifeq ($(BUILD_TEST),1)
-	TEST_TARGET := $(BUILD_DIR)/test/main
-	TEST_SRCS := $(wildcard test/catch2session.test.cpp)
-	TEST_SRCS += $(wildcard test/utils.test.cpp)
-	TEST_SRCS += $(wildcard test/main.test.cpp)
-	DEFINES += -DSTONEYDSP_BUILD_TEST=$(BUILD_TEST)
 	ifeq ($(BUILD_CORE),1)
-		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/*.test.cpp)
-		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
+		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/*.test.cpp)
+		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
+		TEST_SRCS := $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
 	endif
 	ifeq ($(BUILD_SIMD),1)
 	endif
 	ifeq ($(BUILD_DSP),1)
 	endif
+	TEST_TARGET := $(BUILD_DIR)/test/main
+	TEST_SRCS += $(wildcard $(TEST_DIR)/catch2session.test.cpp)
+	TEST_SRCS += $(wildcard $(TEST_DIR)/utils.test.cpp)
+	TEST_SRCS += $(wildcard $(TEST_DIR)/main.test.cpp)
 	TEST_OBJS := $(TEST_SRCS:$(TEST_DIR)/%.test.cpp=$(BUILD_DIR)/test/%.test.cpp.o)
 	TEST_DEPS := $(TEST_OBJS:.o=.d)
+	DEFINES += -DSTONEYDSP_BUILD_TEST=$(BUILD_TEST)
 endif
+
+## Always include the library source (and last, so translation units arte ordered)
+SOURCES += $(LIB_SRCS)
+OBJECTS += $(LIB_OBJS)
+INCLUDES += -I$(INCLUDE_DIR)
 
 ##########################################<<<-Dependencies and submodule targets
 
