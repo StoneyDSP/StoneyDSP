@@ -16,6 +16,8 @@
 
 //==============================================================================
 
+  #ifdef __cplusplus
+
 /**
  * @brief The `stoneydsp` namespace.
  * @author Nathan J. Hood (nathanjhood@googlemail.com)
@@ -50,10 +52,14 @@ namespace core
 namespace types
 {
 } // namespace types
-  /// @} group core
+
+/// @} group core
 } //  namespace core
-  /// @} group stoneydsp
+
+/// @} group stoneydsp
 } // namespace stoneydsp
+
+  #endif // __cplusplus
 
   //============================================================================//
 
@@ -97,10 +103,164 @@ extern char const *stoneydsp_version;
 
 //==============================================================================
 
-  #include "stoneydsp/core/types/def.h"
-  #include "stoneydsp/core/types/generic.h"
+// for `stoneydsp_int8_t`
   #include "stoneydsp/core/types/int.h"
+// for `stoneydsp_uint8_t`
+  #include "stoneydsp/core/types/uint.h"
+// for `stoneydsp_size_t`
+  #include "stoneydsp/core/types/def.h"
+// for `stoneydsp_float_t`
   #include "stoneydsp/core/types/math.h"
+
+//==============================================================================
+
+  #ifdef __cplusplus
+
+namespace stoneydsp
+{
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
+/**
+ * @brief Handy function for avoiding unused variables warning.
+ *
+ * @tparam Types
+ * @return
+ */
+template <typename... Types>
+STONEYDSP_PUBLIC_FUNCTION void
+ignoreUnused (Types &&...) noexcept
+{
+  return;
+}
+
+namespace core
+{
+namespace types
+{
+/**
+ * @brief The `stoneydsp::core::types::literals` namespace.
+ *
+ * @example
+ * ```cpp
+ * void fn() {
+ *
+ *     using namespace stoneydsp::core::types::literals;
+ *
+ *     stoneydsp::uint64_t uval_64 = 1.0_uint64;
+ *
+ *     stoneydsp::int64_t val_64 = -1.0_int64;
+ * }
+ * ```
+ *
+ */
+namespace literals
+{
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 8-bit signed
+ integer.
+ *
+ * @returns `stoneydsp_int8_t` The initialized 8-bit signed integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::int8_t
+operator"" _int8 (unsigned long long value);
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 16-bit signed
+ integer.
+ *
+ * @returns `stoneydsp_int16` The initialized 16-bit signed integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::int16_t
+operator"" _int16 (unsigned long long value);
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 32-bit signed
+ integer.
+ *
+ * @returns `stoneydsp_int32` The initialized 32-bit signed integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::int32_t
+operator"" _int32 (unsigned long long value);
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 64-bit signed
+ integer.
+ *
+ * @returns `stoneydsp_int64` The initialized 64-bit signed integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::int64_t
+operator"" _int64 (unsigned long long value);
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 8-bit unsigned
+ * integer.
+ *
+ * @returns `stoneydsp_uint8` The initialized 8-bit unsigned integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::uint8_t
+operator"" _uint8 (unsigned long long value);
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 16-bit unsigned
+ * integer.
+ *
+ * @returns `stoneydsp_uint16` The initialized 16-bit unsigned integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::uint16_t
+operator"" _uint16 (unsigned long long value);
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 32-bit unsigned
+ * integer.
+ *
+ * @returns `stoneydsp_uint32` The initialized 32-bit unsigned integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::uint32_t
+operator"" _uint32 (unsigned long long value);
+
+/**
+ * @brief
+ *
+ * @param value The value with which to initialize the 64-bit unsigned
+ * integer.
+ *
+ * @returns `stoneydsp_uint64` The initialized 64-bit unsigned integer.
+ *
+ */
+STONEYDSP_PUBLIC_FUNCTION stoneydsp::uint64_t
+operator"" _uint64 (unsigned long long value);
+} // namespace literals
+} // namespace types
+} // namespace core
+
+/// @} group stoneydsp
+} // namespace stoneydsp
+
+  #endif // __cplusplus
 
 //==============================================================================
 
