@@ -704,7 +704,7 @@ $(LIB_CATCH_PATH)/lib$(LIB_CATCH).a: $(CMAKE_CACHE)
 catch2: $(LIB_CATCH_PATH)/lib$(LIB_CATCH).a
 .PHONY: catch2
 
-$(TEST_TARGET): $(TEST_OBJS) $(TARGET) $(LIB_CATCH_PATH)/lib$(LIB_CATCH).a
+$(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -712,15 +712,14 @@ $(TEST_TARGET): $(TEST_OBJS) $(TARGET) $(LIB_CATCH_PATH)/lib$(LIB_CATCH).a
 	@echo Built target successfully: $@
 	@echo
 
-run: $(TEST_TARGET)
+run: catch2 $(TEST_TARGET)
 	$(TEST_TARGET) $(TEST_ARGS)
-
 .PHONY: run
 
 ## <CXX>
 
 ## '*.test.cpp.i' - Pre-Processor
-$(BUILD_DIR)/test/%.test.cpp.i: $(TEST_DIR)/%.test.cpp $(BUILD_DIR)/include
+$(BUILD_DIR)/test/%.test.cpp.ii: $(TEST_DIR)/%.test.cpp
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -729,7 +728,7 @@ $(BUILD_DIR)/test/%.test.cpp.i: $(TEST_DIR)/%.test.cpp $(BUILD_DIR)/include
 	@echo
 
 ## '*.test.cpp.s' - Assembler
-$(BUILD_DIR)/test/%.test.cpp.s: $(BUILD_DIR)/test/%.test.cpp.i
+$(BUILD_DIR)/test/%.test.cpp.s: $(BUILD_DIR)/test/%.test.cpp.ii
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
