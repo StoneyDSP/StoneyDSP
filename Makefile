@@ -207,6 +207,9 @@ endif
 FLAGS += -fPIC
 # FLAGS += -save-temps
 
+# Generate dependency files alongside the object files
+CPPFLAGS += -MMD
+CPPFLAGS += -MP
 # CPPFLAGS += -fmacro-prefix-map=$(BUILD_DIR)/include=include
 # CPPFLAGS += -fmacro-prefix-map=$(BUILD_DIR)/src=src
 # CPPFLAGS += -fmacro-prefix-map=$(BUILD_DIR)/test=test
