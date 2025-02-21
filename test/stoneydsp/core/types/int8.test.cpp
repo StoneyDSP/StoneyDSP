@@ -84,7 +84,7 @@ TEST_CASE ("Special values of stoneydsp::int8_t",
       = ::std::numeric_limits< ::stoneydsp::int8_t>::min ();
   ::stoneydsp::int8_t max_val
       = ::std::numeric_limits< ::stoneydsp::int8_t>::max ();
-  REQUIRE (min_val == -128_int8); // Minimum value for int8_t
+  REQUIRE (min_val == -128 /**_int8*/); // Minimum value for int8_t
   REQUIRE (max_val == 127_int8);  // Maximum value for int8_t
 }
 
