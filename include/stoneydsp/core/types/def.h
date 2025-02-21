@@ -54,43 +54,61 @@
 
   #ifdef __cplusplus
     /**
-     * @brief
+     * @brief Unsigned integer type returned by the `sizeof` operator.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/size_t
      *
      */
     #define STONEYDSP_SIZE_T ::std::size_t
     /**
-     * @brief
+     * @brief Signed integer type returned when subtracting two pointers.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/ptrdiff_t
      *
      */
     #define STONEYDSP_PTRDIFF_T ::std::ptrdiff_t
     /**
-     * @brief
+     * @brief The type of the null pointer literal `nullptr`.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/nullptr_t
      *
      */
     #define STONEYDSP_NULLPTR_T ::std::nullptr_t
     /**
-     * @brief
+     * @brief Trivial type with alignment requirement as great as any other.
+     * scalar type.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/max_align_t
      *
      */
     #define STONEYDSP_MAX_ALIGN_T ::std::max_align_t
   #else // !__cplusplus
     /**
-     * @brief
+     * @brief Unsigned integer type returned by the `sizeof` operator.
+     *
+     * @see https://en.cppreference.com/w/c/types/size_t
      *
      */
     #define STONEYDSP_SIZE_T size_t
     /**
-     * @brief
+     * @brief Signed integer type returned when subtracting two pointers.
+     *
+     * @see https://en.cppreference.com/w/c/types/ptrdiff_t
      *
      */
     #define STONEYDSP_PTRDIFF_T ptrdiff_t
     /**
-     * @brief
+     * @brief The type of the null pointer literal `nullptr`.
+     *
+     * @see https://en.cppreference.com/w/c/types/nullptr_t
      *
      */
     #define STONEYDSP_NULLPTR_T nullptr_t
     /**
-     * @brief
+     * @brief Trivial type with alignment requirement as great as any other.
+     * scalar type.
+     *
+     * @see https://en.cppreference.com/w/c/types/max_align_t
      *
      */
     #define STONEYDSP_MAX_ALIGN_T max_align_t
@@ -99,25 +117,26 @@
 //====================================================================//TYPEDEFS
 
 /**
- * @brief
+ * @brief Unsigned integer type returned by the `sizeof` operator.
  *
  */
 typedef STONEYDSP_SIZE_T stoneydsp_size_t;
 
 /**
- * @brief
+ * @brief Signed integer type returned when subtracting two pointers.
  *
  */
 typedef STONEYDSP_PTRDIFF_T stoneydsp_ptrdiff_t;
 
 /**
- * @brief
+ * @brief The type of the null pointer literal `nullptr`.
  *
  */
 typedef STONEYDSP_NULLPTR_T stoneydsp_nullptr_t;
 
 /**
- * @brief
+ * @brief Trivial type with alignment requirement as great as any other
+ * scalar type.
  *
  */
 typedef STONEYDSP_MAX_ALIGN_T stoneydsp_max_align_t;
