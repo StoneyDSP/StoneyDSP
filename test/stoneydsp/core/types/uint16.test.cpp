@@ -1,5 +1,5 @@
 /**
- * @file uint16_t.test.cpp
+ * @file uint16.test.cpp
  * @brief Test suite for stoneydsp::uint16_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/types/uint16.h"
 
 //==============================================================================
 
