@@ -16,6 +16,10 @@
 
 //==============================================================================
 
+  #ifdef __cplusplus
+
+// Forward-declaration of core namespaces
+
 /**
  * @brief The `stoneydsp` namespace.
  * @author Nathan J. Hood (nathanjhood@googlemail.com)
@@ -49,11 +53,40 @@ namespace core
  */
 namespace types
 {
+/** @addtogroup types
+ * @{
+ */
+
+/**
+ * @brief The `stoneydsp::core::types::literals` namespace.
+ * @author Nathan J. Hood (nathanjhood@googlemail.com)
+ * @copyright Copyright (c) 2024
+ * @version @STONEYDSP_CORE_VERSION@
+ * @example
+ * ```cpp
+ * void fn() {
+ *
+ *     using namespace stoneydsp::core::types::literals;
+ *
+ *     stoneydsp::uint64_t uval_64 = 1.0_uint64;
+ *
+ *     stoneydsp::int64_t val_64 = -1.0_int64;
+ * }
+ * ```
+ */
+namespace literals
+{
+}
+/// @} types
 } // namespace types
-  /// @} group core
+
+/// @} group core
 } //  namespace core
-  /// @} group stoneydsp
+
+/// @} group stoneydsp
 } // namespace stoneydsp
+
+  #endif // __cplusplus
 
   //============================================================================//
 
@@ -97,10 +130,68 @@ extern char const *stoneydsp_version;
 
 //==============================================================================
 
-  #include "stoneydsp/core/types/def.h"
-  #include "stoneydsp/core/types/generic.h"
+// for `stoneydsp_int_t`
   #include "stoneydsp/core/types/int.h"
+// for `stoneydsp_int8_t`
+  #include "stoneydsp/core/types/int8.h"
+// for `stoneydsp_int16_t`
+  #include "stoneydsp/core/types/int16.h"
+// for `stoneydsp_int32_t`
+  #include "stoneydsp/core/types/int32.h"
+// for `stoneydsp_int64_t`
+  #include "stoneydsp/core/types/int64.h"
+// for `stoneydsp_intmax_t`
+  #include "stoneydsp/core/types/intmax.h"
+// for `stoneydsp_intptr_t`
+  #include "stoneydsp/core/types/intptr.h"
+
+// for `stoneydsp_uint_t`
+  #include "stoneydsp/core/types/uint.h"
+// for `stoneydsp_uint8_t`
+  #include "stoneydsp/core/types/uint8.h"
+// for `stoneydsp_uint16_t`
+  #include "stoneydsp/core/types/uint16.h"
+// for `stoneydsp_uint32_t`
+  #include "stoneydsp/core/types/uint32.h"
+// for `stoneydsp_uint64_t`
+  #include "stoneydsp/core/types/uint64.h"
+// for `stoneydsp_uintmax_t`
+  #include "stoneydsp/core/types/uintmax.h"
+// for `stoneydsp_uintptr_t`
+  #include "stoneydsp/core/types/uintptr.h"
+
+// for `stoneydsp_size_t`
+  #include "stoneydsp/core/types/def.h"
+// for `stoneydsp_float_t`
   #include "stoneydsp/core/types/math.h"
+
+//==============================================================================
+
+  #ifdef __cplusplus
+
+namespace stoneydsp
+{
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
+/**
+ * @brief Handy function for avoiding unused variables warning.
+ *
+ * @tparam Types
+ * @return
+ */
+template <typename... Types>
+STONEYDSP_PUBLIC_FUNCTION void
+ignoreUnused (Types &&...) noexcept
+{
+  return;
+}
+
+/// @} group stoneydsp
+} // namespace stoneydsp
+
+  #endif // __cplusplus
 
 //==============================================================================
 
