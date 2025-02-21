@@ -1,5 +1,5 @@
 /**
- * @file int32_t.test.cpp
+ * @file int32.test.cpp
  * @brief Test suite for stoneydsp::int32_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/types/int32.h"
 
 //==============================================================================
 
@@ -76,14 +76,14 @@ TEST_CASE ("Numeric limits of stoneydsp::int32_t",
 //==============================================================//numeric_limits
 
 TEST_CASE ("Special values of stoneydsp::int32_t",
-	"[core][types][int32_t][numeric_limits]")
+           "[core][types][int32_t][numeric_limits]")
 {
-::stoneydsp::int32_t min_val
-= ::std::numeric_limits< ::stoneydsp::int32_t>::min ();
-::stoneydsp::int32_t max_val
-= ::std::numeric_limits< ::stoneydsp::int32_t>::max ();
-REQUIRE (min_val == -2147483648); // Minimum value for int32_t
-REQUIRE (max_val == 2147483647);  // Maximum value for int32_t
+  ::stoneydsp::int32_t min_val
+      = ::std::numeric_limits< ::stoneydsp::int32_t>::min ();
+  ::stoneydsp::int32_t max_val
+      = ::std::numeric_limits< ::stoneydsp::int32_t>::max ();
+  REQUIRE (min_val == -2147483648); // Minimum value for int32_t
+  REQUIRE (max_val == 2147483647);  // Maximum value for int32_t
 }
 
 //==================================================================//endianness
