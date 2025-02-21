@@ -1,5 +1,5 @@
 /**
- * @file uint8_t.test.cpp
+ * @file uint8.test.cpp
  * @brief Test suite for stoneydsp::uint8_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/types/uint8.h"
 
 //==============================================================================
 
