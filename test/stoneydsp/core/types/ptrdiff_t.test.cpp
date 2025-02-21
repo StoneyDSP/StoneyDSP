@@ -11,7 +11,7 @@
 
 //==============================================================================
 
-#if defined(STONEYDSP_BUILD_TEST)
+#if defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
 
 //==============================================================================
 
@@ -53,17 +53,28 @@ TEST_CASE ("Check if types have the correct type traits",
   REQUIRE (::std::is_trivially_copyable< ::stoneydsp::ptrdiff_t>::value);
 }
 
+//==============================================================//special_values
+
+TEST_CASE ("Special values of stoneydsp::ptrdiff_t",
+           "[numeric_limits][special_values][ptrdiff_t]")
+{
+  REQUIRE (::stoneydsp::ptrdiff_min
+           == std::numeric_limits<std::ptrdiff_t>::min ()); // Minimum value
+                                                            // for ptrdiff_t
+  REQUIRE (::stoneydsp::ptrdiff_max
+           == std::numeric_limits<std::ptrdiff_t>::max ()); // Maximum value
+                                                            // for ptrdiff_t
+}
+
 //==============================================================//numeric_limits
 
 TEST_CASE ("Numeric limits of stoneydsp::ptrdiff_t",
            "[numeric_limits][ptrdiff_t]")
 {
-  REQUIRE (
-      ::stoneydsp::ptrdiff_t{ std::numeric_limits<std::ptrdiff_t>::min () }
-      == ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::min ());
-  REQUIRE (
-      ::stoneydsp::ptrdiff_t{ std::numeric_limits<std::ptrdiff_t>::max () }
-      == ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::max ());
+  REQUIRE (::stoneydsp::ptrdiff_t{ ::stoneydsp::ptrdiff_min }
+           == ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::min ());
+  REQUIRE (::stoneydsp::ptrdiff_t{ ::stoneydsp::ptrdiff_max }
+           == ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::max ());
 }
 
 //==================================================================//endianness
@@ -99,23 +110,6 @@ TEST_CASE ("Rounding behavior of stoneydsp::ptrdiff_t",
   REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to ptrdiff_t
 }
 
-//==============================================================//special_values
-
-TEST_CASE ("Special values of stoneydsp::ptrdiff_t",
-           "[numeric_limits][special_values][ptrdiff_t]")
-{
-  ::stoneydsp::ptrdiff_t min_val
-      = ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::min ();
-  ::stoneydsp::ptrdiff_t max_val
-      = ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::max ();
-  REQUIRE (min_val
-           == std::numeric_limits<std::ptrdiff_t>::min ()); // Minimum value
-                                                            // for ptrdiff_t
-  REQUIRE (max_val
-           == std::numeric_limits<std::ptrdiff_t>::max ()); // Maximum value
-                                                            // for ptrdiff_t
-}
-
 //==================================================================//arithmetic
 
 TEST_CASE ("Arithmetic operations with stoneydsp::ptrdiff_t",
@@ -130,7 +124,7 @@ TEST_CASE ("Arithmetic operations with stoneydsp::ptrdiff_t",
   REQUIRE (b % a == 5);   // Modulo
 }
 
-//===============================================================//bitwise
+//=====================================================================//bitwise
 
 TEST_CASE ("Bitwise operations with stoneydsp::ptrdiff_t",
            "[bitwise][ptrdiff_t]")
