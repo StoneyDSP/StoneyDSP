@@ -11,14 +11,14 @@
 
 #if defined(STONEYDSP_BUILD_TEST)
 
-#include "catch2session.hpp"
-#include "stoneydsp/stoneydsp.h"
+  #include "catch2session.hpp"
+  #include "stoneydsp/stoneydsp.h"
 
-#include <iostream>
-#if defined(STONEYDSP_SUPPORTS_WIDECHARS) && defined(UNICODE)
-#include <cwchar>
-#endif
-#include <cstdlib> // For EXIT_SUCCESS and EXIT_FAILURE
+  #include <iostream>
+  #if defined(STONEYDSP_SUPPORTS_WIDECHARS) && defined(UNICODE)
+    #include <cwchar>
+  #endif
+  #include <cstdlib> // For EXIT_SUCCESS and EXIT_FAILURE
 
 /**
  * @brief Standard main entry point logic
@@ -66,7 +66,7 @@ main (int argc, char *argv[])
   return EXIT_SUCCESS;
 }
 
-#if defined(STONEYDSP_SUPPORTS_WIDECHARS) && defined(UNICODE)
+  #if defined(STONEYDSP_SUPPORTS_WIDECHARS) && defined(UNICODE)
 
 /**
  * @brief UTF-16 to UTF-8 wrapper for Windows with unicode.
@@ -105,6 +105,6 @@ wmain (int argc, wchar_t *wargv[])
   return main (argc, argv.data ());
 }
 
-#endif // defined (STONEYDSP_SUPPORTS_WIDECHARS) && defined (UNICODE)
+  #endif // defined (STONEYDSP_SUPPORTS_WIDECHARS) && defined (UNICODE)
 
 #endif // defined (STONEYDSP_BUILD_TEST)

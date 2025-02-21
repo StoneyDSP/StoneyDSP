@@ -7,11 +7,11 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/def.h"
+#include "stoneydsp/core/core.h"
 
 //==============================================================================
 
-#if defined(STONEYDSP_BUILD_TEST)
+#if defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
 
 //==============================================================================
 
@@ -63,6 +63,20 @@ TEST_CASE ("Numeric limits of stoneydsp::size_t", "[numeric_limits][size_t]")
            == ::std::numeric_limits< ::stoneydsp::size_t>::max ());
 }
 
+//==============================================================//special_values
+
+TEST_CASE ("Special values of stoneydsp::size_t",
+           "[numeric_limits][special_values][size_t]")
+{
+  ::stoneydsp::size_t min_val
+      = ::std::numeric_limits< ::stoneydsp::size_t>::min ();
+  ::stoneydsp::size_t max_val = ::stoneydsp::size_max;
+  REQUIRE (min_val == 0); // Minimum value for size_t
+  REQUIRE (
+      max_val
+      == std::numeric_limits<std::size_t>::max ()); // Maximum value for size_t
+}
+
 //==================================================================//endianness
 
 TEST_CASE ("Endianness handling for stoneydsp::size_t", "[endianness][size_t]")
@@ -91,21 +105,6 @@ TEST_CASE ("Rounding behavior of stoneydsp::size_t", "[rounding][size_t]")
   ::stoneydsp::float_t a = 1.5f;
   ::stoneydsp::size_t b = static_cast< ::stoneydsp::size_t> (::std::round (a));
   REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to size_t
-}
-
-//==============================================================//special_values
-
-TEST_CASE ("Special values of stoneydsp::size_t",
-           "[numeric_limits][special_values][size_t]")
-{
-  ::stoneydsp::size_t min_val
-      = ::std::numeric_limits< ::stoneydsp::size_t>::min ();
-  ::stoneydsp::size_t max_val
-      = ::std::numeric_limits< ::stoneydsp::size_t>::max ();
-  REQUIRE (min_val == 0); // Minimum value for size_t
-  REQUIRE (
-      max_val
-      == std::numeric_limits<std::size_t>::max ()); // Maximum value for size_t
 }
 
 //==================================================================//arithmetic
