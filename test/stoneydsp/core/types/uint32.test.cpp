@@ -1,5 +1,5 @@
 /**
- * @file uint32_t.test.cpp
+ * @file uint32.test.cpp
  * @brief Test suite for stoneydsp::uint32_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/types/uint32.h"
 
 //==============================================================================
 
