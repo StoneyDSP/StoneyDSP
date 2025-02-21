@@ -1,5 +1,5 @@
 /**
- * @file int8_t.test.cpp
+ * @file int8.test.cpp
  * @brief Test suite for stoneydsp::int8_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/types/int8.h"
 
 //==============================================================================
 
@@ -78,12 +78,14 @@ TEST_CASE ("Numeric limits of stoneydsp::int8_t",
 TEST_CASE ("Special values of stoneydsp::int8_t",
            "[core][types][int8_t][numeric_limits]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::stoneydsp::int8_t min_val
       = ::std::numeric_limits< ::stoneydsp::int8_t>::min ();
   ::stoneydsp::int8_t max_val
       = ::std::numeric_limits< ::stoneydsp::int8_t>::max ();
-  REQUIRE (min_val == -128); // Minimum value for int8_t
-  REQUIRE (max_val == 127);  // Maximum value for int8_t
+  REQUIRE (min_val == -128_int8); // Minimum value for int8_t
+  REQUIRE (max_val == 127_int8);  // Maximum value for int8_t
 }
 
 //==================================================================//endianness
