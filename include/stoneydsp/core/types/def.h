@@ -1,9 +1,9 @@
 /**
- * @file stddef.h
+ * @file def.h
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-02-06
+ * @date 2025-01-30
  *
  * @copyright Copyright (c) 2025
  *
@@ -11,189 +11,310 @@
 
 #pragma once
 
-#ifndef STONEYDSP_CORE_TYPES_STDDEF_H_INCLUDED
-  #define STONEYDSP_CORE_TYPES_STDDEF_H_INCLUDED
+#ifndef STONEYDSP_CORE_TYPES_DEF_H_INCLUDED
+  #define STONEYDSP_CORE_TYPES_DEF_H_INCLUDED
 
 //====================================================================//INCLUDES
 
-// #ifdef __cplusplus
-//   #include <cstddef>
-// #else
-//   #include <stddef.h>
-// #endif
+  #ifdef __cplusplus
+    #include <cstddef>
+    #include <cstdint>
+  #else
+    #include <stddef.h>
+    #include <stdint.h>
+  #endif
 
-  #include <cstddef>
+//=====================================================================//DEFINES
+
+/**
+ * @brief A null-pointer constant is either an integral constant expression
+ * that evaluates to zero (such as `0` or `0L`), or a value of type `nullptr_t`
+ * (such as `nullptr`).
+ *
+ */
+  #define STONEYDSP_NULL NULL
+
+/**
+ * @brief Maximum value of `stoneydsp_size_t`.
+ *
+ */
+  #define STONEYDSP_SIZE_MAX SIZE_MAX
+
+/**
+ * @brief Minimum value of `stoneydsp_ptr_t`.
+ *
+ */
+  #define STONEYDSP_PTRDIFF_MIN PTRDIFF_MIN
+
+/**
+ * @brief Maximum value of `stoneydsp_ptr_t`.
+ *
+ */
+  #define STONEYDSP_PTRDIFF_MAX PTRDIFF_MAX
+
+  #ifdef __cplusplus
+    /**
+     * @brief Unsigned integer type returned by the `sizeof` operator.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/size_t
+     *
+     */
+    #define STONEYDSP_SIZE_T ::std::size_t
+    /**
+     * @brief Signed integer type returned when subtracting two pointers.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/ptrdiff_t
+     *
+     */
+    #define STONEYDSP_PTRDIFF_T ::std::ptrdiff_t
+    /**
+     * @brief The type of the null pointer literal `nullptr`.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/nullptr_t
+     *
+     */
+    #define STONEYDSP_NULLPTR_T ::std::nullptr_t
+    /**
+     * @brief Trivial type with alignment requirement as great as any other.
+     * scalar type.
+     *
+     * @see https://en.cppreference.com/w/cpp/types/max_align_t
+     *
+     */
+    #define STONEYDSP_MAX_ALIGN_T ::std::max_align_t
+  #else // !__cplusplus
+    /**
+     * @brief Unsigned integer type returned by the `sizeof` operator.
+     *
+     * @see https://en.cppreference.com/w/c/types/size_t
+     *
+     */
+    #define STONEYDSP_SIZE_T size_t
+    /**
+     * @brief Signed integer type returned when subtracting two pointers.
+     *
+     * @see https://en.cppreference.com/w/c/types/ptrdiff_t
+     *
+     */
+    #define STONEYDSP_PTRDIFF_T ptrdiff_t
+    /**
+     * @brief The type of the null pointer literal `nullptr`.
+     *
+     * @see https://en.cppreference.com/w/c/types/nullptr_t
+     *
+     */
+    #define STONEYDSP_NULLPTR_T nullptr_t
+    /**
+     * @brief Trivial type with alignment requirement as great as any other.
+     * scalar type.
+     *
+     * @see https://en.cppreference.com/w/c/types/max_align_t
+     *
+     */
+    #define STONEYDSP_MAX_ALIGN_T max_align_t
+  #endif // __cplusplus
+
+//====================================================================//TYPEDEFS
+
+/**
+ * @brief Unsigned integer type returned by the `sizeof` operator.
+ *
+ */
+typedef STONEYDSP_SIZE_T stoneydsp_size_t;
+
+/**
+ * @brief Signed integer type returned when subtracting two pointers.
+ *
+ */
+typedef STONEYDSP_PTRDIFF_T stoneydsp_ptrdiff_t;
+
+/**
+ * @brief The type of the null pointer literal `nullptr`.
+ *
+ */
+typedef STONEYDSP_NULLPTR_T stoneydsp_nullptr_t;
+
+/**
+ * @brief Trivial type with alignment requirement as great as any other
+ * scalar type.
+ *
+ */
+typedef STONEYDSP_MAX_ALIGN_T stoneydsp_max_align_t;
+
+//===================================================================//CONSTANTS
+
+  #ifdef __cplusplus
+/**
+ * @brief Maximum value of `stoneydsp::size_t`.
+ *
+ * Expands to:
+ *
+ * `(18446744073709551615UL)`
+ */
+constexpr ::stoneydsp_size_t stoneydsp_size_max = STONEYDSP_SIZE_MAX;
+/**
+ * @brief Minimum value of `stoneydsp::ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(-9223372036854775807L-1)`
+ */
+constexpr ::stoneydsp_ptrdiff_t stoneydsp_ptrdiff_min = STONEYDSP_PTRDIFF_MIN;
+/**
+ * @brief Maximum value of `stoneydsp::ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(9223372036854775807L)`
+ */
+constexpr ::stoneydsp_ptrdiff_t stoneydsp_ptrdiff_max = STONEYDSP_PTRDIFF_MAX;
+  #else  // !__cplusplus
+/**
+ * @brief Maximum value of `stoneydsp_size_t`.
+ *
+ * Expands to:
+ *
+ * `(18446744073709551615UL)`
+ */
+static const stoneydsp_size_t stoneydsp_size_max = STONEYDSP_SIZE_MAX;
+/**
+ * @brief Minimum value of `stoneydsp_ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(-9223372036854775807L-1)`
+ */
+static const stoneydsp_ptrdiff_t stoneydsp_ptrdiff_min = STONEYDSP_PTRDIFF_MIN;
+/**
+ * @brief Maximum value of `stoneydsp_ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(9223372036854775807L)`
+ */
+static const stoneydsp_ptrdiff_t stoneydsp_ptrdiff_max = STONEYDSP_PTRDIFF_MAX;
+  #endif //  __cplusplus
 
 //==============================================================================
 
+  #ifdef __cplusplus
+
 namespace stoneydsp
 {
-/** @addtogroup stoneydsp
- *  @{
- */
-
 namespace core
 {
-/** @addtogroup core
- *  @{
- */
-
 namespace types
 {
-/** @addtogroup types
- *  @{
- */
-
 /**
- * @brief An unsigned integer type used to represent the size of objects.
+ * @brief
  *
- * Used for array indexing, loop counters, and size calculations.
  */
-using size_t = ::std::size_t;
-
+using size_t = ::stoneydsp_size_t;
 /**
- * @brief A signed integer type used to represent the difference between two
- * pointers.
+ * @brief
  *
- * Used for pointer arithmetic and array indexing.
  */
-using ptrdiff_t = ::std::ptrdiff_t;
-
+using ptrdiff_t = ::stoneydsp_ptrdiff_t;
 /**
- * @brief The type of the null pointer constant `nullptr`.
+ * @brief
  *
- * Used for null pointer assignments and comparisons.
  */
-using nullptr_t = ::std::nullptr_t;
-
+using nullptr_t = ::stoneydsp_nullptr_t;
 /**
- * @brief A type with the maximum alignment requirement for any type on the
- * system.
+ * @brief
  *
- * Used to ensure proper memory alignment in data structures
  */
-using max_align_t = ::std::max_align_t;
-
-/// @} group types
+using max_align_t = ::stoneydsp_max_align_t;
+/**
+ * @brief Maximum value of `stoneydsp::size_t`.
+ *
+ * Expands to:
+ *
+ * `(18446744073709551615UL)`
+ */
+constexpr ::stoneydsp::core::types::size_t size_max = ::stoneydsp_size_max;
+/**
+ * @brief Minimum value of `stoneydsp::ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(-9223372036854775807L-1)`
+ */
+constexpr ::stoneydsp::core::types::ptrdiff_t ptrdiff_min
+    = ::stoneydsp_ptrdiff_min;
+/**
+ * @brief Maximum value of `stoneydsp::ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(9223372036854775807L)`
+ */
+constexpr ::stoneydsp::core::types::ptrdiff_t ptrdiff_max
+    = ::stoneydsp_ptrdiff_max;
 } // namespace types
-/// @} group core
 } // namespace core
-/// @} group stoneydsp
 } // namespace stoneydsp
 
+  #endif // __cplusplus
+
 //==============================================================================
+
+  #ifdef __cplusplus
 
 namespace stoneydsp
 {
-/** @addtogroup stoneydsp
- *  @{
- */
-
 /**
- * @brief An unsigned integer type used to represent the size of objects.
+ * @brief
  *
- * Used for array indexing, loop counters, and size calculations.
  */
 using size_t = ::stoneydsp::core::types::size_t;
-
 /**
- * @brief A signed integer type used to represent the difference between two
- * pointers.
+ * @brief
  *
- * Used for pointer arithmetic and array indexing.
  */
 using ptrdiff_t = ::stoneydsp::core::types::ptrdiff_t;
-
 /**
- * @brief The type of the null pointer constant `nullptr`.
+ * @brief
  *
- * Used for null pointer assignments and comparisons.
  */
 using nullptr_t = ::stoneydsp::core::types::nullptr_t;
-
 /**
- * @brief A type with the maximum alignment requirement for any type on the
- * system.
+ * @brief
  *
- * Used to ensure proper memory alignment in data structures
  */
 using max_align_t = ::stoneydsp::core::types::max_align_t;
-
-/// @} group stoneydsp
+/**
+ * @brief Maximum value of `stoneydsp::size_t`.
+ *
+ * Expands to:
+ *
+ * `(18446744073709551615UL)`
+ */
+constexpr ::stoneydsp::size_t size_max = ::stoneydsp::core::types::size_max;
+/**
+ * @brief Minimum value of `stoneydsp::ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(-9223372036854775807L-1)`
+ */
+constexpr ::stoneydsp::ptrdiff_t ptrdiff_min
+    = ::stoneydsp::core::types::ptrdiff_min;
+/**
+ * @brief Maximum value of `stoneydsp::ptrdiff_t`.
+ *
+ * Expands to:
+ *
+ * `(9223372036854775807L)`
+ */
+constexpr ::stoneydsp::ptrdiff_t ptrdiff_max
+    = ::stoneydsp::core::types::ptrdiff_max;
 } // namespace stoneydsp
 
-//==============================================================================
-
-extern "C"
-{
-  /**
-   * @brief An unsigned integer type used to represent the size of objects.
-   *
-   * Used for array indexing, loop counters, and size calculations.
-   */
-  typedef ::stoneydsp::size_t stoneydsp_size_t;
-
-  /**
-   * @brief A signed integer type used to represent the difference between two
-   * pointers.
-   *
-   * Used for pointer arithmetic and array indexing.
-   */
-  typedef ::stoneydsp::ptrdiff_t stoneydsp_ptrdiff_t;
-
-  /**
-   * @brief The type of the null pointer constant `nullptr`.
-   *
-   * Used for null pointer assignments and comparisons.
-   */
-  typedef ::stoneydsp::nullptr_t stoneydsp_nullptr_t;
-
-  /**
-   * @brief A type with the maximum alignment requirement for any type on the
-   * system.
-   *
-   * Used to ensure proper memory alignment in data structures
-   */
-  typedef ::stoneydsp::max_align_t stoneydsp_max_align_t;
-}
+  #endif // __cplusplus
 
 //==============================================================================
 
-extern "C"
-{
-  /**
-   * @brief An unsigned integer type used to represent the size of objects.
-   *
-   * Used for array indexing, loop counters, and size calculations.
-   */
-  typedef stoneydsp_size_t stoneydsp_size;
-
-  /**
-   * @brief A signed integer type used to represent the difference between two
-   * pointers.
-   *
-   * Used for pointer arithmetic and array indexing.
-   */
-  typedef stoneydsp_ptrdiff_t stoneydsp_ptrdiff;
-
-  /**
-   * @brief The type of the null pointer constant `nullptr`.
-   *
-   * Used for null pointer assignments and comparisons.
-   */
-  typedef stoneydsp_nullptr_t stoneydsp_nullptr;
-
-  /**
-   * @brief A type with the maximum alignment requirement for any type on the
-   * system.
-   *
-   * Used to ensure proper memory alignment in data structures
-   */
-  typedef stoneydsp_max_align_t stoneydsp_max_align;
-}
-
-//==============================================================================
-
-#endif // STONEYDSP_CORE_TYPES_STDDEF_H_INCLUDED
+#endif // STONEYDSP_CORE_TYPES_DEF_H_INCLUDED
 
 //=========================================================================//EOF

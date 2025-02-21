@@ -16,348 +16,78 @@
 
 //====================================================================//INCLUDES
 
-  #include <cstdint> // Fixed-width integer types
+  #ifdef __cplusplus
+    #include <climits>
+  #else // !__cplusplus
+    #include <limits.h>
+  #endif // __cplusplus
+
+//=====================================================================//DEFINES
+
+  /**
+   * @brief Integer type with a width of exactly 8 bits.
+   * No padding.
+   *
+   */
+  #define STONEYDSP_INT_T int
+
+// Maximum constraints
+
+  #define STONEYDSP_INT_MIN INT_MIN
+
+// Minimum constraints
+
+  #define STONEYDSP_INT_MAX INT_MAX
+
+//====================================================================//TYPEDEFS
+
+typedef STONEYDSP_INT_T stoneydsp_int_t;
+
+//===================================================================//CONSTANTS
+
+  #ifdef __cplusplus
+constexpr ::stoneydsp_int_t stoneydsp_int_min = STONEYDSP_INT_MIN;
+constexpr ::stoneydsp_int_t stoneydsp_int_max = STONEYDSP_INT_MAX;
+  #else  // !__cplusplus
+static const stoneydsp_int_t stoneydsp_int_min = STONEYDSP_INT_MIN;
+static const stoneydsp_int_t stoneydsp_int_max = STONEYDSP_INT_MAX;
+  #endif // __cplusplus
 
 //==============================================================================
 
+  #ifdef __cplusplus
+
 namespace stoneydsp
 {
-/** @addtogroup stoneydsp
- *  @{
- */
-
 namespace core
 {
-/** @addtogroup core
- *  @{
- */
-
 namespace types
 {
-/** @addtogroup types
- *  @{
- */
-
 /**
- * @brief Fixed-width integer.
+ * @brief
  *
- * Guaranteed to be exactly 8 signed bits.
  */
-using int8_t = ::std::int8_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 8 unsigned bits.
- */
-using uint8_t = ::std::uint8_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 16 signed bits.
- */
-using int16_t = ::std::int16_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 16 unsigned bits.
- */
-using uint16_t = ::std::uint16_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 32 signed bits.
- */
-using int32_t = ::std::int32_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 32 unsigned bits.
- */
-using uint32_t = ::std::uint32_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 64 signed bits.
- */
-using int64_t = ::std::int64_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 64 unsigned bits.
- */
-using uint64_t = ::std::uint64_t;
-
-/// @} group types
+using int_t = ::stoneydsp_int_t;
+constexpr ::stoneydsp::core::types::int_t int_max = ::stoneydsp_int_max;
+constexpr ::stoneydsp::core::types::int_t int_min = ::stoneydsp_int_min;
 } // namespace types
-/// @} group core
 } // namespace core
-/// @} group stoneydsp
 } // namespace stoneydsp
 
+  #endif // __cplusplus
+
 //==============================================================================
+
+  #ifdef __cplusplus
 
 namespace stoneydsp
 {
-/** @addtogroup stoneydsp
- *  @{
- */
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 8 signed bits.
- */
-using int8_t = ::stoneydsp::core::types::int8_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 8 unsigned bits.
- */
-using uint8_t = ::stoneydsp::core::types::uint8_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 16 signed bits.
- */
-using int16_t = ::stoneydsp::core::types::int16_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 16 unsigned bits.
- */
-using uint16_t = ::stoneydsp::core::types::uint16_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 32 signed bits.
- */
-using int32_t = ::stoneydsp::core::types::int32_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 32 unsigned bits.
- */
-using uint32_t = ::stoneydsp::core::types::uint32_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 64 signed bits.
- */
-using int64_t = ::stoneydsp::core::types::int64_t;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 64 unsigned bits.
- */
-using uint64_t = ::stoneydsp::core::types::uint64_t;
-
-/// @} group stoneydsp
+using ::stoneydsp::core::types::int_t;
+using ::stoneydsp::core::types::int_max;
+using ::stoneydsp::core::types::int_min;
 } // namespace stoneydsp
 
-//==============================================================================
-
-extern "C"
-{
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 8 signed bits.
-   */
-  typedef stoneydsp::int8_t stoneydsp_int8_t;
-
-  /**
-   * @brief Fixed width integer.
-   *
-   * Guaranteed to be exactly 8 unsigned bits.
-   */
-  typedef stoneydsp::uint8_t stoneydsp_uint8_t;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 16 signed bits.
-   */
-  typedef stoneydsp::int16_t stoneydsp_int16_t;
-
-  /**
-   * @brief Fixed width integer.
-   *
-   * Guaranteed to be exactly 16 unsigned bits.
-   */
-  typedef stoneydsp::uint16_t stoneydsp_uint16_t;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 32 signed bits.
-   */
-  typedef stoneydsp::int32_t stoneydsp_int32_t;
-
-  /**
-   * @brief Fixed width integer.
-   *
-   * Guaranteed to be exactly 32 unsigned bits.
-   */
-  typedef stoneydsp::uint32_t stoneydsp_uint32_t;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 64 signed bits.
-   */
-  typedef stoneydsp::int64_t stoneydsp_int64_t;
-
-  /**
-   * @brief Fixed width integer.
-   *
-   * Guaranteed to be exactly 64 unsigned bits.
-   */
-  typedef stoneydsp::uint64_t stoneydsp_uint64_t;
-}
-
-//==============================================================================
-
-extern "C"
-{
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 8 signed bits.
-   */
-  typedef stoneydsp_int8_t stoneydsp_int8;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 8 unsigned bits.
-   */
-  typedef stoneydsp_uint8_t stoneydsp_uint8;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 16 signed bits.
-   */
-  typedef stoneydsp_int16_t stoneydsp_int16;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 16 unsigned bits.
-   */
-  typedef stoneydsp_uint16_t stoneydsp_uint16;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 32 signed bits.
-   */
-  typedef stoneydsp_int32_t stoneydsp_int32;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 32 unsigned bits.
-   */
-  typedef stoneydsp_uint32_t stoneydsp_uint32;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 64 signed bits.
-   */
-  typedef stoneydsp_int64_t stoneydsp_int64;
-
-  /**
-   * @brief Fixed-width integer.
-   *
-   * Guaranteed to be exactly 64 unsigned bits.
-   */
-  typedef stoneydsp_uint64_t stoneydsp_uint64;
-}
-
-//==============================================================================
-
-namespace stoneydsp
-{
-/** @addtogroup stoneydsp
- *  @{
- */
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 8 signed bits.
- */
-using int8 = ::stoneydsp_int8;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 8 unsigned bits.
- */
-using uint8 = ::stoneydsp_uint8;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 16 signed bits.
- */
-using int16 = ::stoneydsp_int16;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 16 unsigned bits.
- */
-using uint16 = ::stoneydsp_uint16;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 32 signed bits.
- */
-using int32 = ::stoneydsp_int32;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 32 unsigned bits.
- */
-using uint32 = ::stoneydsp_uint32;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 64 signed bits.
- */
-using int64 = ::stoneydsp_int64;
-
-/**
- * @brief Fixed-width integer.
- *
- * Guaranteed to be exactly 64 unsigned bits.
- */
-using uint64 = ::stoneydsp_uint64;
-
-/// @} group stoneydsp
-} // namespace stoneydsp
+  #endif // __cplusplus
 
 //==============================================================================
 

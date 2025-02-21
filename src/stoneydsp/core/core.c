@@ -1,5 +1,5 @@
 /**
- * @file core.cpp
+ * @file core.c
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @copyright Copyright (c) 2025
  *
