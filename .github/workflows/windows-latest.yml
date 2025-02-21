@@ -166,7 +166,7 @@ jobs:
 
       # MSYS steps
 
-    - name: Development build
+    - name: make workflow
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
       shell: msys2 {0}
       env:
@@ -176,7 +176,7 @@ jobs:
         BUILD_CORE=1
         BUILD_TEST=1
 
-    - name: Deployment build
+    - name: make
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
       shell: msys2 {0}
       env:
@@ -186,7 +186,7 @@ jobs:
         BUILD_CORE=1
         BUILD_TEST=1
 
-    - name: Run build
+    - name: make run
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
       shell: msys2 {0}
       env:

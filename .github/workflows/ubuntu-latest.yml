@@ -88,10 +88,10 @@ jobs:
         BUILD_CORE=1
         BUILD_TEST=1
 
-    - name: make run
+    - name: make check
       shell: bash
       run: >-
-        make run
+        make check
         BUILD_CORE=1
         BUILD_TEST=1
 
