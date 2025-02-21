@@ -165,6 +165,7 @@
 		"note"
 	],
 	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+	"C_Cpp.default.mergeConfigurations": true,
 	"C_Cpp.formatting": "clangFormat",
 	"C_Cpp.autoAddFileAssociations": true,
 	"C_Cpp.clang_format_style": "file:${workspaceFolder}/.clang-format",
@@ -176,10 +177,14 @@
 	"C_Cpp.codeAnalysis.clangTidy.fallbackConfig": "{BasedOnStyle: gnu, Checks: '-*,clang-analyzer-*'}",
 	"C_Cpp.autocomplete": "default",
 	"C_Cpp.default.cStandard": "c11",
-	"C_Cpp.default.cppStandard": "c++11",
+	"C_Cpp.default.cppStandard": "c++14",
 	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
-	"C_Cpp.default.compilerPath": "/usr/bin/gcc",
-	"C_Cpp.default.mergeConfigurations": true,
+	"C_Cpp.default.compilerPath": "c++",
+	"C_Cpp.default.defines": [
+		"STONEYDSP_BUILD_MAIN=1",
+		"STONEYDSP_BUILD_TEST=1",
+		"STONEYDSP_BUILD_CORE=1"
+	],
 	"C_Cpp.default.includePath": [
 		"${workspaceFolder}/include"
 	],
@@ -259,7 +264,10 @@
 		"codecvt": "cpp",
 		"list": "cpp",
 		"iomanip": "cpp",
-		"typeindex": "cpp"
+		"typeindex": "cpp",
+		"unordered_set": "cpp",
+		"fstream": "cpp",
+		"future": "cpp"
 	},
 	"json.schemas": [
 		{

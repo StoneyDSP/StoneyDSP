@@ -2,16 +2,16 @@
 	"recommendations": [
 		"cschlosser.doxdocgen",
 		"EditorConfig.EditorConfig",
-    "ms-vscode.makefile-tools",
-    "ms-vscode.cpptools-extension-pack",
-    "ms-vscode.cpptools",
-    "ms-vscode.cpptools-themes",
-    "ms-vscode.cmake-tools",
-    "josetr.cmake-language-support-vscode"
+		"ms-vscode.makefile-tools",
+		"ms-vscode.cpptools-extension-pack",
+		"ms-vscode.cpptools",
+		"ms-vscode.cpptools-themes",
+		"ms-vscode.cmake-tools",
+		"josetr.cmake-language-support-vscode"
 	],
 	"unwantedRecommendations": [
-    "twxs.cmake",
-    "jackboosy.vcpkg-cmake-tools",
-    "xaver.clang-format"
+		"twxs.cmake",
+		"jackboosy.vcpkg-cmake-tools",
+		"xaver.clang-format"
 	]
 }
