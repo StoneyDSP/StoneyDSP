@@ -7,11 +7,11 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/math.h"
+#include "stoneydsp/core/core.h"
 
 //==============================================================================
 
-#if defined(STONEYDSP_BUILD_TEST)
+#if defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
 
 //==============================================================================
 
@@ -305,16 +305,15 @@ TEST_CASE ("Endianness handling for stoneydsp::double_t with arbitrary value",
            "[endianness][double_t][arbitrary_value]")
 {
   ::stoneydsp::double_t value = 123.456;
-  ::stoneydsp::uint8 *bytePtr
-      = reinterpret_cast< ::stoneydsp::uint8 *> (&value);
+  ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0]
-      == reinterpret_cast< ::stoneydsp::uint8 *> (
+      == reinterpret_cast< ::std::uint8_t *> (
           &value)[sizeof (::stoneydsp::double_t) - 1])
     {
       REQUIRE (true); // Little-endian
     }
-  else if (bytePtr[0] == reinterpret_cast< ::stoneydsp::uint8 *> (&value)[0])
+  else if (bytePtr[0] == reinterpret_cast< ::std::uint8_t *> (&value)[0])
     {
       REQUIRE (true); // Big-endian
     }
@@ -357,16 +356,15 @@ TEST_CASE ("Endianness handling for stoneydsp::float_t with arbitrary value",
            "[endianness][float_t][arbitrary_value]")
 {
   ::stoneydsp::float_t value = 123.456f;
-  ::stoneydsp::uint8 *bytePtr
-      = reinterpret_cast< ::stoneydsp::uint8 *> (&value);
+  ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0]
-      == reinterpret_cast< ::stoneydsp::uint8 *> (
+      == reinterpret_cast< ::std::uint8_t *> (
           &value)[sizeof (::stoneydsp::float_t) - 1])
     {
       REQUIRE (true); // Little-endian
     }
-  else if (bytePtr[0] == reinterpret_cast< ::stoneydsp::uint8 *> (&value)[0])
+  else if (bytePtr[0] == reinterpret_cast< ::std::uint8_t *> (&value)[0])
     {
       REQUIRE (true); // Big-endian
     }

@@ -74,17 +74,26 @@ jobs:
 
     - name: make workflow
       shell: bash
-      run: make workflow BUILD_TEST=1
+      run: >-
+        make workflow
+        BUILD_CORE=1
+        BUILD_TEST=1
 
     # Deployment workflow
 
     - name: make
       shell: bash
-      run: make BUILD_TEST=1
+      run: >-
+        make
+        BUILD_CORE=1
+        BUILD_TEST=1
 
-    - name: make run
+    - name: make check
       shell: bash
-      run: make run BUILD_TEST=1
+      run: >-
+        make check
+        BUILD_CORE=1
+        BUILD_TEST=1
 
     # List all artefact directories
 

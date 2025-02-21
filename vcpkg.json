@@ -1,6 +1,6 @@
 {
 	"name": "stoneydsp",
-	"version": "0.0.584.35336238626639",
+	"version": "0.0.616.61626265633436",
 	"license": "MIT",
 	"description": "The StoneyDSP Audio Library.",
 	"homepage": "https://github.com/StoneyDSP/StoneyDSP",
@@ -34,7 +34,7 @@
 			"dependencies": [
 				{
 					"name": "stoneydsp",
-					"version>=": "0.0.0",
+					"version>=": "0.0.616.61626265633436",
 					"default-features": true
 				},
 				{

@@ -60,8 +60,7 @@ endif()
 if(STONEYDSP_BUILD_SIMD)
     include(stoneydsp-simd)
     stoneydsp_add_simd()
-
-    # list(APPEND STONEYDSP_TARGETS "${STONEYDSP_SIMD_TARGET_NAME}")
+    list(APPEND STONEYDSP_TARGETS "${STONEYDSP_SIMD_TARGET_NAME}")
 endif()
 
 #[===========================[stoneydsp::stoneydsp]===========================]

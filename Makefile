@@ -29,7 +29,7 @@ CTEST := ctest
 CPACK := cpack
 
 GIT := git
-ZIP := ZIP
+ZIP := zip
 UNZIP := unzip
 XXD := xxd
 MD5SUM := md5sum
@@ -156,7 +156,7 @@ preset:
 ###########################################<<<-Standards, Flags, and Directories
 
 ## Standards
-C_STANDARD ?= 14
+C_STANDARD ?= 11
 CXX_STANDARD ?= 14
 
 ifdef USE_GNU_EXTENSIONS
@@ -187,6 +187,7 @@ ASMFLAGS += $(OPTIMIZATION)
 ## Warnings and errors
 FLAGS += -Wall
 FLAGS += -Wextra
+FLAGS += -Werror
 
 ifdef VERBOSE
 	FLAGS += -v
@@ -194,11 +195,9 @@ endif
 
 ifdef DEBUG
 	FLAGS += -Wno-unused-parameter
-	FLAGS += -Werror
 	FLAGS += -pedantic
 else ifdef VERBOSE
 	FLAGS += -Wno-unused-parameter
-	FLAGS += -Werror
 	FLAGS += -pedantic
 endif
 
@@ -207,6 +206,9 @@ endif
 FLAGS += -fPIC
 # FLAGS += -save-temps
 
+# Generate dependency files alongside the object files
+CPPFLAGS += -MMD
+CPPFLAGS += -MP
 # CPPFLAGS += -fmacro-prefix-map=$(BUILD_DIR)/include=include
 # CPPFLAGS += -fmacro-prefix-map=$(BUILD_DIR)/src=src
 # CPPFLAGS += -fmacro-prefix-map=$(BUILD_DIR)/test=test
@@ -269,11 +271,6 @@ BUILD_CORE ?= 1
 BUILD_DSP ?= 0
 BUILD_SIMD ?= 0
 
-## Always include the library source
-SOURCES += $(LIB_SRCS)
-OBJECTS += $(LIB_OBJS)
-INCLUDES += -I$(INCLUDE_DIR)
-
 ifeq ($(EXPERIMENTAL),1)
 	DEFINES += -DSTONEYDSP_EXPERIMENTAL=$(EXPERIMENTAL)
 endif
@@ -298,22 +295,29 @@ endif
 
 ## Optional test objects
 ifeq ($(BUILD_TEST),1)
-	TEST_TARGET := $(BUILD_DIR)/test/main
-	TEST_SRCS := $(wildcard test/catch2session.test.cpp)
-	TEST_SRCS += $(wildcard test/utils.test.cpp)
-	TEST_SRCS += $(wildcard test/main.test.cpp)
-	DEFINES += -DSTONEYDSP_BUILD_TEST=$(BUILD_TEST)
+	TEST_SRCS :=
 	ifeq ($(BUILD_CORE),1)
-		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/*.test.cpp)
+		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
+		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
 	endif
 	ifeq ($(BUILD_SIMD),1)
 	endif
 	ifeq ($(BUILD_DSP),1)
 	endif
+	TEST_TARGET := $(BUILD_DIR)/test/main
+	TEST_SRCS += $(wildcard $(TEST_DIR)/catch2session.test.cpp)
+	TEST_SRCS += $(wildcard $(TEST_DIR)/utils.test.cpp)
+	TEST_SRCS += $(wildcard $(TEST_DIR)/main.test.cpp)
 	TEST_OBJS := $(TEST_SRCS:$(TEST_DIR)/%.test.cpp=$(BUILD_DIR)/test/%.test.cpp.o)
 	TEST_DEPS := $(TEST_OBJS:.o=.d)
+	DEFINES += -DSTONEYDSP_BUILD_TEST=$(BUILD_TEST)
 endif
+
+## Always include the library source (and last, so translation units arte ordered)
+SOURCES += $(LIB_SRCS)
+OBJECTS += $(LIB_OBJS)
+INCLUDES += -I$(INCLUDE_DIR)
 
 ##########################################<<<-Dependencies and submodule targets
 
@@ -365,41 +369,41 @@ version-all: version-major version-minor version-patch version-tweak
 	@echo $(STONEYDSP_VERSION_MAJOR).$(STONEYDSP_VERSION_MINOR).$(STONEYDSP_VERSION_PATCH)-r$(STONEYDSP_VERSION_BUILD)
 .PHONY: version-all
 
-./.git/modules:
+.git/modules:
 	@$(GIT) submodule update --init --recursive
 
-./.git/modules/dep: ./.git/modules
+.git/modules/dep: .git/modules
 
 ## Fetch submodules
-./.git/modules/dep/vcpkg: ./.git/modules/dep
+.git/modules/dep/vcpkg: .git/modules/dep
 
 ## Bootstrap vcpkg
-./dep/vcpkg/bootstrap-vcpkg.sh: ./.git/modules/dep/vcpkg
+dep/vcpkg/bootstrap-vcpkg.sh: .git/modules/dep/vcpkg
 	@$(GIT) submodule update --init --recursive
 
 ## Use vcpkg
-./dep/vcpkg/vcpkg: ./dep/vcpkg/bootstrap-vcpkg.sh
+dep/vcpkg/vcpkg: dep/vcpkg/bootstrap-vcpkg.sh
 
-VCPKG_ROOT ?= ./dep/vcpkg
+VCPKG_ROOT ?= dep/vcpkg
 VCPKG := $(VCPKG_ROOT)/vcpkg
 
 ifdef DEBUG
 	LIB_CATCH := Catch2d
-	LIB_CATCH_PATH := build/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/debug/lib
-	# PKG_CONFIG_PATH +=build/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/debug/lib/pkgconfig
+	LIB_CATCH_PATH := $(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/debug/lib
+	# PKG_CONFIG_PATH +=$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/debug/lib/pkgconfig
 else
 	LIB_CATCH := Catch2
-	LIB_CATCH_PATH := build/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/lib
-	# PKG_CONFIG_PATH +=build/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/lib/pkgconfig
+	LIB_CATCH_PATH := $(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/lib
+	# PKG_CONFIG_PATH +=$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/lib/pkgconfig
 endif
-
-INCLUDES += -Ibuild/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/include
 
 ifeq ($(BUILD_TEST),1)
 	LDFLAGS += -L$(LIB_CATCH_PATH)
 	LDFLAGS += -l$(LIB_CATCH)
 	INCLUDES += -I$(BUILD_DIR)/test
 endif
+
+INCLUDES += -I$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/include
 
 ##################################################<<<-CMake and workflow targets
 
@@ -410,7 +414,7 @@ CMAKE_ARGS += -DSTONEYDSP_BUILD_DSP:BOOL=$(BUILD_DSP)
 CMAKE_ARGS += -DSTONEYDSP_BUILD_TEST:BOOL=$(BUILD_TEST)
 CMAKE_ARGS += -DSTONEYDSP_BUILD_SHARED:BOOL=$(BUILD_SHARED)
 
-reconfigure: ./dep/vcpkg/vcpkg
+reconfigure: dep/vcpkg/vcpkg
 	@echo Reconfiguring with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
 	--preset $(PRESET) \
@@ -418,7 +422,7 @@ reconfigure: ./dep/vcpkg/vcpkg
 	@echo Reconfigured with CMake.
 .PHONY: reconfigure
 
-configure: ./dep/vcpkg/vcpkg
+configure: dep/vcpkg/vcpkg
 	@echo Configuring with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
 	--preset $(PRESET) $(CMAKE_ARGS)
@@ -457,7 +461,7 @@ package_source: test
 	@echo Packaged source tree with CPack.
 .PHONY: package_source
 
-workflow: ./dep/vcpkg/vcpkg
+workflow: dep/vcpkg/vcpkg
 	@echo Running workflow with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
 	--workflow \
@@ -553,10 +557,12 @@ $(TARGET): $(OBJECTS)
 $(BUILD_DIR)/include: $(CMAKE_CACHE)
 	@echo "Configured header files."
 
+-include $(DEPS)
+
 ## <CC>
 
 ## '*.c' - Pre-Processor
-$(BUILD_DIR)/src/%.c.i: $(SRC_DIR)/%.c $(BUILD_DIR)/include
+$(BUILD_DIR)/src/%.c.i: $(SRC_DIR)/%.c
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -589,7 +595,7 @@ $(BUILD_DIR)/src/%.c.o: $(BUILD_DIR)/src/%.c.s
 ## <CXX>
 
 ## '*.cpp.i' - Pre-Processor
-$(BUILD_DIR)/src/%.cpp.i: $(SRC_DIR)/%.cpp $(BUILD_DIR)/include
+$(BUILD_DIR)/src/%.cpp.ii: $(SRC_DIR)/%.cpp
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -598,7 +604,7 @@ $(BUILD_DIR)/src/%.cpp.i: $(SRC_DIR)/%.cpp $(BUILD_DIR)/include
 	@echo
 
 ## '*.cpp.s' - Assembler
-$(BUILD_DIR)/src/%.cpp.s: $(BUILD_DIR)/src/%.cpp.i
+$(BUILD_DIR)/src/%.cpp.s: $(BUILD_DIR)/src/%.cpp.ii
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -619,13 +625,13 @@ $(BUILD_DIR)/src/%.cpp.o: $(BUILD_DIR)/src/%.cpp.s
 # $(BUILD_DIR)/src/%.cpp.d: $(SRC_DIR)/%.cpp
 # 	@echo Building target: $@
 # 	@mkdir -p $(dir $@)
-# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(FLAGS) $(DEFINES) $(INCLUDES) -x c++ -MM -MF $@ -MT $(@:.d=.o) $<
+# 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -x c++ -MM -MF $@ -MT $(@:.d=.o) $<
 # -include $(DEPS)
 
 ## <OBJC>
 
 ## '*.m.i' - Pre-Processor
-$(BUILD_DIR)/src/%.m.i: $(SRC_DIR)/%.m $(BUILD_DIR)/include
+$(BUILD_DIR)/src/%.m.mi: $(SRC_DIR)/%.m
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -634,7 +640,7 @@ $(BUILD_DIR)/src/%.m.i: $(SRC_DIR)/%.m $(BUILD_DIR)/include
 	@echo
 
 ## '*.m.s' - Assembler
-$(BUILD_DIR)/src/%.m.s: $(BUILD_DIR)/src/%.m.i
+$(BUILD_DIR)/src/%.m.s: $(BUILD_DIR)/src/%.m.mi
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -653,7 +659,7 @@ $(BUILD_DIR)/src/%.m.o: $(BUILD_DIR)/src/%.m.s
 
 ## <OBJCXX>
 ## '*.mm.i' - Pre-Processor
-$(BUILD_DIR)/src/%.mm.i: $(SRC_DIR)/%.mm $(BUILD_DIR)/include
+$(BUILD_DIR)/src/%.mm.mii: $(SRC_DIR)/%.mm
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -662,7 +668,7 @@ $(BUILD_DIR)/src/%.mm.i: $(SRC_DIR)/%.mm $(BUILD_DIR)/include
 	@echo
 
 ## '*.mm.s' - Assembler
-$(BUILD_DIR)/src/%.mm.s: $(BUILD_DIR)/src/%.mm.i
+$(BUILD_DIR)/src/%.mm.s: $(BUILD_DIR)/src/%.mm.mii
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -679,6 +685,41 @@ $(BUILD_DIR)/src/%.mm.o: $(BUILD_DIR)/src/%.mm.s
 	@echo Built target successfully: $@
 	@echo
 
+ifeq ($(BUILD_MAIN),1)
+## '*.cpp.i' - Pre-Processor
+$(BUILD_DIR)/bin/main.cpp.ii: bin/main.cpp $(TARGET)
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(CPP_CXX_COMPILER_LAUNCHER) -DSTONEYDSP_BUILD_MAIN=1 -x c++ $< -o $@
+	@echo Built target successfully: $@
+	@echo
+
+## '*.cpp.s' - Assembler
+$(BUILD_DIR)/bin/main.cpp.s: $(BUILD_DIR)/bin/main.cpp.ii
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(ASM_CXX_COMPILER_LAUNCHER) -x c++-cpp-output $< -o $@
+	@echo Built target successfully: $@
+	@echo
+
+## '*.cpp.o' - Compiler
+$(BUILD_DIR)/bin/main.cpp.o: $(BUILD_DIR)/bin/main.cpp.s
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	@echo Built target successfully: $@
+	@echo
+
+$(BUILD_DIR)/bin/main: $(BUILD_DIR)/bin/main.cpp.o
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(CXX) $(BUILD_DIR)/bin/main.cpp.o -L$(BUILD_DIR)/lib -o $@ $(LDFLAGS) -lstoneydsp
+	@echo Built target successfully: $@
+	@echo
 
 # build/%.bin.o: %
 # 	@mkdir -p $(@D)
@@ -693,6 +734,12 @@ $(BUILD_DIR)/src/%.mm.o: $(BUILD_DIR)/src/%.mm.s
 # 	xxd -i $< | $(CC) $(MAC_SDK_FLAGS) -c -o $@ -xc -
 # endif
 
+run: $(BUILD_DIR)/bin/main
+	@$(BUILD_DIR)/bin/main $(RUN_ARGS)
+.PHONY: run
+
+endif
+
 #######################################################################<<<-Tests
 
 ## Test executable
@@ -703,23 +750,22 @@ $(LIB_CATCH_PATH)/lib$(LIB_CATCH).a: $(CMAKE_CACHE)
 catch2: $(LIB_CATCH_PATH)/lib$(LIB_CATCH).a
 .PHONY: catch2
 
-$(TEST_TARGET): $(TEST_OBJS) $(TARGET) $(LIB_CATCH_PATH)/lib$(LIB_CATCH).a
+$(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(TEST_OBJS) -L$(BUILD_DIR)/lib -o $@ -lstoneydsp $(LDFLAGS)
+	$(CXX) $(TEST_OBJS) -L$(BUILD_DIR)/lib -o $@ $(LDFLAGS) -lstoneydsp
 	@echo Built target successfully: $@
 	@echo
 
-run: $(TEST_TARGET)
+check: catch2 $(TEST_TARGET)
 	$(TEST_TARGET) $(TEST_ARGS)
-
-.PHONY: run
+.PHONY: check
 
 ## <CXX>
 
 ## '*.test.cpp.i' - Pre-Processor
-$(BUILD_DIR)/test/%.test.cpp.i: $(TEST_DIR)/%.test.cpp $(BUILD_DIR)/include
+$(BUILD_DIR)/test/%.test.cpp.ii: $(TEST_DIR)/%.test.cpp
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -728,7 +774,7 @@ $(BUILD_DIR)/test/%.test.cpp.i: $(TEST_DIR)/%.test.cpp $(BUILD_DIR)/include
 	@echo
 
 ## '*.test.cpp.s' - Assembler
-$(BUILD_DIR)/test/%.test.cpp.s: $(BUILD_DIR)/test/%.test.cpp.i
+$(BUILD_DIR)/test/%.test.cpp.s: $(BUILD_DIR)/test/%.test.cpp.ii
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
@@ -841,6 +887,11 @@ wipe: clean
 	@rm -rvf $(BUILD_DIR)
 .PHONY: wipe
 
+# Helper to debug Makefile variables, eg: "make echo ECHO_ARGS='STONEYDSP_SOURCES'"
+echo:
+	@echo $($(ECHO_ARGS))
+.PHONY: echo
+
 ## Help Target
 help:
 	@echo "The directory of the Makefile is: $(MAKEFILE_DIR)"
@@ -866,6 +917,3 @@ help:
 .PRECIOUS: $(CMAKE_CACHE) $(COMPILE_COMMANDS)
 
 .DEFAULT_TARGET: all
-
-check:
-	@echo $($(CHECK_ARGS))

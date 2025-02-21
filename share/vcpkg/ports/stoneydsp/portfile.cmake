@@ -2,12 +2,13 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO StoneyDSP/StoneyDSP
     REF 2f9abd0dc94a764923d6ec22ba57840660c57794
-    SHA512 e96c934f43eca898c18691cab89584b0f6fd3119f1c072fbe389a400967a6d0c52f931ff409f9579d4fcc9dfc491e403abb881d8c31941084ea540b220345335
-    HEAD_REF feat/stoneydsp
+    SHA512 0
+    HEAD_REF feat/simd
 )
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     FEATURES
     core STONEYDSP_BUILD_CORE
+    simd STONEYDSP_BUILD_SIMD
 )
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"

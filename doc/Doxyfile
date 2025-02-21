@@ -946,11 +946,14 @@ WARN_LOGFILE           =
 
 INPUT                  += README.md
 INPUT                  += doc/index.md
+INPUT                  += doc/requirements.md
 INPUT                  += doc/core.md
 INPUT                  += doc/dsp.md
 INPUT                  += doc/simd.md
 INPUT                  += doc/presets.md
 INPUT                  += doc/exports.md
+INPUT                  += doc/test.md
+INPUT                  += doc/misc.md
 INPUT                  += build/include
 
 # This tag can be used to specify the character encoding of the source files

@@ -166,26 +166,35 @@ jobs:
 
       # MSYS steps
 
-    - name: Development build
+    - name: make workflow
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
       shell: msys2 {0}
       env:
         MSYSTEM: ${{ matrix.msystem }}
-      run: make workflow BUILD_TEST=1
+      run: >-
+        make workflow
+        BUILD_CORE=1
+        BUILD_TEST=1
 
-    - name: Deployment build
+    - name: make
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
       shell: msys2 {0}
       env:
         MSYSTEM: ${{ matrix.msystem }}
-      run: make BUILD_TEST=1
+      run: >-
+        make
+        BUILD_CORE=1
+        BUILD_TEST=1
 
-    - name: Run build
+    - name: make check
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
       shell: msys2 {0}
       env:
         MSYSTEM: ${{ matrix.msystem }}
-      run: make run BUILD_TEST=1
+      run: >-
+        make check
+        BUILD_CORE=1
+        BUILD_TEST=1
 
     - name: List artefact directories
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
