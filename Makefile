@@ -156,7 +156,7 @@ preset:
 ###########################################<<<-Standards, Flags, and Directories
 
 ## Standards
-C_STANDARD ?= 14
+C_STANDARD ?= 11
 CXX_STANDARD ?= 14
 
 ifdef USE_GNU_EXTENSIONS
@@ -187,6 +187,7 @@ ASMFLAGS += $(OPTIMIZATION)
 ## Warnings and errors
 FLAGS += -Wall
 FLAGS += -Wextra
+FLAGS += -Werror
 
 ifdef VERBOSE
 	FLAGS += -v
@@ -194,11 +195,9 @@ endif
 
 ifdef DEBUG
 	FLAGS += -Wno-unused-parameter
-	FLAGS += -Werror
 	FLAGS += -pedantic
 else ifdef VERBOSE
 	FLAGS += -Wno-unused-parameter
-	FLAGS += -Werror
 	FLAGS += -pedantic
 endif
 
@@ -296,10 +295,11 @@ endif
 
 ## Optional test objects
 ifeq ($(BUILD_TEST),1)
+	TEST_SRCS :=
 	ifeq ($(BUILD_CORE),1)
 		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/*.test.cpp)
-		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
-		TEST_SRCS := $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
+		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
 	endif
 	ifeq ($(BUILD_SIMD),1)
 	endif
@@ -397,13 +397,13 @@ else
 	# PKG_CONFIG_PATH +=$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/lib/pkgconfig
 endif
 
-INCLUDES += -I$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/include
-
 ifeq ($(BUILD_TEST),1)
 	LDFLAGS += -L$(LIB_CATCH_PATH)
 	LDFLAGS += -l$(LIB_CATCH)
 	INCLUDES += -I$(BUILD_DIR)/test
 endif
+
+INCLUDES += -I$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/include
 
 ##################################################<<<-CMake and workflow targets
 
@@ -557,6 +557,8 @@ $(TARGET): $(OBJECTS)
 $(BUILD_DIR)/include: $(CMAKE_CACHE)
 	@echo "Configured header files."
 
+-include $(DEPS)
+
 ## <CC>
 
 ## '*.c' - Pre-Processor
@@ -683,6 +685,41 @@ $(BUILD_DIR)/src/%.mm.o: $(BUILD_DIR)/src/%.mm.s
 	@echo Built target successfully: $@
 	@echo
 
+ifeq ($(BUILD_MAIN),1)
+## '*.cpp.i' - Pre-Processor
+$(BUILD_DIR)/bin/main.cpp.ii: bin/main.cpp $(TARGET)
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(CPP_CXX_COMPILER_LAUNCHER) -DSTONEYDSP_BUILD_MAIN=1 -x c++ $< -o $@
+	@echo Built target successfully: $@
+	@echo
+
+## '*.cpp.s' - Assembler
+$(BUILD_DIR)/bin/main.cpp.s: $(BUILD_DIR)/bin/main.cpp.ii
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(ASM_CXX_COMPILER_LAUNCHER) -x c++-cpp-output $< -o $@
+	@echo Built target successfully: $@
+	@echo
+
+## '*.cpp.o' - Compiler
+$(BUILD_DIR)/bin/main.cpp.o: $(BUILD_DIR)/bin/main.cpp.s
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	@echo Built target successfully: $@
+	@echo
+
+$(BUILD_DIR)/bin/main: $(BUILD_DIR)/bin/main.cpp.o
+	@echo
+	@echo Building target: $@
+	@mkdir -p $(dir $@)
+	$(CXX) $(BUILD_DIR)/bin/main.cpp.o -L$(BUILD_DIR)/lib -o $@ $(LDFLAGS) -lstoneydsp
+	@echo Built target successfully: $@
+	@echo
 
 # build/%.bin.o: %
 # 	@mkdir -p $(@D)
@@ -696,6 +733,12 @@ $(BUILD_DIR)/src/%.mm.o: $(BUILD_DIR)/src/%.mm.s
 # 	@# Apple makes this needlessly complicated, so just generate a C file with an array.
 # 	xxd -i $< | $(CC) $(MAC_SDK_FLAGS) -c -o $@ -xc -
 # endif
+
+run: $(BUILD_DIR)/bin/main
+	@$(BUILD_DIR)/bin/main $(RUN_ARGS)
+.PHONY: run
+
+endif
 
 #######################################################################<<<-Tests
 
@@ -711,13 +754,13 @@ $(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(TEST_OBJS) -L$(BUILD_DIR)/lib -o $@ -lstoneydsp $(LDFLAGS)
+	$(CXX) $(TEST_OBJS) -L$(BUILD_DIR)/lib -o $@ $(LDFLAGS) -lstoneydsp
 	@echo Built target successfully: $@
 	@echo
 
-run: catch2 $(TEST_TARGET)
+check: catch2 $(TEST_TARGET)
 	$(TEST_TARGET) $(TEST_ARGS)
-.PHONY: run
+.PHONY: check
 
 ## <CXX>
 
@@ -844,6 +887,11 @@ wipe: clean
 	@rm -rvf $(BUILD_DIR)
 .PHONY: wipe
 
+# Helper to debug Makefile variables, eg: "make echo ECHO_ARGS='STONEYDSP_SOURCES'"
+echo:
+	@echo $($(ECHO_ARGS))
+.PHONY: echo
+
 ## Help Target
 help:
 	@echo "The directory of the Makefile is: $(MAKEFILE_DIR)"
@@ -869,6 +917,3 @@ help:
 .PRECIOUS: $(CMAKE_CACHE) $(COMPILE_COMMANDS)
 
 .DEFAULT_TARGET: all
-
-check:
-	@echo $($(CHECK_ARGS))
