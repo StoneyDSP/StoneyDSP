@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/types/int16.h"
 
 //==============================================================================
 
@@ -78,12 +78,14 @@ TEST_CASE ("Numeric limits of stoneydsp::int16_t",
 TEST_CASE ("Special values of stoneydsp::int16_t",
            "[core][types][int16_t][numeric_limits]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::stoneydsp::int16_t min_val
       = ::std::numeric_limits< ::stoneydsp::int16_t>::min ();
   ::stoneydsp::int16_t max_val
       = ::std::numeric_limits< ::stoneydsp::int16_t>::max ();
-  REQUIRE (min_val == -32768); // Minimum value for int16_t
-  REQUIRE (max_val == 32767);  // Maximum value for int16_t
+  REQUIRE (min_val == -32768_int16); // Minimum value for int16_t
+  REQUIRE (max_val == 32767_int16);  // Maximum value for int16_t
 }
 
 //==================================================================//endianness
