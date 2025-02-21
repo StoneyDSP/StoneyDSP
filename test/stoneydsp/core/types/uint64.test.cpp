@@ -1,5 +1,5 @@
 /**
- * @file uint64_t.test.cpp
+ * @file uint64.test.cpp
  * @brief Test suite for stoneydsp::uint64_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/types/uint64.h"
 
 //==============================================================================
 
