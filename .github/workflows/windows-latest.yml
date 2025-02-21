@@ -186,13 +186,13 @@ jobs:
         BUILD_CORE=1
         BUILD_TEST=1
 
-    - name: make run
+    - name: make check
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
       shell: msys2 {0}
       env:
         MSYSTEM: ${{ matrix.msystem }}
       run: >-
-        make run
+        make check
         BUILD_CORE=1
         BUILD_TEST=1
 
