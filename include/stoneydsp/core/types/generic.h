@@ -98,35 +98,37 @@
 
 //====================================================================//TYPEDEFS
 
-typedef unsigned char stoneydsp_byte;
+// typedef unsigned char stoneydsp_byte_t;
 
-typedef char stoneydsp_char;
+typedef char stoneydsp_char_t;
 
-typedef signed char stoneydsp_schar;
+typedef signed char stoneydsp_schar_t;
 
-typedef unsigned char stoneydsp_uchar;
+typedef unsigned char stoneydsp_uchar_t;
 
-typedef int stoneydsp_int;
+// typedef int stoneydsp_int_t;
 
-typedef unsigned int stoneydsp_uint;
+typedef signed int stoneydsp_sint_t;
 
-typedef short stoneydsp_shrt;
+// typedef unsigned int stoneydsp_uint_t;
 
-typedef signed short stoneydsp_sshrt;
+typedef short stoneydsp_shrt_t;
 
-typedef unsigned short stoneydsp_ushrt;
+typedef signed short stoneydsp_sshrt_t;
 
-typedef long stoneydsp_long;
+typedef unsigned short stoneydsp_ushrt_t;
 
-typedef signed long stoneydsp_slong;
+typedef long stoneydsp_long_t;
 
-typedef unsigned long stoneydsp_ulong;
+typedef signed long stoneydsp_slong_t;
 
-typedef long long stoneydsp_llong;
+typedef unsigned long stoneydsp_ulong_t;
 
-typedef signed long long stoneydsp_sllong;
+typedef long long stoneydsp_llong_t;
 
-typedef unsigned long long stoneydsp_ullong;
+typedef signed long long stoneydsp_sllong_t;
+
+typedef unsigned long long stoneydsp_ullong_t;
 
 //===================================================================//CONSTANTS
 
