@@ -32,7 +32,7 @@
 					"type": "BOOL"
 				},
 				"STONEYDSP_BUILD_SIMD": {
-					"value": "ON",
+					"value": "OFF",
 					"type": "BOOL"
 				},
 				"STONEYDSP_BUILD_DSP": {
