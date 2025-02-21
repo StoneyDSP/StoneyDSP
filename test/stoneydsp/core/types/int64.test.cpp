@@ -1,5 +1,5 @@
 /**
- * @file int64_t.test.cpp
+ * @file int64.test.cpp
  * @brief Test suite for stoneydsp::int64_t
  * @copyright Copyright (c) 2025
  *

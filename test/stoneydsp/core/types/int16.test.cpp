@@ -1,5 +1,5 @@
 /**
- * @file int16_t.test.cpp
+ * @file int16.test.cpp
  * @brief Test suite for stoneydsp::int16_t
  * @copyright Copyright (c) 2025
  *
@@ -84,8 +84,8 @@ TEST_CASE ("Special values of stoneydsp::int16_t",
       = ::std::numeric_limits< ::stoneydsp::int16_t>::min ();
   ::stoneydsp::int16_t max_val
       = ::std::numeric_limits< ::stoneydsp::int16_t>::max ();
-  REQUIRE (min_val == -32768_int16); // Minimum value for int16_t
-  REQUIRE (max_val == 32767_int16);  // Maximum value for int16_t
+  REQUIRE (min_val == -32768 /**_int16*/); // Minimum value for int16_t
+  REQUIRE (max_val == 32767_int16);        // Maximum value for int16_t
 }
 
 //==================================================================//endianness
