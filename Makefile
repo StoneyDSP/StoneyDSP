@@ -266,13 +266,14 @@ else
 endif
 
 ## Feature flags
-EXPERIMENTAL ?= 0
+BUILD_EXPORTS ?= 1
 BUILD_CORE ?= 1
 BUILD_DSP ?= 0
 BUILD_SIMD ?= 0
+EXPERIMENTAL ?= 0
 
-ifeq ($(EXPERIMENTAL),1)
-	DEFINES += -DSTONEYDSP_EXPERIMENTAL=$(EXPERIMENTAL)
+ifeq ($(BUILD_EXPORTS),1)
+	DEFINES += -DSTONEYDSP_EXPORTS=$(BUILD_EXPORTS)
 endif
 ifeq ($(BUILD_CORE),1)
 	SOURCES += $(CORE_SRCS)
@@ -291,6 +292,9 @@ ifeq ($(BUILD_SIMD),1)
 	OBJECTS += $(SIMD_OBJS)
 	DEPS += $(SIMD_DEPS)
 	DEFINES += -DSTONEYDSP_BUILD_SIMD=$(BUILD_SIMD)
+endif
+ifeq ($(EXPERIMENTAL),1)
+	DEFINES += -DSTONEYDSP_EXPERIMENTAL=$(EXPERIMENTAL)
 endif
 
 ## Optional test objects
@@ -550,7 +554,7 @@ $(TARGET): $(OBJECTS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(BUILD_SHARED_FLAG) $(LDFLAGS) $^ -o $@
+	$(CXX) $(BUILD_SHARED_FLAG) $(CPPFLAGS) $(ASMFLAGS) $(CXXFLAGS) $(FLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $^ -o $@
 	@echo Built target successfully: $@
 	@echo
 

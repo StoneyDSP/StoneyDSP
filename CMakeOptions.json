@@ -11,6 +11,10 @@
 			"name": "options",
 			"hidden": true,
 			"cacheVariables": {
+				"STONEYDSP_EXPORTS": {
+					"value": "ON",
+					"type": "BOOL"
+				},
 				"STONEYDSP_BUILD_SHARED": {
 					"value": "OFF",
 					"type": "BOOL"
