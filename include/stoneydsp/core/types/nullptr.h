@@ -38,13 +38,15 @@
 
   #else // !__cplusplus
 
+typedef typeof (NULL) __stdc__nullptr_t;
+
     /**
      * @brief The type of the null pointer literal `nullptr`.
      *
      * @see https://en.cppreference.com/w/c/types/nullptr_t
      *
      */
-    #define STONEYDSP_NULLPTR_T nullptr_t
+    #define STONEYDSP_NULLPTR_T __stdc__nullptr_t
 
   #endif // __cplusplus
 
