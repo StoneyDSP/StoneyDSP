@@ -1,3 +1,11 @@
+!bin
+!bin/main.h
+!bin/main.c
+!bin/main.cpp
+
+!doc
+!doc/favicon.ico
+
 libstoneydsp.d
 libstoneydsp.so
 libstoneydsp.a
@@ -19,5 +27,3 @@ CMakeCache.txt
 compile_commands.json
 
 node_modules
-
-!doc/favicon.ico
