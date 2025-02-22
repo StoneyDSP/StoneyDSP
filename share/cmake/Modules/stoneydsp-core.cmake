@@ -94,7 +94,10 @@ function(stoneydsp_add_core)
     # types/uintptr.h
     set(STONEYDSP_CORE_TYPES_UINTPTR_H_FILE "${STONEYDSP_INCLUDE_DIR}/${STONEYDSP_SLUG}/${STONEYDSP_CORE_TARGET_NAME}/types/uintptr.h")
 
-    # types/stddef.h
+    # types/size.h
+    set(STONEYDSP_CORE_TYPES_SIZE_H_FILE "${STONEYDSP_INCLUDE_DIR}/${STONEYDSP_SLUG}/${STONEYDSP_CORE_TARGET_NAME}/types/size.h")
+
+    # types/def.h
     set(STONEYDSP_CORE_TYPES_DEF_H_FILE "${STONEYDSP_INCLUDE_DIR}/${STONEYDSP_SLUG}/${STONEYDSP_CORE_TARGET_NAME}/types/def.h")
 
     # types/math.h
@@ -127,6 +130,7 @@ function(stoneydsp_add_core)
         "${STONEYDSP_CORE_TYPES_UINT64_H_FILE}"
         "${STONEYDSP_CORE_TYPES_UINTMAX_H_FILE}"
         "${STONEYDSP_CORE_TYPES_UINTPTR_H_FILE}"
+        "${STONEYDSP_CORE_TYPES_SIZE_H_FILE}"
         "${STONEYDSP_CORE_TYPES_DEF_H_FILE}"
         "${STONEYDSP_CORE_TYPES_MATH_H_FILE}"
         "${STONEYDSP_CORE_H_FILE}"
