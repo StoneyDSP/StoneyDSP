@@ -66,12 +66,6 @@
    */
   #define STONEYDSP_UCHAR_MAX UCHAR_MAX
 
-  #define STONEYDSP_INT_MIN INT_MIN
-
-  #define STONEYDSP_INT_MAX INT_MAX
-
-  #define STONEYDSP_UINT_MAX UINT_MAX
-
   #define STONEYDSP_SHRT_MIN SHRT_MIN
 
   #define STONEYDSP_SHRT_MAX SHRT_MAX
@@ -106,27 +100,15 @@ typedef signed char stoneydsp_schar_t;
 
 typedef unsigned char stoneydsp_uchar_t;
 
-// typedef int stoneydsp_int_t;
-
-typedef signed int stoneydsp_sint_t;
-
-// typedef unsigned int stoneydsp_uint_t;
-
 typedef short stoneydsp_shrt_t;
-
-typedef signed short stoneydsp_sshrt_t;
 
 typedef unsigned short stoneydsp_ushrt_t;
 
 typedef long stoneydsp_long_t;
 
-typedef signed long stoneydsp_slong_t;
-
 typedef unsigned long stoneydsp_ulong_t;
 
 typedef long long stoneydsp_llong_t;
-
-typedef signed long long stoneydsp_sllong_t;
 
 typedef unsigned long long stoneydsp_ullong_t;
 
