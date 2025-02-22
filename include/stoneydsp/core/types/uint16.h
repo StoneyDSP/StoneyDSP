@@ -25,17 +25,21 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
     /**
      * @brief
      *
      */
     #define STONEYDSP_UINT16_T ::std::uint16_t
+
   #else // !__cplusplus
+
     /**
      * @brief
      *
      */
     #define STONEYDSP_UINT16_T uint16_t
+
   #endif // __cplusplus
 
 // Maximum constraints
@@ -48,10 +52,22 @@
 
 // Function helpers
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_UINT16_C UINT16_C
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_UINT16_PRINT_F PRIu16
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_UINT16_SCAN_F SCNu16
 
 //====================================================================//TYPEDEFS
@@ -65,6 +81,7 @@ typedef STONEYDSP_UINT16_T stoneydsp_uint16_t;
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
 /**
  * @brief Maximum value of exact-width unsigned type `stoneydsp_uint16_t`.
  *
@@ -73,7 +90,9 @@ typedef STONEYDSP_UINT16_T stoneydsp_uint16_t;
  * `(65535U)`
  */
 constexpr ::stoneydsp_uint16_t stoneydsp_uint16_max = STONEYDSP_UINT16_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Maximum value of exact-width unsigned type `stoneydsp_uint16_t`.
  *
@@ -82,6 +101,7 @@ constexpr ::stoneydsp_uint16_t stoneydsp_uint16_max = STONEYDSP_UINT16_MAX;
  * `(65535U)`
  */
 static const stoneydsp_uint16_t stoneydsp_uint16_max = STONEYDSP_UINT16_MAX;
+
   #endif // __cplusplus
 
 //===================================================================//NAMESPACE
@@ -90,15 +110,28 @@ static const stoneydsp_uint16_t stoneydsp_uint16_max = STONEYDSP_UINT16_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief
  *
  */
 using uint16_t = ::stoneydsp_uint16_t;
+
 /**
  * @brief Maximum value of exact-width unsigned type
  * `stoneydsp::core::types::uint16_t`.
@@ -110,36 +143,14 @@ using uint16_t = ::stoneydsp_uint16_t;
 constexpr ::stoneydsp::core::types::uint16_t uint16_max
     = ::stoneydsp_uint16_max;
 
-} // namespace types
-} // namespace core
-} // namespace stoneydsp
-
-  #endif // __cplusplus
-
-//=====================================================================//ALIASES
-
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::uint16_max;
-using ::stoneydsp::core::types::uint16_t;
-} // namespace stoneydsp
-
-  #endif // __cplusplus
-
 //====================================================================//LITERALS
 
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-namespace core
-{
-namespace types
-{
 namespace literals
 {
+/** @addtogroup literals
+ *  @{
+ */
+
 /**
  * @brief
  *
@@ -154,9 +165,23 @@ operator"" _uint16 (unsigned long long value)
   return static_cast< ::stoneydsp_uint16_t> (value);
 }
 
+/// @} literals
 } // namespace literals
+
+/// @} types
 } // namespace types
-} // namespace core
+
+/// @} group core
+} //  namespace core
+
+/// @} group stoneydsp
+
+//=====================================================================//ALIASES
+
+using ::stoneydsp::core::types::uint16_t;
+
+using ::stoneydsp::core::types::uint16_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus

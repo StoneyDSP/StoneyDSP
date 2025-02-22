@@ -25,17 +25,21 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
     /**
      * @brief Integer type with the maximum width supported.
      *
      */
     #define STONEYDSP_INTMAX_T ::std::intmax_t
+
   #else // !__cplusplus
+
     /**
      * @brief Integer type with the maximum width supported.
      *
      */
     #define STONEYDSP_INTMAX_T intmax_t
+
   #endif // __cplusplus
 
 // Minimum constraints
@@ -56,10 +60,22 @@
 
 // Function helpers
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_INTMAX_C INTMAX_C
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_INTMAX_PRINT_F PRIiMAX
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_INTMAX_SCAN_F SCNiMAX
 
 //====================================================================//TYPEDEFS
@@ -73,27 +89,33 @@ typedef STONEYDSP_INTMAX_T stoneydsp_intmax_t;
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_intmax_t`.
  *
  */
 constexpr ::stoneydsp_intmax_t stoneydsp_intmax_min = STONEYDSP_INTMAX_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_intmax_t`.
  *
  */
 constexpr ::stoneydsp_intmax_t stoneydsp_intmax_max = STONEYDSP_INTMAX_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_intmax_t`.
  *
  */
 static const stoneydsp_intmax_t stoneydsp_intmax_min = STONEYDSP_INTMAX_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_intmax_t`.
  *
  */
 static const stoneydsp_intmax_t stoneydsp_intmax_max = STONEYDSP_INTMAX_MAX;
+
   #endif // __cplusplus
 
 //==============================================================================
@@ -102,42 +124,58 @@ static const stoneydsp_intmax_t stoneydsp_intmax_max = STONEYDSP_INTMAX_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief Integer type with the maximum width supported.
  *
  */
 using intmax_t = ::stoneydsp_intmax_t;
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_intmax_t`.
  *
  */
 constexpr ::stoneydsp::core::types::intmax_t intmax_min
     = ::stoneydsp_intmax_min;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_intmax_t`.
  *
  */
 constexpr ::stoneydsp::core::types::intmax_t intmax_max
     = ::stoneydsp_intmax_max;
+
+/// @} types
 } // namespace types
-} // namespace core
-} // namespace stoneydsp
 
-  #endif // __cplusplus
+/// @} group core
+} //  namespace core
 
-//==============================================================================
+/// @} group stoneydsp
 
-  #ifdef __cplusplus
+//=====================================================================//ALIASES
 
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::intmax_max;
-using ::stoneydsp::core::types::intmax_min;
 using ::stoneydsp::core::types::intmax_t;
+
+using ::stoneydsp::core::types::intmax_min;
+
+using ::stoneydsp::core::types::intmax_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus
