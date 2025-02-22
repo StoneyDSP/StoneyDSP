@@ -25,17 +25,21 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
   /**
    * @brief Integer type with a wdith of exactly 8 bits.
    *
    */
     #define STONEYDSP_UINT8_T ::std::uint8_t
+
   #else // !__cplusplus
+
     /**
      * @brief
      *
      */
     #define STONEYDSP_UINT8_T uint8_t
+
   #endif // __cplusplus
 
 // Maximum constraints
@@ -77,6 +81,7 @@ typedef STONEYDSP_UINT8_T stoneydsp_uint8_t;
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
 /**
  * @brief Maximum value of exact-width unsigned type `stoneydsp_uint8_t`.
  *
@@ -85,7 +90,9 @@ typedef STONEYDSP_UINT8_T stoneydsp_uint8_t;
  * `(255U)`
  */
 constexpr ::stoneydsp_uint8_t stoneydsp_uint8_max = STONEYDSP_UINT8_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Maximum value of exact-width unsigned type `stoneydsp_uint8_t`.
  *
@@ -94,6 +101,7 @@ constexpr ::stoneydsp_uint8_t stoneydsp_uint8_max = STONEYDSP_UINT8_MAX;
  * `(255U)`
  */
 static const stoneydsp_uint8_t stoneydsp_uint8_max = STONEYDSP_UINT8_MAX;
+
   #endif // __cplusplus
 
 //===================================================================//NAMESPACE
@@ -102,15 +110,28 @@ static const stoneydsp_uint8_t stoneydsp_uint8_max = STONEYDSP_UINT8_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief
  *
  */
 using uint8_t = ::stoneydsp_uint8_t;
+
 /**
  * @brief Maximum value of exact-width unsigned type
  * `stoneydsp::core::types::uint8_t`.
@@ -120,36 +141,15 @@ using uint8_t = ::stoneydsp_uint8_t;
  * `(255U)`
  */
 constexpr ::stoneydsp::core::types::uint8_t uint8_max = ::stoneydsp_uint8_max;
-} // namespace types
-} // namespace core
-} // namespace stoneydsp
-
-  #endif // __cplusplus
-
-//=====================================================================//ALIASES
-
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::uint8_max;
-using ::stoneydsp::core::types::uint8_t;
-} // namespace stoneydsp
-
-  #endif // __cplusplus
 
 //====================================================================//LITERALS
 
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-namespace core
-{
-namespace types
-{
 namespace literals
 {
+/** @addtogroup literals
+ *  @{
+ */
+
 /**
  * @brief
  *
@@ -164,9 +164,23 @@ operator"" _uint8 (unsigned long long value)
   return static_cast< ::stoneydsp_uint8_t> (value);
 }
 
+/// @} literals
 } // namespace literals
+
+/// @} types
 } // namespace types
-} // namespace core
+
+/// @} group core
+} //  namespace core
+
+/// @} group stoneydsp
+
+//=====================================================================//ALIASES
+
+using ::stoneydsp::core::types::uint8_t;
+
+using ::stoneydsp::core::types::uint8_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus

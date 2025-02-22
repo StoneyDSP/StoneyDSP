@@ -25,17 +25,21 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
     /**
      * @brief Integer type with a width of exactly 16 bits.
      *
      */
     #define STONEYDSP_INT16_T ::std::int16_t
+
   #else // !__cplusplus
+
     /**
      * @brief Integer type with a width of exactly 16 bits.
      *
      */
     #define STONEYDSP_INT16_T int16_t
+
   #endif // __cplusplus
 
 // Minimum constraints
@@ -89,6 +93,7 @@ typedef STONEYDSP_INT16_T stoneydsp_int16_t;
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int16_t`.
  *
@@ -97,6 +102,7 @@ typedef STONEYDSP_INT16_T stoneydsp_int16_t;
  * `(-32767-1)`
  */
 constexpr ::stoneydsp_int16_t stoneydsp_int16_min = STONEYDSP_INT16_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int16_t`.
  *
@@ -105,7 +111,9 @@ constexpr ::stoneydsp_int16_t stoneydsp_int16_min = STONEYDSP_INT16_MIN;
  * `(32767)`
  */
 constexpr ::stoneydsp_int16_t stoneydsp_int16_max = STONEYDSP_INT16_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int16_t`.
  *
@@ -114,6 +122,7 @@ constexpr ::stoneydsp_int16_t stoneydsp_int16_max = STONEYDSP_INT16_MAX;
  * `(-32767-1)`
  */
 static const stoneydsp_int16_t stoneydsp_int16_min = STONEYDSP_INT16_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int16_t`.
  *
@@ -122,6 +131,7 @@ static const stoneydsp_int16_t stoneydsp_int16_min = STONEYDSP_INT16_MIN;
  * `(32767)`
  */
 static const stoneydsp_int16_t stoneydsp_int16_max = STONEYDSP_INT16_MAX;
+
   #endif // __cplusplus
 
 //===================================================================//NAMESPACE
@@ -130,10 +140,22 @@ static const stoneydsp_int16_t stoneydsp_int16_max = STONEYDSP_INT16_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief Integer type with a width of exactly 16 bits.
  *
@@ -143,6 +165,7 @@ namespace types
  *
  */
 using int16_t = ::stoneydsp_int16_t;
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int16_t`.
  *
@@ -151,6 +174,7 @@ using int16_t = ::stoneydsp_int16_t;
  * `(-32767-1)`
  */
 constexpr ::stoneydsp::core::types::int16_t int16_min = ::stoneydsp_int16_min;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int16_t`.
  *
@@ -159,35 +183,9 @@ constexpr ::stoneydsp::core::types::int16_t int16_min = ::stoneydsp_int16_min;
  * `(32767)`
  */
 constexpr ::stoneydsp::core::types::int16_t int16_max = ::stoneydsp_int16_max;
-} // namespace types
-} // namespace core
-} // namespace stoneydsp
-
-  #endif // __cplusplus
-
-//=====================================================================//ALIASES
-
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::int16_max;
-using ::stoneydsp::core::types::int16_min;
-using ::stoneydsp::core::types::int16_t;
-} // namespace stoneydsp
-
-  #endif // __cplusplus
 
 //====================================================================//LITERALS
 
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-namespace core
-{
-namespace types
-{
 namespace literals
 {
 /** @addtogroup literals
@@ -215,8 +213,23 @@ operator"" _int16 (unsigned long long value)
 
 /// @} literals
 } // namespace literals
+
+/// @} types
 } // namespace types
-} // namespace core
+
+/// @} group core
+} //  namespace core
+
+/// @} group stoneydsp
+
+//=====================================================================//ALIASES
+
+using ::stoneydsp::core::types::int16_t;
+
+using ::stoneydsp::core::types::int16_min;
+
+using ::stoneydsp::core::types::int16_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus

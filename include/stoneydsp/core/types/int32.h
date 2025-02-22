@@ -25,17 +25,21 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
     /**
      * @brief Integer type with a width of exactly 32 bits.
      *
      */
     #define STONEYDSP_INT32_T ::std::int32_t
+
   #else // !__cplusplus
+
     /**
      * @brief Integer type with a width of exactly 32 bits.
      *
      */
     #define STONEYDSP_INT32_T int32_t
+
   #endif // __cplusplus
 
 // Minimum constraints
@@ -89,6 +93,7 @@ typedef STONEYDSP_INT32_T stoneydsp_int32_t;
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int32_t`.
  *
@@ -97,6 +102,7 @@ typedef STONEYDSP_INT32_T stoneydsp_int32_t;
  * `(-2147483647-1)`
  */
 constexpr ::stoneydsp_int32_t stoneydsp_int32_min = STONEYDSP_INT32_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int32_t`.
  *
@@ -105,7 +111,9 @@ constexpr ::stoneydsp_int32_t stoneydsp_int32_min = STONEYDSP_INT32_MIN;
  * `(2147483647)`
  */
 constexpr ::stoneydsp_int32_t stoneydsp_int32_max = STONEYDSP_INT32_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int32_t`.
  *
@@ -114,6 +122,7 @@ constexpr ::stoneydsp_int32_t stoneydsp_int32_max = STONEYDSP_INT32_MAX;
  * `(-2147483647-1)`
  */
 static const stoneydsp_int32_t stoneydsp_int32_min = STONEYDSP_INT32_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int32_t`.
  *
@@ -122,6 +131,7 @@ static const stoneydsp_int32_t stoneydsp_int32_min = STONEYDSP_INT32_MIN;
  * `(2147483647)`
  */
 static const stoneydsp_int32_t stoneydsp_int32_max = STONEYDSP_INT32_MAX;
+
   #endif // __cplusplus
 
 //===================================================================//NAMESPACE
@@ -130,10 +140,22 @@ static const stoneydsp_int32_t stoneydsp_int32_max = STONEYDSP_INT32_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief Integer type with a width of exactly 32 bits.
  *
@@ -143,6 +165,7 @@ namespace types
  *
  */
 using int32_t = ::stoneydsp_int32_t;
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int32_t`.
  *
@@ -151,6 +174,7 @@ using int32_t = ::stoneydsp_int32_t;
  * `(-2147483647-1)`
  */
 constexpr ::stoneydsp::core::types::int32_t int32_min = ::stoneydsp_int32_min;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int32_t`.
  *
@@ -159,34 +183,9 @@ constexpr ::stoneydsp::core::types::int32_t int32_min = ::stoneydsp_int32_min;
  * `(2147483647)`
  */
 constexpr ::stoneydsp::core::types::int32_t int32_max = ::stoneydsp_int32_max;
-} // namespace types
-} // namespace core
-} // namespace stoneydsp
 
-  #endif // __cplusplus
-
-//=====================================================================//ALIASES
-
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::int32_max;
-using ::stoneydsp::core::types::int32_min;
-using ::stoneydsp::core::types::int32_t;
-} // namespace stoneydsp
-
-  #endif // __cplusplus
 //====================================================================//LITERALS
 
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-namespace core
-{
-namespace types
-{
 namespace literals
 {
 /** @addtogroup literals
@@ -214,8 +213,23 @@ operator"" _int32 (unsigned long long value)
 
 /// @} literals
 } // namespace literals
+
+/// @} types
 } // namespace types
-} // namespace core
+
+/// @} group core
+} //  namespace core
+
+/// @} group stoneydsp
+
+//=====================================================================//ALIASES
+
+using ::stoneydsp::core::types::int32_t;
+
+using ::stoneydsp::core::types::int32_min;
+
+using ::stoneydsp::core::types::int32_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus
