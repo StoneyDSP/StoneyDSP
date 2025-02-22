@@ -162,9 +162,13 @@ extern char const *stoneydsp_version;
 
 // for `stoneydsp_size_t`
   #include "stoneydsp/core/types/size.h"
+// for `stoneydsp_ptrdiff_t`
+  #include "stoneydsp/core/types/ptrdiff.h"
+// for `stoneydsp_nullptr_t`
+  #include "stoneydsp/core/types/nullptr.h"
+// for `stoneydsp_max_align_t`
+  #include "stoneydsp/core/types/max_align.h"
 
-// for `stoneydsp_size_t`
-  #include "stoneydsp/core/types/def.h"
 // for `stoneydsp_float_t`
   #include "stoneydsp/core/types/math.h"
 
