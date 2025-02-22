@@ -25,17 +25,21 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
     /**
      * @brief Integer type with a width of exactly 8 bits.
      *
      */
     #define STONEYDSP_INT8_T ::std::int8_t
+
   #else // !__cplusplus
+
     /**
      * @brief
      *
      */
     #define STONEYDSP_INT8_T int8_t
+
   #endif // __cplusplus
 
 // Minimum constraints
@@ -89,6 +93,7 @@ typedef STONEYDSP_INT8_T stoneydsp_int8_t;
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int8_t`.
  *
@@ -97,6 +102,7 @@ typedef STONEYDSP_INT8_T stoneydsp_int8_t;
  * `(-128)`
  */
 constexpr ::stoneydsp_int8_t stoneydsp_int8_min = STONEYDSP_INT8_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int8_t`.
  *
@@ -105,7 +111,9 @@ constexpr ::stoneydsp_int8_t stoneydsp_int8_min = STONEYDSP_INT8_MIN;
  * `(127)`
  */
 constexpr ::stoneydsp_int8_t stoneydsp_int8_max = STONEYDSP_INT8_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int8_t`.
  *
@@ -114,6 +122,7 @@ constexpr ::stoneydsp_int8_t stoneydsp_int8_max = STONEYDSP_INT8_MAX;
  * `(-128)`
  */
 static const stoneydsp_int8_t stoneydsp_int8_min = STONEYDSP_INT8_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int8_t`.
  *
@@ -122,6 +131,7 @@ static const stoneydsp_int8_t stoneydsp_int8_min = STONEYDSP_INT8_MIN;
  * `(127)`
  */
 static const stoneydsp_int8_t stoneydsp_int8_max = STONEYDSP_INT8_MAX;
+
   #endif // __cplusplus
 
 //===================================================================//NAMESPACE
@@ -130,10 +140,22 @@ static const stoneydsp_int8_t stoneydsp_int8_max = STONEYDSP_INT8_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief Integer type with a width of exactly 8 bits.
  *
@@ -143,6 +165,7 @@ namespace types
  *
  */
 using int8_t = ::stoneydsp_int8_t;
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int8_t`.
  *
@@ -151,6 +174,7 @@ using int8_t = ::stoneydsp_int8_t;
  * `(-128)`
  */
 constexpr ::stoneydsp::core::types::int8_t int8_min = ::stoneydsp_int8_min;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int8_t`.
  *
@@ -159,35 +183,9 @@ constexpr ::stoneydsp::core::types::int8_t int8_min = ::stoneydsp_int8_min;
  * `(127)`
  */
 constexpr ::stoneydsp::core::types::int8_t int8_max = ::stoneydsp_int8_max;
-} // namespace types
-} // namespace core
-} // namespace stoneydsp
-
-  #endif // __cplusplus
-
-//=====================================================================//ALIASES
-
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::int8_max;
-using ::stoneydsp::core::types::int8_min;
-using ::stoneydsp::core::types::int8_t;
-} // namespace stoneydsp
-
-  #endif // __cplusplus
 
 //====================================================================//LITERALS
 
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-namespace core
-{
-namespace types
-{
 namespace literals
 {
 /** @addtogroup literals
@@ -215,8 +213,23 @@ operator"" _int8 (unsigned long long value)
 
 /// @} literals
 } // namespace literals
+
+/// @} types
 } // namespace types
-} // namespace core
+
+/// @} group core
+} //  namespace core
+
+/// @} group stoneydsp
+
+//=====================================================================//ALIASES
+
+using ::stoneydsp::core::types::int8_t;
+
+using ::stoneydsp::core::types::int8_min;
+
+using ::stoneydsp::core::types::int8_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus
