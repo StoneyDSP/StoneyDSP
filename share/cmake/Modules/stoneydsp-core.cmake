@@ -21,6 +21,7 @@ if(NOT DEFINED STONEYDSP_BINARY_DIR)
 endif(NOT DEFINED STONEYDSP_BINARY_DIR)
 
 #[============================[stoneydsp_add_core]============================]
+option(STONEYDSP_EXPORTS "" ON)
 cmake_dependent_option(STONEYDSP_CORE_TARGET_INSTALL "Notes" ON "STONEYDSP_BUILD_CORE" ON)
 cmake_dependent_option(STONEYDSP_CORE_TARGET_EXPORT "Notes" ON "STONEYDSP_BUILD_CORE" ON)
 include(CMakeDependentOption)
@@ -174,6 +175,12 @@ function(stoneydsp_add_core)
         "-DSTONEYDSP_CORE_VERSION_BUILD=${STONEYDSP_CORE_VERSION_BUILD}"
         "-DSTONEYDSP_CORE_VERSION=${STONEYDSP_CORE_VERSION}"
     )
+
+    if(STONEYDSP_EXPORTS)
+        list(APPEND STONEYDSP_CORE_COMPILE_DEFINITIONS_PUBLIC
+            "-DSTONEYDSP_EXPORTS=1"
+        )
+    endif(STONEYDSP_EXPORTS)
 
     # List compile definitions (interface)
     set(STONEYDSP_CORE_COMPILE_DEFINITIONS_INTERFACE)
