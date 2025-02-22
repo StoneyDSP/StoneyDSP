@@ -25,6 +25,7 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
     /**
      * @brief Integer type capable of holding a value converted from a `void`
      * pointer and then be converted back to that type with a value that
@@ -32,7 +33,9 @@
      *
      */
     #define STONEYDSP_INTPTR_T ::std::intptr_t
+
   #else // !__cplusplus
+
     /**
      * @brief Integer type capable of holding a value converted from a `void`
      * pointer and then be converted back to that type with a value that
@@ -40,6 +43,7 @@
      *
      */
     #define STONEYDSP_INTPTR_T intptr_t
+
   #endif // __cplusplus
 
 // Minimum constraints
@@ -60,8 +64,16 @@
 
 // Function helpers
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_INTPTR_PRINT_F PRIiPTR
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_INTPTR_SCAN_F SCNiPTR
 
 //====================================================================//TYPEDEFS
@@ -77,27 +89,33 @@ typedef STONEYDSP_INTPTR_T stoneydsp_intptr_t;
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_intptr_t`.
  *
  */
 constexpr ::stoneydsp_intptr_t stoneydsp_intptr_min = STONEYDSP_INTPTR_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_intptr_t`.
  *
  */
 constexpr ::stoneydsp_intptr_t stoneydsp_intptr_max = STONEYDSP_INTPTR_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_intptr_t`.
  *
  */
 static const stoneydsp_intptr_t stoneydsp_intptr_min = STONEYDSP_INTPTR_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_intptr_t`.
  *
  */
 static const stoneydsp_intptr_t stoneydsp_intptr_max = STONEYDSP_INTPTR_MAX;
+
   #endif // __cplusplus
 
 //==============================================================================
@@ -106,10 +124,22 @@ static const stoneydsp_intptr_t stoneydsp_intptr_max = STONEYDSP_INTPTR_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief Integer type capable of holding a value converted from a `void`
  * pointer and then be converted back to that type with a value that
@@ -117,33 +147,37 @@ namespace types
  *
  */
 using intptr_t = ::stoneydsp_intptr_t;
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_intptr_t`.
  *
  */
 constexpr ::stoneydsp::core::types::intptr_t intptr_min
     = ::stoneydsp_intptr_min;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_intptr_t`.
  *
  */
 constexpr ::stoneydsp::core::types::intptr_t intptr_max
     = ::stoneydsp_intptr_max;
+
+/// @} types
 } // namespace types
-} // namespace core
-} // namespace stoneydsp
 
-  #endif // __cplusplus
+/// @} group core
+} //  namespace core
 
-//==============================================================================
+/// @} group stoneydsp
 
-  #ifdef __cplusplus
+//=====================================================================//ALIASES
 
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::intptr_max;
-using stoneydsp::core::types::intptr_min;
 using ::stoneydsp::core::types::intptr_t;
+
+using stoneydsp::core::types::intptr_min;
+
+using ::stoneydsp::core::types::intptr_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus

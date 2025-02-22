@@ -164,7 +164,7 @@
 		"warning",
 		"note"
 	],
-	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
 	"C_Cpp.default.mergeConfigurations": true,
 	"C_Cpp.formatting": "clangFormat",
 	"C_Cpp.autoAddFileAssociations": true,

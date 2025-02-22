@@ -25,17 +25,21 @@
 //=====================================================================//DEFINES
 
   #ifdef __cplusplus
+
     /**
      * @brief Integer type with a width of exactly 64 bits.
      *
      */
     #define STONEYDSP_INT64_T ::std::int64_t
+
   #else // !__cplusplus
+
     /**
      * @brief Integer type with a width of exactly 64 bits.
      *
      */
     #define STONEYDSP_INT64_T int64_t
+
   #endif // __cplusplus
 
 // Function helpers
@@ -89,6 +93,7 @@ typedef STONEYDSP_INT64_T stoneydsp_int64_t;
   #define STONEYDSP_INT64_MAX INT64_MAX
 
   #ifdef __cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int64_t`.
  *
@@ -97,6 +102,7 @@ typedef STONEYDSP_INT64_T stoneydsp_int64_t;
  * `(-9223372036854775807L-1)`
  */
 constexpr ::stoneydsp_int64_t stoneydsp_int64_min = STONEYDSP_INT64_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int64_t`.
  *
@@ -105,7 +111,9 @@ constexpr ::stoneydsp_int64_t stoneydsp_int64_min = STONEYDSP_INT64_MIN;
  * `(9223372036854775807L)`
  */
 constexpr ::stoneydsp_int64_t stoneydsp_int64_max = STONEYDSP_INT64_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int64_t`.
  *
@@ -114,6 +122,7 @@ constexpr ::stoneydsp_int64_t stoneydsp_int64_max = STONEYDSP_INT64_MAX;
  * `(-9223372036854775807L-1)`
  */
 static const stoneydsp_int64_t stoneydsp_int64_min = STONEYDSP_INT64_MIN;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int64_t`.
  *
@@ -122,6 +131,7 @@ static const stoneydsp_int64_t stoneydsp_int64_min = STONEYDSP_INT64_MIN;
  * `(9223372036854775807L)`
  */
 static const stoneydsp_int64_t stoneydsp_int64_max = STONEYDSP_INT64_MAX;
+
   #endif // __cplusplus
 
 //===================================================================//NAMESPACE
@@ -130,10 +140,22 @@ static const stoneydsp_int64_t stoneydsp_int64_max = STONEYDSP_INT64_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief Integer type with a width of exactly 64 bits.
  *
@@ -143,6 +165,7 @@ namespace types
  *
  */
 using int64_t = ::stoneydsp_int64_t;
+
 /**
  * @brief Minimum value of exact-width signed type `stoneydsp_int64_t`.
  *
@@ -151,6 +174,7 @@ using int64_t = ::stoneydsp_int64_t;
  * `(-9223372036854775807L-1)`
  */
 constexpr ::stoneydsp::core::types::int64_t int64_min = ::stoneydsp_int64_min;
+
 /**
  * @brief Maximum value of exact-width signed type `stoneydsp_int64_t`.
  *
@@ -159,35 +183,9 @@ constexpr ::stoneydsp::core::types::int64_t int64_min = ::stoneydsp_int64_min;
  * `(9223372036854775807L)`
  */
 constexpr ::stoneydsp::core::types::int64_t int64_max = ::stoneydsp_int64_max;
-} // namespace types
-} // namespace core
-} // namespace stoneydsp
-
-  #endif // __cplusplus
-
-//=====================================================================//ALIASES
-
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::int64_max;
-using ::stoneydsp::core::types::int64_min;
-using ::stoneydsp::core::types::int64_t;
-} // namespace stoneydsp
-
-  #endif // __cplusplus
 
 //====================================================================//LITERALS
 
-  #ifdef __cplusplus
-
-namespace stoneydsp
-{
-namespace core
-{
-namespace types
-{
 namespace literals
 {
 /** @addtogroup literals
@@ -215,8 +213,23 @@ operator"" _int64 (unsigned long long value)
 
 /// @} literals
 } // namespace literals
+
+/// @} types
 } // namespace types
-} // namespace core
+
+/// @} group core
+} //  namespace core
+
+/// @} group stoneydsp
+
+//=====================================================================//ALIASES
+
+using ::stoneydsp::core::types::int64_t;
+
+using ::stoneydsp::core::types::int64_min;
+
+using ::stoneydsp::core::types::int64_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus
