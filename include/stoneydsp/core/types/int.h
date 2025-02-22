@@ -33,24 +33,58 @@
 
 // Maximum constraints
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_INT_MIN INT_MIN
 
 // Minimum constraints
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_INT_MAX INT_MAX
 
 //====================================================================//TYPEDEFS
 
+/**
+ * @brief
+ *
+ */
 typedef STONEYDSP_INT_T stoneydsp_int_t;
 
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
+/**
+ * @brief
+ *
+ */
 constexpr ::stoneydsp_int_t stoneydsp_int_min = STONEYDSP_INT_MIN;
+
+/**
+ * @brief
+ *
+ */
 constexpr ::stoneydsp_int_t stoneydsp_int_max = STONEYDSP_INT_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
+/**
+ * @brief
+ *
+ */
 static const stoneydsp_int_t stoneydsp_int_min = STONEYDSP_INT_MIN;
+
+/**
+ * @brief
+ *
+ */
 static const stoneydsp_int_t stoneydsp_int_max = STONEYDSP_INT_MAX;
+
   #endif // __cplusplus
 
 //==============================================================================
@@ -59,32 +93,56 @@ static const stoneydsp_int_t stoneydsp_int_max = STONEYDSP_INT_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief
  *
  */
 using int_t = ::stoneydsp_int_t;
+
+/**
+ * @brief
+ *
+ */
 constexpr ::stoneydsp::core::types::int_t int_max = ::stoneydsp_int_max;
+
+/**
+ * @brief
+ *
+ */
 constexpr ::stoneydsp::core::types::int_t int_min = ::stoneydsp_int_min;
+
+/// @} types
 } // namespace types
-} // namespace core
-} // namespace stoneydsp
 
-  #endif // __cplusplus
+/// @} group core
+} //  namespace core
 
-//==============================================================================
+/// @} group stoneydsp
 
-  #ifdef __cplusplus
+//=====================================================================//ALIASES
 
-namespace stoneydsp
-{
 using ::stoneydsp::core::types::int_t;
-using ::stoneydsp::core::types::int_max;
+
 using ::stoneydsp::core::types::int_min;
+
+using ::stoneydsp::core::types::int_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus

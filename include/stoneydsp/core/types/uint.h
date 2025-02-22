@@ -32,18 +32,38 @@
 
 // Maximum constraints
 
+/**
+ * @brief
+ *
+ */
   #define STONEYDSP_UINT_MAX UINT_MAX
 
 //====================================================================//TYPEDEFS
 
+/**
+ * @brief
+ *
+ */
 typedef STONEYDSP_UINT_T stoneydsp_uint_t;
 
 //===================================================================//CONSTANTS
 
   #ifdef __cplusplus
+
+/**
+ * @brief
+ *
+ */
 constexpr ::stoneydsp_uint_t stoneydsp_uint_max = STONEYDSP_UINT_MAX;
-  #else  // !__cplusplus
+
+  #else // !__cplusplus
+
+/**
+ * @brief
+ *
+ */
 static const stoneydsp_uint_t stoneydsp_uint_max = STONEYDSP_UINT_MAX;
+
   #endif // __cplusplus
 
 //==============================================================================
@@ -52,30 +72,48 @@ static const stoneydsp_uint_t stoneydsp_uint_max = STONEYDSP_UINT_MAX;
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ *  @{
+ */
+
 namespace core
 {
+/** @addtogroup core
+ *  @{
+ */
+
 namespace types
 {
+/** @addtogroup types
+ *  @{
+ */
+
 /**
  * @brief
  *
  */
 using uint_t = ::stoneydsp_uint_t;
+
+/**
+ * @brief
+ *
+ */
 constexpr ::stoneydsp::core::types::uint_t uint_max = ::stoneydsp_uint_max;
+
+/// @} types
 } // namespace types
-} // namespace core
-} // namespace stoneydsp
 
-  #endif // __cplusplus
+/// @} group core
+} //  namespace core
 
-//==============================================================================
+/// @} group stoneydsp
 
-  #ifdef __cplusplus
+//=====================================================================//ALIASES
 
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::uint_max;
 using ::stoneydsp::core::types::uint_t;
+
+using ::stoneydsp::core::types::uint_max;
+
 } // namespace stoneydsp
 
   #endif // __cplusplus
