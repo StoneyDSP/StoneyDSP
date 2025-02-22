@@ -550,7 +550,7 @@ $(TARGET): $(OBJECTS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(BUILD_SHARED_FLAG) $(LDFLAGS) $^ -o $@
+	$(CXX) $(BUILD_SHARED_FLAG) $(CPPFLAGS) $(ASMFLAGS) $(CXXFLAGS) $(FLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $^ -o $@
 	@echo Built target successfully: $@
 	@echo
 
