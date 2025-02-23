@@ -1,5 +1,5 @@
 /**
- * @file int.test.cpp
+ * @file core.test.cpp
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @copyright Copyright (c) 2025
  *
@@ -22,6 +22,6 @@
 
 //============================================================================//
 
-#endif // defined(STONEYDSP_BUILD_TEST)
+#endif // defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
 
 //=========================================================================//EOF
