@@ -48,7 +48,7 @@ PROJECT_NAME           = StoneyDSP
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = v0
+PROJECT_NUMBER         = v0.0.754.66366466616331
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -2381,20 +2381,6 @@ SEARCH_INCLUDES        = YES
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
 INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/StoneyDSP
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/StoneyDSP/Core
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/StoneyDSP/SIMD
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/StoneyDSP/DSP
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/dep
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/app
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/dsp
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/engine
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/plugin
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/simd
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/ui
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/widget
-INCLUDE_PATH           += build/vcpkg_installed/x64-linux/include/Rack-SDK/rack/window
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the
@@ -2412,11 +2398,18 @@ INCLUDE_FILE_PATTERNS  =
 # recursively expanded use the := operator instead of the = operator.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
+PREDEFINED             += "__GNUC__="
+PREDEFINED             += "__cplusplus="
+PREDEFINED             += "STONEYDSP_LINUX="
+PREDEFINED             += "STONEYDSP_CXX="
+PREDEFINED             += "STONEYDSP_GCC="
+PREDEFINED             += "STONEYDSP_64BIT="
 PREDEFINED             += "STONEYDSP_VERSION="
 PREDEFINED             += "STONEYDSP_VERSION_MAJOR >="
 PREDEFINED             += "STONEYDSP_VERSION_MINOR >="
 PREDEFINED             += "STONEYDSP_VERSION_PATCH >="
 PREDEFINED             += "STONEYDSP_VERSION_TWEAK >="
+PREDEFINED             += "STONEYDSP_EXPORTS="
 PREDEFINED             += "STONEYDSP_EXPERIMENTAL="
 PREDEFINED             += "STONEYDSP_BUILD_DOCS="
 PREDEFINED             += "STONEYDSP_BUILD_TEST="
@@ -2439,7 +2432,7 @@ EXPAND_AS_DEFINED      =
 # The default value is: YES.
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
-SKIP_FUNCTION_MACROS   = YES
+SKIP_FUNCTION_MACROS   = NO
 
 #---------------------------------------------------------------------------
 # Configuration options related to external references

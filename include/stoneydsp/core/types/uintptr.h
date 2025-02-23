@@ -88,7 +88,7 @@ constexpr ::stoneydsp_uintptr_t stoneydsp_uintptr_max = STONEYDSP_UINTPTR_MAX;
  * @brief Maximum value of exact-width unsigned type `stoneydsp_uintptr_t`.
  *
  */
-static const stoneydsp_uintptr_t stoneydsp_uintptr_max = STONEYDSPU_INTPTR_MAX;
+static const stoneydsp_uintptr_t stoneydsp_uintptr_max = STONEYDSP_INTPTR_MAX;
 
   #endif // __cplusplus
 
