@@ -119,6 +119,12 @@ function(stoneydsp_add_stoneydsp)
         )
     endif()
 
+    if(STONEYDSP_BUILD_DSP)
+        list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC
+            ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_DSP_TARGET_NAME}
+        )
+    endif()
+
     # List link libraries (interface)
     set(STONEYDSP_LINK_LIBRARIES_INTERFACE)
     list(APPEND STONEYDSP_LINK_LIBRARIES_INTERFACE)

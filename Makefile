@@ -301,13 +301,14 @@ endif
 ifeq ($(BUILD_TEST),1)
 	TEST_SRCS :=
 	ifeq ($(BUILD_CORE),1)
-		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
-		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
 	endif
 	ifeq ($(BUILD_SIMD),1)
 	endif
 	ifeq ($(BUILD_DSP),1)
+		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/widgets/*.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/dsp.test.cpp)
 	endif
 	TEST_TARGET := $(BUILD_DIR)/test/main
 	TEST_SRCS += $(wildcard $(TEST_DIR)/catch2session.test.cpp)

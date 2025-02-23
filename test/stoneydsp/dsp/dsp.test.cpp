@@ -1,5 +1,5 @@
 /**
- * @file core.test.cpp
+ * @file dsp.test.cpp
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @copyright Copyright (c) 2025
  *
@@ -7,11 +7,11 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/dsp/dsp.h"
 
 //==============================================================================
 
-#if defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
+#if defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_DSP)
 
 //==============================================================================
 
@@ -22,6 +22,6 @@
 
 //============================================================================//
 
-#endif // defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
+#endif // defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_DSP)
 
 //=========================================================================//EOF
