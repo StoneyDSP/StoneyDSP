@@ -9,6 +9,7 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     FEATURES
     core STONEYDSP_BUILD_CORE
     simd STONEYDSP_BUILD_SIMD
+    dsp STONEYDSP_BUILD_DSP
 )
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
