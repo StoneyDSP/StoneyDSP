@@ -1,3 +1,14 @@
+/**
+ * @file main.h
+ * @author StoneyDSP (nathanjhood@googlemail.com)
+ * @brief
+ * @version
+ * @date 2025-02-23
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+
 #pragma once
 
 #ifndef STONEYDSP_MAIN_H_INCLUDED
@@ -25,12 +36,26 @@
   #endif // STONEYDSP_BUILD_MAIN
 
   #ifdef __cplusplus
+
 namespace stoneydsp
 {
-void run ();
+/**
+ * @brief
+ *
+ * @returns void
+ */
+void STONEYDSP_PUBLIC_FUNCTION run ();
 } // namespace stoneydsp
-  #else  // !__cplusplus
-void stoneydsp_run ();
+
+  #else // !__cplusplus
+
+/**
+ * @brief
+ *
+ * @returns void
+ */
+void STONEYDSP_PUBLIC_FUNCTION stoneydsp_run ();
+
   #endif // __cplusplus
 
 /**
