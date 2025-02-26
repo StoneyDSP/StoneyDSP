@@ -23,14 +23,24 @@
 
 //==============================================================================
 
+  #ifdef __STDC__
+    #define STONEYDSP_CC __STDC__
+  #endif
+
+//==============================================================================
+
   #ifdef __cplusplus
     #define STONEYDSP_CXX __cplusplus
   #endif
 
 //==============================================================================
 
-  #ifdef __STDC__
-    #define STONEYDSP_CC __STDC__
+  #ifdef __OBJC__
+    #ifdef __cplusplus
+      #define STONEYDSP_OBJCXX __OBJC__
+    #else // !_cplusplus
+      #define STONEYDSP_OBJC __OBJC__
+    #endif // _cplusplus
   #endif
 
 //==============================================================================
@@ -63,6 +73,14 @@
     #define STONEYDSP_EXTERN_C
     #define STONEYDSP_EXTERN_C_BEGIN
     #define STONEYDSP_EXTERN_C_END
+  #endif
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+    #define STONEYDSP_CONSTEXPR constexpr
+  #else
+    #define STONEYDSP_CONSTEXPR const
   #endif
 
 //==============================================================================
