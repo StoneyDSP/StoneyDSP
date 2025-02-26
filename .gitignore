@@ -18,6 +18,8 @@ build
 dist
 out
 
+.cache
+
 vcpkg_installed
 
 .cmake
