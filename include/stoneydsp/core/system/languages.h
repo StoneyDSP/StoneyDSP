@@ -85,6 +85,18 @@
 
 //==============================================================================
 
+#ifdef STONEYDSP_CXX
+  #ifdef _NOEXCEPT
+    #define STONEYDSP_NOEXCEPT _NOEXCEPT
+  #else
+    #define STONEYDSP_NOEXCEPT noexcept
+  #endif
+#else
+  #define STONEYDSP_NOEXCEPT
+#endif
+
+//==============================================================================
+
 #endif // STONEYDSP_CORE_SYSTEM_LANGUAGES_H_INCLUDED
 
 //=========================================================================//EOF
