@@ -440,154 +440,154 @@ typedef STONEYDSP_BOOL_T stoneydsp_bool_t;
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_char_c (unsigned long long value)
+    stoneydsp_char_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_CHAR_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_SCHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_schar_c (unsigned long long value)
+    stoneydsp_schar_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_SCHAR_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uchar_c (unsigned long long value)
+    stoneydsp_uchar_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UCHAR_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int_c (unsigned long long value)
+    stoneydsp_int_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint_c (unsigned long long value)
+    stoneydsp_uint_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_SHRT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_shrt_c (unsigned long long value)
+    stoneydsp_shrt_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_SHRT_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_USHRT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ushrt_c (unsigned long long value)
+    stoneydsp_ushrt_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_USHRT_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_long_c (unsigned long long value)
+    stoneydsp_long_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LONG_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ulong_c (unsigned long long value)
+    stoneydsp_ulong_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_ULONG_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_llong_c (unsigned long long value)
+    stoneydsp_llong_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LLONG_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ullong_c (unsigned long long value)
+    stoneydsp_ullong_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_ULLONG_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT8_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int8_c (unsigned long long value)
+    stoneydsp_int8_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT8_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int16_c (unsigned long long value)
+    stoneydsp_int16_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT16_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT32_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int32_c (unsigned long long value)
+    stoneydsp_int32_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT32_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int64_c (unsigned long long value)
+    stoneydsp_int64_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT64_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint8_c (unsigned long long value)
+    stoneydsp_uint8_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT8_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint16_c (unsigned long long value)
+    stoneydsp_uint16_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT16_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint32_c (unsigned long long value)
+    stoneydsp_uint32_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT32_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint64_c (unsigned long long value)
+    stoneydsp_uint64_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT64_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_double_c (double value)
+    stoneydsp_double_c (double value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_DBL_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LDBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ldouble_c (long double value)
+    stoneydsp_ldouble_c (long double value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LDBL_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_float_c (float value)
+    stoneydsp_float_c (float value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_FLT_C (value));
 }
@@ -608,28 +608,28 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_bool_t`
      *
      */
-    stoneydsp_bool_max ()
+    stoneydsp_bool_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_BOOL_C (STONEYDSP_BOOL_MAX));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_double_max ()
+    stoneydsp_double_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_DBL_C (STONEYDSP_DBL_MAX));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LDBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ldouble_max ()
+    stoneydsp_ldouble_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LDBL_C (STONEYDSP_LDBL_MAX));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_float_max ()
+    stoneydsp_float_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_FLT_C (STONEYDSP_FLT_MAX));
 }
@@ -650,7 +650,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_char_t`
      *
      */
-    stoneydsp_char_max ()
+    stoneydsp_char_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_CHAR_C (STONEYDSP_CHAR_MAX));
 }
@@ -671,7 +671,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_schar_t`
      *
      */
-    stoneydsp_schar_max ()
+    stoneydsp_schar_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_SCHAR_C (STONEYDSP_SCHAR_MAX));
 }
@@ -692,7 +692,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_uchar_t`
      *
      */
-    stoneydsp_uchar_max ()
+    stoneydsp_uchar_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UCHAR_C ((STONEYDSP_UCHAR_C (STONEYDSP_SCHAR_MAX))
                                  * (STONEYDSP_UCHAR_C (2U))
@@ -715,7 +715,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_shrt_t`
      *
      */
-    stoneydsp_shrt_max ()
+    stoneydsp_shrt_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_SHRT_C (STONEYDSP_SHRT_MAX));
 }
@@ -736,7 +736,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_ushrt_t`
      *
      */
-    stoneydsp_ushrt_max ()
+    stoneydsp_ushrt_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_USHRT_C ((STONEYDSP_USHRT_C (STONEYDSP_SHRT_MAX))
                                  * (STONEYDSP_USHRT_C (02U))
@@ -758,7 +758,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      *
      * @return `stoneydsp_int_t`
      */
-    stoneydsp_int_max ()
+    stoneydsp_int_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT_C (STONEYDSP_INT_MAX));
 }
@@ -778,21 +778,21 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_uint_t`
      *
      */
-    stoneydsp_uint_max ()
+    stoneydsp_uint_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT_C ((STONEYDSP_UINT_C (STONEYDSP_INT_MAX)) * 2U + 1U));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_long_max ()
+    stoneydsp_long_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LONG_C (STONEYDSP_LONG_MAX));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ulong_max ()
+    stoneydsp_ulong_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_ULONG_C ((STONEYDSP_ULONG_C (STONEYDSP_LONG_MAX)) * 2UL
                              + 1UL));
@@ -800,14 +800,14 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_llong_max ()
+    stoneydsp_llong_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LLONG_C (STONEYDSP_LLONG_MAX));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ullong_max ()
+    stoneydsp_ullong_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_ULLONG_C ((STONEYDSP_ULLONG_C (STONEYDSP_LLONG_MAX)) * 2ULL
                               + 1ULL));
@@ -815,21 +815,21 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR8_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char8_max ()
+// stoneydsp_char8_max () STONEYDSP_NOEXCEPT
 // {
 //   return (stoneydsp_uchar_max ());
 // }
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR16_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char16_max ()
+// stoneydsp_char16_max () STONEYDSP_NOEXCEPT
 // {
 //   return ::stoneydsp::numeric_limits<stoneydsp_char16_t>::max ();
 // }
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR32_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char32_max ()
+// stoneydsp_char32_max () STONEYDSP_NOEXCEPT
 // {
 //   return ::stoneydsp::numeric_limits<stoneydsp_char32_t>::max ();
 // }
@@ -850,7 +850,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int8_t`
      *
      */
-    stoneydsp_int8_max ()
+    stoneydsp_int8_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT8_C (STONEYDSP_INT8_MAX));
 }
@@ -871,7 +871,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int16_t`
      *
      */
-    stoneydsp_int16_max ()
+    stoneydsp_int16_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT16_C (STONEYDSP_INT16_MAX));
 }
@@ -892,7 +892,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int32_t`
      *
      */
-    stoneydsp_int32_max ()
+    stoneydsp_int32_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT32_C (STONEYDSP_INT32_MAX));
 }
@@ -905,7 +905,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int64_t`
      *
      */
-    stoneydsp_int64_max ()
+    stoneydsp_int64_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT64_C (STONEYDSP_INT64_MAX));
 }
@@ -926,7 +926,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_uint8_t`
      *
      */
-    stoneydsp_uint8_max ()
+    stoneydsp_uint8_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT8_C ((STONEYDSP_UINT8_C (STONEYDSP_INT8_MAX))
                                  * (STONEYDSP_UINT8_C (02U))
@@ -935,7 +935,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint16_max ()
+    stoneydsp_uint16_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT16_C ((STONEYDSP_UINT16_C (STONEYDSP_INT16_MAX))
                                   * (STONEYDSP_UINT16_C (0x0002U))
@@ -944,7 +944,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint32_max ()
+    stoneydsp_uint32_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT32_C ((STONEYDSP_UINT32_C (STONEYDSP_INT32_MAX))
                                   * (STONEYDSP_UINT32_C (2U))
@@ -953,7 +953,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint64_max ()
+    stoneydsp_uint64_max () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT64_C ((STONEYDSP_UINT64_C (STONEYDSP_INT64_MAX))
                                   * (STONEYDSP_UINT64_C (2U))
@@ -964,7 +964,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_BOOL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_bool_min ()
+    stoneydsp_bool_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_BOOL_C (STONEYDSP_BOOL_MIN));
 }
@@ -973,7 +973,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_char_min ()
+    stoneydsp_char_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_CHAR_MIN);
 }
@@ -982,7 +982,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_SCHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_schar_min ()
+    stoneydsp_schar_min () STONEYDSP_NOEXCEPT
 {
   return (-STONEYDSP_SCHAR_MAX - 1);
 }
@@ -991,7 +991,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uchar_min ()
+    stoneydsp_uchar_min () STONEYDSP_NOEXCEPT
 {
   return ((STONEYDSP_UCHAR_T)0);
 }
@@ -1006,7 +1006,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_shrt_t`
      *
      */
-    stoneydsp_shrt_min ()
+    stoneydsp_shrt_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_SHRT_C ((STONEYDSP_SHRT_C (-STONEYDSP_SHRT_MAX))
                             - (STONEYDSP_SHRT_C (1))));
@@ -1026,7 +1026,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * - oct: `000000`
      *
      */
-    stoneydsp_ushrt_min ()
+    stoneydsp_ushrt_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_USHRT_C (00U));
 }
@@ -1048,7 +1048,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      *
      * @return `stoneydsp_int_t`
      */
-    stoneydsp_int_min ()
+    stoneydsp_int_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT_C (STONEYDSP_INT_C (-STONEYDSP_INT_MAX))
           - (STONEYDSP_INT_C (1)));
@@ -1058,7 +1058,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint_min ()
+    stoneydsp_uint_min () STONEYDSP_NOEXCEPT
 {
   return STONEYDSP_UINT_C (0);
 }
@@ -1067,7 +1067,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_long_min ()
+    stoneydsp_long_min () STONEYDSP_NOEXCEPT
 {
   return (-STONEYDSP_LONG_MAX - 1);
 }
@@ -1076,7 +1076,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ulong_min ()
+    stoneydsp_ulong_min () STONEYDSP_NOEXCEPT
 {
   return (0UL);
 }
@@ -1085,7 +1085,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_llong_min ()
+    stoneydsp_llong_min () STONEYDSP_NOEXCEPT
 {
   return (-STONEYDSP_LLONG_MAX - 1);
 }
@@ -1094,7 +1094,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ullong_min ()
+    stoneydsp_ullong_min () STONEYDSP_NOEXCEPT
 {
   return 0ULL;
 }
@@ -1103,7 +1103,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR8_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char8_min ()
+// stoneydsp_char8_min () STONEYDSP_NOEXCEPT
 // {
 //   return (stoneydsp_uchar_min ());
 // }
@@ -1112,7 +1112,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR16_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char16_min ()
+// stoneydsp_char16_min () STONEYDSP_NOEXCEPT
 // {
 //   return ::stoneydsp::numeric_limits<stoneydsp_char16_t>::min ();
 // }
@@ -1121,7 +1121,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR32_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char32_min ()
+// stoneydsp_char32_min () STONEYDSP_NOEXCEPT
 // {
 //   return ::stoneydsp::numeric_limits<stoneydsp_char32_t>::min ();
 // }
@@ -1144,7 +1144,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int8_t`
      *
      */
-    stoneydsp_int8_min ()
+    stoneydsp_int8_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT8_C ((-STONEYDSP_INT8_MAX) - STONEYDSP_INT8_C (01)));
 }
@@ -1167,7 +1167,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int16_t`
      *
      */
-    stoneydsp_int16_min ()
+    stoneydsp_int16_min () STONEYDSP_NOEXCEPT
 {
   return (
       STONEYDSP_INT16_C ((-STONEYDSP_INT16_MAX) - STONEYDSP_INT16_C (0x0001)));
@@ -1191,7 +1191,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int32_t`
      *
      */
-    stoneydsp_int32_min ()
+    stoneydsp_int32_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT32_C ((-STONEYDSP_INT32_MAX) - STONEYDSP_INT32_C (1)));
 }
@@ -1206,7 +1206,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_int64_t`
      *
      */
-    stoneydsp_int64_min ()
+    stoneydsp_int64_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_INT64_C ((-STONEYDSP_INT64_MAX) - STONEYDSP_INT64_C (1)));
 }
@@ -1229,7 +1229,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
      * @return `stoneydsp_uint8_t`
      *
      */
-    stoneydsp_uint8_min ()
+    stoneydsp_uint8_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT8_C (00U));
 }
@@ -1238,7 +1238,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint16_min ()
+    stoneydsp_uint16_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT16_C (0x0000U));
 }
@@ -1247,7 +1247,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint32_min ()
+    stoneydsp_uint32_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT32_C (0U));
 }
@@ -1256,7 +1256,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint64_min ()
+    stoneydsp_uint64_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_UINT64_C (0U));
 }
@@ -1265,7 +1265,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_double_min ()
+    stoneydsp_double_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_DBL_C (STONEYDSP_DBL_MIN));
 }
@@ -1274,7 +1274,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LDBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ldouble_min ()
+    stoneydsp_ldouble_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LDBL_C (STONEYDSP_LDBL_MIN));
 }
@@ -1283,7 +1283,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_float_min ()
+    stoneydsp_float_min () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_FLT_C (STONEYDSP_FLT_MIN));
 }
@@ -1292,182 +1292,182 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_BOOL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_bool_lowest ()
+    stoneydsp_bool_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_bool_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_char_lowest ()
+    stoneydsp_char_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_char_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_SCHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_schar_lowest ()
+    stoneydsp_schar_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_schar_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uchar_lowest ()
+    stoneydsp_uchar_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_uchar_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_SHRT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_shrt_lowest ()
+    stoneydsp_shrt_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_shrt_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_USHRT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ushrt_lowest ()
+    stoneydsp_ushrt_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_ushrt_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int_lowest ()
+    stoneydsp_int_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_int_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint_lowest ()
+    stoneydsp_uint_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_uint_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_long_lowest ()
+    stoneydsp_long_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_long_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ulong_lowest ()
+    stoneydsp_ulong_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_ulong_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_llong_lowest ()
+    stoneydsp_llong_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_llong_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ullong_lowest ()
+    stoneydsp_ullong_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_ullong_min ());
 }
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR8_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char8_lowest ()
+// stoneydsp_char8_lowest () STONEYDSP_NOEXCEPT
 // {
 //   return (stoneydsp_uchar_lowest ());
 // }
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR16_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char16_lowest ()
+// stoneydsp_char16_lowest () STONEYDSP_NOEXCEPT
 // {
 //   return ::stoneydsp::numeric_limits<stoneydsp_char16_t>::lowest ();
 // }
 
 // STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR32_T
 // STONEYDSP_PUBLIC_FUNCTION
-// stoneydsp_char32_lowest ()
+// stoneydsp_char32_lowest () STONEYDSP_NOEXCEPT
 // {
 //   return ::stoneydsp::numeric_limits<stoneydsp_char32_t>::lowest ();
 // }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT8_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int8_lowest ()
+    stoneydsp_int8_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_int8_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int16_lowest ()
+    stoneydsp_int16_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_int16_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT32_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int32_lowest ()
+    stoneydsp_int32_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_int32_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_int64_lowest ()
+    stoneydsp_int64_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_int64_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint8_lowest ()
+    stoneydsp_uint8_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_uint8_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint16_lowest ()
+    stoneydsp_uint16_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_uint16_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint32_lowest ()
+    stoneydsp_uint32_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_uint32_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_uint64_lowest ()
+    stoneydsp_uint64_lowest () STONEYDSP_NOEXCEPT
 {
   return (stoneydsp_uint64_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_double_lowest ()
+    stoneydsp_double_lowest () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_DBL_C (-STONEYDSP_DBL_MAX));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_LDBL_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ldouble_lowest ()
+    stoneydsp_ldouble_lowest () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_LDBL_C (-STONEYDSP_LDBL_MAX));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_float_lowest ()
+    stoneydsp_float_lowest () STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_FLT_C (-STONEYDSP_FLT_MAX));
 }
@@ -1556,102 +1556,102 @@ namespace types
 namespace literals
 {
 inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _char_t (char value)
+operator"" _char_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_CHAR_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_SCHAR_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _schar_t (char value)
+operator"" _schar_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_SCHAR_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uchar_t (char value)
+operator"" _uchar_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UCHAR_T> (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_SHRT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _shrt_t (char value)
+operator"" _shrt_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_SHRT_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_USHRT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _ushrt_t (char value)
+operator"" _ushrt_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_USHRT_T> (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int_t (char value)
+operator"" _int_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint_t (char value)
+operator"" _uint_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT_T> (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_LONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _long_t (char value)
+operator"" _long_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_LONG_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_ULONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _ulong_t (char value)
+operator"" _ulong_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_ULONG_T> (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_LLONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _llong_t (char value)
+operator"" _llong_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_LLONG_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _ullong_t (char value)
+operator"" _ullong_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_ULLONG_T> (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT8_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int8_t (char value)
+operator"" _int8_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT8_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint8_t (char value)
+operator"" _uint8_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT8_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int16_t (char value)
+operator"" _int16_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT16_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint16_t (char value)
+operator"" _uint16_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT16_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT32_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int32_t (char value)
+operator"" _int32_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT32_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint32_t (char value)
+operator"" _uint32_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT32_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int64_t (char value)
+operator"" _int64_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT64_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint64_t (char value)
+operator"" _uint64_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT64_T> (value);
 }
@@ -1659,61 +1659,61 @@ operator"" _uint64_t (char value)
 //==============================================================================
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _char_t (unsigned long long value)
+operator"" _char_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_char_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_SCHAR_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _schar_t (unsigned long long value)
+operator"" _schar_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_schar_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uchar_t (unsigned long long value)
+operator"" _uchar_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uchar_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_SHRT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _shrt_t (unsigned long long value)
+operator"" _shrt_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_shrt_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_USHRT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _ushrt_t (unsigned long long value)
+operator"" _ushrt_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ushrt_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int_t (unsigned long long value)
+operator"" _int_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_int_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint_t (unsigned long long value)
+operator"" _uint_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uint_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_LONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _long_t (unsigned long long value)
+operator"" _long_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_long_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_ULONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _ulong_t (unsigned long long value)
+operator"" _ulong_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ulong_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_LLONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _llong_t (unsigned long long value)
+operator"" _llong_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_llong_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _ullong_t (unsigned long long value)
+operator"" _ullong_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ullong_c (value);
 }
@@ -1721,42 +1721,42 @@ operator"" _ullong_t (unsigned long long value)
 //==============================================================================
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT8_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int8_t (unsigned long long value)
+operator"" _int8_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT8_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint8_t (unsigned long long value)
+operator"" _uint8_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT8_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int16_t (unsigned long long value)
+operator"" _int16_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT16_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint16_t (unsigned long long value)
+operator"" _uint16_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT16_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT32_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int32_t (unsigned long long value)
+operator"" _int32_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT32_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint32_t (unsigned long long value)
+operator"" _uint32_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT32_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _int64_t (unsigned long long value)
+operator"" _int64_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_INT64_T> (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
-operator"" _uint64_t (unsigned long long value)
+operator"" _uint64_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT64_T> (value);
 }
