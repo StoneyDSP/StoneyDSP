@@ -17,12 +17,14 @@
 
   #ifdef STONEYDSP_CXX
     #include <cfloat>
+    #include <cinttypes>
     #include <climits>
     #include <cstdbool>
     #include <cstdint>
     #include <cuchar>
   #else // !STONEYDSP_CXX
     #include <float.h>
+    #include <inttypes.h>
     #include <limits.h>
     #include <stdbool.h>
     #include <stdint.h>
@@ -181,6 +183,30 @@
   #define STONEYDSP_UINT16_C(n) ((STONEYDSP_UINT16_T)n)
   #define STONEYDSP_UINT32_C(n) ((STONEYDSP_UINT32_T)n)
   #define STONEYDSP_UINT64_C(n) ((STONEYDSP_UINT64_T)n)
+
+//==============================================================================
+
+  #define STONEYDSP_INT8_PRINT_F PRIi8
+  #define STONEYDSP_INT16_PRINT_F PRIi16
+  #define STONEYDSP_INT32_PRINT_F PRIi32
+  #define STONEYDSP_INT64_PRINT_F PRIi64
+
+  #define STONEYDSP_UINT8_PRINT_F PRIu8
+  #define STONEYDSP_UINT16_PRINT_F PRIu16
+  #define STONEYDSP_UINT32_PRINT_F PRIu32
+  #define STONEYDSP_UINT64_PRINT_F PRIu64
+
+//==============================================================================
+
+  #define STONEYDSP_INT8_SCAN_F SCNi8
+  #define STONEYDSP_INT16_SCAN_F SCNi16
+  #define STONEYDSP_INT32_SCAN_F SCNi32
+  #define STONEYDSP_INT64_SCAN_F SCNi64
+
+  #define STONEYDSP_UINT8_SCAN_F SCNu8
+  #define STONEYDSP_UINT16_SCAN_F SCNu16
+  #define STONEYDSP_UINT32_SCAN_F SCNu32
+  #define STONEYDSP_UINT64_SCAN_F SCNu64
 
 //==============================================================================
 
@@ -511,6 +537,13 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_int64_c (unsigned long long value)
+{
+  return (STONEYDSP_INT64_C (value));
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
     stoneydsp_uint8_c (unsigned long long value)
 {
@@ -529,6 +562,13 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     stoneydsp_uint32_c (unsigned long long value)
 {
   return (STONEYDSP_UINT32_C (value));
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_c (unsigned long long value)
+{
+  return (STONEYDSP_UINT64_C (value));
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
@@ -858,6 +898,19 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @return `stoneydsp_int64_t`
+     *
+     */
+    stoneydsp_int64_max ()
+{
+  return (STONEYDSP_INT64_C (STONEYDSP_INT64_MAX));
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
     /**
      * @brief
@@ -896,6 +949,15 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
   return (STONEYDSP_UINT32_C ((STONEYDSP_UINT32_C (STONEYDSP_INT32_MAX))
                                   * (STONEYDSP_UINT32_C (2U))
                               + (STONEYDSP_UINT32_C (1U))));
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_max ()
+{
+  return (STONEYDSP_UINT64_C ((STONEYDSP_UINT64_C (STONEYDSP_INT64_MAX))
+                                  * (STONEYDSP_UINT64_C (2U))
+                              + (STONEYDSP_UINT64_C (1U))));
 }
 
 //=======================================================================//*_min
@@ -1134,6 +1196,21 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
   return (STONEYDSP_INT32_C ((-STONEYDSP_INT32_MAX) - STONEYDSP_INT32_C (1)));
 }
 
+// stoneydsp_int64_t
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @return `stoneydsp_int64_t`
+     *
+     */
+    stoneydsp_int64_min ()
+{
+  return (STONEYDSP_INT64_C ((-STONEYDSP_INT64_MAX) - STONEYDSP_INT64_C (1)));
+}
+
 // stoneydsp_uint8_t
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
@@ -1173,6 +1250,15 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     stoneydsp_uint32_min ()
 {
   return (STONEYDSP_UINT32_C (0U));
+}
+
+// stoneydsp_uint64_t
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_min ()
+{
+  return (STONEYDSP_UINT64_C (0U));
 }
 
 // stoneydsp_double_t
@@ -1331,6 +1417,13 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_int64_lowest ()
+{
+  return (stoneydsp_int64_min ());
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
     stoneydsp_uint8_lowest ()
 {
@@ -1349,6 +1442,13 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     stoneydsp_uint32_lowest ()
 {
   return (stoneydsp_uint32_min ());
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_lowest ()
+{
+  return (stoneydsp_uint64_min ());
 }
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
@@ -1405,10 +1505,12 @@ using bool_t = ::stoneydsp_bool_t;
 using int8_t = ::stoneydsp_int8_t;
 using int16_t = ::stoneydsp_int16_t;
 using int32_t = ::stoneydsp_int32_t;
+using int64_t = ::stoneydsp_int64_t;
 
 using uint8_t = ::stoneydsp_uint8_t;
 using uint16_t = ::stoneydsp_uint16_t;
 using uint32_t = ::stoneydsp_uint32_t;
+using uint64_t = ::stoneydsp_uint64_t;
 } // namespace types
 } // namespace core
 
@@ -1432,13 +1534,15 @@ using ::stoneydsp::core::types::ushrt_t;
 // using ::stoneydsp::core::types::char16_t;
 // using ::stoneydsp::core::types::char32_t;
 
-using ::stoneydsp::core::types::int8_t;
 using ::stoneydsp::core::types::int16_t;
 using ::stoneydsp::core::types::int32_t;
+using ::stoneydsp::core::types::int64_t;
+using ::stoneydsp::core::types::int8_t;
 
-using ::stoneydsp::core::types::uint8_t;
 using ::stoneydsp::core::types::uint16_t;
 using ::stoneydsp::core::types::uint32_t;
+using ::stoneydsp::core::types::uint64_t;
+using ::stoneydsp::core::types::uint8_t;
 }
 
 //==============================================================================
@@ -1541,67 +1645,77 @@ operator"" _uint32_t (char value)
 {
   return static_cast<STONEYDSP_UINT32_T> (value);
 }
+inline STONEYDSP_CONSTEXPR STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _int64_t (char value)
+{
+  return static_cast<STONEYDSP_INT64_T> (value);
+}
+inline STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _uint64_t (char value)
+{
+  return static_cast<STONEYDSP_UINT64_T> (value);
+}
 
 //==============================================================================
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _char_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_CHAR_T> (value);
+  return ::stoneydsp_char_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_SCHAR_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _schar_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_SCHAR_T> (value);
+  return ::stoneydsp_schar_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _uchar_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_UCHAR_T> (value);
+  return ::stoneydsp_uchar_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_SHRT_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _shrt_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_SHRT_T> (value);
+  return ::stoneydsp_shrt_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_USHRT_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _ushrt_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_USHRT_T> (value);
+  return ::stoneydsp_ushrt_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _int_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_INT_T> (value);
+  return ::stoneydsp_int_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_UINT_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _uint_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_UINT_T> (value);
+  return ::stoneydsp_uint_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_LONG_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _long_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_LONG_T> (value);
+  return ::stoneydsp_long_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_ULONG_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _ulong_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_ULONG_T> (value);
+  return ::stoneydsp_ulong_c (value);
 }
 
 inline STONEYDSP_CONSTEXPR STONEYDSP_LLONG_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _llong_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_LLONG_T> (value);
+  return ::stoneydsp_llong_c (value);
 }
 inline STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _ullong_t (unsigned long long value)
 {
-  return static_cast<STONEYDSP_ULLONG_T> (value);
+  return ::stoneydsp_ullong_c (value);
 }
 
 //==============================================================================
@@ -1635,6 +1749,16 @@ inline STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
 operator"" _uint32_t (unsigned long long value)
 {
   return static_cast<STONEYDSP_UINT32_T> (value);
+}
+inline STONEYDSP_CONSTEXPR STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _int64_t (unsigned long long value)
+{
+  return static_cast<STONEYDSP_INT64_T> (value);
+}
+inline STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _uint64_t (unsigned long long value)
+{
+  return static_cast<STONEYDSP_UINT64_T> (value);
 }
 } // namespace literals
 } // namespace types
