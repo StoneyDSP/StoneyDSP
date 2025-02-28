@@ -1,5 +1,5 @@
 /**
- * @file size_t.test.cpp
+ * @file size.test.cpp
  * @brief Test suite for stoneydsp::size_t
  * @copyright Copyright (c) 2025
  *
@@ -69,7 +69,7 @@ TEST_CASE ("Numeric limits of stoneydsp::size_t", "[numeric_limits][size_t]")
 
 TEST_CASE ("Endianness handling for stoneydsp::size_t", "[endianness][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t value = 0x12345678_size_t;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
@@ -102,7 +102,7 @@ TEST_CASE ("Rounding behavior of stoneydsp::size_t", "[rounding][size_t]")
 TEST_CASE ("Arithmetic operations with stoneydsp::size_t",
            "[arithmetic][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 15_size_t;
   ::stoneydsp::size_t b = 20_size_t;
@@ -120,7 +120,7 @@ TEST_CASE ("Arithmetic operations with stoneydsp::size_t",
 
 TEST_CASE ("Bitwise operations with stoneydsp::size_t", "[bitwise][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 5_size_t; // 0101
   ::stoneydsp::size_t b = 3_size_t; // 0011
@@ -134,12 +134,12 @@ TEST_CASE ("Bitwise operations with stoneydsp::size_t", "[bitwise][size_t]")
 
 TEST_CASE ("Shift operations with stoneydsp::size_t", "[bitwise][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 5_size_t; // 0101
 
-  REQUIRE ((a << 1) == 10);  // Left shift: 1010
-  REQUIRE ((a >> 1) == 2);   // Right shift: 0010
+  REQUIRE ((a << 1) == 10); // Left shift: 1010
+  REQUIRE ((a >> 1) == 2);  // Right shift: 0010
 }
 
 //===============================================================//comparison
@@ -147,7 +147,7 @@ TEST_CASE ("Shift operations with stoneydsp::size_t", "[bitwise][size_t]")
 TEST_CASE ("Comparison operations with stoneydsp::size_t",
            "[comparison][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 5_size_t;
   ::stoneydsp::size_t b = 3_size_t;
@@ -165,7 +165,7 @@ TEST_CASE ("Comparison operations with stoneydsp::size_t",
 TEST_CASE ("Check serialization and deserialization for stoneydsp::size_t",
            "[serialization][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::std::stringstream ss;
   ::stoneydsp::size_t originalValue = 42_size_t;
@@ -184,7 +184,7 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::size_t",
 TEST_CASE ("Boundary and overflow behaviour of stoneydsp::size_t",
            "[boundary][overflow][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = std::numeric_limits< ::stoneydsp::size_t>::max ();
   ::stoneydsp::size_t b = 1_size_t;
@@ -198,7 +198,7 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::size_t",
 TEST_CASE ("Boundary and underflow behavior of stoneydsp::size_t",
            "[boundary][underflow][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 0_size_t;
   ::stoneydsp::size_t b = 1_size_t;
@@ -213,19 +213,22 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::size_t",
 TEST_CASE ("Compatibility of stoneydsp::size_t with standard library",
            "[compatibility][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
-  ::std::vector< ::stoneydsp::size_t> vec = { 5_size_t, 3_size_t, 4_size_t, 1_size_t, 2_size_t };
+  ::std::vector< ::stoneydsp::size_t> vec
+      = { 5_size_t, 3_size_t, 4_size_t, 1_size_t, 2_size_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
-  REQUIRE (vec == ::std::vector< ::stoneydsp::size_t>{ 1_size_t, 2_size_t, 3_size_t, 4_size_t, 5_size_t });
+  REQUIRE (vec
+           == ::std::vector< ::stoneydsp::size_t>{
+               1_size_t, 2_size_t, 3_size_t, 4_size_t, 5_size_t });
 
   // Use std::accumulate to sum the elements
-  ::stoneydsp::size_t sum
-      = ::std::accumulate (vec.begin (), vec.end (), ::stoneydsp::size_t (0_size_t));
+  ::stoneydsp::size_t sum = ::std::accumulate (vec.begin (), vec.end (),
+                                               ::stoneydsp::size_t (0_size_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -236,7 +239,7 @@ TEST_CASE ("Compatibility of stoneydsp::size_t with standard library",
 // Benchmark for addition
 TEST_CASE ("Benchmark for stoneydsp::size_t addition", "[benchmark][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 1200_size_t;
   ::stoneydsp::size_t b = 3400_size_t;
@@ -248,7 +251,7 @@ TEST_CASE ("Benchmark for stoneydsp::size_t addition", "[benchmark][size_t]")
 TEST_CASE ("Benchmark for stoneydsp::size_t subtraction",
            "[benchmark][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 3400_size_t;
   ::stoneydsp::size_t b = 1200_size_t;
@@ -260,7 +263,7 @@ TEST_CASE ("Benchmark for stoneydsp::size_t subtraction",
 TEST_CASE ("Benchmark for stoneydsp::size_t multiplication",
            "[benchmark][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 1200_size_t;
   ::stoneydsp::size_t b = 2_size_t;
@@ -271,7 +274,7 @@ TEST_CASE ("Benchmark for stoneydsp::size_t multiplication",
 // Benchmark for division
 TEST_CASE ("Benchmark for stoneydsp::size_t division", "[benchmark][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 1200_size_t;
   ::stoneydsp::size_t b = 2_size_t;
@@ -283,7 +286,7 @@ TEST_CASE ("Benchmark for stoneydsp::size_t division", "[benchmark][size_t]")
 TEST_CASE ("Benchmark for stoneydsp::size_t to int conversion",
            "[benchmark][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 1200_size_t;
 
@@ -294,7 +297,7 @@ TEST_CASE ("Benchmark for stoneydsp::size_t to int conversion",
 TEST_CASE ("Benchmark for stoneydsp::size_t to float conversion",
            "[benchmark][size_t]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::size_t a = 1200_size_t;
 
