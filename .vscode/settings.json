@@ -5,9 +5,10 @@
 			"makeArgs": [
 				"BUILD_EXPORTS=1",
 				"BUILD_CORE=1",
-				"BUILD_SIMD=1",
-				"BUILD_DSP=1",
+				"BUILD_SIMD=0",
+				"BUILD_DSP=0",
 				"BUILD_TEST=1",
+				"BUILD_MAIN=1",
 				"DEBUG=1"
 			]
 		}
@@ -15,9 +16,10 @@
 	"cmake.configureArgs": [
 		"-DSTONEYDSP_EXPORTS:BOOL=ON",
 		"-DSTONEYDSP_BUILD_CORE:BOOL=ON",
-		"-DSTONEYDSP_BUILD_SIMD:BOOL=ON",
-		"-DSTONEYDSP_BUILD_DSP:BOOL=ON",
-		"-DSTONEYDSP_BUILD_TEST:BOOL=ON"
+		"-DSTONEYDSP_BUILD_SIMD:BOOL=OFF",
+		"-DSTONEYDSP_BUILD_DSP:BOOL=OFF",
+		"-DSTONEYDSP_BUILD_TEST:BOOL=ON",
+		"-DSTONEYDSP_BUILD_MAIN:BOOL=ON"
 	],
 	"makefile.launchConfigurations": [
 		{
@@ -271,7 +273,8 @@
 		"typeindex": "cpp",
 		"unordered_set": "cpp",
 		"fstream": "cpp",
-		"future": "cpp"
+		"future": "cpp",
+		"cuchar": "cpp"
 	},
 	"json.schemas": [
 		{
