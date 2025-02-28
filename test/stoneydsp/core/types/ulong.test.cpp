@@ -88,8 +88,9 @@ TEST_CASE ("Special values of stoneydsp::ulong_t",
       = ::std::numeric_limits< ::stoneydsp::ulong_t>::min ();
   ::stoneydsp::ulong_t max_val
       = ::std::numeric_limits< ::stoneydsp::ulong_t>::max ();
-  REQUIRE (min_val == 0U);                     // Minimum value for ulong_t
-  REQUIRE (max_val == 18446744073709551615UL); // Maximum value for ulong_t
+  REQUIRE (min_val == 0_ulong_t); // Minimum value for ulong_t
+  REQUIRE (max_val
+           == 18446744073709551615_ulong_t); // Maximum value for ulong_t
 }
 
 //==================================================================//endianness
@@ -136,11 +137,11 @@ TEST_CASE ("Arithmetic operations with stoneydsp::ulong_t",
 
   ::stoneydsp::ulong_t a = 1500000000000000000_ulong_t;
   ::stoneydsp::ulong_t b = 2_ulong_t;
-  REQUIRE (a + b == 1500000000000000002UL); // Addition
-  REQUIRE (a - b == 1499999999999999998UL); // Subtraction
-  REQUIRE (a * b == 3000000000000000000UL); // Multiplication
-  REQUIRE (b / a == 0);                     // Division
-  REQUIRE (b % a == 2UL);                   // Modulo
+  REQUIRE (a + b == 1500000000000000002_ulong_t); // Addition
+  REQUIRE (a - b == 1499999999999999998_ulong_t); // Subtraction
+  REQUIRE (a * b == 3000000000000000000_ulong_t); // Multiplication
+  REQUIRE (b / a == 0_ulong_t);                   // Division
+  REQUIRE (b % a == 2_ulong_t);                   // Modulo
 }
 
 //===============================================================//bitwise
@@ -223,7 +224,7 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::ulong_t",
   ::stoneydsp::ulong_t b = 1_ulong_t;
 
   REQUIRE (static_cast< ::stoneydsp::ulong_t> (a + b)
-           == 0); // Check overflow wrap-around behaviour
+           == 0_ulong_t); // Check overflow wrap-around behaviour
 }
 
 //======================================================//boundary_and_underflow
@@ -236,8 +237,9 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::ulong_t",
   ::stoneydsp::ulong_t a = 0_ulong_t;
   ::stoneydsp::ulong_t b = 1_ulong_t;
 
-  REQUIRE (static_cast< ::stoneydsp::ulong_t> (a - b)
-           == 18446744073709551615UL); // Check underflow wrap-around behavior
+  REQUIRE (
+      static_cast< ::stoneydsp::ulong_t> (a - b)
+      == 18446744073709551615_ulong_t); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility
@@ -263,7 +265,7 @@ TEST_CASE ("Compatibility of stoneydsp::ulong_t with standard library",
       vec.begin (), vec.end (), ::stoneydsp::ulong_t (0_ulong_t));
 
   // Verify the sum is correct
-  REQUIRE (sum == 15);
+  REQUIRE (sum == 15_ulong_t);
 }
 
 //===================================================================//benchmark

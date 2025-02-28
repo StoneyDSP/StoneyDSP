@@ -82,12 +82,16 @@ TEST_CASE ("Numeric limits of stoneydsp::long_t",
 TEST_CASE ("Special values of stoneydsp::long_t",
            "[core][types][long_t][numeric_limits]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::stoneydsp::long_t min_val
       = ::std::numeric_limits< ::stoneydsp::long_t>::min ();
   ::stoneydsp::long_t max_val
       = ::std::numeric_limits< ::stoneydsp::long_t>::max ();
-  REQUIRE (min_val == -9223372036854775807L - 1); // Minimum value for long_t
-  REQUIRE (max_val == 9223372036854775807L);      // Maximum value for long_t
+  REQUIRE (min_val
+           == -9223372036854775807_long_t
+                  - 1_long_t);                     // Minimum value for long_t
+  REQUIRE (max_val == 9223372036854775807_long_t); // Maximum value for long_t
 }
 
 //==================================================================//endianness
@@ -134,11 +138,11 @@ TEST_CASE ("Arithmetic operations with stoneydsp::long_t",
   ::stoneydsp::long_t a = 1500000000_long_t;
   ::stoneydsp::long_t b = 2000000000_long_t;
 
-  REQUIRE (a + b == 3500000000L);          // Addition
-  REQUIRE (a - b == -500000000L);          // Subtraction
-  REQUIRE (a * b == 3000000000000000000L); // Multiplication
-  REQUIRE (b / a == 1);                    // Division
-  REQUIRE (b % a == 500000000L);           // Modulo
+  REQUIRE (a + b == 3500000000_long_t);          // Addition
+  REQUIRE (a - b == -500000000_long_t);          // Subtraction
+  REQUIRE (a * b == 3000000000000000000_long_t); // Multiplication
+  REQUIRE (b / a == 1_long_t);                   // Division
+  REQUIRE (b % a == 500000000_long_t);           // Modulo
 }
 
 //===============================================================//bitwise
@@ -240,8 +244,9 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::long_t",
 
   ::stoneydsp::long_t a = -9223372036854775807_long_t - 1_long_t;
   ::stoneydsp::long_t b = 1_long_t;
-  REQUIRE (static_cast< ::stoneydsp::long_t> (a - b)
-           == 9223372036854775807L); // Check underflow wrap-around behavior
+  REQUIRE (
+      static_cast< ::stoneydsp::long_t> (a - b)
+      == 9223372036854775807_long_t); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility
