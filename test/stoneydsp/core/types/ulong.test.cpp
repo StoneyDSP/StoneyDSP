@@ -84,6 +84,8 @@ TEST_CASE ("Numeric limits of stoneydsp::ulong_t",
 TEST_CASE ("Special values of stoneydsp::ulong_t",
            "[core][types][ulong_t][numeric_limits]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::stoneydsp::ulong_t min_val
       = ::std::numeric_limits< ::stoneydsp::ulong_t>::min ();
   ::stoneydsp::ulong_t max_val
