@@ -70,7 +70,7 @@ TEST_CASE ("Numeric limits of stoneydsp::ulong_t",
   REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::ulong_t>::min ()
            == ::std::numeric_limits< ::stoneydsp::ulong_t>::min ());
 
-  // { 18446744073709551615ULL }
+  // { 18446744073709551615UL }
   REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::ulong_t>::max ()
            == ::std::numeric_limits< ::stoneydsp::ulong_t>::max ());
 
@@ -88,8 +88,8 @@ TEST_CASE ("Special values of stoneydsp::ulong_t",
       = ::std::numeric_limits< ::stoneydsp::ulong_t>::min ();
   ::stoneydsp::ulong_t max_val
       = ::std::numeric_limits< ::stoneydsp::ulong_t>::max ();
-  REQUIRE (min_val == 0U);                      // Minimum value for ulong_t
-  REQUIRE (max_val == 18446744073709551615ULL); // Maximum value for ulong_t
+  REQUIRE (min_val == 0U);                     // Minimum value for ulong_t
+  REQUIRE (max_val == 18446744073709551615UL); // Maximum value for ulong_t
 }
 
 //==================================================================//endianness
@@ -136,11 +136,11 @@ TEST_CASE ("Arithmetic operations with stoneydsp::ulong_t",
 
   ::stoneydsp::ulong_t a = 1500000000000000000_ulong_t;
   ::stoneydsp::ulong_t b = 2_ulong_t;
-  REQUIRE (a + b == 1500000000000000002ULL); // Addition
-  REQUIRE (a - b == 1499999999999999998ULL); // Subtraction
-  REQUIRE (a * b == 3000000000000000000ULL); // Multiplication
-  REQUIRE (b / a == 0);                      // Division
-  REQUIRE (b % a == 2ULL);                   // Modulo
+  REQUIRE (a + b == 1500000000000000002UL); // Addition
+  REQUIRE (a - b == 1499999999999999998UL); // Subtraction
+  REQUIRE (a * b == 3000000000000000000UL); // Multiplication
+  REQUIRE (b / a == 0);                     // Division
+  REQUIRE (b % a == 2UL);                   // Modulo
 }
 
 //===============================================================//bitwise
@@ -158,8 +158,8 @@ TEST_CASE ("Bitwise operations with stoneydsp::ulong_t",
   REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0111
   REQUIRE ((a ^ b) == 6); // XOR: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0110
   REQUIRE (
-      (~a & 0xFFFFFFFFFFFFFFFFULL)
-      == 18446744073709551610ULL); // NOT: 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1010 (considering ulong_t wrap-around)
+      (~a & 0xFFFFFFFFFFFFFFFFUL)
+      == 18446744073709551610UL); // NOT: 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1010 (considering ulong_t wrap-around)
 	// clang-format off
 }
 
@@ -237,7 +237,7 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::ulong_t",
   ::stoneydsp::ulong_t b = 1_ulong_t;
 
   REQUIRE (static_cast< ::stoneydsp::ulong_t> (a - b)
-           == 18446744073709551615ULL); // Check underflow wrap-around behavior
+           == 18446744073709551615UL); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility

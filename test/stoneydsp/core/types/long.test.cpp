@@ -66,13 +66,13 @@ TEST_CASE ("Is stoneydsp::long_t standard-layout conforming",
 TEST_CASE ("Numeric limits of stoneydsp::long_t",
            "[core][types][long_t][numeric_limits][special_values]")
 {
-  // { -9223372036854775807LL - 1 }
+  // { -9223372036854775807L - 1 }
   REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::long_t>::min ()
            == ::std::numeric_limits< ::stoneydsp::long_t>::min ());
-  // { 9223372036854775807LL }
+  // { 9223372036854775807L }
   REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::long_t>::max ()
            == ::std::numeric_limits< ::stoneydsp::long_t>::max ());
-  // { -9223372036854775807LL - 1 }
+  // { -9223372036854775807L - 1 }
   REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::long_t>::lowest ()
            == ::std::numeric_limits< ::stoneydsp::long_t>::lowest ());
 }
@@ -86,8 +86,8 @@ TEST_CASE ("Special values of stoneydsp::long_t",
       = ::std::numeric_limits< ::stoneydsp::long_t>::min ();
   ::stoneydsp::long_t max_val
       = ::std::numeric_limits< ::stoneydsp::long_t>::max ();
-  REQUIRE (min_val == -9223372036854775807LL - 1); // Minimum value for long_t
-  REQUIRE (max_val == 9223372036854775807LL);      // Maximum value for long_t
+  REQUIRE (min_val == -9223372036854775807L - 1); // Minimum value for long_t
+  REQUIRE (max_val == 9223372036854775807L);      // Maximum value for long_t
 }
 
 //==================================================================//endianness
@@ -120,8 +120,7 @@ TEST_CASE ("Rounding behavior of stoneydsp::long_t",
            "[core][types][long_t][rounding]")
 {
   ::stoneydsp::float_t a = 1.5f;
-  ::stoneydsp::long_t b
-      = static_cast< ::stoneydsp::long_t> (::std::round (a));
+  ::stoneydsp::long_t b = static_cast< ::stoneydsp::long_t> (::std::round (a));
   REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to long_t
 }
 
@@ -135,11 +134,11 @@ TEST_CASE ("Arithmetic operations with stoneydsp::long_t",
   ::stoneydsp::long_t a = 1500000000_long_t;
   ::stoneydsp::long_t b = 2000000000_long_t;
 
-  REQUIRE (a + b == 3500000000LL);          // Addition
-  REQUIRE (a - b == -500000000LL);          // Subtraction
-  REQUIRE (a * b == 3000000000000000000LL); // Multiplication
-  REQUIRE (b / a == 1);                     // Division
-  REQUIRE (b % a == 500000000LL);           // Modulo
+  REQUIRE (a + b == 3500000000L);          // Addition
+  REQUIRE (a - b == -500000000L);          // Subtraction
+  REQUIRE (a * b == 3000000000000000000L); // Multiplication
+  REQUIRE (b / a == 1);                    // Division
+  REQUIRE (b % a == 500000000L);           // Modulo
 }
 
 //===============================================================//bitwise
@@ -242,7 +241,7 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::long_t",
   ::stoneydsp::long_t a = -9223372036854775807_long_t - 1_long_t;
   ::stoneydsp::long_t b = 1_long_t;
   REQUIRE (static_cast< ::stoneydsp::long_t> (a - b)
-           == 9223372036854775807LL); // Check underflow wrap-around behavior
+           == 9223372036854775807L); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility
@@ -260,12 +259,12 @@ TEST_CASE ("Compatibility of stoneydsp::long_t with standard library",
 
   // Verify the vector is sorted
   REQUIRE (vec
-           == ::std::vector< ::stoneydsp::long_t>{ 1_long_t, 2_long_t, 3_long_t,
-                                                    4_long_t, 5_long_t });
+           == ::std::vector< ::stoneydsp::long_t>{
+               1_long_t, 2_long_t, 3_long_t, 4_long_t, 5_long_t });
 
   // Use std::accumulate to sum the elements
-  ::stoneydsp::long_t sum = ::std::accumulate (
-      vec.begin (), vec.end (), ::stoneydsp::long_t (0_long_t));
+  ::stoneydsp::long_t sum = ::std::accumulate (vec.begin (), vec.end (),
+                                               ::stoneydsp::long_t (0_long_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
