@@ -59,11 +59,11 @@
 
   #define STONEYDSP_BOOL_T bool
 
-  #ifdef STONEYDSP_USE_STD_TYPES
+  #ifndef STONEYDSP_DISABLE_STD_TYPES
     #ifdef STONEYDSP_CXX
-      #define STONEYDSP_CHAR8_T ::std::char8_t
-      #define STONEYDSP_CHAR16_T ::std::char16_t
-      #define STONEYDSP_CHAR32_T ::std::char32_t
+    // #define STONEYDSP_CHAR8_T ::std::char8_t
+    // #define STONEYDSP_CHAR16_T ::std::char16_t
+    // #define STONEYDSP_CHAR32_T ::std::char32_t
 
       #define STONEYDSP_INT8_T ::std::int8_t
       #define STONEYDSP_INT16_T ::std::int16_t
@@ -79,9 +79,9 @@
       #define STONEYDSP_MAX_ALIGN_T ::std::max_align_t
 
     #else // !STONEYDSP_CXX
-      #define STONEYDSP_CHAR8_T char8_t
-      #define STONEYDSP_CHAR16_T char16_t
-      #define STONEYDSP_CHAR32_T char32_t
+    // #define STONEYDSP_CHAR8_T char8_t
+    // #define STONEYDSP_CHAR16_T char16_t
+    // #define STONEYDSP_CHAR32_T char32_t
 
       #define STONEYDSP_INT8_T int8_t
       #define STONEYDSP_INT16_T int16_t
@@ -98,9 +98,10 @@
 
     #endif // STONEYDSP_CXX
   #else    // !STONEYDSP_USE_STD_TYPES
-    #define STONEYDSP_CHAR8_T STONEYDSP_UCHAR_T
-    #define STONEYDSP_CHAR16_T STONEYDSP_USHRT_T
-    #define STONEYDSP_CHAR32_T STONEYDSP_UINT_T
+
+  // #define STONEYDSP_CHAR8_T STONEYDSP_UCHAR_T
+  // #define STONEYDSP_CHAR16_T STONEYDSP_USHRT_T
+  // #define STONEYDSP_CHAR32_T STONEYDSP_UINT_T
 
     #define STONEYDSP_INT8_T STONEYDSP_SCHAR_T
     #define STONEYDSP_INT16_T STONEYDSP_SHRT_T
@@ -110,11 +111,13 @@
     #define STONEYDSP_UINT16_T STONEYDSP_USHRT_T
     #define STONEYDSP_UINT32_T STONEYDSP_UINT_T
 
-    #define STONEYDSP_SIZE_T STONEYDSP_ULONG_T
-    #define STONEYDSP_PTRDIFF_T STONEYDSP_LONG_T
+    #define STONEYDSP_SIZE_T (decltype (sizeof (void *)))
+    #define STONEYDSP_PTRDIFF_T                                               \
+      (decltype (static_cast<int *> (nullptr) - static_cast<int *> (nullptr)))
   // #define STONEYDSP_NULLPTR_T  nullptr_t
   // #define STONEYDSP_MAX_ALIGN_T  max_align_t
-  #endif // STONEYDSP_USE_STD_TYPES
+
+  #endif // !STONEYDSP_DISABE_STD_TYPES
 
   #if STONEYDSP_WINDOWS
     #define STONEYDSP_INT64_T STONEYDSP_LLONG_T
@@ -151,9 +154,9 @@
   #define STONEYDSP_LLONG_LITERAL(n) n##LL
   #define STONEYDSP_ULLONG_LITERAL(n) n##ULL
 
-  #define STONEYDSP_CHAR8_LITERAL(n) n
-  #define STONEYDSP_CHAR16_LITERAL(n) n
-  #define STONEYDSP_CHAR32_LITERAL(n) n
+// #define STONEYDSP_CHAR8_LITERAL(n) n
+// #define STONEYDSP_CHAR16_LITERAL(n) n
+// #define STONEYDSP_CHAR32_LITERAL(n) n
 
   #define STONEYDSP_INT8_LITERAL(n) STONEYDSP_SCHAR_LITERAL (n)
   #define STONEYDSP_INT16_LITERAL(n) STONEYDSP_SHRT_LITERAL (n)
@@ -165,49 +168,92 @@
   #define STONEYDSP_UINT32_LITERAL(n) STONEYDSP_UINT_LITERAL (n)
   #define STONEYDSP_UINT64_LITERAL(n) n
 
-  #define STONEYDSP_SIZE_LITERAL(n) STONEYDSP_ULONG_LITERAL (n)
-  #define STONEYDSP_PTRDIFF_LITERAL(n) STONEYDSP_LONG_LITERAL (n)
+  #define STONEYDSP_SIZE_LITERAL(n) n
+  #define STONEYDSP_PTRDIFF_LITERAL(n) n
 
 //==============================================================================
 
-  #define STONEYDSP_BOOL_C(n) ((STONEYDSP_BOOL_T)n)
+  #ifndef STONEYDSP_CXX
 
-  #define STONEYDSP_DBL_C(n) ((STONEYDSP_DBL_T)n)
-  #define STONEYDSP_LDBL_C(n) ((STONEYDSP_LDBL_T)n)
-  #define STONEYDSP_FLT_C(n) ((STONEYDSP_FLT_T)n)
+    #define STONEYDSP_BOOL_C(n) ((STONEYDSP_BOOL_T)n)
 
-  #define STONEYDSP_CHAR_C(n) ((STONEYDSP_CHAR_T)n)
-  #define STONEYDSP_SCHAR_C(n) ((STONEYDSP_SCHAR_T)n)
-  #define STONEYDSP_UCHAR_C(n) ((STONEYDSP_UCHAR_T)n)
+    #define STONEYDSP_DBL_C(n) ((STONEYDSP_DBL_T)n)
+    #define STONEYDSP_LDBL_C(n) ((STONEYDSP_LDBL_T)n)
+    #define STONEYDSP_FLT_C(n) ((STONEYDSP_FLT_T)n)
 
-  #define STONEYDSP_INT_C(n) ((STONEYDSP_INT_T)n)
-  #define STONEYDSP_UINT_C(n) ((STONEYDSP_UINT_T)n)
+    #define STONEYDSP_CHAR_C(n) ((STONEYDSP_CHAR_T)n)
+    #define STONEYDSP_SCHAR_C(n) ((STONEYDSP_SCHAR_T)n)
+    #define STONEYDSP_UCHAR_C(n) ((STONEYDSP_UCHAR_T)n)
 
-  #define STONEYDSP_SHRT_C(n) ((STONEYDSP_SHRT_T)n)
-  #define STONEYDSP_USHRT_C(n) ((STONEYDSP_USHRT_T)n)
+    #define STONEYDSP_INT_C(n) ((STONEYDSP_INT_T)n)
+    #define STONEYDSP_UINT_C(n) ((STONEYDSP_UINT_T)n)
 
-  #define STONEYDSP_LONG_C(n) ((STONEYDSP_LONG_T)n)
-  #define STONEYDSP_ULONG_C(n) ((STONEYDSP_ULONG_T)n)
+    #define STONEYDSP_SHRT_C(n) ((STONEYDSP_SHRT_T)n)
+    #define STONEYDSP_USHRT_C(n) ((STONEYDSP_USHRT_T)n)
 
-  #define STONEYDSP_LLONG_C(n) ((STONEYDSP_LLONG_T)n)
-  #define STONEYDSP_ULLONG_C(n) ((STONEYDSP_ULLONG_T)n)
+    #define STONEYDSP_LONG_C(n) ((STONEYDSP_LONG_T)n)
+    #define STONEYDSP_ULONG_C(n) ((STONEYDSP_ULONG_T)n)
 
-  #define STONEYDSP_CHAR8_C(n) ((STONEYDSP_CHAR8_T)n)
-  #define STONEYDSP_CHAR16_C(n) ((STONEYDSP_CHAR16_T)n)
-  #define STONEYDSP_CHAR32_C(n) ((STONEYDSP_CHAR32_T)n)
+    #define STONEYDSP_LLONG_C(n) ((STONEYDSP_LLONG_T)n)
+    #define STONEYDSP_ULLONG_C(n) ((STONEYDSP_ULLONG_T)n)
 
-  #define STONEYDSP_INT8_C(n) ((STONEYDSP_INT8_T)n)
-  #define STONEYDSP_INT16_C(n) ((STONEYDSP_INT16_T)n)
-  #define STONEYDSP_INT32_C(n) ((STONEYDSP_INT32_T)n)
-  #define STONEYDSP_INT64_C(n) ((STONEYDSP_INT64_T)n)
+  // #define STONEYDSP_CHAR8_C(n) ((STONEYDSP_CHAR8_T)n)
+  // #define STONEYDSP_CHAR16_C(n) ((STONEYDSP_CHAR16_T)n)
+  // #define STONEYDSP_CHAR32_C(n) ((STONEYDSP_CHAR32_T)n)
 
-  #define STONEYDSP_UINT8_C(n) ((STONEYDSP_UINT8_T)n)
-  #define STONEYDSP_UINT16_C(n) ((STONEYDSP_UINT16_T)n)
-  #define STONEYDSP_UINT32_C(n) ((STONEYDSP_UINT32_T)n)
-  #define STONEYDSP_UINT64_C(n) ((STONEYDSP_UINT64_T)n)
+    #define STONEYDSP_INT8_C(n) ((STONEYDSP_INT8_T)n)
+    #define STONEYDSP_INT16_C(n) ((STONEYDSP_INT16_T)n)
+    #define STONEYDSP_INT32_C(n) ((STONEYDSP_INT32_T)n)
+    #define STONEYDSP_INT64_C(n) ((STONEYDSP_INT64_T)n)
 
-  #define STONEYDSP_SIZE_C(n) ((STONEYDSP_SIZE_T)n)
-  #define STONEYDSP_PTRDIFF_C(n) ((STONEYDSP_PTRDIFF_T)n)
+    #define STONEYDSP_UINT8_C(n) ((STONEYDSP_UINT8_T)n)
+    #define STONEYDSP_UINT16_C(n) ((STONEYDSP_UINT16_T)n)
+    #define STONEYDSP_UINT32_C(n) ((STONEYDSP_UINT32_T)n)
+    #define STONEYDSP_UINT64_C(n) ((STONEYDSP_UINT64_T)n)
+
+    #define STONEYDSP_SIZE_C(n) ((STONEYDSP_SIZE_T)n)
+    #define STONEYDSP_PTRDIFF_C(n) ((STONEYDSP_PTRDIFF_T)n)
+
+  #else
+    #define STONEYDSP_BOOL_C(n) (static_cast<STONEYDSP_BOOL_T> (n))
+
+    #define STONEYDSP_DBL_C(n) (static_cast<STONEYDSP_DBL_T> (n))
+    #define STONEYDSP_LDBL_C(n) (static_cast<STONEYDSP_LDBL_T> (n))
+    #define STONEYDSP_FLT_C(n) (static_cast<STONEYDSP_FLT_T> (n))
+
+    #define STONEYDSP_CHAR_C(n) (static_cast<STONEYDSP_CHAR_T> (n))
+    #define STONEYDSP_SCHAR_C(n) (static_cast<STONEYDSP_SCHAR_T> (n))
+    #define STONEYDSP_UCHAR_C(n) (static_cast<STONEYDSP_UCHAR_T> (n))
+
+    #define STONEYDSP_INT_C(n) (static_cast<STONEYDSP_INT_T> (n))
+    #define STONEYDSP_UINT_C(n) (static_cast<STONEYDSP_UINT_T> (n))
+
+    #define STONEYDSP_SHRT_C(n) (static_cast<STONEYDSP_SHRT_T> (n))
+    #define STONEYDSP_USHRT_C(n) (static_cast<STONEYDSP_USHRT_T> (n))
+
+    #define STONEYDSP_LONG_C(n) (static_cast<STONEYDSP_LONG_T> (n))
+    #define STONEYDSP_ULONG_C(n) (static_cast<STONEYDSP_ULONG_T> (n))
+
+    #define STONEYDSP_LLONG_C(n) (static_cast<STONEYDSP_LLONG_T> (n))
+    #define STONEYDSP_ULLONG_C(n) (static_cast<STONEYDSP_ULLONG_T> (n))
+
+  // #define STONEYDSP_CHAR8_C(n) (static_cast<STONEYDSP_CHAR8_T> (n))
+  // #define STONEYDSP_CHAR16_C(n) (static_cast<STONEYDSP_CHAR16_T> (n))
+  // #define STONEYDSP_CHAR32_C(n) (static_cast<STONEYDSP_CHAR32_T> (n))
+
+    #define STONEYDSP_INT8_C(n) (static_cast<STONEYDSP_INT8_T> (n))
+    #define STONEYDSP_INT16_C(n) (static_cast<STONEYDSP_INT16_T> (n))
+    #define STONEYDSP_INT32_C(n) (static_cast<STONEYDSP_INT32_T> (n))
+    #define STONEYDSP_INT64_C(n) (static_cast<STONEYDSP_INT64_T> (n))
+
+    #define STONEYDSP_UINT8_C(n) (static_cast<STONEYDSP_UINT8_T> (n))
+    #define STONEYDSP_UINT16_C(n) (static_cast<STONEYDSP_UINT16_T> (n))
+    #define STONEYDSP_UINT32_C(n) (static_cast<STONEYDSP_UINT32_T> (n))
+    #define STONEYDSP_UINT64_C(n) (static_cast<STONEYDSP_UINT64_T> (n))
+
+    #define STONEYDSP_SIZE_C(n) (static_cast<STONEYDSP_SIZE_T> (n))
+    #define STONEYDSP_PTRDIFF_C(n) (static_cast<STONEYDSP_PTRDIFF_T> (n))
+  #endif // !STONEYDSP_CXX
 
 //==============================================================================
 
@@ -380,9 +426,9 @@
   #define STONEYDSP_PTRDIFF_MIN PTRDIFF_MIN
   #define STONEYDSP_PTRDIFF_MAX PTRDIFF_MAX
 
-  #define STONEYDSP_CHAR8_MAX STONEYDSP_UCHAR_MAX
-  #define STONEYDSP_CHAR16_MAX STONEYDSP_USHRT_MAX
-  #define STONEYDSP_CHAR32_MAX STONEYDSP_UINT_MAX
+// #define STONEYDSP_CHAR8_MAX STONEYDSP_UCHAR_MAX
+// #define STONEYDSP_CHAR16_MAX STONEYDSP_USHRT_MAX
+// #define STONEYDSP_CHAR32_MAX STONEYDSP_UINT_MAX
 
   #define STONEYDSP_INT8_MAX STONEYDSP_INT8_C (0177)
   #define STONEYDSP_INT16_MAX STONEYDSP_INT16_C (0x7FFF)
@@ -445,9 +491,9 @@ typedef STONEYDSP_ULONG_T stoneydsp_ulong_t;
 typedef STONEYDSP_LLONG_T stoneydsp_llong_t;
 typedef STONEYDSP_ULLONG_T stoneydsp_ullong_t;
 
-typedef STONEYDSP_CHAR8_T stoneydsp_char8_t;
-typedef STONEYDSP_CHAR16_T stoneydsp_char16_t;
-typedef STONEYDSP_CHAR32_T stoneydsp_char32_t;
+// typedef STONEYDSP_CHAR8_T stoneydsp_char8_t;
+// typedef STONEYDSP_CHAR16_T stoneydsp_char16_t;
+// typedef STONEYDSP_CHAR32_T stoneydsp_char32_t;
 
 typedef STONEYDSP_INT8_T stoneydsp_int8_t;
 typedef STONEYDSP_INT16_T stoneydsp_int16_t;
@@ -641,7 +687,7 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
-    stoneydsp_ptrdiff_c (float value) STONEYDSP_NOEXCEPT
+    stoneydsp_ptrdiff_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_PTRDIFF_C (value));
 }
