@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/int64.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -16,7 +16,6 @@
 //==============================================================================
 
   #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include "stoneydsp/core/types/math.h"      // for `stoneydsp::float_t`
   #include <algorithm>                        // for `std::sort`
   #include <catch2/benchmark/catch_benchmark.hpp> //
   #include <catch2/catch_test_macros.hpp>         //
@@ -67,10 +66,15 @@ TEST_CASE ("Is stoneydsp::int64_t standard-layout conforming",
 TEST_CASE ("Numeric limits of stoneydsp::int64_t",
            "[core][types][int64_t][numeric_limits][special_values]")
 {
-  REQUIRE (::stoneydsp::int64_min // { -9223372036854775807LL - 1 }
+  // { -9223372036854775807LL - 1 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int64_t>::min ()
            == ::std::numeric_limits< ::stoneydsp::int64_t>::min ());
-  REQUIRE (::stoneydsp::int64_max // { 9223372036854775807LL }
+  // { 9223372036854775807LL }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int64_t>::max ()
            == ::std::numeric_limits< ::stoneydsp::int64_t>::max ());
+  // { -9223372036854775807LL - 1 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int64_t>::lowest ()
+           == ::std::numeric_limits< ::stoneydsp::int64_t>::lowest ());
 }
 
 //==============================================================//numeric_limits
@@ -93,7 +97,7 @@ TEST_CASE ("Endianness handling for stoneydsp::int64_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t value = 0x123456789ABCDEF0_int64;
+  ::stoneydsp::int64_t value = 0x123456789ABCDEF0_int64_t;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0xF0)
@@ -128,8 +132,8 @@ TEST_CASE ("Arithmetic operations with stoneydsp::int64_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1500000000_int64;
-  ::stoneydsp::int64_t b = 2000000000_int64;
+  ::stoneydsp::int64_t a = 1500000000_int64_t;
+  ::stoneydsp::int64_t b = 2000000000_int64_t;
 
   REQUIRE (a + b == 3500000000LL);          // Addition
   REQUIRE (a - b == -500000000LL);          // Subtraction
@@ -147,9 +151,9 @@ TEST_CASE ("Bitwise operations with stoneydsp::int64_t",
 
   // clang-format off
 	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::int64_t a = 5_int64;
+  ::stoneydsp::int64_t a = 5_int64_t;
 	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011
-  ::stoneydsp::int64_t b = 3_int64;
+  ::stoneydsp::int64_t b = 3_int64_t;
 
 	// AND: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
   REQUIRE ((a & b) == 1);
@@ -169,7 +173,7 @@ TEST_CASE ("Shift operations with stoneydsp::int64_t",
 
   // clang-format off
 	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::int64_t a = 5_int64;
+  ::stoneydsp::int64_t a = 5_int64_t;
 	// Left shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1010
   REQUIRE ((a << 1) == 10);
 	// Right shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0010
@@ -184,8 +188,8 @@ TEST_CASE ("Comparison operations with stoneydsp::int64_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 5_int64;
-  ::stoneydsp::int64_t b = 3_int64;
+  ::stoneydsp::int64_t a = 5_int64_t;
+  ::stoneydsp::int64_t b = 3_int64_t;
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
   REQUIRE ((a > b) == true);
@@ -202,7 +206,7 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::int64_t",
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::stringstream ss;
-  ::stoneydsp::int64_t originalValue = 42_int64;
+  ::stoneydsp::int64_t originalValue = 42_int64_t;
   ::stoneydsp::int64_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
@@ -220,8 +224,8 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int64_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 9223372036854775807_int64;
-  ::stoneydsp::int64_t b = 1_int64;
+  ::stoneydsp::int64_t a = 9223372036854775807_int64_t;
+  ::stoneydsp::int64_t b = 1_int64_t;
 
   REQUIRE (static_cast< ::stoneydsp::int64_t> (a + b)
            == ::std::numeric_limits< ::stoneydsp::int64_t>::
@@ -235,8 +239,8 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::int64_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = -9223372036854775807_int64 - 1_int64;
-  ::stoneydsp::int64_t b = 1_int64;
+  ::stoneydsp::int64_t a = -9223372036854775807_int64_t - 1_int64_t;
+  ::stoneydsp::int64_t b = 1_int64_t;
   REQUIRE (static_cast< ::stoneydsp::int64_t> (a - b)
            == 9223372036854775807LL); // Check underflow wrap-around behavior
 }
@@ -249,19 +253,19 @@ TEST_CASE ("Compatibility of stoneydsp::int64_t with standard library",
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::vector< ::stoneydsp::int64_t> vec
-      = { 5_int64, 3_int64, 4_int64, 1_int64, 2_int64 };
+      = { 5_int64_t, 3_int64_t, 4_int64_t, 1_int64_t, 2_int64_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
   REQUIRE (vec
-           == ::std::vector< ::stoneydsp::int64_t>{ 1_int64, 2_int64, 3_int64,
-                                                    4_int64, 5_int64 });
+           == ::std::vector< ::stoneydsp::int64_t>{ 1_int64_t, 2_int64_t, 3_int64_t,
+                                                    4_int64_t, 5_int64_t });
 
   // Use std::accumulate to sum the elements
   ::stoneydsp::int64_t sum = ::std::accumulate (
-      vec.begin (), vec.end (), ::stoneydsp::int64_t (0_int64));
+      vec.begin (), vec.end (), ::stoneydsp::int64_t (0_int64_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -275,8 +279,8 @@ TEST_CASE ("Benchmark for stoneydsp::int64_t addition",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64;
-  ::stoneydsp::int64_t b = 3400_int64;
+  ::stoneydsp::int64_t a = 1200_int64_t;
+  ::stoneydsp::int64_t b = 3400_int64_t;
 
   BENCHMARK ("Addition") { return a + b; };
 }
@@ -287,8 +291,8 @@ TEST_CASE ("Benchmark for stoneydsp::int64_t subtraction",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 3400_int64;
-  ::stoneydsp::int64_t b = 1200_int64;
+  ::stoneydsp::int64_t a = 3400_int64_t;
+  ::stoneydsp::int64_t b = 1200_int64_t;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
@@ -299,8 +303,8 @@ TEST_CASE ("Benchmark for stoneydsp::int64_t multiplication",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64;
-  ::stoneydsp::int64_t b = 2_int64;
+  ::stoneydsp::int64_t a = 1200_int64_t;
+  ::stoneydsp::int64_t b = 2_int64_t;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
@@ -311,8 +315,8 @@ TEST_CASE ("Benchmark for stoneydsp::int64_t division",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64;
-  ::stoneydsp::int64_t b = 2_int64;
+  ::stoneydsp::int64_t a = 1200_int64_t;
+  ::stoneydsp::int64_t b = 2_int64_t;
 
   BENCHMARK ("Division") { return a / b; };
 }
@@ -323,7 +327,7 @@ TEST_CASE ("Benchmark for stoneydsp::int64_t to int conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64;
+  ::stoneydsp::int64_t a = 1200_int64_t;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
@@ -334,7 +338,7 @@ TEST_CASE ("Benchmark for stoneydsp::int64_t to float conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64;
+  ::stoneydsp::int64_t a = 1200_int64_t;
 
   BENCHMARK ("Conversion to float")
   {

@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/uint32.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -16,7 +16,6 @@
 //==============================================================================
 
   #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include "stoneydsp/core/types/math.h"      // for `stoneydsp::float_t`
   #include <algorithm>                        // for `std::sort`
   #include <catch2/benchmark/catch_benchmark.hpp> //
   #include <catch2/catch_test_macros.hpp>         //
@@ -67,10 +66,15 @@ TEST_CASE ("Is stoneydsp::uint32_t standard-layout conforming",
 TEST_CASE ("Numeric limits of stoneydsp::uint32_t",
            "[core][types][uint32_t][numeric_limits][special_values]")
 {
-  REQUIRE (::stoneydsp::uint32_t{ 0U }
+  // { 0U }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::uint32_t>::min ()
            == ::std::numeric_limits< ::stoneydsp::uint32_t>::min ());
-  REQUIRE (::stoneydsp::uint32_max // { 4294967295UL }
+  // { 4294967295UL }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::uint32_t>::max ()
            == ::std::numeric_limits< ::stoneydsp::uint32_t>::max ());
+  // { 0U }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::uint32_t>::lowest ()
+           == ::std::numeric_limits< ::stoneydsp::uint32_t>::lowest ());
 }
 
 //==============================================================//numeric_limits
@@ -93,7 +97,7 @@ TEST_CASE ("Endianness handling for stoneydsp::uint32_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t value = 0x12345678_uint32;
+  ::stoneydsp::uint32_t value = 0x12345678_uint32_t;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0x78)
@@ -128,8 +132,8 @@ TEST_CASE ("Arithmetic operations with stoneydsp::uint32_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 1500000000_uint32;
-  ::stoneydsp::uint32_t b = 2_uint32;
+  ::stoneydsp::uint32_t a = 1500000000_uint32_t;
+  ::stoneydsp::uint32_t b = 2_uint32_t;
 
   REQUIRE (a + b == 1500000002UL); // Addition
   REQUIRE (a - b == 1499999998UL); // Subtraction
@@ -146,8 +150,8 @@ TEST_CASE ("Bitwise operations with stoneydsp::uint32_t",
   using namespace ::stoneydsp::core::types::literals;
 
   // clang-format off
-  ::stoneydsp::uint32_t a = 5_uint32; // 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::uint32_t b = 3_uint32; // 0000 0000 0000 0000 0000 0000 0000 0011
+  ::stoneydsp::uint32_t a = 5_uint32_t; // 0000 0000 0000 0000 0000 0000 0000 0101
+  ::stoneydsp::uint32_t b = 3_uint32_t; // 0000 0000 0000 0000 0000 0000 0000 0011
 
   REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0000 0000 0000 0000 0001
   REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0111
@@ -164,7 +168,7 @@ TEST_CASE ("Shift operations with stoneydsp::uint32_t",
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::uint32_t a
-      = 5_uint32; // 0000 0000 0000 0000 0000 0000 0000 0101
+      = 5_uint32_t; // 0000 0000 0000 0000 0000 0000 0000 0101
   REQUIRE ((a << 1)
            == 10); // Left shift: 0000 0000 0000 0000 0000 0000 0000 1010
   REQUIRE ((a >> 1)
@@ -178,8 +182,8 @@ TEST_CASE ("Comparison operations with stoneydsp::uint32_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 5_uint32;
-  ::stoneydsp::uint32_t b = 3_uint32;
+  ::stoneydsp::uint32_t a = 5_uint32_t;
+  ::stoneydsp::uint32_t b = 3_uint32_t;
 
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
@@ -197,7 +201,7 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::uint32_t",
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::stringstream ss;
-  ::stoneydsp::uint32_t originalValue = 42_uint32;
+  ::stoneydsp::uint32_t originalValue = 42_uint32_t;
   ::stoneydsp::uint32_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
@@ -215,8 +219,8 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::uint32_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 4294967295_uint32;
-  ::stoneydsp::uint32_t b = 1_uint32;
+  ::stoneydsp::uint32_t a = 4294967295_uint32_t;
+  ::stoneydsp::uint32_t b = 1_uint32_t;
 
   REQUIRE (static_cast< ::stoneydsp::uint32_t> (a + b)
            == 0); // Check overflow wrap-around behaviour
@@ -229,8 +233,8 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::uint32_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 0_uint32;
-  ::stoneydsp::uint32_t b = 1_uint32;
+  ::stoneydsp::uint32_t a = 0_uint32_t;
+  ::stoneydsp::uint32_t b = 1_uint32_t;
 
   REQUIRE (static_cast< ::stoneydsp::uint32_t> (a - b)
            == 4294967295UL); // Check underflow wrap-around behavior
@@ -244,7 +248,7 @@ TEST_CASE ("Compatibility of stoneydsp::uint32_t with standard library",
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::vector< ::stoneydsp::uint32_t> vec
-      = { 5_uint32, 3_uint32, 4_uint32, 1_uint32, 2_uint32 };
+      = { 5_uint32_t, 3_uint32_t, 4_uint32_t, 1_uint32_t, 2_uint32_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
@@ -252,11 +256,11 @@ TEST_CASE ("Compatibility of stoneydsp::uint32_t with standard library",
   // Verify the vector is sorted
   REQUIRE (vec
            == ::std::vector< ::stoneydsp::uint32_t>{
-               1_uint32, 2_uint32, 3_uint32, 4_uint32, 5_uint32 });
+               1_uint32_t, 2_uint32_t, 3_uint32_t, 4_uint32_t, 5_uint32_t });
 
   // Use std::accumulate to sum the elements
   ::stoneydsp::uint32_t sum = ::std::accumulate (
-      vec.begin (), vec.end (), ::stoneydsp::uint32_t (0_uint32));
+      vec.begin (), vec.end (), ::stoneydsp::uint32_t (0_uint32_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -270,8 +274,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint32_t addition",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 1200_uint32;
-  ::stoneydsp::uint32_t b = 3400_uint32;
+  ::stoneydsp::uint32_t a = 1200_uint32_t;
+  ::stoneydsp::uint32_t b = 3400_uint32_t;
 
   BENCHMARK ("Addition") { return a + b; };
 }
@@ -282,8 +286,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint32_t subtraction",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 3400_uint32;
-  ::stoneydsp::uint32_t b = 1200_uint32;
+  ::stoneydsp::uint32_t a = 3400_uint32_t;
+  ::stoneydsp::uint32_t b = 1200_uint32_t;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
@@ -294,8 +298,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint32_t multiplication",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 1200_uint32;
-  ::stoneydsp::uint32_t b = 2_uint32;
+  ::stoneydsp::uint32_t a = 1200_uint32_t;
+  ::stoneydsp::uint32_t b = 2_uint32_t;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
@@ -306,8 +310,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint32_t division",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 1200_uint32;
-  ::stoneydsp::uint32_t b = 2_uint32;
+  ::stoneydsp::uint32_t a = 1200_uint32_t;
+  ::stoneydsp::uint32_t b = 2_uint32_t;
 
   BENCHMARK ("Division") { return a / b; };
 }
@@ -318,7 +322,7 @@ TEST_CASE ("Benchmark for stoneydsp::uint32_t to int conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 1200_uint32;
+  ::stoneydsp::uint32_t a = 1200_uint32_t;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
@@ -329,7 +333,7 @@ TEST_CASE ("Benchmark for stoneydsp::uint32_t to float conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint32_t a = 1200_uint32;
+  ::stoneydsp::uint32_t a = 1200_uint32_t;
 
   BENCHMARK ("Conversion to float")
   {

@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/uint16.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -16,7 +16,6 @@
 //==============================================================================
 
   #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include "stoneydsp/core/types/math.h"      // for `stoneydsp::float_t`
   #include <algorithm>                        // for `std::sort`
   #include <catch2/benchmark/catch_benchmark.hpp> //
   #include <catch2/catch_test_macros.hpp>         //
@@ -67,10 +66,15 @@ TEST_CASE ("Is stoneydsp::uint16_t standard-layout conforming",
 TEST_CASE ("Numeric limits of stoneydsp::uint16_t",
            "[core][types][uint16_t][numeric_limits][special_values]")
 {
-  REQUIRE (::stoneydsp::uint16_t{ 0U }
+  // { 0U }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::uint16_t>::min ()
            == ::std::numeric_limits< ::stoneydsp::uint16_t>::min ());
-  REQUIRE (::stoneydsp::uint16_max // { 65535 }
+  // // { 65535 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::uint16_t>::max ()
            == ::std::numeric_limits< ::stoneydsp::uint16_t>::max ());
+  // { 0U }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::uint16_t>::lowest ()
+           == ::std::numeric_limits< ::stoneydsp::uint16_t>::lowest ());
 }
 
 //==============================================================//numeric_limits
@@ -93,7 +97,7 @@ TEST_CASE ("Endianness handling for stoneydsp::uint16_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t value = 0x1234_uint16;
+  ::stoneydsp::uint16_t value = 0x1234_uint16_t;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0x34)
@@ -128,8 +132,8 @@ TEST_CASE ("Arithmetic operations with stoneydsp::uint16_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 1500_uint16;
-  ::stoneydsp::uint16_t b = 2000_uint16;
+  ::stoneydsp::uint16_t a = 1500_uint16_t;
+  ::stoneydsp::uint16_t b = 2000_uint16_t;
 
   REQUIRE (a + b == 3500); // Addition
   REQUIRE (static_cast<int> (a - b)
@@ -146,8 +150,8 @@ TEST_CASE ("Bitwise operations with stoneydsp::uint16_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 5_uint16; // 0000 0000 0000 0101
-  ::stoneydsp::uint16_t b = 3_uint16; // 0000 0000 0000 0011
+  ::stoneydsp::uint16_t a = 5_uint16_t; // 0000 0000 0000 0101
+  ::stoneydsp::uint16_t b = 3_uint16_t; // 0000 0000 0000 0011
 
   REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0001
   REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0111
@@ -162,7 +166,7 @@ TEST_CASE ("Shift operations with stoneydsp::uint16_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 5_uint16; // 0000 0000 0000 0101
+  ::stoneydsp::uint16_t a = 5_uint16_t; // 0000 0000 0000 0101
 
   REQUIRE ((a << 1) == 10); // Left shift: 0000 0000 0000 1010
   REQUIRE ((a >> 1) == 2);  // Right shift: 0000 0000 0000 0010
@@ -175,8 +179,8 @@ TEST_CASE ("Comparison operations with stoneydsp::uint16_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 5_uint16;
-  ::stoneydsp::uint16_t b = 3_uint16;
+  ::stoneydsp::uint16_t a = 5_uint16_t;
+  ::stoneydsp::uint16_t b = 3_uint16_t;
 
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
@@ -194,7 +198,7 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::uint16_t",
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::stringstream ss;
-  ::stoneydsp::uint16_t originalValue = 42_uint16;
+  ::stoneydsp::uint16_t originalValue = 42_uint16_t;
   ::stoneydsp::uint16_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
@@ -212,8 +216,8 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::uint16_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 65535_uint16;
-  ::stoneydsp::uint16_t b = 1_uint16;
+  ::stoneydsp::uint16_t a = 65535_uint16_t;
+  ::stoneydsp::uint16_t b = 1_uint16_t;
 
   REQUIRE (static_cast< ::stoneydsp::uint16_t> (a + b)
            == 0); // Check overflow wrap-around behaviour
@@ -226,8 +230,8 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::uint16_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 0_uint16;
-  ::stoneydsp::uint16_t b = 1_uint16;
+  ::stoneydsp::uint16_t a = 0_uint16_t;
+  ::stoneydsp::uint16_t b = 1_uint16_t;
 
   REQUIRE (static_cast< ::stoneydsp::uint16_t> (a - b)
            == 65535); // Check underflow wrap-around behavior
@@ -241,7 +245,7 @@ TEST_CASE ("Compatibility of stoneydsp::uint16_t with standard library",
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::vector< ::stoneydsp::uint16_t> vec
-      = { 5_uint16, 3_uint16, 4_uint16, 1_uint16, 2_uint16 };
+      = { 5_uint16_t, 3_uint16_t, 4_uint16_t, 1_uint16_t, 2_uint16_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
@@ -249,11 +253,11 @@ TEST_CASE ("Compatibility of stoneydsp::uint16_t with standard library",
   // Verify the vector is sorted
   REQUIRE (vec
            == ::std::vector< ::stoneydsp::uint16_t>{
-               1_uint16, 2_uint16, 3_uint16, 4_uint16, 5_uint16 });
+               1_uint16_t, 2_uint16_t, 3_uint16_t, 4_uint16_t, 5_uint16_t });
 
   // Use std::accumulate to sum the elements
   ::stoneydsp::uint16_t sum = ::std::accumulate (
-      vec.begin (), vec.end (), ::stoneydsp::uint16_t (0_uint16));
+      vec.begin (), vec.end (), ::stoneydsp::uint16_t (0_uint16_t));
   // Verify the sum is correct
   REQUIRE (sum == 15);
 }
@@ -266,8 +270,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint16_t addition",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 1200_uint16;
-  ::stoneydsp::uint16_t b = 3400_uint16;
+  ::stoneydsp::uint16_t a = 1200_uint16_t;
+  ::stoneydsp::uint16_t b = 3400_uint16_t;
 
   BENCHMARK ("Addition") { return a + b; };
 }
@@ -278,8 +282,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint16_t subtraction",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 3400_uint16;
-  ::stoneydsp::uint16_t b = 1200_uint16;
+  ::stoneydsp::uint16_t a = 3400_uint16_t;
+  ::stoneydsp::uint16_t b = 1200_uint16_t;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
@@ -290,8 +294,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint16_t multiplication",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 1200_uint16;
-  ::stoneydsp::uint16_t b = 2_uint16;
+  ::stoneydsp::uint16_t a = 1200_uint16_t;
+  ::stoneydsp::uint16_t b = 2_uint16_t;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
@@ -302,8 +306,8 @@ TEST_CASE ("Benchmark for stoneydsp::uint16_t division",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 1200_uint16;
-  ::stoneydsp::uint16_t b = 2_uint16;
+  ::stoneydsp::uint16_t a = 1200_uint16_t;
+  ::stoneydsp::uint16_t b = 2_uint16_t;
 
   BENCHMARK ("Division") { return a / b; };
 }
@@ -314,7 +318,7 @@ TEST_CASE ("Benchmark for stoneydsp::uint16_t to int conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 1200_uint16;
+  ::stoneydsp::uint16_t a = 1200_uint16_t;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
@@ -325,7 +329,7 @@ TEST_CASE ("Benchmark for stoneydsp::uint16_t to float conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::uint16_t a = 1200_uint16;
+  ::stoneydsp::uint16_t a = 1200_uint16_t;
 
   BENCHMARK ("Conversion to float")
   {

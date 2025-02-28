@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/int8.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -16,7 +16,6 @@
 //==============================================================================
 
   #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include "stoneydsp/core/types/math.h"      // for `stoneydsp::float_t`
   #include <algorithm>                        // for `std::sort`
   #include <catch2/benchmark/catch_benchmark.hpp> //
   #include <catch2/catch_test_macros.hpp>         //
@@ -67,10 +66,15 @@ TEST_CASE ("Is stoneydsp::int8_t standard-layout conforming",
 TEST_CASE ("Numeric limits of stoneydsp::int8_t",
            "[core][types][int8_t][numeric_limits][special_values]")
 {
-  REQUIRE (::stoneydsp::int8_min // { -128 }
+  // { -128 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int8_t>::min ()
            == ::std::numeric_limits< ::stoneydsp::int8_t>::min ());
-  REQUIRE (::stoneydsp::int8_max // { 127 }
+  // { 127 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int8_t>::max ()
            == ::std::numeric_limits< ::stoneydsp::int8_t>::max ());
+  // { -128 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int8_t>::lowest ()
+           == ::std::numeric_limits< ::stoneydsp::int8_t>::lowest ());
 }
 
 //==============================================================//numeric_limits
@@ -78,14 +82,12 @@ TEST_CASE ("Numeric limits of stoneydsp::int8_t",
 TEST_CASE ("Special values of stoneydsp::int8_t",
            "[core][types][int8_t][numeric_limits]")
 {
-  using namespace ::stoneydsp::core::types::literals;
-
   ::stoneydsp::int8_t min_val
       = ::std::numeric_limits< ::stoneydsp::int8_t>::min ();
   ::stoneydsp::int8_t max_val
       = ::std::numeric_limits< ::stoneydsp::int8_t>::max ();
-  REQUIRE (min_val == -128 /**_int8*/); // Minimum value for int8_t
-  REQUIRE (max_val == 127_int8);  // Maximum value for int8_t
+  REQUIRE (min_val == -128); // Minimum value for int8_t
+  REQUIRE (max_val == 127);  // Maximum value for int8_t
 }
 
 //==================================================================//endianness
@@ -95,7 +97,7 @@ TEST_CASE ("Endianness handling for stoneydsp::int8_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t value = 0x12_int8;
+  ::stoneydsp::int8_t value = 0x12_int8_t;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0x12)
@@ -126,8 +128,8 @@ TEST_CASE ("Arithmetic operations with stoneydsp::int8_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 15_int8;
-  ::stoneydsp::int8_t b = 20_int8;
+  ::stoneydsp::int8_t a = 15_int8_t;
+  ::stoneydsp::int8_t b = 20_int8_t;
 
   REQUIRE (a + b == 35);  // Addition
   REQUIRE (a - b == -5);  // Subtraction
@@ -143,8 +145,8 @@ TEST_CASE ("Bitwise operations with stoneydsp::int8_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 5_int8; // 0101
-  ::stoneydsp::int8_t b = 3_int8; // 0011
+  ::stoneydsp::int8_t a = 5_int8_t; // 0101
+  ::stoneydsp::int8_t b = 3_int8_t; // 0011
 
   REQUIRE ((a & b) == 1); // AND: 0001
   REQUIRE ((a | b) == 7); // OR:  0111
@@ -157,7 +159,7 @@ TEST_CASE ("Shift operations with stoneydsp::int8_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 5_int8; // 0101
+  ::stoneydsp::int8_t a = 5_int8_t; // 0101
 
   REQUIRE ((a << 1) == 10); // Left shift: 1010
   REQUIRE ((a >> 1) == 2);  // Right shift: 0010
@@ -170,8 +172,8 @@ TEST_CASE ("Comparison operations with stoneydsp::int8_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 5_int8;
-  ::stoneydsp::int8_t b = 3_int8;
+  ::stoneydsp::int8_t a = 5_int8_t;
+  ::stoneydsp::int8_t b = 3_int8_t;
 
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
@@ -190,7 +192,7 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::int8_t",
 
   ::std::stringstream ss;
 
-  ::stoneydsp::int8_t originalValue = 42_int8;
+  ::stoneydsp::int8_t originalValue = 42_int8_t;
   ::stoneydsp::int8_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
@@ -208,8 +210,8 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int8_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 127_int8;
-  ::stoneydsp::int8_t b = 1_int8;
+  ::stoneydsp::int8_t a = 127_int8_t;
+  ::stoneydsp::int8_t b = 1_int8_t;
 
   REQUIRE (static_cast< ::stoneydsp::int8_t> (a + b)
            == -128); // Check overflow wrap-around behaviour
@@ -222,8 +224,8 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::int8_t",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = -127_int8;
-  ::stoneydsp::int8_t b = 2_int8;
+  ::stoneydsp::int8_t a = -127_int8_t;
+  ::stoneydsp::int8_t b = 2_int8_t;
 
   REQUIRE (static_cast< ::stoneydsp::int8_t> (a - b)
            == 127); // Check underflow wrap-around behavior
@@ -237,19 +239,19 @@ TEST_CASE ("Compatibility of stoneydsp::int8_t with standard library",
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::vector< ::stoneydsp::int8_t> vec
-      = { 5_int8, 3_int8, 4_int8, 1_int8, 2_int8 };
+      = { 5_int8_t, 3_int8_t, 4_int8_t, 1_int8_t, 2_int8_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
   REQUIRE (vec
-           == ::std::vector< ::stoneydsp::int8_t>{ 1_int8, 2_int8, 3_int8,
-                                                   4_int8, 5_int8 });
+           == ::std::vector< ::stoneydsp::int8_t>{ 1_int8_t, 2_int8_t, 3_int8_t,
+                                                   4_int8_t, 5_int8_t });
 
   // Use std::accumulate to sum the elements
   ::stoneydsp::int8_t sum = ::std::accumulate (vec.begin (), vec.end (),
-                                               ::stoneydsp::int8_t (0_int8));
+                                               ::stoneydsp::int8_t (0_int8_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -263,8 +265,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t addition",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 12_int8;
-  ::stoneydsp::int8_t b = 34_int8;
+  ::stoneydsp::int8_t a = 12_int8_t;
+  ::stoneydsp::int8_t b = 34_int8_t;
 
   BENCHMARK ("Addition") { return a + b; };
 }
@@ -275,8 +277,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t subtraction",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 34_int8;
-  ::stoneydsp::int8_t b = 12_int8;
+  ::stoneydsp::int8_t a = 34_int8_t;
+  ::stoneydsp::int8_t b = 12_int8_t;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
@@ -287,8 +289,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t multiplication",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 12_int8;
-  ::stoneydsp::int8_t b = 2_int8;
+  ::stoneydsp::int8_t a = 12_int8_t;
+  ::stoneydsp::int8_t b = 2_int8_t;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
@@ -299,8 +301,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t division",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 12_int8;
-  ::stoneydsp::int8_t b = 2_int8;
+  ::stoneydsp::int8_t a = 12_int8_t;
+  ::stoneydsp::int8_t b = 2_int8_t;
 
   BENCHMARK ("Division") { return a / b; };
 }
@@ -311,7 +313,7 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t to int conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 12_int8;
+  ::stoneydsp::int8_t a = 12_int8_t;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
@@ -322,7 +324,7 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t to float conversion",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int8_t a = 12_int8;
+  ::stoneydsp::int8_t a = 12_int8_t;
 
   BENCHMARK ("Conversion to float")
   {
