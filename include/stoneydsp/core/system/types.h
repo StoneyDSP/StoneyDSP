@@ -20,6 +20,7 @@
     #include <cinttypes>
     #include <climits>
     #include <cstdbool>
+    #include <cstddef>
     #include <cstdint>
     #include <cuchar>
   #else // !STONEYDSP_CXX
@@ -27,6 +28,7 @@
     #include <inttypes.h>
     #include <limits.h>
     #include <stdbool.h>
+    #include <stddef.h>
     #include <stdint.h>
     #include <uchar.h>
   #endif // STONEYDSP_CXX
@@ -70,6 +72,12 @@
       #define STONEYDSP_UINT8_T ::std::uint8_t
       #define STONEYDSP_UINT16_T ::std::uint16_t
       #define STONEYDSP_UINT32_T ::std::uint32_t
+
+      #define STONEYDSP_SIZE_T ::std::size_t
+      #define STONEYDSP_PTRDIFF_T ::std::ptrdiff_t
+      #define STONEYDSP_NULLPTR_T ::std::nullptr_t
+      #define STONEYDSP_MAX_ALIGN_T ::std::max_align_t
+
     #else // !STONEYDSP_CXX
       #define STONEYDSP_CHAR8_T char8_t
       #define STONEYDSP_CHAR16_T char16_t
@@ -82,6 +90,12 @@
       #define STONEYDSP_UINT8_T uint8_t
       #define STONEYDSP_UINT16_T uint16_t
       #define STONEYDSP_UINT32_T uint32_t
+
+      #define STONEYDSP_SIZE_T size_t
+      #define STONEYDSP_PTRDIFF_T ptrdiff_t
+      #define STONEYDSP_NULLPTR_T nullptr_t
+      #define STONEYDSP_MAX_ALIGN_T max_align_t
+
     #endif // STONEYDSP_CXX
   #else    // !STONEYDSP_USE_STD_TYPES
     #define STONEYDSP_CHAR8_T STONEYDSP_UCHAR_T
@@ -95,6 +109,11 @@
     #define STONEYDSP_UINT8_T STONEYDSP_UCHAR_T
     #define STONEYDSP_UINT16_T STONEYDSP_USHRT_T
     #define STONEYDSP_UINT32_T STONEYDSP_UINT_T
+
+    #define STONEYDSP_SIZE_T STONEYDSP_ULONG_T
+    #define STONEYDSP_PTRDIFF_T STONEYDSP_LONG_T
+  // #define STONEYDSP_NULLPTR_T  nullptr_t
+  // #define STONEYDSP_MAX_ALIGN_T  max_align_t
   #endif // STONEYDSP_USE_STD_TYPES
 
   #if STONEYDSP_WINDOWS
@@ -146,6 +165,9 @@
   #define STONEYDSP_UINT32_LITERAL(n) STONEYDSP_UINT_LITERAL (n)
   #define STONEYDSP_UINT64_LITERAL(n) n
 
+  #define STONEYDSP_SIZE_LITERAL(n) STONEYDSP_ULONG_LITERAL (n)
+  #define STONEYDSP_PTRDIFF_LITERAL(n) STONEYDSP_LONG_LITERAL (n)
+
 //==============================================================================
 
   #define STONEYDSP_BOOL_C(n) ((STONEYDSP_BOOL_T)n)
@@ -183,6 +205,9 @@
   #define STONEYDSP_UINT16_C(n) ((STONEYDSP_UINT16_T)n)
   #define STONEYDSP_UINT32_C(n) ((STONEYDSP_UINT32_T)n)
   #define STONEYDSP_UINT64_C(n) ((STONEYDSP_UINT64_T)n)
+
+  #define STONEYDSP_SIZE_C(n) ((STONEYDSP_SIZE_T)n)
+  #define STONEYDSP_PTRDIFF_C(n) ((STONEYDSP_PTRDIFF_T)n)
 
 //==============================================================================
 
@@ -350,6 +375,11 @@
   #define STONEYDSP_BOOL_MIN false // 0U
   #define STONEYDSP_BOOL_MAX true  // BOOL_MAX = 1U
 
+  #define STONEYDSP_SIZE_MAX SIZE_MAX
+
+  #define STONEYDSP_PTRDIFF_MIN PTRDIFF_MIN
+  #define STONEYDSP_PTRDIFF_MAX PTRDIFF_MAX
+
   #define STONEYDSP_CHAR8_MAX STONEYDSP_UCHAR_MAX
   #define STONEYDSP_CHAR16_MAX STONEYDSP_USHRT_MAX
   #define STONEYDSP_CHAR32_MAX STONEYDSP_UINT_MAX
@@ -435,6 +465,9 @@ typedef STONEYDSP_LDBL_T stoneydsp_ldouble_t;
 typedef STONEYDSP_FLT_T stoneydsp_float_t;
 
 typedef STONEYDSP_BOOL_T stoneydsp_bool_t;
+
+typedef STONEYDSP_SIZE_T stoneydsp_size_t;
+typedef STONEYDSP_PTRDIFF_T stoneydsp_ptrdiff_t;
 
 //=========================================================================//*_c
 
@@ -590,6 +623,27 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
     stoneydsp_float_c (float value) STONEYDSP_NOEXCEPT
 {
   return (STONEYDSP_FLT_C (value));
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_BOOL_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_bool_c (STONEYDSP_BOOL_T value) STONEYDSP_NOEXCEPT
+{
+  return (STONEYDSP_BOOL_C (value));
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_size_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return (STONEYDSP_SIZE_C (value));
+}
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_ptrdiff_c (float value) STONEYDSP_NOEXCEPT
+{
+  return (STONEYDSP_PTRDIFF_C (value));
 }
 
 //=======================================================================//*_max
@@ -960,6 +1014,24 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
                               + (STONEYDSP_UINT64_C (1U))));
 }
 
+// STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+//     STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+//     stoneydsp_size_max () STONEYDSP_NOEXCEPT
+// {
+//   return (STONEYDSP_SIZE_C ((STONEYDSP_SIZE_C (STONEYDSP_SIZE_MAX))
+//                                 * (STONEYDSP_SIZE_C (2UL))
+//                             + (STONEYDSP_SIZE_C (1UL))));
+// }
+
+// STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+//     STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+//     stoneydsp_ptrdiff_max () STONEYDSP_NOEXCEPT
+// {
+//   return (STONEYDSP_PTRDIFF_C ((STONEYDSP_PTRDIFF_C (STONEYDSP_PTRDIFF_MAX))
+//                                    * (STONEYDSP_PTRDIFF_C (2UL))
+//                                + (STONEYDSP_PTRDIFF_C (1UL))));
+// }
+
 //=======================================================================//*_min
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
@@ -1288,6 +1360,24 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
   return (STONEYDSP_FLT_C (STONEYDSP_FLT_MIN));
 }
 
+// stoneydsp_size_t
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_size_min () STONEYDSP_NOEXCEPT
+{
+  return (STONEYDSP_SIZE_C (0U));
+}
+
+// stoneydsp_ptrdiff_t
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_ptrdiff_min () STONEYDSP_NOEXCEPT
+{
+  return (STONEYDSP_PTRDIFF_C (STONEYDSP_PTRDIFF_MIN));
+}
+
 //====================================================================//*_lowest
 
 STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
@@ -1472,6 +1562,22 @@ STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
   return (STONEYDSP_FLT_C (-STONEYDSP_FLT_MAX));
 }
 
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_size_lowest () STONEYDSP_NOEXCEPT
+{
+  return (STONEYDSP_SIZE_C (0U));
+}
+
+// stoneydsp_ptrdiff_t
+
+STONEYDSP_EXTERN_C inline STONEYDSP_CONSTEXPR
+    STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_ptrdiff_lowest () STONEYDSP_NOEXCEPT
+{
+  return (STONEYDSP_PTRDIFF_C (STONEYDSP_PTRDIFF_MIN));
+}
+
 //==============================================================================
 
   #ifdef __cplusplus
@@ -1497,6 +1603,8 @@ using double_t = ::stoneydsp_double_t;
 using ldouble_t = ::stoneydsp_ldouble_t;
 using float_t = ::stoneydsp_float_t;
 using bool_t = ::stoneydsp_bool_t;
+using size_t = ::stoneydsp_size_t;
+using ptrdiff_t = ::stoneydsp_ptrdiff_t;
 
 // using char8_t = ::stoneydsp_char8_t;
 // using char16_t = ::stoneydsp_char16_t;
@@ -1543,6 +1651,9 @@ using ::stoneydsp::core::types::uint16_t;
 using ::stoneydsp::core::types::uint32_t;
 using ::stoneydsp::core::types::uint64_t;
 using ::stoneydsp::core::types::uint8_t;
+
+using ::stoneydsp::core::types::ptrdiff_t;
+using ::stoneydsp::core::types::size_t;
 }
 
 //==============================================================================
@@ -1655,6 +1766,16 @@ operator"" _uint64_t (char value) STONEYDSP_NOEXCEPT
 {
   return static_cast<STONEYDSP_UINT64_T> (value);
 }
+inline STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _size_t (char value) STONEYDSP_NOEXCEPT
+{
+  return static_cast<STONEYDSP_SIZE_T> (value);
+}
+inline STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _ptrdiff_t (char value) STONEYDSP_NOEXCEPT
+{
+  return static_cast<STONEYDSP_PTRDIFF_T> (value);
+}
 
 //==============================================================================
 
@@ -1717,6 +1838,16 @@ operator"" _ullong_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ullong_c (value);
 }
+inline STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _size_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_size_c (value);
+}
+inline STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+operator"" _ptrdiff_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_ptrdiff_c (value);
+}
 
 //==============================================================================
 
@@ -1769,6 +1900,10 @@ operator"" _uint64_t (unsigned long long value) STONEYDSP_NOEXCEPT
 
 namespace stoneydsp
 {
+namespace core
+{
+namespace types
+{
 template <typename T>
 STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (alignof (T))
     __numeric_limits_base
@@ -1785,10 +1920,12 @@ public:
   static STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T is_integer = false;
 
 } STONEYDSP_PACKED_STRUCT_END;
+} // namespace types
+} // namespace core
 
 template <typename T>
 STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (alignof (T))
-    numeric_limits : public __numeric_limits_base<T>
+    numeric_limits : public ::stoneydsp::core::types::__numeric_limits_base<T>
 {
 private:
   STONEYDSP_DECLARE_NON_COPYABLE (numeric_limits)
@@ -1844,18 +1981,51 @@ STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (
 {
 
   static STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Equivalent to:
+   *
+   * - bool: `true`
+   *
+   * - char: `1U`
+   *
+   * @return `stoneydsp::bool_t`
+   */
   max () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_bool_max ();
   }
 
   static STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Equivalent to:
+   *
+   * - bool: `false`
+   *
+   * - char: `0U`
+   *
+   * @return `stoneydsp::bool_t`
+   */
   min () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_bool_min ();
   }
 
   static STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Equivalent to:
+   *
+   * - bool: `false`
+   *
+   * - char: `0U`
+   *
+   * @return `stoneydsp::bool_t`
+   */
   lowest () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_bool_lowest ();
@@ -1869,12 +2039,40 @@ STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (
 {
 
   static STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Typically equivalent to:
+   *
+   * - dec: `127`
+   *
+   * - oct: `0177`
+   *
+   * - hex: `0x7F`
+   *
+   * @return `stoneydsp::char_t`
+   *
+   */
   max () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_char_max ();
   }
 
   static STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Typically equivalent to:
+   *
+   * - dec: `-128`
+   *
+   * - oct: `-0800`
+   *
+   * - hex: `-0x80`
+   *
+   * @return `stoneydsp::char_t`
+   *
+   */
   min () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_char_min ();
@@ -1883,6 +2081,20 @@ STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (
   static STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_API
   lowest () STONEYDSP_NOEXCEPT
   {
+    /**
+     * @brief
+     *
+     * Typically equivalent to:
+     *
+     * - dec: `-128`
+     *
+     * - oct: `-0800`
+     *
+     * - hex: `-0x80`
+     *
+     * @return `stoneydsp::char_t`
+     *
+     */
     return ::stoneydsp_char_lowest ();
   }
 
@@ -1894,18 +2106,60 @@ STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (
 {
 
   static STONEYDSP_CONSTEXPR STONEYDSP_SCHAR_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Typically equivalent to:
+   *
+   * - dec: `127`
+   *
+   * - oct: `0177`
+   *
+   * - hex: `0x7F`
+   *
+   * @return `stoneydsp::char_t`
+   *
+   */
   max () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_schar_max ();
   }
 
   static STONEYDSP_CONSTEXPR STONEYDSP_SCHAR_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Typically equivalent to:
+   *
+   * - dec: `-128`
+   *
+   * - oct: `-0800`
+   *
+   * - hex: `-0x80`
+   *
+   * @return `stoneydsp::schar_t`
+   *
+   */
   min () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_schar_min ();
   }
 
   static STONEYDSP_CONSTEXPR STONEYDSP_SCHAR_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Typically equivalent to:
+   *
+   * - dec: `-128`
+   *
+   * - oct: `-0800`
+   *
+   * - hex: `-0x80`
+   *
+   * @return `stoneydsp::schar_t`
+   *
+   */
   lowest () STONEYDSP_NOEXCEPT
   {
     return ::stoneydsp_schar_lowest ();
