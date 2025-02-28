@@ -7,15 +7,13 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/core.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
 #if defined(STONEYDSP_BUILD_TEST) && defined(STONEYDSP_BUILD_CORE)
 
 //==============================================================================
-
-  #include "stoneydsp/core/types/int.h"
 
   #include <algorithm>                            // for `std::sort`
   #include <catch2/benchmark/catch_benchmark.hpp> //

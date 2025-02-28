@@ -1,5 +1,5 @@
 /**
- * @file size_t.test.cpp
+ * @file size.test.cpp
  * @brief Test suite for stoneydsp::size_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/size.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -16,7 +16,6 @@
 //==============================================================================
 
   #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include "stoneydsp/core/types/math.h"      // for `stoneydsp::float_t`
   #include <algorithm>                        // for `std::sort`
   #include <catch2/benchmark/catch_benchmark.hpp>
   #include <catch2/catch_test_macros.hpp>
@@ -57,31 +56,22 @@ TEST_CASE ("Check if types have the correct type traits",
 
 TEST_CASE ("Numeric limits of stoneydsp::size_t", "[numeric_limits][size_t]")
 {
-  REQUIRE (::stoneydsp::size_t{ 0 }
-           == ::std::numeric_limits< ::stoneydsp::size_t>::min ());
-  REQUIRE (::stoneydsp::size_t{ std::numeric_limits<std::size_t>::max () }
-           == ::std::numeric_limits< ::stoneydsp::size_t>::max ());
-}
-
-//==============================================================//special_values
-
-TEST_CASE ("Special values of stoneydsp::size_t",
-           "[numeric_limits][special_values][size_t]")
-{
-  ::stoneydsp::size_t min_val
-      = ::std::numeric_limits< ::stoneydsp::size_t>::min ();
-  ::stoneydsp::size_t max_val = ::stoneydsp::size_max;
-  REQUIRE (min_val == 0); // Minimum value for size_t
-  REQUIRE (
-      max_val
-      == std::numeric_limits<std::size_t>::max ()); // Maximum value for size_t
+  // { 0 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::size_t>::min ()
+           == ::std::numeric_limits< ::std::size_t>::min ());
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::size_t>::max ()
+           == ::std::numeric_limits< ::std::size_t>::max ());
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::size_t>::lowest ()
+           == ::std::numeric_limits< ::std::size_t>::lowest ());
 }
 
 //==================================================================//endianness
 
 TEST_CASE ("Endianness handling for stoneydsp::size_t", "[endianness][size_t]")
 {
-  ::stoneydsp::size_t value = 0x12345678;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t value = 0x12345678_size_t;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0x78)
@@ -112,8 +102,11 @@ TEST_CASE ("Rounding behavior of stoneydsp::size_t", "[rounding][size_t]")
 TEST_CASE ("Arithmetic operations with stoneydsp::size_t",
            "[arithmetic][size_t]")
 {
-  ::stoneydsp::size_t a = 15;
-  ::stoneydsp::size_t b = 20;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 15_size_t;
+  ::stoneydsp::size_t b = 20_size_t;
+
   REQUIRE (a + b == 35); // Addition
   REQUIRE (
       a - b
@@ -127,8 +120,10 @@ TEST_CASE ("Arithmetic operations with stoneydsp::size_t",
 
 TEST_CASE ("Bitwise operations with stoneydsp::size_t", "[bitwise][size_t]")
 {
-  ::stoneydsp::size_t a = 5; // 0101
-  ::stoneydsp::size_t b = 3; // 0011
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 5_size_t; // 0101
+  ::stoneydsp::size_t b = 3_size_t; // 0011
 
   REQUIRE ((a & b) == 1); // AND: 0001
   REQUIRE ((a | b) == 7); // OR:  0111
@@ -139,9 +134,12 @@ TEST_CASE ("Bitwise operations with stoneydsp::size_t", "[bitwise][size_t]")
 
 TEST_CASE ("Shift operations with stoneydsp::size_t", "[bitwise][size_t]")
 {
-  ::stoneydsp::size_t a = 5; // 0101
-  REQUIRE ((a << 1) == 10);  // Left shift: 1010
-  REQUIRE ((a >> 1) == 2);   // Right shift: 0010
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 5_size_t; // 0101
+
+  REQUIRE ((a << 1) == 10); // Left shift: 1010
+  REQUIRE ((a >> 1) == 2);  // Right shift: 0010
 }
 
 //===============================================================//comparison
@@ -149,8 +147,11 @@ TEST_CASE ("Shift operations with stoneydsp::size_t", "[bitwise][size_t]")
 TEST_CASE ("Comparison operations with stoneydsp::size_t",
            "[comparison][size_t]")
 {
-  ::stoneydsp::size_t a = 5;
-  ::stoneydsp::size_t b = 3;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 5_size_t;
+  ::stoneydsp::size_t b = 3_size_t;
+
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
   REQUIRE ((a > b) == true);
@@ -164,8 +165,10 @@ TEST_CASE ("Comparison operations with stoneydsp::size_t",
 TEST_CASE ("Check serialization and deserialization for stoneydsp::size_t",
            "[serialization][size_t]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::std::stringstream ss;
-  ::stoneydsp::size_t originalValue = 42;
+  ::stoneydsp::size_t originalValue = 42_size_t;
   ::stoneydsp::size_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
@@ -181,8 +184,11 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::size_t",
 TEST_CASE ("Boundary and overflow behaviour of stoneydsp::size_t",
            "[boundary][overflow][size_t]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::stoneydsp::size_t a = std::numeric_limits< ::stoneydsp::size_t>::max ();
-  ::stoneydsp::size_t b = 1;
+  ::stoneydsp::size_t b = 1_size_t;
+
   REQUIRE (static_cast< ::stoneydsp::size_t> (a + b)
            == 0); // Check overflow wrap-around behaviour
 }
@@ -192,8 +198,11 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::size_t",
 TEST_CASE ("Boundary and underflow behavior of stoneydsp::size_t",
            "[boundary][underflow][size_t]")
 {
-  ::stoneydsp::size_t a = 0;
-  ::stoneydsp::size_t b = 1;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 0_size_t;
+  ::stoneydsp::size_t b = 1_size_t;
+
   REQUIRE (static_cast< ::stoneydsp::size_t> (a - b)
            == std::numeric_limits< ::stoneydsp::size_t>::
                max ()); // Check underflow wrap-around behavior
@@ -204,17 +213,22 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::size_t",
 TEST_CASE ("Compatibility of stoneydsp::size_t with standard library",
            "[compatibility][size_t]")
 {
-  ::std::vector< ::stoneydsp::size_t> vec = { 5, 3, 4, 1, 2 };
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::std::vector< ::stoneydsp::size_t> vec
+      = { 5_size_t, 3_size_t, 4_size_t, 1_size_t, 2_size_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
-  REQUIRE (vec == ::std::vector< ::stoneydsp::size_t>{ 1, 2, 3, 4, 5 });
+  REQUIRE (vec
+           == ::std::vector< ::stoneydsp::size_t>{
+               1_size_t, 2_size_t, 3_size_t, 4_size_t, 5_size_t });
 
   // Use std::accumulate to sum the elements
-  ::stoneydsp::size_t sum
-      = ::std::accumulate (vec.begin (), vec.end (), ::stoneydsp::size_t (0));
+  ::stoneydsp::size_t sum = ::std::accumulate (vec.begin (), vec.end (),
+                                               ::stoneydsp::size_t (0_size_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -225,8 +239,10 @@ TEST_CASE ("Compatibility of stoneydsp::size_t with standard library",
 // Benchmark for addition
 TEST_CASE ("Benchmark for stoneydsp::size_t addition", "[benchmark][size_t]")
 {
-  ::stoneydsp::size_t a = 1200;
-  ::stoneydsp::size_t b = 3400;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 1200_size_t;
+  ::stoneydsp::size_t b = 3400_size_t;
 
   BENCHMARK ("Addition") { return a + b; };
 }
@@ -235,8 +251,10 @@ TEST_CASE ("Benchmark for stoneydsp::size_t addition", "[benchmark][size_t]")
 TEST_CASE ("Benchmark for stoneydsp::size_t subtraction",
            "[benchmark][size_t]")
 {
-  ::stoneydsp::size_t a = 3400;
-  ::stoneydsp::size_t b = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 3400_size_t;
+  ::stoneydsp::size_t b = 1200_size_t;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
@@ -245,8 +263,10 @@ TEST_CASE ("Benchmark for stoneydsp::size_t subtraction",
 TEST_CASE ("Benchmark for stoneydsp::size_t multiplication",
            "[benchmark][size_t]")
 {
-  ::stoneydsp::size_t a = 1200;
-  ::stoneydsp::size_t b = 2;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 1200_size_t;
+  ::stoneydsp::size_t b = 2_size_t;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
@@ -254,8 +274,10 @@ TEST_CASE ("Benchmark for stoneydsp::size_t multiplication",
 // Benchmark for division
 TEST_CASE ("Benchmark for stoneydsp::size_t division", "[benchmark][size_t]")
 {
-  ::stoneydsp::size_t a = 1200;
-  ::stoneydsp::size_t b = 2;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 1200_size_t;
+  ::stoneydsp::size_t b = 2_size_t;
 
   BENCHMARK ("Division") { return a / b; };
 }
@@ -264,7 +286,9 @@ TEST_CASE ("Benchmark for stoneydsp::size_t division", "[benchmark][size_t]")
 TEST_CASE ("Benchmark for stoneydsp::size_t to int conversion",
            "[benchmark][size_t]")
 {
-  ::stoneydsp::size_t a = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 1200_size_t;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
@@ -273,7 +297,9 @@ TEST_CASE ("Benchmark for stoneydsp::size_t to int conversion",
 TEST_CASE ("Benchmark for stoneydsp::size_t to float conversion",
            "[benchmark][size_t]")
 {
-  ::stoneydsp::size_t a = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::size_t a = 1200_size_t;
 
   BENCHMARK ("Conversion to float")
   {
