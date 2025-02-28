@@ -1,6 +1,6 @@
 /**
- * @file int64.test.cpp
- * @brief Test suite for stoneydsp::int64_t
+ * @file long.test.cpp
+ * @brief Test suite for stoneydsp::long_t
  * @copyright Copyright (c) 2025
  *
  */
@@ -27,77 +27,81 @@
 
 //======================================================================//sizeof
 
-TEST_CASE ("sizeof stoneydsp::int64_t is 8 bytes",
-           "[core][types][int64_t][sizeof]")
+TEST_CASE ("sizeof stoneydsp::long_t is 8 bytes",
+           "[core][types][long_t][sizeof]")
 {
-  REQUIRE (sizeof (::stoneydsp::int64_t) == 8UL);
+  REQUIRE (sizeof (::stoneydsp::long_t) == 8UL);
 }
 
 //=====================================================================//alignof
 
-TEST_CASE ("alignof stoneydsp::int64_t is 8 bytes",
-           "[core][types][int64_t][alignof]")
+TEST_CASE ("alignof stoneydsp::long_t is 8 bytes",
+           "[core][types][long_t][alignof]")
 {
-  REQUIRE (alignof (::stoneydsp::int64_t) == 8UL);
+  REQUIRE (alignof (::stoneydsp::long_t) == 8UL);
 }
 
 //=================================================================//type_traits
 
 TEST_CASE ("Check if types are signed or unsigned",
-           "[core][types][int64_t][type_traits][is_signed]")
+           "[core][types][long_t][type_traits][is_signed]")
 {
-  REQUIRE (::std::is_signed< ::stoneydsp::int64_t>::value);
+  REQUIRE (::std::is_signed< ::stoneydsp::long_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int64_t trivially copyable",
-           "[core][types][int64_t][type_traits][is_trivially_copyable]")
+TEST_CASE ("Is stoneydsp::long_t trivially copyable",
+           "[core][types][long_t][type_traits][is_trivially_copyable]")
 {
-  REQUIRE (::std::is_trivially_copyable< ::stoneydsp::int64_t>::value);
+  REQUIRE (::std::is_trivially_copyable< ::stoneydsp::long_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int64_t standard-layout conforming",
-           "[core][types][int64_t][type_traits][is_standard_layout]")
+TEST_CASE ("Is stoneydsp::long_t standard-layout conforming",
+           "[core][types][long_t][type_traits][is_standard_layout]")
 {
-  REQUIRE (::std::is_standard_layout< ::stoneydsp::int64_t>::value);
+  REQUIRE (::std::is_standard_layout< ::stoneydsp::long_t>::value);
 }
 
 //==============================================================//special_values
 
-TEST_CASE ("Numeric limits of stoneydsp::int64_t",
-           "[core][types][int64_t][numeric_limits][special_values]")
+TEST_CASE ("Numeric limits of stoneydsp::long_t",
+           "[core][types][long_t][numeric_limits][special_values]")
 {
-  // { -9223372036854775807LL - 1 }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int64_t>::min ()
-           == ::std::numeric_limits< ::stoneydsp::int64_t>::min ());
-  // { 9223372036854775807LL }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int64_t>::max ()
-           == ::std::numeric_limits< ::stoneydsp::int64_t>::max ());
-  // { -9223372036854775807LL - 1 }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int64_t>::lowest ()
-           == ::std::numeric_limits< ::stoneydsp::int64_t>::lowest ());
+  // { -9223372036854775807L - 1 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::long_t>::min ()
+           == ::std::numeric_limits< ::stoneydsp::long_t>::min ());
+  // { 9223372036854775807L }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::long_t>::max ()
+           == ::std::numeric_limits< ::stoneydsp::long_t>::max ());
+  // { -9223372036854775807L - 1 }
+  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::long_t>::lowest ()
+           == ::std::numeric_limits< ::stoneydsp::long_t>::lowest ());
 }
 
 //==============================================================//numeric_limits
 
-TEST_CASE ("Special values of stoneydsp::int64_t",
-           "[core][types][int64_t][numeric_limits]")
+TEST_CASE ("Special values of stoneydsp::long_t",
+           "[core][types][long_t][numeric_limits]")
 {
-  ::stoneydsp::int64_t min_val
-      = ::std::numeric_limits< ::stoneydsp::int64_t>::min ();
-  ::stoneydsp::int64_t max_val
-      = ::std::numeric_limits< ::stoneydsp::int64_t>::max ();
-  REQUIRE (min_val == -9223372036854775807LL - 1); // Minimum value for int64_t
-  REQUIRE (max_val == 9223372036854775807LL);      // Maximum value for int64_t
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::long_t min_val
+      = ::std::numeric_limits< ::stoneydsp::long_t>::min ();
+  ::stoneydsp::long_t max_val
+      = ::std::numeric_limits< ::stoneydsp::long_t>::max ();
+  REQUIRE (min_val
+           == -9223372036854775807_long_t
+                  - 1_long_t);                     // Minimum value for long_t
+  REQUIRE (max_val == 9223372036854775807_long_t); // Maximum value for long_t
 }
 
 //==================================================================//endianness
 
-TEST_CASE ("Endianness handling for stoneydsp::int64_t",
-           "[core][types][int64_t][endianness]")
+TEST_CASE ("Endianness handling for stoneydsp::long_t",
+           "[core][types][long_t][endianness]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t value = 0x123456789ABCDEF0_int64_t;
+  ::stoneydsp::long_t value = 0x123456789ABCDEF0_long_t;
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0xF0)
@@ -116,44 +120,43 @@ TEST_CASE ("Endianness handling for stoneydsp::int64_t",
 
 //====================================================================//rounding
 
-TEST_CASE ("Rounding behavior of stoneydsp::int64_t",
-           "[core][types][int64_t][rounding]")
+TEST_CASE ("Rounding behavior of stoneydsp::long_t",
+           "[core][types][long_t][rounding]")
 {
   ::stoneydsp::float_t a = 1.5f;
-  ::stoneydsp::int64_t b
-      = static_cast< ::stoneydsp::int64_t> (::std::round (a));
-  REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to int64_t
+  ::stoneydsp::long_t b = static_cast< ::stoneydsp::long_t> (::std::round (a));
+  REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to long_t
 }
 
 //==================================================================//arithmetic
 
-TEST_CASE ("Arithmetic operations with stoneydsp::int64_t",
-           "[core][types][int64_t][arithmetic]")
+TEST_CASE ("Arithmetic operations with stoneydsp::long_t",
+           "[core][types][long_t][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1500000000_int64_t;
-  ::stoneydsp::int64_t b = 2000000000_int64_t;
+  ::stoneydsp::long_t a = 1500000000_long_t;
+  ::stoneydsp::long_t b = 2000000000_long_t;
 
-  REQUIRE (a + b == 3500000000LL);          // Addition
-  REQUIRE (a - b == -500000000LL);          // Subtraction
-  REQUIRE (a * b == 3000000000000000000LL); // Multiplication
-  REQUIRE (b / a == 1);                     // Division
-  REQUIRE (b % a == 500000000LL);           // Modulo
+  REQUIRE (a + b == 3500000000_long_t);          // Addition
+  REQUIRE (a - b == -500000000_long_t);          // Subtraction
+  REQUIRE (a * b == 3000000000000000000_long_t); // Multiplication
+  REQUIRE (b / a == 1_long_t);                   // Division
+  REQUIRE (b % a == 500000000_long_t);           // Modulo
 }
 
 //===============================================================//bitwise
 
-TEST_CASE ("Bitwise operations with stoneydsp::int64_t",
-           "[core][types][int64_t][bitwise]")
+TEST_CASE ("Bitwise operations with stoneydsp::long_t",
+           "[core][types][long_t][bitwise]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   // clang-format off
 	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::int64_t a = 5_int64_t;
+  ::stoneydsp::long_t a = 5_long_t;
 	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011
-  ::stoneydsp::int64_t b = 3_int64_t;
+  ::stoneydsp::long_t b = 3_long_t;
 
 	// AND: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
   REQUIRE ((a & b) == 1);
@@ -161,19 +164,19 @@ TEST_CASE ("Bitwise operations with stoneydsp::int64_t",
   REQUIRE ((a | b) == 7);
 	// XOR: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0110
   REQUIRE ((a ^ b) == 6);
-	// NOT: considering wrap-around for int64_t
+	// NOT: considering wrap-around for long_t
   REQUIRE (~a == -6);
   // clang-format on
 }
 
-TEST_CASE ("Shift operations with stoneydsp::int64_t",
-           "[core][types][int64_t][bitwise]")
+TEST_CASE ("Shift operations with stoneydsp::long_t",
+           "[core][types][long_t][bitwise]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   // clang-format off
 	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::int64_t a = 5_int64_t;
+  ::stoneydsp::long_t a = 5_long_t;
 	// Left shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1010
   REQUIRE ((a << 1) == 10);
 	// Right shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0010
@@ -183,13 +186,13 @@ TEST_CASE ("Shift operations with stoneydsp::int64_t",
 
 //===============================================================//comparison
 
-TEST_CASE ("Comparison operations with stoneydsp::int64_t",
-           "[core][types][int64_t][comparison]")
+TEST_CASE ("Comparison operations with stoneydsp::long_t",
+           "[core][types][long_t][comparison]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 5_int64_t;
-  ::stoneydsp::int64_t b = 3_int64_t;
+  ::stoneydsp::long_t a = 5_long_t;
+  ::stoneydsp::long_t b = 3_long_t;
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
   REQUIRE ((a > b) == true);
@@ -200,14 +203,14 @@ TEST_CASE ("Comparison operations with stoneydsp::int64_t",
 
 //===============================================================//serialization
 
-TEST_CASE ("Check serialization and deserialization for stoneydsp::int64_t",
-           "[core][types][int64_t][serialization]")
+TEST_CASE ("Check serialization and deserialization for stoneydsp::long_t",
+           "[core][types][long_t][serialization]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::std::stringstream ss;
-  ::stoneydsp::int64_t originalValue = 42_int64_t;
-  ::stoneydsp::int64_t deserializedValue;
+  ::stoneydsp::long_t originalValue = 42_long_t;
+  ::stoneydsp::long_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
             sizeof (originalValue));
@@ -219,53 +222,54 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::int64_t",
 
 //=======================================================//boundary_and_overflow
 
-TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int64_t",
-           "[core][types][int64_t][boundary][overflow]")
+TEST_CASE ("Boundary and overflow behaviour of stoneydsp::long_t",
+           "[core][types][long_t][boundary][overflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 9223372036854775807_int64_t;
-  ::stoneydsp::int64_t b = 1_int64_t;
+  ::stoneydsp::long_t a = 9223372036854775807_long_t;
+  ::stoneydsp::long_t b = 1_long_t;
 
-  REQUIRE (static_cast< ::stoneydsp::int64_t> (a + b)
-           == ::std::numeric_limits< ::stoneydsp::int64_t>::
+  REQUIRE (static_cast< ::stoneydsp::long_t> (a + b)
+           == ::std::numeric_limits< ::stoneydsp::long_t>::
                min ()); // Check overflow wrap-around behaviour
 }
 
 //======================================================//boundary_and_underflow
 
-TEST_CASE ("Boundary and underflow behavior of stoneydsp::int64_t",
-           "[core][types][int64_t][boundary][underflow]")
+TEST_CASE ("Boundary and underflow behavior of stoneydsp::long_t",
+           "[core][types][long_t][boundary][underflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = -9223372036854775807_int64_t - 1_int64_t;
-  ::stoneydsp::int64_t b = 1_int64_t;
-  REQUIRE (static_cast< ::stoneydsp::int64_t> (a - b)
-           == 9223372036854775807LL); // Check underflow wrap-around behavior
+  ::stoneydsp::long_t a = -9223372036854775807_long_t - 1_long_t;
+  ::stoneydsp::long_t b = 1_long_t;
+  REQUIRE (
+      static_cast< ::stoneydsp::long_t> (a - b)
+      == 9223372036854775807_long_t); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility
 
-TEST_CASE ("Compatibility of stoneydsp::int64_t with standard library",
-           "[core][types][int64_t][compatibility]")
+TEST_CASE ("Compatibility of stoneydsp::long_t with standard library",
+           "[core][types][long_t][compatibility]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::std::vector< ::stoneydsp::int64_t> vec
-      = { 5_int64_t, 3_int64_t, 4_int64_t, 1_int64_t, 2_int64_t };
+  ::std::vector< ::stoneydsp::long_t> vec
+      = { 5_long_t, 3_long_t, 4_long_t, 1_long_t, 2_long_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
   REQUIRE (vec
-           == ::std::vector< ::stoneydsp::int64_t>{ 1_int64_t, 2_int64_t, 3_int64_t,
-                                                    4_int64_t, 5_int64_t });
+           == ::std::vector< ::stoneydsp::long_t>{
+               1_long_t, 2_long_t, 3_long_t, 4_long_t, 5_long_t });
 
   // Use std::accumulate to sum the elements
-  ::stoneydsp::int64_t sum = ::std::accumulate (
-      vec.begin (), vec.end (), ::stoneydsp::int64_t (0_int64_t));
+  ::stoneydsp::long_t sum = ::std::accumulate (vec.begin (), vec.end (),
+                                               ::stoneydsp::long_t (0_long_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -274,71 +278,71 @@ TEST_CASE ("Compatibility of stoneydsp::int64_t with standard library",
 //===================================================================//benchmark
 
 // Benchmark for addition
-TEST_CASE ("Benchmark for stoneydsp::int64_t addition",
-           "[core][types][int64_t][benchmark]")
+TEST_CASE ("Benchmark for stoneydsp::long_t addition",
+           "[core][types][long_t][benchmark]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64_t;
-  ::stoneydsp::int64_t b = 3400_int64_t;
+  ::stoneydsp::long_t a = 1200_long_t;
+  ::stoneydsp::long_t b = 3400_long_t;
 
   BENCHMARK ("Addition") { return a + b; };
 }
 
 // Benchmark for subtraction
-TEST_CASE ("Benchmark for stoneydsp::int64_t subtraction",
-           "[core][types][int64_t][benchmark]")
+TEST_CASE ("Benchmark for stoneydsp::long_t subtraction",
+           "[core][types][long_t][benchmark]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 3400_int64_t;
-  ::stoneydsp::int64_t b = 1200_int64_t;
+  ::stoneydsp::long_t a = 3400_long_t;
+  ::stoneydsp::long_t b = 1200_long_t;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
 
 // Benchmark for multiplication
-TEST_CASE ("Benchmark for stoneydsp::int64_t multiplication",
-           "[core][types][int64_t][benchmark]")
+TEST_CASE ("Benchmark for stoneydsp::long_t multiplication",
+           "[core][types][long_t][benchmark]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64_t;
-  ::stoneydsp::int64_t b = 2_int64_t;
+  ::stoneydsp::long_t a = 1200_long_t;
+  ::stoneydsp::long_t b = 2_long_t;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
 
 // Benchmark for division
-TEST_CASE ("Benchmark for stoneydsp::int64_t division",
-           "[core][types][int64_t][benchmark]")
+TEST_CASE ("Benchmark for stoneydsp::long_t division",
+           "[core][types][long_t][benchmark]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64_t;
-  ::stoneydsp::int64_t b = 2_int64_t;
+  ::stoneydsp::long_t a = 1200_long_t;
+  ::stoneydsp::long_t b = 2_long_t;
 
   BENCHMARK ("Division") { return a / b; };
 }
 
 // Benchmark for type conversion to int
-TEST_CASE ("Benchmark for stoneydsp::int64_t to int conversion",
-           "[core][types][int64_t][benchmark]")
+TEST_CASE ("Benchmark for stoneydsp::long_t to int conversion",
+           "[core][types][long_t][benchmark]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64_t;
+  ::stoneydsp::long_t a = 1200_long_t;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
 
 // Benchmark for type conversion to float
-TEST_CASE ("Benchmark for stoneydsp::int64_t to float conversion",
-           "[core][types][int64_t][benchmark]")
+TEST_CASE ("Benchmark for stoneydsp::long_t to float conversion",
+           "[core][types][long_t][benchmark]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::int64_t a = 1200_int64_t;
+  ::stoneydsp::long_t a = 1200_long_t;
 
   BENCHMARK ("Conversion to float")
   {

@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/ptrdiff.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -16,7 +16,6 @@
 //==============================================================================
 
   #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include "stoneydsp/core/types/math.h"      // for `stoneydsp::float_t`
   #include <algorithm>                        // for `std::sort`
   #include <catch2/benchmark/catch_benchmark.hpp>
   #include <catch2/catch_test_macros.hpp>
@@ -58,23 +57,18 @@ TEST_CASE ("Check if types have the correct type traits",
 TEST_CASE ("Special values of stoneydsp::ptrdiff_t",
            "[numeric_limits][special_values][ptrdiff_t]")
 {
-  REQUIRE (::stoneydsp::ptrdiff_min
-           == std::numeric_limits<std::ptrdiff_t>::min ()); // Minimum value
-                                                            // for ptrdiff_t
-  REQUIRE (::stoneydsp::ptrdiff_max
+  REQUIRE (
+      ::stoneydsp::numeric_limits<stoneydsp::ptrdiff_t>::min ()
+      == std::numeric_limits<stoneydsp::ptrdiff_t>::min ()); // Minimum value
+                                                             // for ptrdiff_t
+  REQUIRE (::stoneydsp::numeric_limits<std::ptrdiff_t>::max ()
            == std::numeric_limits<std::ptrdiff_t>::max ()); // Maximum value
                                                             // for ptrdiff_t
-}
-
-//==============================================================//numeric_limits
-
-TEST_CASE ("Numeric limits of stoneydsp::ptrdiff_t",
-           "[numeric_limits][ptrdiff_t]")
-{
-  REQUIRE (::stoneydsp::ptrdiff_t{ ::stoneydsp::ptrdiff_min }
-           == ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::min ());
-  REQUIRE (::stoneydsp::ptrdiff_t{ ::stoneydsp::ptrdiff_max }
-           == ::std::numeric_limits< ::stoneydsp::ptrdiff_t>::max ());
+  REQUIRE (
+      ::stoneydsp::numeric_limits<stoneydsp::ptrdiff_t>::lowest ()
+      == std::numeric_limits<stoneydsp::ptrdiff_t>::lowest ()); // Lowest value
+                                                                // for
+                                                                // ptrdiff_t
 }
 
 //==================================================================//endianness
@@ -82,7 +76,10 @@ TEST_CASE ("Numeric limits of stoneydsp::ptrdiff_t",
 TEST_CASE ("Endianness handling for stoneydsp::ptrdiff_t",
            "[endianness][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t value = 0x12345678;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t value = 0x12345678_ptrdiff_t;
+
   ::std::uint8_t *bytePtr = reinterpret_cast< ::std::uint8_t *> (&value);
 
   if (bytePtr[0] == 0x78)
@@ -115,8 +112,10 @@ TEST_CASE ("Rounding behavior of stoneydsp::ptrdiff_t",
 TEST_CASE ("Arithmetic operations with stoneydsp::ptrdiff_t",
            "[arithmetic][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 15;
-  ::stoneydsp::ptrdiff_t b = 20;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 15_ptrdiff_t;
+  ::stoneydsp::ptrdiff_t b = 20_ptrdiff_t;
   REQUIRE (a + b == 35);  // Addition
   REQUIRE (a - b == -5);  // Subtraction
   REQUIRE (a * b == 300); // Multiplication
@@ -129,8 +128,10 @@ TEST_CASE ("Arithmetic operations with stoneydsp::ptrdiff_t",
 TEST_CASE ("Bitwise operations with stoneydsp::ptrdiff_t",
            "[bitwise][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 5; // 0101
-  ::stoneydsp::ptrdiff_t b = 3; // 0011
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 5_ptrdiff_t; // 0101
+  ::stoneydsp::ptrdiff_t b = 3_ptrdiff_t; // 0011
 
   REQUIRE ((a & b) == 1); // AND: 0001
   REQUIRE ((a | b) == 7); // OR:  0111
@@ -141,9 +142,11 @@ TEST_CASE ("Bitwise operations with stoneydsp::ptrdiff_t",
 TEST_CASE ("Shift operations with stoneydsp::ptrdiff_t",
            "[bitwise][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 5; // 0101
-  REQUIRE ((a << 1) == 10);     // Left shift: 1010
-  REQUIRE ((a >> 1) == 2);      // Right shift: 0010
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 5_ptrdiff_t; // 0101
+  REQUIRE ((a << 1) == 10);               // Left shift: 1010
+  REQUIRE ((a >> 1) == 2);                // Right shift: 0010
 }
 
 //===============================================================//comparison
@@ -151,8 +154,10 @@ TEST_CASE ("Shift operations with stoneydsp::ptrdiff_t",
 TEST_CASE ("Comparison operations with stoneydsp::ptrdiff_t",
            "[comparison][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 5;
-  ::stoneydsp::ptrdiff_t b = 3;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 5_ptrdiff_t;
+  ::stoneydsp::ptrdiff_t b = 3_ptrdiff_t;
   REQUIRE ((a == b) == false);
   REQUIRE ((a != b) == true);
   REQUIRE ((a > b) == true);
@@ -166,8 +171,10 @@ TEST_CASE ("Comparison operations with stoneydsp::ptrdiff_t",
 TEST_CASE ("Check serialization and deserialization for stoneydsp::ptrdiff_t",
            "[serialization][ptrdiff_t]")
 {
+  using namespace ::stoneydsp::core::types::literals;
+
   ::std::stringstream ss;
-  ::stoneydsp::ptrdiff_t originalValue = 42;
+  ::stoneydsp::ptrdiff_t originalValue = 42_ptrdiff_t;
   ::stoneydsp::ptrdiff_t deserializedValue;
 
   ss.write (reinterpret_cast<const char *> (&originalValue),
@@ -209,17 +216,23 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::ptrdiff_t",
 TEST_CASE ("Compatibility of stoneydsp::ptrdiff_t with standard library",
            "[compatibility][ptrdiff_t]")
 {
-  ::std::vector< ::stoneydsp::ptrdiff_t> vec = { 5, 3, 4, 1, 2 };
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::std::vector< ::stoneydsp::ptrdiff_t> vec
+      = { 5_ptrdiff_t, 3_ptrdiff_t, 4_ptrdiff_t, 1_ptrdiff_t, 2_ptrdiff_t };
 
   // Use std::sort to sort the vector
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
-  REQUIRE (vec == ::std::vector< ::stoneydsp::ptrdiff_t>{ 1, 2, 3, 4, 5 });
+  REQUIRE (vec
+           == ::std::vector< ::stoneydsp::ptrdiff_t>{ 1_ptrdiff_t, 2_ptrdiff_t,
+                                                      3_ptrdiff_t, 4_ptrdiff_t,
+                                                      5_ptrdiff_t });
 
   // Use std::accumulate to sum the elements
-  ::stoneydsp::ptrdiff_t sum = ::std::accumulate (vec.begin (), vec.end (),
-                                                  ::stoneydsp::ptrdiff_t (0));
+  ::stoneydsp::ptrdiff_t sum = ::std::accumulate (
+      vec.begin (), vec.end (), ::stoneydsp::ptrdiff_t (0_ptrdiff_t));
 
   // Verify the sum is correct
   REQUIRE (sum == 15);
@@ -231,8 +244,10 @@ TEST_CASE ("Compatibility of stoneydsp::ptrdiff_t with standard library",
 TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t addition",
            "[benchmark][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 1200;
-  ::stoneydsp::ptrdiff_t b = 3400;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 1200_ptrdiff_t;
+  ::stoneydsp::ptrdiff_t b = 3400_ptrdiff_t;
 
   BENCHMARK ("Addition") { return a + b; };
 }
@@ -241,8 +256,10 @@ TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t addition",
 TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t subtraction",
            "[benchmark][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 3400;
-  ::stoneydsp::ptrdiff_t b = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 3400_ptrdiff_t;
+  ::stoneydsp::ptrdiff_t b = 1200_ptrdiff_t;
 
   BENCHMARK ("Subtraction") { return a - b; };
 }
@@ -251,8 +268,10 @@ TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t subtraction",
 TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t multiplication",
            "[benchmark][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 1200;
-  ::stoneydsp::ptrdiff_t b = 2;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 1200_ptrdiff_t;
+  ::stoneydsp::ptrdiff_t b = 2_ptrdiff_t;
 
   BENCHMARK ("Multiplication") { return a * b; };
 }
@@ -261,8 +280,10 @@ TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t multiplication",
 TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t division",
            "[benchmark][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 1200;
-  ::stoneydsp::ptrdiff_t b = 2;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 1200_ptrdiff_t;
+  ::stoneydsp::ptrdiff_t b = 2_ptrdiff_t;
 
   BENCHMARK ("Division") { return a / b; };
 }
@@ -271,7 +292,9 @@ TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t division",
 TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t to int conversion",
            "[benchmark][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 1200_ptrdiff_t;
 
   BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
@@ -280,7 +303,9 @@ TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t to int conversion",
 TEST_CASE ("Benchmark for stoneydsp::ptrdiff_t to float conversion",
            "[benchmark][ptrdiff_t]")
 {
-  ::stoneydsp::ptrdiff_t a = 1200;
+  using namespace ::stoneydsp::core::types::literals;
+
+  ::stoneydsp::ptrdiff_t a = 1200_ptrdiff_t;
 
   BENCHMARK ("Conversion to float")
   {
