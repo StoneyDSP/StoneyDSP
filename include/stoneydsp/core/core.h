@@ -139,54 +139,59 @@ extern char const *stoneydsp_version;
 
 //====================================================================//INCLUDES
 
-  #include "stoneydsp/core/system/compiler.h"
-  #include "stoneydsp/core/system/cxx.h"
-  #include "stoneydsp/core/system/languages.h"
   #include "stoneydsp/core/system/platform.h"
+
+  #include "stoneydsp/core/system/compiler.h"
+
+  #include "stoneydsp/core/system/languages.h"
+
+  #include "stoneydsp/core/system/cxx.h"
+
+  #include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
-  // for `stoneydsp_int_t`
-  #include "stoneydsp/core/types/int.h"
-  // for `stoneydsp_int8_t`
-  #include "stoneydsp/core/types/int8.h"
-  // for `stoneydsp_int16_t`
-  #include "stoneydsp/core/types/int16.h"
-  // for `stoneydsp_int32_t`
-  #include "stoneydsp/core/types/int32.h"
-  // for `stoneydsp_int64_t`
-  #include "stoneydsp/core/types/int64.h"
-  // for `stoneydsp_intmax_t`
-  #include "stoneydsp/core/types/intmax.h"
-  // for `stoneydsp_intptr_t`
-  #include "stoneydsp/core/types/intptr.h"
+// // for `stoneydsp_int_t`
+// #include "stoneydsp/core/types/int.h"
+// // for `stoneydsp_int8_t`
+// #include "stoneydsp/core/types/int8.h"
+// // for `stoneydsp_int16_t`
+// #include "stoneydsp/core/types/int16.h"
+// // for `stoneydsp_int32_t`
+// #include "stoneydsp/core/types/int32.h"
+// // for `stoneydsp_int64_t`
+// #include "stoneydsp/core/types/int64.h"
+// // for `stoneydsp_intmax_t`
+// #include "stoneydsp/core/types/intmax.h"
+// // for `stoneydsp_intptr_t`
+// #include "stoneydsp/core/types/intptr.h"
 
-  // for `stoneydsp_uint_t`
-  #include "stoneydsp/core/types/uint.h"
-  // for `stoneydsp_uint8_t`
-  #include "stoneydsp/core/types/uint8.h"
-  // for `stoneydsp_uint16_t`
-  #include "stoneydsp/core/types/uint16.h"
-  // for `stoneydsp_uint32_t`
-  #include "stoneydsp/core/types/uint32.h"
-  // for `stoneydsp_uint64_t`
-  #include "stoneydsp/core/types/uint64.h"
-  // for `stoneydsp_uintmax_t`
-  #include "stoneydsp/core/types/uintmax.h"
-  // for `stoneydsp_uintptr_t`
-  #include "stoneydsp/core/types/uintptr.h"
+// // for `stoneydsp_uint_t`
+// #include "stoneydsp/core/types/uint.h"
+// // for `stoneydsp_uint8_t`
+// #include "stoneydsp/core/types/uint8.h"
+// // for `stoneydsp_uint16_t`
+// #include "stoneydsp/core/types/uint16.h"
+// // for `stoneydsp_uint32_t`
+// #include "stoneydsp/core/types/uint32.h"
+// // for `stoneydsp_uint64_t`
+// #include "stoneydsp/core/types/uint64.h"
+// // for `stoneydsp_uintmax_t`
+// #include "stoneydsp/core/types/uintmax.h"
+// // for `stoneydsp_uintptr_t`
+// #include "stoneydsp/core/types/uintptr.h"
 
-  // for `stoneydsp_size_t`
-  #include "stoneydsp/core/types/size.h"
-  // for `stoneydsp_ptrdiff_t`
-  #include "stoneydsp/core/types/ptrdiff.h"
-  // for `stoneydsp_nullptr_t`
-  #include "stoneydsp/core/types/nullptr.h"
-  // for `stoneydsp_max_align_t`
-  #include "stoneydsp/core/types/max_align.h"
+// // for `stoneydsp_size_t`
+// #include "stoneydsp/core/types/size.h"
+// // for `stoneydsp_ptrdiff_t`
+// #include "stoneydsp/core/types/ptrdiff.h"
+// // for `stoneydsp_nullptr_t`
+// #include "stoneydsp/core/types/nullptr.h"
+// // for `stoneydsp_max_align_t`
+// #include "stoneydsp/core/types/max_align.h"
 
-  // for `stoneydsp_float_t`
-  #include "stoneydsp/core/types/math.h"
+// // for `stoneydsp_float_t`
+// #include "stoneydsp/core/types/math.h"
 
 //==============================================================================
 
