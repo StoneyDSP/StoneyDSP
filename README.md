@@ -9,6 +9,10 @@ The StoneyDSP audio Library.
 
 ---
 
+StoneyDSP is an audio Digital Signal Processing (DSP) library with isometric support for C, C++, and other C-like languages, across a wide range of target platforms, architectures, and toolchains; additional features include interfaces for popular audio programming targets including VST, AU, and even VCV Rack, as well as as extensions and utilities such as a CMake API, JUCE module support, vcpkg integration, and NodeJS Binary Addon bindings to Javascript/Typescript.*
+
+_*please note that we are under construction; some of these features are planned, experimental, or only partially implemented as of writing._
+
 ## Contents
 
 - [Quickstart]
