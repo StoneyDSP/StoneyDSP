@@ -203,6 +203,9 @@ ASMFLAGS += -O$(OPTIMIZATION)
 FLAGS += -Wall
 FLAGS += -Wextra
 FLAGS += -Werror
+FLAGS += -Wpedantic
+# FLAGS += -Wunused-parameter
+# FLAGS += -Wunused-command-line-argument
 
 ifdef VERBOSE
 	FLAGS += -v
@@ -241,12 +244,10 @@ endif
 # symbols visibility
 BUILD_EXPORTS ?= 1
 ifeq ($(BUILD_EXPORTS),1)
-	CFLAGS += -fvisibility=hidden
-	CXXFLAGS += -fvisibility=hidden
-	CXXFLAGS += -fvisibility-inlines-hidden
+	ASMFLAGS += -fvisibility=hidden
+	ASMFLAGS += -fvisibility-inlines-hidden
 else
-	CFLAGS += -fvisibility=default
-	CXXFLAGS += -fvisibility=default
+	ASMFLAGS += -fvisibility=default
 endif
 
 # In theory, we could leave -fPIC in place, since non-POSIX users are almost
