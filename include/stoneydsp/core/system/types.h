@@ -631,7 +631,7 @@ typedef STONEYDSP_PTRDIFF_T stoneydsp_ptrdiff_t;
 
 //=========================================================================//*_c
 
-STONEYDSP_EXTERN_C STONEYDSP_CONSTEXPR STONEYDSP_INLINE STONEYDSP_CHAR_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
      * @brief Cast or convert a `value` to a `stoneydsp_char_t`.
