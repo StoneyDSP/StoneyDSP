@@ -175,14 +175,14 @@ ifdef DEBUG
 	ASMFLAGS += -g
 endif
 
-## -O0: No optimization. This is the default level. It aims for the fastest compilation time and the best debugging experience.
-## -O1: Basic optimization. Enables optimizations that do not involve a space-speed tradeoff.
-## -O2: Further optimization. More optimizations are enabled that improve performance without significantly increasing the compilation time.
-## -O3: Aggressive optimization. It enables more aggressive optimizations that may increase the compilation time but aim to maximize the performance of the generated code.
-## -Os: Optimize for size. Enables all -O2 optimizations that do not typically increase code size and enables further optimizations to reduce code size.
-## -Ofast: Disregards strict standards compliance for the sake of optimization. Enables all -O3 optimizations along with other aggressive optimizations.
-OPTIMIZATION ?= -O0
-ASMFLAGS += $(OPTIMIZATION)
+## 0: No optimization. This is the default level. It aims for the fastest compilation time and the best debugging experience.
+## 1: Basic optimization. Enables optimizations that do not involve a space-speed tradeoff.
+## 2: Further optimization. More optimizations are enabled that improve performance without significantly increasing the compilation time.
+## 3: Aggressive optimization. It enables more aggressive optimizations that may increase the compilation time but aim to maximize the performance of the generated code.
+## s: Optimize for size. Enables all -O2 optimizations that do not typically increase code size and enables further optimizations to reduce code size.
+## fast: Disregards strict standards compliance for the sake of optimization. Enables all -O3 optimizations along with other aggressive optimizations.
+OPTIMIZATION ?= 0
+ASMFLAGS += -O$(OPTIMIZATION)
 
 ## Warnings and errors
 FLAGS += -Wall
@@ -523,28 +523,28 @@ ASM_OBJC_COMPILER := $(OBJC)
 ASM_OBJCXX_COMPILER := $(OBJCXX)
 
 # <C;CXX;OBJC;OBJCXX>
-CC_COMPILER := $(CC)
-CXX_COMPILER := $(CXX)
-OBJC_COMPILER := $(OBJC) -ObjC
-OBJCXX_COMPILER := $(OBJCXX) -ObjC++
+CC_COMPILER := $(CC) $(C_STANDARD_FLAG)
+CXX_COMPILER := $(CXX) $(CXX_STANDARD_FLAG)
+OBJC_COMPILER := $(OBJC) $(C_STANDARD_FLAG) -ObjC
+OBJCXX_COMPILER := $(OBJCXX) $(CXX_STANDARD_FLAG) -ObjC++
 
 # <CPP>
-CPP_CC_COMPILER_LAUNCHER := $(CPP_CC_COMPILER) -E $(CPPFLAGS) $(C_STANDARD_FLAG)
-CPP_CXX_COMPILER_LAUNCHER := $(CPP_CXX_COMPILER) -E $(CPPFLAGS) $(CXX_STANDARD_FLAG)
-CPP_OBJC_COMPILER_LAUNCHER := $(CPP_OBJC_COMPILER) -E $(CPPFLAGS) $(C_STANDARD_FLAG)
-CPP_OBJCXX_COMPILER_LAUNCHER := $(CPP_OBJCXX_COMPILER) -E $(CPPFLAGS) $(CXX_STANDARD_FLAG)
+CPP_CC_COMPILER_LAUNCHER := $(CPP_CC_COMPILER) -E $(CPPFLAGS)
+CPP_CXX_COMPILER_LAUNCHER := $(CPP_CXX_COMPILER) -E $(CPPFLAGS)
+CPP_OBJC_COMPILER_LAUNCHER := $(CPP_OBJC_COMPILER) -E $(CPPFLAGS)
+CPP_OBJCXX_COMPILER_LAUNCHER := $(CPP_OBJCXX_COMPILER) -E $(CPPFLAGS)
 
 # <ASM>
-ASM_CC_COMPILER_LAUNCHER := $(ASM_CC_COMPILER) -S $(ASMFLAGS) $(C_STANDARD_FLAG)
-ASM_CXX_COMPILER_LAUNCHER := $(ASM_CXX_COMPILER) -S $(ASMFLAGS) $(CXX_STANDARD_FLAG)
-ASM_OBJC_COMPILER_LAUNCHER := $(ASM_OBJC_COMPILER) -S $(ASMFLAGS)  $(C_STANDARD_FLAG)
-ASM_OBJCXX_COMPILER_LAUNCHER := $(ASM_OBJCXX_COMPILER) -S $(ASMFLAGS) $(CXX_STANDARD_FLAG)
+ASM_CC_COMPILER_LAUNCHER := $(ASM_CC_COMPILER) -S $(ASMFLAGS)
+ASM_CXX_COMPILER_LAUNCHER := $(ASM_CXX_COMPILER) -S $(ASMFLAGS)
+ASM_OBJC_COMPILER_LAUNCHER := $(ASM_OBJC_COMPILER) -S $(ASMFLAGS)
+ASM_OBJCXX_COMPILER_LAUNCHER := $(ASM_OBJCXX_COMPILER) -S $(ASMFLAGS)
 
 # <C;CXX;OBJC;OBJCXX>
-CC_COMPILER_LAUNCHER := $(CC_COMPILER) -c $(CFLAGS) $(C_STANDARD_FLAG)
-CXX_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(CXXFLAGS) $(CXX_STANDARD_FLAG)
-OBJC_COMPILER_LAUNCHER := $(OBJC_COMPILER) -c $(OBJCFLAGS) $(C_STANDARD_FLAG)
-OBJCXX_COMPILER_LAUNCHER := $(OBJCXX_COMPILER) -c $(OBJCXXFLAGS) $(CXX_STANDARD_FLAG)
+CC_COMPILER_LAUNCHER := $(CC_COMPILER) -c $(CFLAGS)
+CXX_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(CXXFLAGS)
+OBJC_COMPILER_LAUNCHER := $(OBJC_COMPILER) -c $(OBJCFLAGS)
+OBJCXX_COMPILER_LAUNCHER := $(OBJCXX_COMPILER) -c $(OBJCXXFLAGS)
 
 ##########################################################<<<-Patterns and rules
 
@@ -555,7 +555,7 @@ $(TARGET): $(OBJECTS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(BUILD_SHARED_FLAG) $(CPPFLAGS) $(ASMFLAGS) $(CXXFLAGS) $(FLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $^ -o $@
+	$(CXX_COMPILER) -O$(OPTIMIZATION) $(BUILD_SHARED_FLAG) $(DEFINES) $(INCLUDES) $(LDFLAGS) $^ -o $@
 	@echo Built target successfully: $@
 	@echo
 

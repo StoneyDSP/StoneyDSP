@@ -134,7 +134,7 @@ namespace literals
 
 //============================================================================//
 
-/* tring literal encoding the version number. */
+/* string literal encoding the version number. */
 extern char const *stoneydsp_version;
 
 //====================================================================//INCLUDES
