@@ -155,6 +155,21 @@ preset:
 
 ###########################################<<<-Standards, Flags, and Directories
 
+SOURCES :=
+OBJECTS :=
+INCLUDES ?=
+DEFINES ?=
+DEPS :=
+
+FLAGS ?=
+CPPFLAGS ?=
+ASMFLAGS ?=
+CFLAGS ?=
+CXXFLAGS ?=
+OBJCFLAGS ?=
+OBJCXXFLAGS ?=
+LDFLAGS ?=
+
 ## Standards
 C_STANDARD ?= 11
 CXX_STANDARD ?= 14
@@ -200,6 +215,39 @@ else ifdef VERBOSE
 	FLAGS += -Wno-unused-parameter
 	FLAGS += -pedantic
 endif
+## TODO: The macro NDEBUG controls whether assert() statements are active or not.
+ifdef DEBUG
+	# DEFINES += -DDEBUG # consider Windows MSVC...
+	DEFINES += -D_DEBUG
+else
+	DEFINES += -DNDEBUG
+endif
+
+## Library type
+BUILD_SHARED ?= 1
+ifeq ($(BUILD_SHARED),1)
+	DEFINES += -DSTONEYDSP_BUILD_SHARED=$(BUILD_SHARED)
+	ifdef ARCH_WIN
+		LIB_EXT := dll
+	else
+		LIB_EXT := so
+	endif
+	BUILD_SHARED_FLAG := -shared
+else
+	LIB_EXT := a
+	BUILD_SHARED_FLAG :=
+endif
+
+# symbols visibility
+BUILD_EXPORTS ?= 1
+ifeq ($(BUILD_EXPORTS),1)
+	CFLAGS += -fvisibility=hidden
+	CXXFLAGS += -fvisibility=hidden
+	CXXFLAGS += -fvisibility-inlines-hidden
+else
+	CFLAGS += -fvisibility=default
+	CXXFLAGS += -fvisibility=default
+endif
 
 # In theory, we could leave -fPIC in place, since non-POSIX users are almost
 # definitely MSVC users, who likely aren't using this Makefile anyway...
@@ -242,31 +290,7 @@ LIB_DEPS := $(LIB_OBJS:.o=.d)
 
 ###################################################<<<-Feature Flags and Targets
 
-## Library type
-BUILD_SHARED ?= 1
-ifeq ($(BUILD_SHARED),1)
-	DEFINES += -DSTONEYDSP_BUILD_SHARED=$(BUILD_SHARED)
-	ifdef ARCH_WIN
-		LIB_EXT := dll
-	else
-		LIB_EXT := so
-	endif
-	BUILD_SHARED_FLAG := -shared
-else
-	LIB_EXT := a
-	BUILD_SHARED_FLAG :=
-endif
-
-## TODO: The macro NDEBUG controls whether assert() statements are active or not.
-ifdef DEBUG
-	# DEFINES += -DDEBUG # consider Windows MSVC...
-	DEFINES += -D_DEBUG
-else
-	DEFINES += -DNDEBUG
-endif
-
 ## Feature flags
-BUILD_EXPORTS ?= 1
 BUILD_CORE ?= 1
 BUILD_DSP ?= 0
 BUILD_SIMD ?= 0
