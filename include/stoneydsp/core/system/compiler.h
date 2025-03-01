@@ -233,6 +233,16 @@
 
 //==============================================================================
 
+  #if STONEYDSP_MSVC
+    #define STONEYDSP_INLINE_ATTR __forceinline
+  #else // STONEYDSP_GCC || STONEYDSP_CLANG
+    #define STONEYDSP_INLINE_ATTR __attribute__ ((always_inline))
+  #endif
+
+  #define STONEYDSP_INLINE inline STONEYDSP_INLINE_ATTR
+
+//==============================================================================
+
 #endif // STONEYDSP_CORE_SYSTEM_COMPILER_H_INCLUDED
 
 //=========================================================================//EOF
