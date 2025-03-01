@@ -9,7 +9,8 @@
 				"BUILD_DSP=0",
 				"BUILD_TEST=1",
 				"BUILD_MAIN=1",
-				"DEBUG=1"
+				"DEBUG=1",
+				"OPTIMIZATION=0"
 			]
 		}
 	],
