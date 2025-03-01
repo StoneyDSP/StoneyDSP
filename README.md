@@ -37,19 +37,19 @@ _*please note that we are under construction; some of these features are planned
 Clone StoneyDSP:
 
 ```sh
-$ git clone git@github.com:StoneyDSP/StoeyDSP:git && cd StoneyDSP
+git clone git@github.com:StoneyDSP/StoeyDSP:git && cd StoneyDSP
 ```
 
 Build with GNU Make:
 
 ```sh
-$ make
+make
 ```
 
 Or build with CMake:
 
 ```sh
-$ cmake -S . -B ./build
+cmake -S . -B ./build
 ```
 
 ## Requirements
@@ -77,7 +77,7 @@ TODO
   For example, configuring the CMake project for 64-bit Linux platforms in "Release" mode with extra logging enabled is as easy as:
 
   ```sh
-  $ cmake --preset x64-linux-release-verbose
+  cmake --preset x64-linux-release-verbose
   ```
 
   Our CMake Presets are specified as: `<arch>-<platform>-<mode>[-<option>]`
@@ -108,40 +108,40 @@ TODO
   CMake configure with a preset:
 
   ```sh
-  $ cmake --preset x64-linux-release-verbose
+  cmake --preset x64-linux-release-verbose
   ```
 
   CMake re-configure with a preset:
 
   ```sh
-  $ cmake --preset x64-linux-release-verbose --fresh
+  cmake --preset x64-linux-release-verbose --fresh
   ```
 
   CMake build with a prest:
 
   ```sh
-  $ cmake --build ./build --preset x64-linux-release-verbose
+  cmake --build ./build --preset x64-linux-release-verbose
   ```
 
   CTest test with a preset:
 
   ```sh
-  $ ctest --test-dir ./build --preset x64-linux-release-verbose
+  ctest --test-dir ./build --preset x64-linux-release-verbose
   ```
 
   CMake package the build tree with a preset (calls CPack underneath):
 
   ```sh
-  $ cmake --build ./build --preset x64-linux-release-verbose --target package
+  cmake --build ./build --preset x64-linux-release-verbose --target package
   ```
 
   CMake package the source tree with a preset (calls CPack underneath):
 
   ```sh
-  $ cmake --build ./build --preset x64-linux-release-verbose --target package_source
+  cmake --build ./build --preset x64-linux-release-verbose --target package_source
   ```
 
-  *NOTE:* Our presets all use Ninja as a generator to ensure cross-compatibility and reduce complexity.
+  _NOTE:_ Our presets all use Ninja as a generator to ensure cross-compatibility and reduce complexity.
 
   Not all platform and architecture combinations are currently supported; here is a summary of what we guarantee as of writing:
 
@@ -190,7 +190,7 @@ TODO
   StoneyDSP also provides workflows for all possible presets:
 
   ```sh
-  $ cmake --preset x64-linux-release-verbose --workflow
+  cmake --preset x64-linux-release-verbose --workflow
   ```
 
   The workflows run the following steps in order:
@@ -255,13 +255,13 @@ TODO
 
 - ### test
 
-	Unit-tests with Catch2.
+  Unit-tests with Catch2.
 
   This feature is only available when building StoneyDSP from source (it is not part of our distribution build), and is `OFF` by default.
 
 - ### doc
 
-	Documentation with Doxygen.
+  Documentation with Doxygen.
 
   This feature is only available when building StoneyDSP from source (it is not part of our distribution build), and is `OFF` by default.
 
@@ -309,6 +309,7 @@ For more information, visit the website:
 [www.stoneydsp.com](https://www.stoneydsp.com)
 
 FULL STONEYDSP TERMS:
+
 - [STONEYDSP END-USER LICENSE AGREEMENT](https://www.stoneydsp.com/licence)
 - [STONEYDSP PRIVACY POLICY](https://www.stoneydsp.com/privacy-policy)
 
