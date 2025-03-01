@@ -203,7 +203,7 @@ ASMFLAGS += -O$(OPTIMIZATION)
 FLAGS += -Wall
 FLAGS += -Wextra
 FLAGS += -Werror
-FLAGS += -Wpedantic
+# FLAGS += -Wpedantic
 # FLAGS += -Wunused-parameter
 # FLAGS += -Wunused-command-line-argument
 
