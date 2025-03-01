@@ -1,6 +1,6 @@
 {
 	"name": "stoneydsp",
-	"version": "0.0.833.62663737336131",
+	"version": "0.0.835.61383663373865",
 	"license": "MIT",
 	"description": "The StoneyDSP Audio Library.",
 	"homepage": "https://github.com/StoneyDSP/StoneyDSP",
@@ -27,19 +27,8 @@
 			"features": []
 		}
 	],
-	"default-features": [
-		"objects"
-	],
+	"default-features": [],
 	"features": {
-		"objects": {
-			"description": "Object-oriented data structures for algorithmic processing.",
-			"dependencies": [
-				{
-					"name": "stoneydsp",
-					"default-features": true
-				}
-			]
-		},
 		"simd": {
 			"description": "SIMD data types for optimized performance.",
 			"dependencies": [

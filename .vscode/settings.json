@@ -11,6 +11,27 @@
 				"BUILD_MAIN=1",
 				"DEBUG=1",
 				"OPTIMIZATION=0"
+			],
+			"problemMatchers": [
+				"$gcc",
+				"$msvc"
+			]
+		},
+		{
+			"name": "Optimised3",
+			"makeArgs": [
+				"BUILD_EXPORTS=1",
+				"BUILD_CORE=1",
+				"BUILD_SIMD=0",
+				"BUILD_DSP=0",
+				"BUILD_TEST=1",
+				"BUILD_MAIN=1",
+				"DEBUG=1",
+				"OPTIMIZATION=3"
+			],
+			"problemMatchers": [
+				"$gcc",
+				"$msvc"
 			]
 		}
 	],
