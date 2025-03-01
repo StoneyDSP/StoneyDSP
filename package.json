@@ -1,6 +1,6 @@
 {
 	"name": "stoneydsp",
-	"version": "0.0.823.39633630613261",
+	"version": "0.0.833.62663737336131",
 	"description": "The StoneyDSP audio library",
 	"main": "index.js",
 	"repository": "git@github.com:StoneyDSP/StoneyDSP.git",
