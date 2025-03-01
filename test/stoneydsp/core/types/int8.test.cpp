@@ -27,44 +27,42 @@
 
 //======================================================================//sizeof
 
-TEST_CASE ("sizeof stoneydsp::int8_t is 1 byte",
-           "[core][types][int8_t][sizeof]")
+TEST_CASE ("[core][types][int8_t][sizeof]", "[core][types][int8_t][sizeof]")
 {
   REQUIRE (sizeof (::stoneydsp::int8_t) == 1UL);
 }
 
 //=====================================================================//alignof
 
-TEST_CASE ("alignof stoneydsp::int8_t is 1 byte",
-           "[core][types][int8_t][alignof]")
+TEST_CASE ("[core][types][int8_t][alignof]", "[core][types][int8_t][alignof]")
 {
   REQUIRE (alignof (::stoneydsp::int8_t) == 1UL);
 }
 
 //=================================================================//type_traits
 
-TEST_CASE ("Check if types are signed or unsigned",
+TEST_CASE ("[core][types][int8_t][type_traits][is_signed]",
            "[core][types][int8_t][type_traits][is_signed]")
 {
   REQUIRE (::std::is_signed< ::stoneydsp::int8_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int8_t trivially copyable",
+TEST_CASE ("[core][types][int8_t][type_traits][is_trivially_copyable]",
            "[core][types][int8_t][type_traits][is_trivially_copyable]")
 {
   REQUIRE (::std::is_trivially_copyable< ::stoneydsp::int8_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int8_t standard-layout conforming",
+TEST_CASE ("[core][types][int8_t][type_traits][is_standard_layout]",
            "[core][types][int8_t][type_traits][is_standard_layout]")
 {
   REQUIRE (::std::is_standard_layout< ::stoneydsp::int8_t>::value);
 }
 
-//==============================================================//special_values
+//==============================================================//numeric_limits
 
-TEST_CASE ("Numeric limits of stoneydsp::int8_t",
-           "[core][types][int8_t][numeric_limits][special_values]")
+TEST_CASE ("[core][types][int8_t][numeric_limits]",
+           "[core][types][int8_t][numeric_limits]")
 {
   // { -128 }
   REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int8_t>::min ()
@@ -77,10 +75,10 @@ TEST_CASE ("Numeric limits of stoneydsp::int8_t",
            == ::std::numeric_limits< ::stoneydsp::int8_t>::lowest ());
 }
 
-//==============================================================//numeric_limits
+//==============================================================//special_values
 
-TEST_CASE ("Special values of stoneydsp::int8_t",
-           "[core][types][int8_t][numeric_limits]")
+TEST_CASE ("[core][types][int8_t][special_values]",
+           "[core][types][int8_t][special_values]")
 {
   ::stoneydsp::int8_t min_val
       = ::std::numeric_limits< ::stoneydsp::int8_t>::min ();
@@ -92,7 +90,7 @@ TEST_CASE ("Special values of stoneydsp::int8_t",
 
 //==================================================================//endianness
 
-TEST_CASE ("Endianness handling for stoneydsp::int8_t",
+TEST_CASE ("[core][types][int8_t][endianness]",
            "[core][types][int8_t][endianness]")
 {
   using namespace ::stoneydsp::core::types::literals;
@@ -113,7 +111,7 @@ TEST_CASE ("Endianness handling for stoneydsp::int8_t",
 
 //====================================================================//rounding
 
-TEST_CASE ("Rounding behavior of stoneydsp::int8_t",
+TEST_CASE ("[core][types][int8_t][rounding]",
            "[core][types][int8_t][rounding]")
 {
   ::stoneydsp::float_t a = 1.5f;
@@ -123,7 +121,7 @@ TEST_CASE ("Rounding behavior of stoneydsp::int8_t",
 
 //==================================================================//arithmetic
 
-TEST_CASE ("Arithmetic operations with stoneydsp::int8_t",
+TEST_CASE ("[core][types][int8_t][arithmetic]",
            "[core][types][int8_t][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
@@ -138,10 +136,10 @@ TEST_CASE ("Arithmetic operations with stoneydsp::int8_t",
   REQUIRE (b % a == 5);   // Modulo
 }
 
-//===============================================================//bitwise
+//=====================================================================//bitwise
 
-TEST_CASE ("Bitwise operations with stoneydsp::int8_t",
-           "[core][types][int8_t][bitwise]")
+TEST_CASE ("[core][types][int8_t][bitwise][logic]",
+           "[core][types][int8_t][bitwise][logic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -154,8 +152,8 @@ TEST_CASE ("Bitwise operations with stoneydsp::int8_t",
   REQUIRE (~a == -6);     // NOT: considering wrap-around for int8_t
 }
 
-TEST_CASE ("Shift operations with stoneydsp::int8_t",
-           "[core][types][int8_t][bitwise]")
+TEST_CASE ("[core][types][int8_t][bitwise][arithmetic]",
+           "[core][types][int8_t][bitwise][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -167,7 +165,7 @@ TEST_CASE ("Shift operations with stoneydsp::int8_t",
 
 //===============================================================//comparison
 
-TEST_CASE ("Comparison operations with stoneydsp::int8_t",
+TEST_CASE ("[core][types][int8_t][comparison]",
            "[core][types][int8_t][comparison]")
 {
   using namespace ::stoneydsp::core::types::literals;
@@ -185,7 +183,7 @@ TEST_CASE ("Comparison operations with stoneydsp::int8_t",
 
 //===============================================================//serialization
 
-TEST_CASE ("Check serialization and deserialization for stoneydsp::int8_t",
+TEST_CASE ("[core][types][int8_t][serialization]",
            "[core][types][int8_t][serialization]")
 {
   using namespace ::stoneydsp::core::types::literals;
@@ -205,7 +203,7 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::int8_t",
 
 //=======================================================//boundary_and_overflow
 
-TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int8_t",
+TEST_CASE ("[core][types][int8_t][boundary][overflow]",
            "[core][types][int8_t][boundary][overflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
@@ -219,7 +217,7 @@ TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int8_t",
 
 //======================================================//boundary_and_underflow
 
-TEST_CASE ("Boundary and underflow behavior of stoneydsp::int8_t",
+TEST_CASE ("[core][types][int8_t][boundary][underflow]",
            "[core][types][int8_t][boundary][underflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
@@ -233,7 +231,7 @@ TEST_CASE ("Boundary and underflow behavior of stoneydsp::int8_t",
 
 //===============================================================//compatibility
 
-TEST_CASE ("Compatibility of stoneydsp::int8_t with standard library",
+TEST_CASE ("[core][types][int8_t][compatibility]",
            "[core][types][int8_t][compatibility]")
 {
   using namespace ::stoneydsp::core::types::literals;
@@ -246,8 +244,8 @@ TEST_CASE ("Compatibility of stoneydsp::int8_t with standard library",
 
   // Verify the vector is sorted
   REQUIRE (vec
-           == ::std::vector< ::stoneydsp::int8_t>{ 1_int8_t, 2_int8_t, 3_int8_t,
-                                                   4_int8_t, 5_int8_t });
+           == ::std::vector< ::stoneydsp::int8_t>{
+               1_int8_t, 2_int8_t, 3_int8_t, 4_int8_t, 5_int8_t });
 
   // Use std::accumulate to sum the elements
   ::stoneydsp::int8_t sum = ::std::accumulate (vec.begin (), vec.end (),
@@ -260,8 +258,8 @@ TEST_CASE ("Compatibility of stoneydsp::int8_t with standard library",
 //===================================================================//benchmark
 
 // Benchmark for addition
-TEST_CASE ("Benchmark for stoneydsp::int8_t addition",
-           "[core][types][int8_t][benchmark]")
+TEST_CASE ("[core][types][int8_t][benchmark][addition]",
+           "[core][types][int8_t][benchmark][addition]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -272,8 +270,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t addition",
 }
 
 // Benchmark for subtraction
-TEST_CASE ("Benchmark for stoneydsp::int8_t subtraction",
-           "[core][types][int8_t][benchmark]")
+TEST_CASE ("[core][types][int8_t][benchmark][subtraction]",
+           "[core][types][int8_t][benchmark][subtraction]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -284,8 +282,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t subtraction",
 }
 
 // Benchmark for multiplication
-TEST_CASE ("Benchmark for stoneydsp::int8_t multiplication",
-           "[core][types][int8_t][benchmark]")
+TEST_CASE ("[core][types][int8_t][benchmark][multiplication]",
+           "[core][types][int8_t][benchmark][multiplication]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -296,8 +294,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t multiplication",
 }
 
 // Benchmark for division
-TEST_CASE ("Benchmark for stoneydsp::int8_t division",
-           "[core][types][int8_t][benchmark]")
+TEST_CASE ("[core][types][int8_t][benchmark][division]",
+           "[core][types][int8_t][benchmark][division]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -308,8 +306,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t division",
 }
 
 // Benchmark for type conversion to int
-TEST_CASE ("Benchmark for stoneydsp::int8_t to int conversion",
-           "[core][types][int8_t][benchmark]")
+TEST_CASE ("[core][types][int8_t][benchmark][conversion][int]",
+           "[core][types][int8_t][benchmark][conversion][int]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -319,8 +317,8 @@ TEST_CASE ("Benchmark for stoneydsp::int8_t to int conversion",
 }
 
 // Benchmark for type conversion to float
-TEST_CASE ("Benchmark for stoneydsp::int8_t to float conversion",
-           "[core][types][int8_t][benchmark]")
+TEST_CASE ("[core][types][int8_t][benchmark][conversion][float]",
+           "[core][types][int8_t][benchmark][conversion][float]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
