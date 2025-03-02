@@ -2311,6 +2311,39 @@ operator"" _ptrdiff_t (char value) STONEYDSP_NOEXCEPT
 
 //==============================================================================
 
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _double_t (long double value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_double_c (value);
+}
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _ldouble_t (long double value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_ldouble_c (value);
+}
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _float_t (long double value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_float_c (value);
+}
+
 STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
