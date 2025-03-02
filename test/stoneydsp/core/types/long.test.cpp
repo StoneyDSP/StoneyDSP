@@ -339,8 +339,8 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][benchmark][multiplication]",
 }
 
 // STONEYDSP_Benchmark for division
-STONEYDSP_TEST_CASE ("[core][types][long_t][benchmark][addition]",
-                     "[core][types][long_t][benchmark][addition]")
+STONEYDSP_TEST_CASE ("[core][types][long_t][benchmark][division]",
+                     "[core][types][long_t][benchmark][division]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
