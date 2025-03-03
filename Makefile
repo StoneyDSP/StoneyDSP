@@ -437,7 +437,7 @@ INCLUDES += -I$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/include
 
 ##################################################<<<-CMake and workflow targets
 
-TEST_ARGS ?= --skip-benchmarks
+TEST_ARGS ?= --skip-benchmarks --order decl
 CMAKE_ARGS ?=
 CMAKE_ARGS += -DSTONEYDSP_BUILD_CORE:BOOL=$(BUILD_CORE)
 CMAKE_ARGS += -DSTONEYDSP_BUILD_SIMD:BOOL=$(BUILD_SIMD)
@@ -790,7 +790,7 @@ $(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 
 check: catch2 $(TEST_TARGET)
-	$(TEST_TARGET) $(TEST_ARGS)
+	$(TEST_TARGET) $(TEST_ARGS) || exit $$?
 .PHONY: check
 
 ## <CXX>
