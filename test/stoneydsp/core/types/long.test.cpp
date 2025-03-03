@@ -165,11 +165,11 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][arithmetic]",
   ::stoneydsp::long_t a = 1500000000_long_t;
   ::stoneydsp::long_t b = 2000000000_long_t;
 
-  STONEYDSP_REQUIRE (a + b == 3500000000);          // Addition
-  STONEYDSP_REQUIRE (a - b == -500000000);          // Subtraction
-  STONEYDSP_REQUIRE (a * b == 3000000000000000000); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 1);                   // Division
-  STONEYDSP_REQUIRE (b % a == 500000000);           // Modulo
+  STONEYDSP_REQUIRE (a + b == 3500000000L);          // Addition
+  STONEYDSP_REQUIRE (a - b == -500000000L);          // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000000000000000L); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 1L);                   // Division
+  STONEYDSP_REQUIRE (b % a == 500000000L);           // Modulo
 }
 
 //===============================================================//bitwise
