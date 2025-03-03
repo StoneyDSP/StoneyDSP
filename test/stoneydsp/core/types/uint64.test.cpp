@@ -159,8 +159,8 @@ STONEYDSP_TEST_CASE ("[core][types][uint64_t][rounding]",
 
 //==================================================================//arithmetic
 
-STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][logic]",
-                     "[core][types][uint64_t][bitwise][logic]")
+STONEYDSP_TEST_CASE ("[core][types][uint64_t][arithmetic]",
+                     "[core][types][uint64_t][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -187,17 +187,17 @@ STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][logic]",
   STONEYDSP_REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
   STONEYDSP_REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0111
   STONEYDSP_REQUIRE ((a ^ b) == 6); // XOR: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0110
-  STONEYDSP_REQUIRE (
-      (~a & 0xFFFFFFFFFFFFFFFFULL)
+  STONEYDSP_REQUIRE ((~a & 0xFFFFFFFFFFFFFFFFULL)
       == 18446744073709551610ULL); // NOT: 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1010 (considering uint64_t wrap-around)
-	// clang-format off
+  // clang-format on
 }
 
-STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][arithmetic]", "[core][types][uint64_t][bitwise][arithmetic]")
+STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][arithmetic]",
+                     "[core][types][uint64_t][bitwise][arithmetic]")
 {
-	using namespace ::stoneydsp::core::types::literals;
+  using namespace ::stoneydsp::core::types::literals;
 
-	// clang-format off
+  // clang-format off
   ::stoneydsp::uint64_t a = 5_uint64_t; // 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
 
 	STONEYDSP_REQUIRE ((a << 1) == 10);  // Left shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1010
