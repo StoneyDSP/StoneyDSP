@@ -44,7 +44,7 @@ STONEYDSP_TEST_CASE ("[core][types][shrt_t][type_traits][is_integral]",
 STONEYDSP_TEST_CASE ("[core][types][shrt_t][type_traits][is_unsigned]",
                      "[core][types][shrt_t][type_traits][is_unsigned]")
 {
-  STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::shrt_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::shrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][shrt_t][type_traits][is_arithmetic]",
@@ -336,7 +336,7 @@ STONEYDSP_TEST_CASE ("[core][types][shrt_t][benchmark][division]",
 }
 
 // Benchmark for type conversion to int
-STONEYDSP_TEST_CASE ("Benchmark for stoneydsp::shrt_t to int conversion",
+STONEYDSP_TEST_CASE ("[core][types][shrt_t][benchmark][conversion][int]",
                      "[core][types][shrt_t][benchmark][conversion][int]")
 {
   using namespace ::stoneydsp::core::types::literals;

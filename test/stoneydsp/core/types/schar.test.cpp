@@ -19,7 +19,7 @@
 
 //======================================================================//sizeof
 
-STONEYDSP_TEST_CASE ("sizeof stoneydsp::schar_t is 1 byte",
+STONEYDSP_TEST_CASE ("[core][types][schar_t][sizeof]",
                      "[core][types][schar_t][sizeof]")
 {
   STONEYDSP_REQUIRE (sizeof (::stoneydsp::schar_t) == 1UL);
@@ -27,7 +27,7 @@ STONEYDSP_TEST_CASE ("sizeof stoneydsp::schar_t is 1 byte",
 
 //=====================================================================//alignof
 
-STONEYDSP_TEST_CASE ("alignof stoneydsp::schar_t is 1 byte",
+STONEYDSP_TEST_CASE ("[core][types][schar_t][alignof]",
                      "[core][types][schar_t][alignof]")
 {
   STONEYDSP_REQUIRE (alignof (::stoneydsp::schar_t) == 1UL);
