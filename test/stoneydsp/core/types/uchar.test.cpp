@@ -35,10 +35,40 @@ STONEYDSP_TEST_CASE ("[core][types][uchar_t][alignof]",
 
 //=================================================================//type_traits
 
+STONEYDSP_TEST_CASE ("[core][types][uchar_t][type_traits][is_integral]",
+                     "[core][types][uchar_t][type_traits][is_integral]")
+{
+  STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::uchar_t>::value);
+}
+
 STONEYDSP_TEST_CASE ("[core][types][uchar_t][type_traits][is_unsigned]",
                      "[core][types][uchar_t][type_traits][is_unsigned]")
 {
   STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::uchar_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][uchar_t][type_traits][is_arithmetic]",
+                     "[core][types][uchar_t][type_traits][is_arithmetic]")
+{
+  STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::uchar_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][uchar_t][type_traits][is_pointer]",
+                     "[core][types][uchar_t][type_traits][is_pointer]")
+{
+  STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::uchar_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][uchar_t][type_traits][is_const]",
+                     "[core][types][uchar_t][type_traits][is_const]")
+{
+  STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::uchar_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][uchar_t][type_traits][is_empty]",
+                     "[core][types][uchar_t][type_traits][is_empty]")
+{
+  STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::uchar_t>::value);
 }
 
 STONEYDSP_TEST_CASE (
