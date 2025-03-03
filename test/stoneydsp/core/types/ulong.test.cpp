@@ -22,7 +22,11 @@
 STONEYDSP_TEST_CASE ("[core][types][ulong_t][sizeof]",
                      "[core][types][ulong_t][sizeof]")
 {
+  #ifdef STONEYDSP_WINDOWS
+  STONEYDSP_REQUIRE (sizeof (::stoneydsp::ulong_t) == 4UL);
+  #else
   STONEYDSP_REQUIRE (sizeof (::stoneydsp::ulong_t) == 8UL);
+  #endif
 }
 
 //=====================================================================//alignof
@@ -30,7 +34,11 @@ STONEYDSP_TEST_CASE ("[core][types][ulong_t][sizeof]",
 STONEYDSP_TEST_CASE ("[core][types][ulong_t][alignof]",
                      "[core][types][ulong_t][alignof]")
 {
+  #ifdef STONEYDSP_WINDOWS
+  STONEYDSP_REQUIRE (alignof (::stoneydsp::ulong_t) == 4UL);
+  #else
   STONEYDSP_REQUIRE (alignof (::stoneydsp::ulong_t) == 8UL);
+  #endif
 }
 
 //=================================================================//type_traits
@@ -166,11 +174,11 @@ STONEYDSP_TEST_CASE ("[core][types][ulong_t][arithmetic]",
   ::stoneydsp::ulong_t a = 1500000000000000000_ulong_t;
   ::stoneydsp::ulong_t b = 2_ulong_t;
 
-  STONEYDSP_REQUIRE (a + b == 1500000000000000002); // Addition
-  STONEYDSP_REQUIRE (a - b == 1499999999999999998); // Subtraction
-  STONEYDSP_REQUIRE (a * b == 3000000000000000000); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 0);                   // Division
-  STONEYDSP_REQUIRE (b % a == 2);                   // Modulo
+  STONEYDSP_REQUIRE (a + b == 1500000000000000002UL);  // Addition
+  STONEYDSP_REQUIRE (a - b == 1499999999999999998UL);  // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000000000000000ULL); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 0UL);                    // Division
+  STONEYDSP_REQUIRE (b % a == 2UL);                    // Modulo
 }
 
 //=====================================================================//bitwise
@@ -184,12 +192,18 @@ STONEYDSP_TEST_CASE ("[core][types][ulong_t][bitwise][logic]",
   ::stoneydsp::ulong_t a = 5_ulong_t; // 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
   ::stoneydsp::ulong_t b = 3_ulong_t; // 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011
 
-  STONEYDSP_REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
-  STONEYDSP_REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0111
-  STONEYDSP_REQUIRE ((a ^ b) == 6); // XOR: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0110
-  STONEYDSP_REQUIRE (
+  STONEYDSP_REQUIRE ((a & b) == 1UL); // AND: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
+  STONEYDSP_REQUIRE ((a | b) == 7UL); // OR:  0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0111
+  STONEYDSP_REQUIRE ((a ^ b) == 6UL); // XOR: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0110
+  #ifdef STONEYDSP_WINDOWS
+	STONEYDSP_REQUIRE(
+		(~a & 0xFFFFFFFFUL)
+		== 4294967290UL); // NOT: 1111 1111 1111 1111 1111 1111 1111 1010 (considering ulong_t wrap-around)
+	#else
+	STONEYDSP_REQUIRE (
       (~a & 0xFFFFFFFFFFFFFFFFUL)
       == 18446744073709551610UL); // NOT: 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1111 1010 (considering ulong_t wrap-around)
+	#endif
 	// clang-format off
 }
 

@@ -22,7 +22,11 @@
 STONEYDSP_TEST_CASE ("[core][types][long_t][sizeof]",
                      "[core][types][long_t][sizeof]")
 {
+  #ifdef STONEYDSP_WINDOWS
+  STONEYDSP_REQUIRE (sizeof (::stoneydsp::long_t) == 4UL);
+  #else
   STONEYDSP_REQUIRE (sizeof (::stoneydsp::long_t) == 8UL);
+  #endif
 }
 
 //=====================================================================//alignof
@@ -30,7 +34,11 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][sizeof]",
 STONEYDSP_TEST_CASE ("[core][types][long_t][alignof]",
                      "[core][types][long_t][alignof]")
 {
+  #ifdef STONEYDSP_WINDOWS
+  STONEYDSP_REQUIRE (alignof (::stoneydsp::long_t) == 4UL);
+  #else
   STONEYDSP_REQUIRE (alignof (::stoneydsp::long_t) == 8UL);
+  #endif
 }
 
 //=================================================================//type_traits
@@ -113,11 +121,20 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][special_values]",
       = ::std::numeric_limits< ::stoneydsp::long_t>::min ();
   ::stoneydsp::long_t max_val
       = ::std::numeric_limits< ::stoneydsp::long_t>::max ();
-  STONEYDSP_REQUIRE (min_val
-                     == -9223372036854775807_long_t
-                            - 1_long_t); // Minimum value for long_t
+  #ifdef STONEYDSP_WINDOWS
   STONEYDSP_REQUIRE (
-      max_val == 9223372036854775807_long_t); // Maximum value for long_t
+      min_val
+      == ((-2147483647_long_t) - 1_long_t)); // Minimum value for 32-bit long_t
+  STONEYDSP_REQUIRE (max_val
+                     == 2147483648_long_t); // Maximum value for 32-bit long_t
+  #else
+  STONEYDSP_REQUIRE (min_val
+                     == ((-9223372036854775807_long_t)
+                         - 1_long_t)); // Minimum value for 64-bit long_t
+  STONEYDSP_REQUIRE (
+      max_val
+      == 9223372036854775807_long_t); // Maximum value for 64-bit long_t
+  #endif
 }
 
 //==================================================================//endianness
@@ -165,14 +182,14 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][arithmetic]",
   ::stoneydsp::long_t a = 1500000000_long_t;
   ::stoneydsp::long_t b = 2000000000_long_t;
 
-  STONEYDSP_REQUIRE (a + b == 3500000000L);          // Addition
-  STONEYDSP_REQUIRE (a - b == -500000000L);          // Subtraction
-  STONEYDSP_REQUIRE (a * b == 3000000000000000000L); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 1L);                   // Division
-  STONEYDSP_REQUIRE (b % a == 500000000L);           // Modulo
+  STONEYDSP_REQUIRE (a + b == 3500000000L);           // Addition
+  STONEYDSP_REQUIRE (a - b == -500000000L);           // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000000000000000LL); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 1L);                    // Division
+  STONEYDSP_REQUIRE (b % a == 500000000L);            // Modulo
 }
 
-//===============================================================//bitwise
+//=====================================================================//bitwise
 
 STONEYDSP_TEST_CASE ("[core][types][long_t][bitwise][logic]",
                      "[core][types][long_t][bitwise][logic]")
@@ -209,7 +226,7 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][bitwise][arithmetic]",
   // clang-format on
 }
 
-//===============================================================//comparison
+//==================================================================//comparison
 
 STONEYDSP_TEST_CASE ("[core][types][long_t][comparison]",
                      "[core][types][long_t][comparison]")
@@ -218,6 +235,7 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][comparison]",
 
   ::stoneydsp::long_t a = 5_long_t;
   ::stoneydsp::long_t b = 3_long_t;
+
   STONEYDSP_REQUIRE ((a == b) == false);
   STONEYDSP_REQUIRE ((a != b) == true);
   STONEYDSP_REQUIRE ((a > b) == true);
@@ -252,7 +270,14 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][boundary][overflow]",
 {
   using namespace ::stoneydsp::core::types::literals;
 
+  #ifdef STONEYDSP_WINDOWS
+  // Max value for 32-bit long
+  ::stoneydsp::long_t a = 2147483647_long_t;
+  #else
+  // Max value for 64-bit long
   ::stoneydsp::long_t a = 9223372036854775807_long_t;
+  #endif
+
   ::stoneydsp::long_t b = 1_long_t;
 
   STONEYDSP_REQUIRE (static_cast< ::stoneydsp::long_t> (a + b)
