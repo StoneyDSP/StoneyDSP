@@ -126,7 +126,7 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][special_values]",
       min_val
       == ((-2147483647_long_t) - 1_long_t)); // Minimum value for 32-bit long_t
   STONEYDSP_REQUIRE (max_val
-                     == 2147483648_long_t); // Maximum value for 32-bit long_t
+                     == 2147483647_long_t); // Maximum value for 32-bit long_t
   #else
   STONEYDSP_REQUIRE (min_val
                      == ((-9223372036854775807_long_t)
@@ -179,14 +179,18 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][arithmetic]",
 {
   using namespace ::stoneydsp::core::types::literals;
 
+  // Using values within the 32-bit range
+  // Maximum positive 32-bit long is 2147483647
   ::stoneydsp::long_t a = 1500000000_long_t;
-  ::stoneydsp::long_t b = 2000000000_long_t;
+  // Ensure no overflow during addition
+  ::stoneydsp::long_t b = 100000000_long_t;
 
-  STONEYDSP_REQUIRE (a + b == 3500000000L);           // Addition
-  STONEYDSP_REQUIRE (a - b == -500000000L);           // Subtraction
-  STONEYDSP_REQUIRE (a * b == 3000000000000000000LL); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 1L);                    // Division
-  STONEYDSP_REQUIRE (b % a == 500000000L);            // Modulo
+  STONEYDSP_REQUIRE (a + b == 1600000000L); // Addition
+  STONEYDSP_REQUIRE (a - b == 1400000000L); // Subtraction
+  STONEYDSP_REQUIRE (
+      a * b == 150000000000000000L);       // Multiplication with smaller value
+  STONEYDSP_REQUIRE (b / a == 0L);         // Division (integer division)
+  STONEYDSP_REQUIRE (b % a == 100000000L); // Modulo
 }
 
 //=====================================================================//bitwise

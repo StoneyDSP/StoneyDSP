@@ -171,14 +171,16 @@ STONEYDSP_TEST_CASE ("[core][types][ulong_t][arithmetic]",
 {
   using namespace ::stoneydsp::core::types::literals;
 
-  ::stoneydsp::ulong_t a = 1500000000000000000_ulong_t;
+  // Maximum value for 32-bit unsigned long
+  // Using values within the 32-bit range
+  ::stoneydsp::ulong_t a = 1500000000_ulong_t;
   ::stoneydsp::ulong_t b = 2_ulong_t;
 
-  STONEYDSP_REQUIRE (a + b == 1500000000000000002UL);  // Addition
-  STONEYDSP_REQUIRE (a - b == 1499999999999999998UL);  // Subtraction
-  STONEYDSP_REQUIRE (a * b == 3000000000000000000ULL); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 0UL);                    // Division
-  STONEYDSP_REQUIRE (b % a == 2UL);                    // Modulo
+  STONEYDSP_REQUIRE (a + b == 1500000002UL); // Addition
+  STONEYDSP_REQUIRE (a - b == 1499999998UL); // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000000UL); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 0UL);          // Division
+  STONEYDSP_REQUIRE (b % a == 2UL);          // Modulo
 }
 
 //=====================================================================//bitwise
