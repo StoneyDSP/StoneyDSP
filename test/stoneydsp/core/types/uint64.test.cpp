@@ -116,7 +116,7 @@ STONEYDSP_TEST_CASE ("[core][types][uint64_t][special_values]",
       = ::std::numeric_limits< ::stoneydsp::uint64_t>::min ();
   ::stoneydsp::uint64_t max_val
       = ::std::numeric_limits< ::stoneydsp::uint64_t>::max ();
-  STONEYDSP_REQUIRE (min_val == 0U); // Minimum value for uint64_t
+  STONEYDSP_REQUIRE (min_val == 0UL); // Minimum value for uint64_t
   STONEYDSP_REQUIRE (max_val
                      == 18446744073709551615ULL); // Maximum value for uint64_t
 }
@@ -175,8 +175,8 @@ STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][logic]",
 
 //=====================================================================//bitwise
 
-STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][arithmetic]",
-                     "[core][types][uint64_t][bitwise][arithmetic]")
+STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][logic]",
+                     "[core][types][uint64_t][bitwise][logic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -193,7 +193,7 @@ STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][arithmetic]",
 	// clang-format off
 }
 
-STONEYDSP_TEST_CASE ("Shift operations with stoneydsp::uint64_t", "[core][types][uint64_t][bitwise]")
+STONEYDSP_TEST_CASE ("[core][types][uint64_t][bitwise][arithmetic]", "[core][types][uint64_t][bitwise][arithmetic]")
 {
 	using namespace ::stoneydsp::core::types::literals;
 
