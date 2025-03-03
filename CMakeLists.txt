@@ -42,6 +42,7 @@ stoneydsp_update_version_file()
 option(STONEYDSP_EXPERIMENTAL "Use '-DSTONEYDSP_EXPERIMENTAL=ON|OFF' when configuring to toggle this option." OFF)
 option(STONEYDSP_BUILD_DOCS "Use '-DSTONEYDSP_BUILD_DOCS=ON|OFF' when configuring to toggle this option." OFF)
 option(STONEYDSP_BUILD_CORE "Use '-DSTONEYDSP_BUILD_CORE=ON|OFF' when configuring to toggle this option." ON)
+cmake_dependent_option(STONEYDSP_BUILD_OBJECTS "Use '-DSTONEYDSP_BUILD_OBJECTS=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
 cmake_dependent_option(STONEYDSP_BUILD_SIMD "Use '-DSTONEYDSP_BUILD_SIMD=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
 cmake_dependent_option(STONEYDSP_BUILD_DSP "Use '-DSTONEYDSP_BUILD_DSP=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
 cmake_dependent_option(STONEYDSP_BUILD_TEST "Use '-DSTONEYDSP_BUILD_TEST=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_IS_TOP_LEVEL;STONEYDSP_BUILD_CORE" OFF)
@@ -55,6 +56,13 @@ if(STONEYDSP_BUILD_CORE)
     include(stoneydsp-core)
     stoneydsp_add_core()
     list(APPEND STONEYDSP_TARGETS "${STONEYDSP_CORE_TARGET_NAME}")
+endif()
+
+#[============================[stoneydsp::objects]============================]
+if(STONEYDSP_BUILD_OBJECTS)
+    include(stoneydsp-objects)
+    stoneydsp_add_objects()
+    list(APPEND STONEYDSP_TARGETS "${STONEYDSP_OBJECTS_TARGET_NAME}")
 endif()
 
 #[==============================[stoneydsp::simd]==============================]
@@ -145,8 +153,10 @@ if(STONEYDSP_BUILD_TEST)
     include(CTest)
     include(Catch)
 
-    set(CMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE PRE_TEST)
-    catch_discover_tests("${STONEYDSP_TEST_TARGET_NAME}")
+    catch_discover_tests("${STONEYDSP_TEST_TARGET_NAME}"
+        DISCOVERY_MODE PRE_TEST
+        SKIP_IS_FAILURE
+    )
 endif()
 
 #[===================================[CPack]===================================]
