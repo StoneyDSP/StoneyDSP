@@ -43,6 +43,8 @@
 
     #define STONEYDSP_TEST_CASE(...) CATCH_TEST_CASE (__VA_ARGS__)
 
+    #define STONEYDSP_SECTION(...) CATCH_SECTION (__VA_ARGS__)
+
     #define STONEYDSP_BENCHMARK(...) CATCH_BENCHMARK (__VA_ARGS__)
 
   //==============================================================================

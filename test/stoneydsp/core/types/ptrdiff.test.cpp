@@ -17,13 +17,27 @@
 
   #include "utils.test.hpp"
 
-//======================================================================//sizeof
+//================================================================//requirements
 
-STONEYDSP_TEST_CASE ("[core][types][ptrdiff_t][sizeof]",
-                     "[core][types][ptrdiff_t][sizeof]")
+STONEYDSP_TEST_CASE ("[core][types][ptrdiff_t][requirements]",
+                     "[core][types][ptrdiff_t][requirements]")
 {
-  STONEYDSP_REQUIRE (sizeof (::stoneydsp::ptrdiff_t)
-                     == sizeof (std::ptrdiff_t));
+  STONEYDSP_SECTION ("[core][types][ptrdiff_t][requirements][min]")
+  {
+    bool result = false;
+  #if defined(PTRDIFF_MIN)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+  STONEYDSP_SECTION ("[core][types][ptrdiff_t][requirements][max]")
+  {
+    bool result = false;
+  #if defined(PTRDIFF_MAX)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
 }
 
 //=====================================================================//alignof

@@ -17,6 +17,21 @@
 
   #include "utils.test.hpp"
 
+//================================================================//requirements
+
+STONEYDSP_TEST_CASE ("[core][types][ulong_t][requirements]",
+                     "[core][types][ulong_t][requirements]")
+{
+  STONEYDSP_SECTION ("[core][types][ulong_t][requirements][max]")
+  {
+    bool result = false;
+  #if defined(ULONG_MAX)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+}
+
 //======================================================================//sizeof
 
 STONEYDSP_TEST_CASE ("[core][types][ulong_t][sizeof]",

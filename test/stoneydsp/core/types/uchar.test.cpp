@@ -17,6 +17,21 @@
 
   #include "utils.test.hpp"
 
+//================================================================//requirements
+
+STONEYDSP_TEST_CASE ("[core][types][uchar_t][requirements]",
+                     "[core][types][uchar_t][requirements]")
+{
+  STONEYDSP_SECTION ("[core][types][uchar_t][requirements][max]")
+  {
+    bool result = false;
+  #if defined(UCHAR_MAX)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+}
+
 //======================================================================//sizeof
 
 STONEYDSP_TEST_CASE ("[core][types][uchar_t][sizeof]",

@@ -17,6 +17,29 @@
 
   #include "utils.test.hpp"
 
+//================================================================//requirements
+
+STONEYDSP_TEST_CASE ("[core][types][long_t][requirements]",
+                     "[core][types][long_t][requirements]")
+{
+  STONEYDSP_SECTION ("[core][types][long_t][requirements][min]")
+  {
+    bool result = false;
+  #if defined(LONG_MIN)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+  STONEYDSP_SECTION ("[core][types][long_t][requirements][max]")
+  {
+    bool result = false;
+  #if defined(LONG_MAX)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+}
+
 //======================================================================//sizeof
 
 STONEYDSP_TEST_CASE ("[core][types][long_t][sizeof]",
