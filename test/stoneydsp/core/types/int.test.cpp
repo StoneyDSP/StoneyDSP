@@ -15,85 +15,132 @@
 
 //==============================================================================
 
-  #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include <algorithm>                        // for `std::sort`
-  #include <catch2/benchmark/catch_benchmark.hpp> //
-  #include <catch2/catch_test_macros.hpp>         //
-  #include <limits>                               // for `std::numeric_limits`
-  #include <numeric>                              // for `std::accumulate`
-  #include <sstream>                              // for serialization tests
-  #include <type_traits> // for `is_signed` and `is_unsigned`
-  #include <vector>      // for compatibility tests
+  #include "utils.test.hpp"
+
+//================================================================//requirements
+
+STONEYDSP_TEST_CASE ("[core][types][int_t][requirements]",
+                     "[core][types][int_t][requirements]")
+{
+  STONEYDSP_SECTION ("[core][types][int_t][requirements][min]")
+  {
+    bool result = false;
+  #if defined(INT_MIN)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+  STONEYDSP_SECTION ("[core][types][int_t][requirements][max]")
+  {
+    bool result = false;
+  #if defined(INT_MAX)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+}
 
 //======================================================================//sizeof
 
-TEST_CASE ("sizeof stoneydsp::int_t is 4 bytes",
-           "[core][types][int_t][sizeof]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][sizeof]",
+                     "[core][types][int_t][sizeof]")
 {
-  REQUIRE (sizeof (::stoneydsp::int_t) == 4UL);
+  STONEYDSP_REQUIRE (sizeof (::stoneydsp::int_t) == 4UL);
 }
 
 //=====================================================================//alignof
 
-TEST_CASE ("alignof stoneydsp::int_t is 4 bytes",
-           "[core][types][int_t][alignof]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][alignof]",
+                     "[core][types][int_t][alignof]")
 {
-  REQUIRE (alignof (::stoneydsp::int_t) == 4UL);
+  STONEYDSP_REQUIRE (alignof (::stoneydsp::int_t) == 4UL);
 }
 
 //=================================================================//type_traits
 
-TEST_CASE ("Check if types are signed or unsigned",
-           "[core][types][int_t][type_traits][is_signed]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][type_traits][is_integral]",
+                     "[core][types][int_t][type_traits][is_integral]")
 {
-  REQUIRE (::std::is_signed< ::stoneydsp::int_t>::value);
+  STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::int_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int_t trivially copyable",
-           "[core][types][int_t][type_traits][is_trivially_copyable]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][type_traits][is_unsigned]",
+                     "[core][types][int_t][type_traits][is_unsigned]")
 {
-  REQUIRE (::std::is_trivially_copyable< ::stoneydsp::int_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::int_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::int_t standard-layout conforming",
-           "[core][types][int_t][type_traits][is_standard_layout]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][type_traits][is_arithmetic]",
+                     "[core][types][int_t][type_traits][is_arithmetic]")
 {
-  REQUIRE (::std::is_standard_layout< ::stoneydsp::int_t>::value);
+  STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::int_t>::value);
 }
 
-//==============================================================//special_values
-
-TEST_CASE ("Numeric limits of stoneydsp::int_t",
-           "[core][types][int_t][numeric_limits][special_values]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][type_traits][is_pointer]",
+                     "[core][types][int_t][type_traits][is_pointer]")
 {
-  // { -2147483648 }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int_t>::min ()
-           == ::std::numeric_limits< ::stoneydsp::int_t>::min ());
-  // { 2147483647 }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int_t>::max ()
-           == ::std::numeric_limits< ::stoneydsp::int_t>::max ());
-  // { -2147483648 }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int_t>::lowest ()
-           == ::std::numeric_limits< ::stoneydsp::int_t>::lowest ());
+  STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::int_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][int_t][type_traits][is_const]",
+                     "[core][types][int_t][type_traits][is_const]")
+{
+  STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::int_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][int_t][type_traits][is_empty]",
+                     "[core][types][int_t][type_traits][is_empty]")
+{
+  STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::int_t>::value);
+}
+
+STONEYDSP_TEST_CASE (
+    "[core][types][int_t][type_traits][is_trivially_copyable]",
+    "[core][types][int_t][type_traits][is_trivially_copyable]")
+{
+  STONEYDSP_REQUIRE (::std::is_trivially_copyable< ::stoneydsp::int_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][int_t][type_traits][is_standard_layout]",
+                     "[core][types][int_t][type_traits][is_standard_layout]")
+{
+  STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::int_t>::value);
 }
 
 //==============================================================//numeric_limits
 
-TEST_CASE ("Special values of stoneydsp::int_t",
-           "[core][types][int_t][numeric_limits]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][numeric_limits]",
+                     "[core][types][int_t][numeric_limits]")
+{
+  // { -2147483648 }
+  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int_t>::min ()
+                     == ::std::numeric_limits< ::stoneydsp::int_t>::min ());
+  // { 2147483647 }
+  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int_t>::max ()
+                     == ::std::numeric_limits< ::stoneydsp::int_t>::max ());
+  // { -2147483648 }
+  STONEYDSP_REQUIRE (
+      ::stoneydsp::numeric_limits< ::stoneydsp::int_t>::lowest ()
+      == ::std::numeric_limits< ::stoneydsp::int_t>::lowest ());
+}
+
+//==============================================================//special_values
+
+STONEYDSP_TEST_CASE ("[core][types][int_t][special_values]",
+                     "[core][types][int_t][special_values]")
 {
   ::stoneydsp::int_t min_val
       = ::std::numeric_limits< ::stoneydsp::int_t>::min ();
   ::stoneydsp::int_t max_val
       = ::std::numeric_limits< ::stoneydsp::int_t>::max ();
-  REQUIRE (min_val == -2147483648); // Minimum value for int_t
-  REQUIRE (max_val == 2147483647);  // Maximum value for int_t
+  STONEYDSP_REQUIRE (min_val == -2147483648); // Minimum value for int_t
+  STONEYDSP_REQUIRE (max_val == 2147483647);  // Maximum value for int_t
 }
 
 //==================================================================//endianness
 
-TEST_CASE ("Endianness handling for stoneydsp::int_t",
-           "[core][types][int_t][endianness]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][endianness]",
+                     "[core][types][int_t][endianness]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -102,96 +149,99 @@ TEST_CASE ("Endianness handling for stoneydsp::int_t",
 
   if (bytePtr[0] == 0x78)
     {
-      REQUIRE (true); // Little-endian
+      STONEYDSP_REQUIRE (true); // Little-endian
     }
   else if (bytePtr[0] == 0x12)
     {
-      REQUIRE (true); // Big-endian
+      STONEYDSP_REQUIRE (true); // Big-endian
     }
   else
     {
-      REQUIRE (false); // Unknown endianness
+      STONEYDSP_REQUIRE (false); // Unknown endianness
     }
 }
 
 //====================================================================//rounding
 
-TEST_CASE ("Rounding behavior of stoneydsp::int_t",
-           "[core][types][int_t][rounding]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][rounding]",
+                     "[core][types][int_t][rounding]")
 {
   ::stoneydsp::float_t a = 1.5f;
   ::stoneydsp::int_t b = static_cast< ::stoneydsp::int_t> (::std::round (a));
-  REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to int_t
+  STONEYDSP_REQUIRE (b
+                     == 2); // 1.5 rounded to nearest integer and cast to int_t
 }
 
 //==================================================================//arithmetic
 
-TEST_CASE ("Arithmetic operations with stoneydsp::int_t",
-           "[core][types][int_t][arithmetic]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][arithmetic]",
+                     "[core][types][int_t][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 15000_int_t;
   ::stoneydsp::int_t b = 20000_int_t;
 
-  REQUIRE (a + b == 35000);     // Addition
-  REQUIRE (a - b == -5000);     // Subtraction
-  REQUIRE (a * b == 300000000); // Multiplication
-  REQUIRE (b / a == 1);         // Division
-  REQUIRE (b % a == 5000);      // Modulo
+  STONEYDSP_REQUIRE (a + b == 35000);     // Addition
+  STONEYDSP_REQUIRE (a - b == -5000);     // Subtraction
+  STONEYDSP_REQUIRE (a * b == 300000000); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 1);         // Division
+  STONEYDSP_REQUIRE (b % a == 5000);      // Modulo
 }
 
 //=====================================================================//bitwise
 
-TEST_CASE ("Bitwise operations with stoneydsp::int_t",
-           "[core][types][int_t][bitwise]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][bitwise][logic]",
+                     "[core][types][int_t][bitwise][logic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
+  // clang-format off
   ::stoneydsp::int_t a = 5_int_t; // 0000 0000 0000 0000 0000 0000 0000 0101
   ::stoneydsp::int_t b = 3_int_t; // 0000 0000 0000 0000 0000 0000 0000 0011
 
-  REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0000 0000 0000 0000 0001
-  REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0111
-  REQUIRE ((a ^ b) == 6); // XOR: 0000 0000 0000 0000 0000 0000 0000 0110
-  REQUIRE (~a == -6);     // NOT: considering wrap-around for int_t
+  STONEYDSP_REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0000 0000 0000 0000 0001
+  STONEYDSP_REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0111
+  STONEYDSP_REQUIRE ((a ^ b) == 6); // XOR: 0000 0000 0000 0000 0000 0000 0000 0110
+  STONEYDSP_REQUIRE (~a == -6);     // NOT: considering wrap-around for int_t
+                             // clang-format on
 }
 
-TEST_CASE ("Shift operations with stoneydsp::int_t",
-           "[core][types][int_t][bitwise]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][bitwise][arithmetic]",
+                     "[core][types][int_t][bitwise][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
+  // clang-format off
   ::stoneydsp::int_t a = 5_int_t; // 0000 0000 0000 0000 0000 0000 0000 0101
 
-  REQUIRE ((a << 1)
-           == 10); // Left shift: 0000 0000 0000 0000 0000 0000 0000 1010
-  REQUIRE ((a >> 1)
-           == 2); // Right shift: 0000 0000 0000 0000 0000 0000 0000 0010
+  STONEYDSP_REQUIRE ((a << 1) == 10); // Left shift: 0000 0000 0000 0000 0000 0000 0000 1010
+	STONEYDSP_REQUIRE ((a >> 1) == 2); // Right shift: 0000 0000 0000 0000 0000 0000 0000 0010
+  // clang-format on
 }
 
 //==================================================================//comparison
 
-TEST_CASE ("Comparison operations with stoneydsp::int_t",
-           "[core][types][int_t][comparison]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][comparison]",
+                     "[core][types][int_t][comparison]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 5_int_t;
   ::stoneydsp::int_t b = 3_int_t;
 
-  REQUIRE ((a == b) == false);
-  REQUIRE ((a != b) == true);
-  REQUIRE ((a > b) == true);
-  REQUIRE ((a < b) == false);
-  REQUIRE ((a >= b) == true);
-  REQUIRE ((a <= b) == false);
+  STONEYDSP_REQUIRE ((a == b) == false);
+  STONEYDSP_REQUIRE ((a != b) == true);
+  STONEYDSP_REQUIRE ((a > b) == true);
+  STONEYDSP_REQUIRE ((a < b) == false);
+  STONEYDSP_REQUIRE ((a >= b) == true);
+  STONEYDSP_REQUIRE ((a <= b) == false);
 }
 
 //===============================================================//serialization
 
-TEST_CASE ("Check serialization and deserialization for stoneydsp::int_t",
-           "[core][types][int_t][serialization]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][serialization]",
+                     "[core][types][int_t][serialization]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -204,41 +254,41 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::int_t",
   ss.read (reinterpret_cast<char *> (&deserializedValue),
            sizeof (deserializedValue));
 
-  REQUIRE (originalValue == deserializedValue);
+  STONEYDSP_REQUIRE (originalValue == deserializedValue);
 }
 
 //=======================================================//boundary_and_overflow
 
-TEST_CASE ("Boundary and overflow behaviour of stoneydsp::int_t",
-           "[core][types][int_t][boundary][overflow]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][boundary][overflow]",
+                     "[core][types][int_t][boundary][overflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 2147483647_int_t;
   ::stoneydsp::int_t b = 1_int_t;
 
-  REQUIRE (static_cast< ::stoneydsp::int_t> (a + b)
-           == -2147483648); // Check overflow wrap-around behaviour
+  STONEYDSP_REQUIRE (static_cast< ::stoneydsp::int_t> (a + b)
+                     == -2147483648); // Check overflow wrap-around behaviour
 }
 
 //======================================================//boundary_and_underflow
 
-TEST_CASE ("Boundary and underflow behavior of stoneydsp::int_t",
-           "[core][types][int_t][boundary][underflow]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][boundary][underflow]",
+                     "[core][types][int_t][boundary][underflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = -2147483647_int_t - 1_int_t; // _int;
   ::stoneydsp::int_t b = 1_int_t;
 
-  REQUIRE (static_cast< ::stoneydsp::int_t> (a - b)
-           == 2147483647); // Check underflow wrap-around behavior
+  STONEYDSP_REQUIRE (static_cast< ::stoneydsp::int_t> (a - b)
+                     == 2147483647); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility
 
-TEST_CASE ("Compatibility of stoneydsp::int_t with standard library",
-           "[core][types][int_t][compatibility]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][compatibility]",
+                     "[core][types][int_t][compatibility]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -249,90 +299,92 @@ TEST_CASE ("Compatibility of stoneydsp::int_t with standard library",
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
-  REQUIRE (vec
-           == ::std::vector< ::stoneydsp::int_t>{ 1_int_t, 2_int_t, 3_int_t,
-                                                  4_int_t, 5_int_t });
+  STONEYDSP_REQUIRE (vec
+                     == ::std::vector< ::stoneydsp::int_t>{
+                         1_int_t, 2_int_t, 3_int_t, 4_int_t, 5_int_t });
 
   // Use std::accumulate to sum the elements
   ::stoneydsp::int_t sum = ::std::accumulate (vec.begin (), vec.end (),
                                               ::stoneydsp::int_t (0_int_t));
 
   // Verify the sum is correct
-  REQUIRE (sum == 15);
+  STONEYDSP_REQUIRE (sum == 15);
 }
 
 //===================================================================//benchmark
 
 // Benchmark for addition
-TEST_CASE ("Benchmark for stoneydsp::int_t addition",
-           "[core][types][int_t][benchmark]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][benchmark][addition]",
+                     "[core][types][int_t][benchmark][addition]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 1200_int_t;
   ::stoneydsp::int_t b = 3400_int_t;
 
-  BENCHMARK ("Addition") { return a + b; };
+  STONEYDSP_BENCHMARK ("Addition") { return a + b; };
 }
 
 // Benchmark for subtraction
-TEST_CASE ("Benchmark for stoneydsp::int_t subtraction",
-           "[core][types][int_t][benchmark]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][benchmark][subtraction]",
+                     "[core][types][int_t][benchmark][subtraction]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 3400_int_t;
   ::stoneydsp::int_t b = 1200_int_t;
 
-  BENCHMARK ("Subtraction") { return a - b; };
+  STONEYDSP_BENCHMARK ("Subtraction") { return a - b; };
 }
 
 // Benchmark for multiplication
-TEST_CASE ("Benchmark for stoneydsp::int_t multiplication",
-           "[core][types][int_t][benchmark]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][benchmark][multiplication]",
+                     "[core][types][int_t][benchmark][multiplication]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 1200_int_t;
   ::stoneydsp::int_t b = 2_int_t;
 
-  BENCHMARK ("Multiplication") { return a * b; };
+  STONEYDSP_BENCHMARK ("Multiplication") { return a * b; };
 }
 
 // Benchmark for division
-TEST_CASE ("Benchmark for stoneydsp::int_t division",
-           "[core][types][int_t][benchmark]")
+STONEYDSP_TEST_CASE ("[core][types][int_t][benchmark][division]",
+                     "[core][types][int_t][benchmark][division]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 1200_int_t;
   ::stoneydsp::int_t b = 2_int_t;
 
-  BENCHMARK ("Division") { return a / b; };
+  STONEYDSP_BENCHMARK ("Division") { return a / b; };
 }
 
 // Benchmark for type conversion to int
-TEST_CASE ("Benchmark for stoneydsp::int_t to int conversion",
-           "[core][types][int_t][benchmark]")
+STONEYDSP_TEST_CASE (
+    "[core][types][int_t][benchmark][division][conversion][int]",
+    "[core][types][int_t][benchmark][division][conversion][int]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 1200_int_t;
 
-  BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
+  STONEYDSP_BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
 
 // Benchmark for type conversion to float
-TEST_CASE ("Benchmark for stoneydsp::int_t to float conversion",
-           "[core][types][int_t][benchmark]")
+STONEYDSP_TEST_CASE (
+    "[core][types][int_t][benchmark][division][conversion][float]",
+    "[core][types][int_t][benchmark][division][conversion][float]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::int_t a = 1200_int_t;
 
-  BENCHMARK ("Conversion to float")
+  STONEYDSP_BENCHMARK ("Conversion to float")
   {
-    return static_cast< ::stoneydsp::float_t> (a);
+    return static_cast<float> (a);
   };
 }
 
