@@ -326,6 +326,7 @@ endif
 ifeq ($(BUILD_TEST),1)
 	TEST_SRCS :=
 	ifeq ($(BUILD_CORE),1)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/system/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
 	endif
