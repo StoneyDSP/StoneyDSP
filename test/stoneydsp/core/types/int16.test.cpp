@@ -36,53 +36,53 @@ STONEYDSP_TEST_CASE ("[core][types][int16_t][alignof]",
 //=================================================================//type_traits
 
 STONEYDSP_TEST_CASE ("[core][types][int16_t][type_traits][is_integral]",
-	"[core][types][int16_t][type_traits][is_integral]")
+                     "[core][types][int16_t][type_traits][is_integral]")
 {
-STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::int16_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int16_t][type_traits][is_unsigned]",
-	"[core][types][int16_t][type_traits][is_unsigned]")
+                     "[core][types][int16_t][type_traits][is_unsigned]")
 {
-STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::int16_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int16_t][type_traits][is_arithmetic]",
-	"[core][types][int16_t][type_traits][is_arithmetic]")
+                     "[core][types][int16_t][type_traits][is_arithmetic]")
 {
-STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::int16_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int16_t][type_traits][is_pointer]",
-	"[core][types][int16_t][type_traits][is_pointer]")
+                     "[core][types][int16_t][type_traits][is_pointer]")
 {
-STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::int16_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int16_t][type_traits][is_const]",
-	"[core][types][int16_t][type_traits][is_const]")
+                     "[core][types][int16_t][type_traits][is_const]")
 {
-STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::int16_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int16_t][type_traits][is_empty]",
-	"[core][types][int16_t][type_traits][is_empty]")
+                     "[core][types][int16_t][type_traits][is_empty]")
 {
-STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::int16_t>::value);
 }
 
 STONEYDSP_TEST_CASE (
-"[core][types][int16_t][type_traits][is_trivially_copyable]",
-"[core][types][int16_t][type_traits][is_trivially_copyable]")
+    "[core][types][int16_t][type_traits][is_trivially_copyable]",
+    "[core][types][int16_t][type_traits][is_trivially_copyable]")
 {
-STONEYDSP_REQUIRE (
-::std::is_trivially_copyable< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (
+      ::std::is_trivially_copyable< ::stoneydsp::int16_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int16_t][type_traits][is_standard_layout]",
-	"[core][types][int16_t][type_traits][is_standard_layout]")
+                     "[core][types][int16_t][type_traits][is_standard_layout]")
 {
-STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::int16_t>::value);
+  STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::int16_t>::value);
 }
 
 //==============================================================//numeric_limits
@@ -161,11 +161,11 @@ STONEYDSP_TEST_CASE ("[core][types][int16_t][arithmetic]",
   ::stoneydsp::int16_t a = 15000_int16_t;
   ::stoneydsp::int16_t b = 20000_int16_t;
 
-  STONEYDSP_REQUIRE (a + b == 35000_int16_t);     // Addition
-  STONEYDSP_REQUIRE (a - b == -5000_int16_t);     // Subtraction
-  STONEYDSP_REQUIRE (a * b == 300000000_int16_t); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 1_int16_t);         // Division
-  STONEYDSP_REQUIRE (b % a == 5000_int16_t);      // Modulo
+  STONEYDSP_REQUIRE (a + b == 35000);     // Addition
+  STONEYDSP_REQUIRE (a - b == -5000);     // Subtraction
+  STONEYDSP_REQUIRE (a * b == 300000000); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 1);         // Division
+  STONEYDSP_REQUIRE (b % a == 5000);      // Modulo
 }
 
 //=====================================================================//bitwise

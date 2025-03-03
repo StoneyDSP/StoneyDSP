@@ -165,11 +165,12 @@ STONEYDSP_TEST_CASE ("[core][types][ulong_t][arithmetic]",
 
   ::stoneydsp::ulong_t a = 1500000000000000000_ulong_t;
   ::stoneydsp::ulong_t b = 2_ulong_t;
-  STONEYDSP_REQUIRE (a + b == 1500000000000000002_ulong_t); // Addition
-  STONEYDSP_REQUIRE (a - b == 1499999999999999998_ulong_t); // Subtraction
-  STONEYDSP_REQUIRE (a * b == 3000000000000000000_ulong_t); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 0_ulong_t);                   // Division
-  STONEYDSP_REQUIRE (b % a == 2_ulong_t);                   // Modulo
+
+  STONEYDSP_REQUIRE (a + b == 1500000000000000002); // Addition
+  STONEYDSP_REQUIRE (a - b == 1499999999999999998); // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000000000000000); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 0);                   // Division
+  STONEYDSP_REQUIRE (b % a == 2);                   // Modulo
 }
 
 //=====================================================================//bitwise

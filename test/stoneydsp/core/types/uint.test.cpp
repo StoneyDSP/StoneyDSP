@@ -36,54 +36,53 @@ STONEYDSP_TEST_CASE ("[core][types][uint_t][alignof]",
 //=================================================================//type_traits
 
 STONEYDSP_TEST_CASE ("[core][types][uint_t][type_traits][is_integral]",
-	"[core][types][uint_t][type_traits][is_integral]")
+                     "[core][types][uint_t][type_traits][is_integral]")
 {
-STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::uint_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][uint_t][type_traits][is_unsigned]",
-	"[core][types][uint_t][type_traits][is_unsigned]")
+                     "[core][types][uint_t][type_traits][is_unsigned]")
 {
-STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::uint_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][uint_t][type_traits][is_arithmetic]",
-	"[core][types][uint_t][type_traits][is_arithmetic]")
+                     "[core][types][uint_t][type_traits][is_arithmetic]")
 {
-STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::uint_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][uint_t][type_traits][is_pointer]",
-	"[core][types][uint_t][type_traits][is_pointer]")
+                     "[core][types][uint_t][type_traits][is_pointer]")
 {
-STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::uint_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][uint_t][type_traits][is_const]",
-	"[core][types][uint_t][type_traits][is_const]")
+                     "[core][types][uint_t][type_traits][is_const]")
 {
-STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::uint_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][uint_t][type_traits][is_empty]",
-	"[core][types][uint_t][type_traits][is_empty]")
+                     "[core][types][uint_t][type_traits][is_empty]")
 {
-STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::uint_t>::value);
 }
 
 STONEYDSP_TEST_CASE (
-"[core][types][uint_t][type_traits][is_trivially_copyable]",
-"[core][types][uint_t][type_traits][is_trivially_copyable]")
+    "[core][types][uint_t][type_traits][is_trivially_copyable]",
+    "[core][types][uint_t][type_traits][is_trivially_copyable]")
 {
-STONEYDSP_REQUIRE (
-::std::is_trivially_copyable< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (
+      ::std::is_trivially_copyable< ::stoneydsp::uint_t>::value);
 }
 
-STONEYDSP_TEST_CASE (
-"[core][types][uint_t][type_traits][is_standard_layout]",
-"[core][types][uint_t][type_traits][is_standard_layout]")
+STONEYDSP_TEST_CASE ("[core][types][uint_t][type_traits][is_standard_layout]",
+                     "[core][types][uint_t][type_traits][is_standard_layout]")
 {
-STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::uint_t>::value);
+  STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::uint_t>::value);
 }
 
 //==============================================================//numeric_limits
@@ -161,11 +160,11 @@ STONEYDSP_TEST_CASE ("[core][types][uint_t][arithmetic]",
   ::stoneydsp::uint_t a = 1500000000_uint_t;
   ::stoneydsp::uint_t b = 2_uint_t;
 
-  STONEYDSP_REQUIRE (a + b == 1500000002_uint_t); // Addition
-  STONEYDSP_REQUIRE (a - b == 1499999998_uint_t); // Subtraction
-  STONEYDSP_REQUIRE (a * b == 3000000000_uint_t); // Multiplication
-  STONEYDSP_REQUIRE (b / a == 0_uint_t);          // Division
-  STONEYDSP_REQUIRE (b % a == 2_uint_t);          // Modulo
+  STONEYDSP_REQUIRE (a + b == 1500000002); // Addition
+  STONEYDSP_REQUIRE (a - b == 1499999998); // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000000); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 0);          // Division
+  STONEYDSP_REQUIRE (b % a == 2);          // Modulo
 }
 
 //=====================================================================//bitwise

@@ -44,7 +44,7 @@ STONEYDSP_TEST_CASE ("[core][types][int64_t][type_traits][is_integral]",
 STONEYDSP_TEST_CASE ("[core][types][int64_t][type_traits][is_unsigned]",
                      "[core][types][int64_t][type_traits][is_unsigned]")
 {
-  STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::int64_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::int64_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int64_t][type_traits][is_arithmetic]",

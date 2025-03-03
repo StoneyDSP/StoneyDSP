@@ -517,8 +517,8 @@ STONEYDSP_TEST_CASE ("[core][types][double_t][compatibility]",
 //===================================================================//benchmark
 
 // Benchmark for addition
-STONEYDSP_TEST_CASE ("[core][types][benchmark][float_t][addition]",
-                     "[core][types][benchmark][float_t][addition]")
+STONEYDSP_TEST_CASE ("[core][types][float_t][benchmark][addition]",
+                     "[core][types][float_t][benchmark][addition]")
 {
   ::stoneydsp::float_t a = 123.456f;
   ::stoneydsp::float_t b = 987.654f;

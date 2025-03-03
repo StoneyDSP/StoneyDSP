@@ -127,6 +127,7 @@ STONEYDSP_TEST_CASE ("[core][types][uchar_t][arithmetic]",
 
   ::stoneydsp::uchar_t a = 15_uchar_t;
   ::stoneydsp::uchar_t b = 20_uchar_t;
+
   STONEYDSP_REQUIRE (a + b == 35); // Addition
   STONEYDSP_REQUIRE (static_cast<int> (a - b)
                      == static_cast<int> (-5)); // Subtraction (wrap-around)

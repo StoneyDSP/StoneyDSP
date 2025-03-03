@@ -36,53 +36,53 @@ STONEYDSP_TEST_CASE ("[core][types][ushrt_t][alignof]",
 //=================================================================//type_traits
 
 STONEYDSP_TEST_CASE ("[core][types][ushrt_t][type_traits][is_integral]",
-	"[core][types][ushrt_t][type_traits][is_integral]")
+                     "[core][types][ushrt_t][type_traits][is_integral]")
 {
-STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::ushrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][ushrt_t][type_traits][is_unsigned]",
-	"[core][types][ushrt_t][type_traits][is_unsigned]")
+                     "[core][types][ushrt_t][type_traits][is_unsigned]")
 {
-STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::ushrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][ushrt_t][type_traits][is_arithmetic]",
-	"[core][types][ushrt_t][type_traits][is_arithmetic]")
+                     "[core][types][ushrt_t][type_traits][is_arithmetic]")
 {
-STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::ushrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][ushrt_t][type_traits][is_pointer]",
-	"[core][types][ushrt_t][type_traits][is_pointer]")
+                     "[core][types][ushrt_t][type_traits][is_pointer]")
 {
-STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::ushrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][ushrt_t][type_traits][is_const]",
-	"[core][types][ushrt_t][type_traits][is_const]")
+                     "[core][types][ushrt_t][type_traits][is_const]")
 {
-STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::ushrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][ushrt_t][type_traits][is_empty]",
-	"[core][types][ushrt_t][type_traits][is_empty]")
+                     "[core][types][ushrt_t][type_traits][is_empty]")
 {
-STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::ushrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE (
-"[core][types][ushrt_t][type_traits][is_trivially_copyable]",
-"[core][types][ushrt_t][type_traits][is_trivially_copyable]")
+    "[core][types][ushrt_t][type_traits][is_trivially_copyable]",
+    "[core][types][ushrt_t][type_traits][is_trivially_copyable]")
 {
-STONEYDSP_REQUIRE (
-::std::is_trivially_copyable< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (
+      ::std::is_trivially_copyable< ::stoneydsp::ushrt_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][ushrt_t][type_traits][is_standard_layout]",
-	"[core][types][ushrt_t][type_traits][is_standard_layout]")
+                     "[core][types][ushrt_t][type_traits][is_standard_layout]")
 {
-STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::ushrt_t>::value);
+  STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::ushrt_t>::value);
 }
 
 //==============================================================//numeric_limits

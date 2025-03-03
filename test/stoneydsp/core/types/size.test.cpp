@@ -146,13 +146,13 @@ STONEYDSP_TEST_CASE ("[core][types][size_t][arithmetic]",
   ::stoneydsp::size_t a = 15_size_t;
   ::stoneydsp::size_t b = 20_size_t;
 
-  STONEYDSP_REQUIRE (a + b == 35_size_t); // Addition
+  STONEYDSP_REQUIRE (a + b == 35); // Addition
   STONEYDSP_REQUIRE (
       a - b
       == static_cast< ::stoneydsp::size_t> (-5)); // Subtraction (wrap-around)
-  STONEYDSP_REQUIRE (a * b == 300_size_t);        // Multiplication
-  STONEYDSP_REQUIRE (b / a == 1_size_t);          // Division
-  STONEYDSP_REQUIRE (b % a == 5_size_t);          // Modulo
+  STONEYDSP_REQUIRE (a * b == 300);               // Multiplication
+  STONEYDSP_REQUIRE (b / a == 1);                 // Division
+  STONEYDSP_REQUIRE (b % a == 5);                 // Modulo
 }
 
 //===============================================================//bitwise
@@ -326,8 +326,8 @@ STONEYDSP_TEST_CASE ("[core][types][size_t][benchmark][division]",
 }
 
 // Benchmark for type conversion to int
-STONEYDSP_TEST_CASE ("[core][type][size_t][benchmark][conversion][int]",
-                     "[core][type][size_t][benchmark][conversion][int]")
+STONEYDSP_TEST_CASE ("[core][types][size_t][benchmark][conversion][int]",
+                     "[core][types][size_t][benchmark][conversion][int]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -337,8 +337,8 @@ STONEYDSP_TEST_CASE ("[core][type][size_t][benchmark][conversion][int]",
 }
 
 // Benchmark for type conversion to float
-STONEYDSP_TEST_CASE ("[core][type][size_t][benchmark][conversion][float]",
-                     "[core][type][size_t][benchmark][conversion][float]")
+STONEYDSP_TEST_CASE ("[core][types][size_t][benchmark][conversion][float]",
+                     "[core][types][size_t][benchmark][conversion][float]")
 {
   using namespace ::stoneydsp::core::types::literals;
 

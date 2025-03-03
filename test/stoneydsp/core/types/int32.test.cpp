@@ -36,59 +36,59 @@ STONEYDSP_TEST_CASE ("[core][types][int32_t][alignof]",
 //=================================================================//type_traits
 
 STONEYDSP_TEST_CASE ("[core][types][int32_t][type_traits][is_integral]",
-	"[core][types][int32_t][type_traits][is_integral]")
+                     "[core][types][int32_t][type_traits][is_integral]")
 {
-STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::int32_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int32_t][type_traits][is_unsigned]",
-	"[core][types][int32_t][type_traits][is_unsigned]")
+                     "[core][types][int32_t][type_traits][is_unsigned]")
 {
-STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::int32_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int32_t][type_traits][is_arithmetic]",
-	"[core][types][int32_t][type_traits][is_arithmetic]")
+                     "[core][types][int32_t][type_traits][is_arithmetic]")
 {
-STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::int32_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int32_t][type_traits][is_pointer]",
-	"[core][types][int32_t][type_traits][is_pointer]")
+                     "[core][types][int32_t][type_traits][is_pointer]")
 {
-STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::int32_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int32_t][type_traits][is_const]",
-	"[core][types][int32_t][type_traits][is_const]")
+                     "[core][types][int32_t][type_traits][is_const]")
 {
-STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::int32_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int32_t][type_traits][is_empty]",
-	"[core][types][int32_t][type_traits][is_empty]")
+                     "[core][types][int32_t][type_traits][is_empty]")
 {
-STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::int32_t>::value);
 }
 
 STONEYDSP_TEST_CASE (
-"[core][types][int32_t][type_traits][is_trivially_copyable]",
-"[core][types][int32_t][type_traits][is_trivially_copyable]")
+    "[core][types][int32_t][type_traits][is_trivially_copyable]",
+    "[core][types][int32_t][type_traits][is_trivially_copyable]")
 {
-STONEYDSP_REQUIRE (
-::std::is_trivially_copyable< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (
+      ::std::is_trivially_copyable< ::stoneydsp::int32_t>::value);
 }
 
 STONEYDSP_TEST_CASE ("[core][types][int32_t][type_traits][is_standard_layout]",
-	"[core][types][int32_t][type_traits][is_standard_layout]")
+                     "[core][types][int32_t][type_traits][is_standard_layout]")
 {
-STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::int32_t>::value);
+  STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::int32_t>::value);
 }
 
-//==============================================================//special_values
+//==============================================================//numeric_limits
 
-STONEYDSP_TEST_CASE ("N[core][types][int32_t][numeric_limits][special_values]",
-                     "[core][types][int32_t][numeric_limits][special_values]")
+STONEYDSP_TEST_CASE ("[core][types][int32_t][numeric_limits]",
+                     "[core][types][int32_t][numeric_limits]")
 {
   // { -2147483648 }
   STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::int32_t>::min ()
@@ -102,10 +102,10 @@ STONEYDSP_TEST_CASE ("N[core][types][int32_t][numeric_limits][special_values]",
       == ::std::numeric_limits< ::stoneydsp::int32_t>::lowest ());
 }
 
-//==============================================================//numeric_limits
+//==============================================================//special_values
 
-STONEYDSP_TEST_CASE ("[core][types][int32_t][numeric_limits]",
-                     "[core][types][int32_t][numeric_limits]")
+STONEYDSP_TEST_CASE ("[core][types][int32_t][special_values]",
+                     "[core][types][int32_t][special_values]")
 {
   ::stoneydsp::int32_t min_val
       = ::std::numeric_limits< ::stoneydsp::int32_t>::min ();
