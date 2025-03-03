@@ -181,16 +181,15 @@ STONEYDSP_TEST_CASE ("[core][types][long_t][arithmetic]",
 
   // Using values within the 32-bit range
   // Maximum positive 32-bit long is 2147483647
-  ::stoneydsp::long_t a = 1500000000_long_t;
+  ::stoneydsp::long_t a = 15000_long_t;
   // Ensure no overflow during addition
-  ::stoneydsp::long_t b = 100000000_long_t;
+  ::stoneydsp::long_t b = 200_long_t;
 
-  STONEYDSP_REQUIRE (a + b == 1600000000L); // Addition
-  STONEYDSP_REQUIRE (a - b == 1400000000L); // Subtraction
-  STONEYDSP_REQUIRE (
-      a * b == 150000000000000000L);       // Multiplication with smaller value
-  STONEYDSP_REQUIRE (b / a == 0L);         // Division (integer division)
-  STONEYDSP_REQUIRE (b % a == 100000000L); // Modulo
+  STONEYDSP_REQUIRE (a + b == 15200L);   // Addition
+  STONEYDSP_REQUIRE (a - b == 14800L);   // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000L); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 0L);       // Division (integer division)
+  STONEYDSP_REQUIRE (b % a == 200L);     // Modulo
 }
 
 //=====================================================================//bitwise
