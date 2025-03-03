@@ -88,7 +88,7 @@ STONEYDSP_TEST_CASE (
 
 //==============================================================//numeric_limits
 
-STONEYDSP_TEST_CASE ("Numeric limits of stoneydsp::uint16_t",
+STONEYDSP_TEST_CASE ("[core][types][uint16_t][numeric_limits]",
                      "[core][types][uint16_t][numeric_limits]")
 {
   // { 0U }
