@@ -145,8 +145,10 @@ if(STONEYDSP_BUILD_TEST)
     include(CTest)
     include(Catch)
 
-    set(CMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE PRE_TEST)
-    catch_discover_tests("${STONEYDSP_TEST_TARGET_NAME}")
+    catch_discover_tests("${STONEYDSP_TEST_TARGET_NAME}"
+        DISCOVERY_MODE PRE_TEST
+        SKIP_IS_FAILURE
+    )
 endif()
 
 #[===================================[CPack]===================================]

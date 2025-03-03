@@ -15,72 +15,120 @@
 
 //==============================================================================
 
-  #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-  #include <algorithm>                        // for `std::sort`
-  #include <catch2/benchmark/catch_benchmark.hpp> //
-  #include <catch2/catch_test_macros.hpp>         //
-  #include <limits>                               // for `std::numeric_limits`
-  #include <numeric>                              // for `std::accumulate`
-  #include <sstream>                              // for serialization tests
-  #include <type_traits> // for `is_signed` and `is_unsigned`
-  #include <vector>      // for compatibility tests
+  #include "utils.test.hpp"
+
+//================================================================//requirements
+
+STONEYDSP_TEST_CASE ("[core][types][llong_t][requirements]",
+                     "[core][types][llong_t][requirements]")
+{
+  STONEYDSP_SECTION ("[core][types][llong_t][requirements][min]")
+  {
+    bool result = false;
+  #if defined(LLONG_MIN)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+  STONEYDSP_SECTION ("[core][types][llong_t][requirements][max]")
+  {
+    bool result = false;
+  #if defined(LLONG_MAX)
+    result = true;
+  #endif
+    STONEYDSP_REQUIRE (result == true);
+  }
+}
 
 //======================================================================//sizeof
 
-TEST_CASE ("sizeof stoneydsp::llong_t is 8 bytes",
-           "[core][types][llong_t][sizeof]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][sizeof]",
+                     "[core][types][llong_t][sizeof]")
 {
-  REQUIRE (sizeof (::stoneydsp::llong_t) == 8UL);
+  STONEYDSP_REQUIRE (sizeof (::stoneydsp::llong_t) == 8UL);
 }
 
 //=====================================================================//alignof
 
-TEST_CASE ("alignof stoneydsp::llong_t is 8 bytes",
-           "[core][types][llong_t][alignof]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][alignof]",
+                     "[core][types][llong_t][alignof]")
 {
-  REQUIRE (alignof (::stoneydsp::llong_t) == 8UL);
+  STONEYDSP_REQUIRE (alignof (::stoneydsp::llong_t) == 8UL);
 }
 
 //=================================================================//type_traits
 
-TEST_CASE ("Check if types are signed or unsigned",
-           "[core][types][llong_t][type_traits][is_signed]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][type_traits][is_integral]",
+                     "[core][types][llong_t][type_traits][is_integral]")
 {
-  REQUIRE (::std::is_signed< ::stoneydsp::llong_t>::value);
+  STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::llong_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::llong_t trivially copyable",
-           "[core][types][llong_t][type_traits][is_trivially_copyable]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][type_traits][is_unsigned]",
+                     "[core][types][llong_t][type_traits][is_unsigned]")
 {
-  REQUIRE (::std::is_trivially_copyable< ::stoneydsp::llong_t>::value);
+  STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::llong_t>::value);
 }
 
-TEST_CASE ("Is stoneydsp::llong_t standard-layout conforming",
-           "[core][types][llong_t][type_traits][is_standard_layout]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][type_traits][is_arithmetic]",
+                     "[core][types][llong_t][type_traits][is_arithmetic]")
 {
-  REQUIRE (::std::is_standard_layout< ::stoneydsp::llong_t>::value);
+  STONEYDSP_REQUIRE (::std::is_arithmetic< ::stoneydsp::llong_t>::value);
 }
 
-//==============================================================//special_values
-
-TEST_CASE ("Numeric limits of stoneydsp::llong_t",
-           "[core][types][llong_t][numeric_limits][special_values]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][type_traits][is_pointer]",
+                     "[core][types][llong_t][type_traits][is_pointer]")
 {
-  // { -9223372036854775807L - 1 }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::llong_t>::min ()
-           == ::std::numeric_limits< ::stoneydsp::llong_t>::min ());
-  // { 9223372036854775807L }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::llong_t>::max ()
-           == ::std::numeric_limits< ::stoneydsp::llong_t>::max ());
-  // { -9223372036854775807L - 1 }
-  REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::llong_t>::lowest ()
-           == ::std::numeric_limits< ::stoneydsp::llong_t>::lowest ());
+  STONEYDSP_REQUIRE (!::std::is_pointer< ::stoneydsp::llong_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][llong_t][type_traits][is_const]",
+                     "[core][types][llong_t][type_traits][is_const]")
+{
+  STONEYDSP_REQUIRE (!::std::is_const< ::stoneydsp::llong_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][llong_t][type_traits][is_empty]",
+                     "[core][types][llong_t][type_traits][is_empty]")
+{
+  STONEYDSP_REQUIRE (!::std::is_empty< ::stoneydsp::llong_t>::value);
+}
+
+STONEYDSP_TEST_CASE (
+    "[core][types][llong_t][type_traits][is_trivially_copyable]",
+    "[core][types][llong_t][type_traits][is_trivially_copyable]")
+{
+  STONEYDSP_REQUIRE (
+      ::std::is_trivially_copyable< ::stoneydsp::llong_t>::value);
+}
+
+STONEYDSP_TEST_CASE ("[core][types][llong_t][type_traits][is_standard_layout]",
+                     "[core][types][llong_t][type_traits][is_standard_layout]")
+{
+  STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::llong_t>::value);
 }
 
 //==============================================================//numeric_limits
 
-TEST_CASE ("Special values of stoneydsp::llong_t",
-           "[core][types][llong_t][numeric_limits]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][numeric_limits]",
+                     "[core][types][llong_t][numeric_limits]")
+{
+  // { -9223372036854775807L - 1 }
+  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::llong_t>::min ()
+                     == ::std::numeric_limits< ::stoneydsp::llong_t>::min ());
+  // { 9223372036854775807L }
+  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::llong_t>::max ()
+                     == ::std::numeric_limits< ::stoneydsp::llong_t>::max ());
+  // { -9223372036854775807L - 1 }
+  STONEYDSP_REQUIRE (
+      ::stoneydsp::numeric_limits< ::stoneydsp::llong_t>::lowest ()
+      == ::std::numeric_limits< ::stoneydsp::llong_t>::lowest ());
+}
+
+//==============================================================//special_values
+
+STONEYDSP_TEST_CASE ("[core][types][llong_t][special_values]",
+                     "[core][types][llong_t][special_values]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -88,17 +136,17 @@ TEST_CASE ("Special values of stoneydsp::llong_t",
       = ::std::numeric_limits< ::stoneydsp::llong_t>::min ();
   ::stoneydsp::llong_t max_val
       = ::std::numeric_limits< ::stoneydsp::llong_t>::max ();
-  REQUIRE (min_val
-           == -9223372036854775807_llong_t
-                  - 1_llong_t); // Minimum value for llong_t
-  REQUIRE (max_val
-           == 9223372036854775807_llong_t); // Maximum value for llong_t
+  STONEYDSP_REQUIRE (min_val
+                     == -9223372036854775807_llong_t
+                            - 1_llong_t); // Minimum value for llong_t
+  STONEYDSP_REQUIRE (
+      max_val == 9223372036854775807_llong_t); // Maximum value for llong_t
 }
 
 //==================================================================//endianness
 
-TEST_CASE ("Endianness handling for stoneydsp::llong_t",
-           "[core][types][llong_t][endianness]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][endianness]",
+                     "[core][types][llong_t][endianness]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -107,106 +155,100 @@ TEST_CASE ("Endianness handling for stoneydsp::llong_t",
 
   if (bytePtr[0] == 0xF0)
     {
-      REQUIRE (true); // Little-endian
+      STONEYDSP_REQUIRE (true); // Little-endian
     }
   else if (bytePtr[0] == 0x12)
     {
-      REQUIRE (true); // Big-endian
+      STONEYDSP_REQUIRE (true); // Big-endian
     }
   else
     {
-      REQUIRE (false); // Unknown endianness
+      STONEYDSP_REQUIRE (false); // Unknown endianness
     }
 }
 
 //====================================================================//rounding
 
-TEST_CASE ("Rounding behavior of stoneydsp::llong_t",
-           "[core][types][llong_t][rounding]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][rounding]",
+                     "[core][types][llong_t][rounding]")
 {
   ::stoneydsp::float_t a = 1.5f;
   ::stoneydsp::llong_t b
       = static_cast< ::stoneydsp::llong_t> (::std::round (a));
-  REQUIRE (b == 2); // 1.5 rounded to nearest integer and cast to llong_t
+  STONEYDSP_REQUIRE (
+      b == 2); // 1.5 rounded to nearest integer and cast to llong_t
 }
 
 //==================================================================//arithmetic
 
-TEST_CASE ("Arithmetic operations with stoneydsp::llong_t",
-           "[core][types][llong_t][arithmetic]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][arithmetic]",
+                     "[core][types][llong_t][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 1500000000_llong_t;
   ::stoneydsp::llong_t b = 2000000000_llong_t;
 
-  REQUIRE (a + b == 3500000000_llong_t);          // Addition
-  REQUIRE (a - b == -500000000_llong_t);          // Subtraction
-  REQUIRE (a * b == 3000000000000000000_llong_t); // Multiplication
-  REQUIRE (b / a == 1_llong_t);                   // Division
-  REQUIRE (b % a == 500000000_llong_t);           // Modulo
+  STONEYDSP_REQUIRE (a + b == 3500000000LL);          // Addition
+  STONEYDSP_REQUIRE (a - b == -500000000LL);          // Subtraction
+  STONEYDSP_REQUIRE (a * b == 3000000000000000000LL); // Multiplication
+  STONEYDSP_REQUIRE (b / a == 1LL);                   // Division
+  STONEYDSP_REQUIRE (b % a == 500000000LL);           // Modulo
 }
 
 //===============================================================//bitwise
 
-TEST_CASE ("Bitwise operations with stoneydsp::llong_t",
-           "[core][types][llong_t][bitwise]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][bitwise][logic]",
+                     "[core][types][llong_t][bitwise][logic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   // clang-format off
-	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::llong_t a = 5_llong_t;
-	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011
-  ::stoneydsp::llong_t b = 3_llong_t;
+  ::stoneydsp::llong_t a = 5_llong_t; // 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
+  ::stoneydsp::llong_t b = 3_llong_t; // 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0011
 
-	// AND: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
-  REQUIRE ((a & b) == 1);
-	// OR:  0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0111
-  REQUIRE ((a | b) == 7);
-	// XOR: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0110
-  REQUIRE ((a ^ b) == 6);
-	// NOT: considering wrap-around for llong_t
-  REQUIRE (~a == -6);
+  STONEYDSP_REQUIRE ((a & b) == 1); // AND: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001
+  STONEYDSP_REQUIRE ((a | b) == 7); // OR:  0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0111
+  STONEYDSP_REQUIRE ((a ^ b) == 6); // XOR: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0110
+  STONEYDSP_REQUIRE (~a == -6); // NOT: considering wrap-around for llong_t
   // clang-format on
 }
 
-TEST_CASE ("Shift operations with stoneydsp::llong_t",
-           "[core][types][llong_t][bitwise]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][bitwise][arithmetic]",
+                     "[core][types][llong_t][bitwise][arithmetic]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   // clang-format off
-	// 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
-  ::stoneydsp::llong_t a = 5_llong_t;
-	// Left shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1010
-  REQUIRE ((a << 1) == 10);
-	// Right shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0010
-  REQUIRE ((a >> 1) == 2);
+
+  ::stoneydsp::llong_t a = 5_llong_t; // 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0101
+
+  STONEYDSP_REQUIRE ((a << 1) == 10); // Left shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 1010
+  STONEYDSP_REQUIRE ((a >> 1) == 2); // Right shift: 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0010
   // clang-format on
 }
 
 //===============================================================//comparison
 
-TEST_CASE ("Comparison operations with stoneydsp::llong_t",
-           "[core][types][llong_t][comparison]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][comparison]",
+                     "[core][types][llong_t][comparison]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 5_llong_t;
   ::stoneydsp::llong_t b = 3_llong_t;
-  REQUIRE ((a == b) == false);
-  REQUIRE ((a != b) == true);
-  REQUIRE ((a > b) == true);
-  REQUIRE ((a < b) == false);
-  REQUIRE ((a >= b) == true);
-  REQUIRE ((a <= b) == false);
+  STONEYDSP_REQUIRE ((a == b) == false);
+  STONEYDSP_REQUIRE ((a != b) == true);
+  STONEYDSP_REQUIRE ((a > b) == true);
+  STONEYDSP_REQUIRE ((a < b) == false);
+  STONEYDSP_REQUIRE ((a >= b) == true);
+  STONEYDSP_REQUIRE ((a <= b) == false);
 }
 
 //===============================================================//serialization
 
-TEST_CASE ("Check serialization and deserialization for stoneydsp::llong_t",
-           "[core][types][llong_t][serialization]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][serialization]",
+                     "[core][types][llong_t][serialization]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -219,42 +261,42 @@ TEST_CASE ("Check serialization and deserialization for stoneydsp::llong_t",
   ss.read (reinterpret_cast<char *> (&deserializedValue),
            sizeof (deserializedValue));
 
-  REQUIRE (originalValue == deserializedValue);
+  STONEYDSP_REQUIRE (originalValue == deserializedValue);
 }
 
 //=======================================================//boundary_and_overflow
 
-TEST_CASE ("Boundary and overflow behaviour of stoneydsp::llong_t",
-           "[core][types][llong_t][boundary][overflow]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][boundary][overflow]",
+                     "[core][types][llong_t][boundary][overflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 9223372036854775807_llong_t;
   ::stoneydsp::llong_t b = 1_llong_t;
 
-  REQUIRE (static_cast< ::stoneydsp::llong_t> (a + b)
-           == ::std::numeric_limits< ::stoneydsp::llong_t>::
-               min ()); // Check overflow wrap-around behaviour
+  STONEYDSP_REQUIRE (static_cast< ::stoneydsp::llong_t> (a + b)
+                     == ::std::numeric_limits< ::stoneydsp::llong_t>::
+                         min ()); // Check overflow wrap-around behaviour
 }
 
 //======================================================//boundary_and_underflow
 
-TEST_CASE ("Boundary and underflow behavior of stoneydsp::llong_t",
-           "[core][types][llong_t][boundary][underflow]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][boundary][underflow]",
+                     "[core][types][llong_t][boundary][underflow]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = -9223372036854775807_llong_t - 1_llong_t;
   ::stoneydsp::llong_t b = 1_llong_t;
-  REQUIRE (
+  STONEYDSP_REQUIRE (
       static_cast< ::stoneydsp::llong_t> (a - b)
       == 9223372036854775807_llong_t); // Check underflow wrap-around behavior
 }
 
 //===============================================================//compatibility
 
-TEST_CASE ("Compatibility of stoneydsp::llong_t with standard library",
-           "[core][types][llong_t][compatibility]")
+STONEYDSP_TEST_CASE ("[core][types][llong_t][compatibility]",
+                     "[core][types][llong_t][compatibility]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
@@ -265,90 +307,91 @@ TEST_CASE ("Compatibility of stoneydsp::llong_t with standard library",
   ::std::sort (vec.begin (), vec.end ());
 
   // Verify the vector is sorted
-  REQUIRE (vec
-           == ::std::vector< ::stoneydsp::llong_t>{
-               1_llong_t, 2_llong_t, 3_llong_t, 4_llong_t, 5_llong_t });
+  STONEYDSP_REQUIRE (
+      vec
+      == ::std::vector< ::stoneydsp::llong_t>{ 1_llong_t, 2_llong_t, 3_llong_t,
+                                               4_llong_t, 5_llong_t });
 
   // Use std::accumulate to sum the elements
   ::stoneydsp::llong_t sum = ::std::accumulate (
       vec.begin (), vec.end (), ::stoneydsp::llong_t (0_llong_t));
 
   // Verify the sum is correct
-  REQUIRE (sum == 15);
+  STONEYDSP_REQUIRE (sum == 15);
 }
 
-//===================================================================//benchmark
+//===================================================================//STONEYDSP_benchmark
 
-// Benchmark for addition
-TEST_CASE ("Benchmark for stoneydsp::llong_t addition",
-           "[core][types][llong_t][benchmark]")
+// STONEYDSP_Benchmark for addition
+STONEYDSP_TEST_CASE ("[core][types][llong_t][benchmark][addition]",
+                     "[core][types][llong_t][benchmark][addition]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 1200_llong_t;
   ::stoneydsp::llong_t b = 3400_llong_t;
 
-  BENCHMARK ("Addition") { return a + b; };
+  STONEYDSP_BENCHMARK ("Addition") { return a + b; };
 }
 
-// Benchmark for subtraction
-TEST_CASE ("Benchmark for stoneydsp::llong_t subtraction",
-           "[core][types][llong_t][benchmark]")
+// STONEYDSP_Benchmark for subtraction
+STONEYDSP_TEST_CASE ("[core][types][llong_t][benchmark][subtraction]",
+                     "[core][types][llong_t][benchmark][subtraction]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 3400_llong_t;
   ::stoneydsp::llong_t b = 1200_llong_t;
 
-  BENCHMARK ("Subtraction") { return a - b; };
+  STONEYDSP_BENCHMARK ("Subtraction") { return a - b; };
 }
 
-// Benchmark for multiplication
-TEST_CASE ("Benchmark for stoneydsp::llong_t multiplication",
-           "[core][types][llong_t][benchmark]")
+// STONEYDSP_Benchmark for multiplication
+STONEYDSP_TEST_CASE ("[core][types][llong_t][benchmark][multiplication]",
+                     "[core][types][llong_t][benchmark][multiplication]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 1200_llong_t;
   ::stoneydsp::llong_t b = 2_llong_t;
 
-  BENCHMARK ("Multiplication") { return a * b; };
+  STONEYDSP_BENCHMARK ("Multiplication") { return a * b; };
 }
 
-// Benchmark for division
-TEST_CASE ("Benchmark for stoneydsp::llong_t division",
-           "[core][types][llong_t][benchmark]")
+// STONEYDSP_Benchmark for division
+STONEYDSP_TEST_CASE ("[core][types][llong_t][benchmark][division]",
+                     "[core][types][llong_t][benchmark][division]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 1200_llong_t;
   ::stoneydsp::llong_t b = 2_llong_t;
 
-  BENCHMARK ("Division") { return a / b; };
+  STONEYDSP_BENCHMARK ("Division") { return a / b; };
 }
 
-// Benchmark for type conversion to int
-TEST_CASE ("Benchmark for stoneydsp::llong_t to int conversion",
-           "[core][types][llong_t][benchmark]")
+// STONEYDSP_Benchmark for type conversion to int
+STONEYDSP_TEST_CASE ("[core][types][llong_t][benchmark][conversion][int]",
+                     "[core][types][llong_t][benchmark][conversion][int]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 1200_llong_t;
 
-  BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
+  STONEYDSP_BENCHMARK ("Conversion to int") { return static_cast<int> (a); };
 }
 
-// Benchmark for type conversion to float
-TEST_CASE ("Benchmark for stoneydsp::llong_t to float conversion",
-           "[core][types][llong_t][benchmark]")
+// STONEYDSP_Benchmark for type conversion to float
+STONEYDSP_TEST_CASE ("[core][types][llong_t][benchmark][conversion][float]",
+                     "[core][types][llong_t][benchmark][conversion][float]")
 {
   using namespace ::stoneydsp::core::types::literals;
 
   ::stoneydsp::llong_t a = 1200_llong_t;
 
-  BENCHMARK ("Conversion to float")
+  STONEYDSP_BENCHMARK ("Conversion to float")
   {
-    return static_cast< ::stoneydsp::float_t> (a);
+    return static_cast<float> (a);
   };
 }
 
