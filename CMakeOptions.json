@@ -27,6 +27,10 @@
 					"value": "OFF",
 					"type": "BOOL"
 				},
+				"STONEYDSP_BUILD_MAIN": {
+					"value": "OFF",
+					"type": "BOOL"
+				},
 				"STONEYDSP_BUILD_DOCS": {
 					"value": "OFF",
 					"type": "BOOL"

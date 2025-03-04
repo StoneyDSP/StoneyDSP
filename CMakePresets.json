@@ -1244,6 +1244,11 @@
 			"output": {
 				"outputOnFailure": true,
 				"labelSummary": true
+			},
+			"filter": {
+				"exclude": {
+					"name": "benchmark"
+				}
 			}
 		},
 		{

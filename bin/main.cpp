@@ -4,7 +4,7 @@ constexpr auto _int_max = INT_MAX;
 constexpr auto _argc_min = 1;
 constexpr auto _argc_max = _int_max;
 
-void
+void STONEYDSP_PUBLIC_FUNCTION
 stoneydsp::run ()
 {
   return;

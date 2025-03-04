@@ -43,6 +43,7 @@ option(STONEYDSP_EXPERIMENTAL "Use '-DSTONEYDSP_EXPERIMENTAL=ON|OFF' when config
 option(STONEYDSP_BUILD_DOCS "Use '-DSTONEYDSP_BUILD_DOCS=ON|OFF' when configuring to toggle this option." OFF)
 option(STONEYDSP_BUILD_CORE "Use '-DSTONEYDSP_BUILD_CORE=ON|OFF' when configuring to toggle this option." ON)
 cmake_dependent_option(STONEYDSP_BUILD_SIMD "Use '-DSTONEYDSP_BUILD_SIMD=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
+cmake_dependent_option(STONEYDSP_BUILD_DSP "Use '-DSTONEYDSP_BUILD_DSP=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
 cmake_dependent_option(STONEYDSP_BUILD_TEST "Use '-DSTONEYDSP_BUILD_TEST=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_IS_TOP_LEVEL;STONEYDSP_BUILD_CORE" OFF)
 
 include(CMakeDependentOption)
@@ -61,6 +62,13 @@ if(STONEYDSP_BUILD_SIMD)
     include(stoneydsp-simd)
     stoneydsp_add_simd()
     list(APPEND STONEYDSP_TARGETS "${STONEYDSP_SIMD_TARGET_NAME}")
+endif()
+
+#[==============================[stoneydsp::dsp]==============================]
+if(STONEYDSP_BUILD_DSP)
+    include(stoneydsp-dsp)
+    stoneydsp_add_dsp()
+    list(APPEND STONEYDSP_TARGETS "${STONEYDSP_DSP_TARGET_NAME}")
 endif()
 
 #[===========================[stoneydsp::stoneydsp]===========================]
@@ -137,8 +145,10 @@ if(STONEYDSP_BUILD_TEST)
     include(CTest)
     include(Catch)
 
-    set(CMAKE_CATCH_DISCOVER_TESTS_DISCOVERY_MODE PRE_TEST)
-    catch_discover_tests("${STONEYDSP_TEST_TARGET_NAME}")
+    catch_discover_tests("${STONEYDSP_TEST_TARGET_NAME}"
+        DISCOVERY_MODE PRE_TEST
+        SKIP_IS_FAILURE
+    )
 endif()
 
 #[===================================[CPack]===================================]

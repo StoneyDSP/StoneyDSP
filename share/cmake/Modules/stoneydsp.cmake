@@ -73,7 +73,11 @@ if(APPLE)
 
     # Add the RPATH to the build directory
     set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-endif()
+endif(APPLE)
+
+if(STONEYDSP_TARGET_EXPORT)
+    include(GenerateExportHeader)
+endif(STONEYDSP_TARGET_EXPORT)
 
 #[==[
 Adds target: `stoneydsp::stoneydsp`
@@ -116,6 +120,12 @@ function(stoneydsp_add_stoneydsp)
     if(STONEYDSP_BUILD_SIMD)
         list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC
             ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_SIMD_TARGET_NAME}
+        )
+    endif()
+
+    if(STONEYDSP_BUILD_DSP)
+        list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC
+            ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_DSP_TARGET_NAME}
         )
     endif()
 
@@ -181,6 +191,12 @@ function(stoneydsp_add_stoneydsp)
 
         VERSION "${STONEYDSP_VERSION}"
         SOVERSION "${STONEYDSP_VERSION_MAJOR}"
+
+        VISIBILITY_INLINES_HIDDEN TRUE
+        CXX_VISIBILITY_PRESET "hidden"
+        C_VISIBILITY_PRESET "hidden"
+        OBJC_VISIBILITY_PRESET "hidden"
+        OBJCXX_VISIBILITY_PRESET "hidden"
 
         RUNTIME_OUTPUT_DIRECTORY "${STONEYDSP_BINARY_DIR}/bin"
         PDB_OUTPUT_DIRECTORY "${STONEYDSP_BINARY_DIR}/lib"
@@ -354,6 +370,10 @@ function(stoneydsp_add_stoneydsp)
             EXPORT ${STONEYDSP_TARGET_NAME}Export
             FILE "lib/cmake/${STONEYDSP_BRAND}/${STONEYDSP_TARGET_NAME}-targets.cmake"
             NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+        )
+
+        generate_export_header(${STONEYDSP_TARGET_NAME}
+            EXPORT_FILE_NAME "${STONEYDSP_INCLUDE_DIR}/${STONEYDSP_BRAND}/${STONEYDSP_SLUG}-export.h"
         )
     endif()
 
