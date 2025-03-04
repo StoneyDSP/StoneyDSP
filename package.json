@@ -1,0 +1,14 @@
+{
+	"name": "stoneydsp",
+	"version": "0.0.887.31343931333163",
+	"description": "The StoneyDSP audio library",
+	"main": "index.js",
+	"repository": "git@github.com:StoneyDSP/StoneyDSP.git",
+	"author": "StoneyDSP <nathanjhood@googlemail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"@nathanjhood/cmake-js": "https://github.com/nathanjhood/cmake-js.git",
+		"node-addon-api": "^8.3.1",
+		"node-api-headers": "^1.5.0"
+	}
+}

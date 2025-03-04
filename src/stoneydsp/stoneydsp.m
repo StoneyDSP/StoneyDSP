@@ -1,5 +1,5 @@
 /**
- * @file stoneydsp.cpp
+ * @file stoneydsp.m
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @copyright Copyright (c) 2025
  *
@@ -7,6 +7,6 @@
 
 //==============================================================================
 
-#if defined(STONEYDSP_BUILD_CORE) && defined(STONEYDSP_BUILD_TEST)
+#include "stoneydsp.c"
 
-#endif // defined (STONEYDSP_BUILD_CORE) && defined (STONEYDSP_BUILD_TEST)
+//=========================================================================//EOF
