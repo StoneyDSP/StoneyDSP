@@ -326,6 +326,7 @@ endif
 ifeq ($(BUILD_TEST),1)
 	TEST_SRCS :=
 	ifeq ($(BUILD_CORE),1)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/system/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
 	endif
@@ -437,6 +438,7 @@ INCLUDES += -I$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/include
 
 ##################################################<<<-CMake and workflow targets
 
+TEST_ARGS ?= --skip-benchmarks --order decl --warn UnmatchedTestSpec
 CMAKE_ARGS ?=
 CMAKE_ARGS += -DSTONEYDSP_BUILD_CORE:BOOL=$(BUILD_CORE)
 CMAKE_ARGS += -DSTONEYDSP_BUILD_SIMD:BOOL=$(BUILD_SIMD)
@@ -789,7 +791,7 @@ $(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 
 check: catch2 $(TEST_TARGET)
-	$(TEST_TARGET) $(TEST_ARGS)
+	$(TEST_TARGET) $(TEST_ARGS) || exit $$?
 .PHONY: check
 
 ## <CXX>
