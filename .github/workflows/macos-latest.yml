@@ -102,6 +102,7 @@ jobs:
         make check
         BUILD_CORE=1
         BUILD_TEST=1
+        TEST_ARGS="--skip-benchmarks --order decl --warn UnmatchedTestSpec"
 
     # List all artefact directories
 
