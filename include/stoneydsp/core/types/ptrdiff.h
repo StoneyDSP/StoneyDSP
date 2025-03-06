@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,107 +14,66 @@
 #ifndef STONEYDSP_CORE_TYPES_PTRDIFF_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_PTRDIFF_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <cstddef>
-    #include <cstdint>
-  #else
-    #include <stddef.h>
-    #include <stdint.h>
-  #endif // __cplusplus
+  #include "../../../stoneydsp/core/system/types.h"
 
-//=====================================================================//DEFINES
-
-  #ifdef __cplusplus
-
-    /**
-     * @brief Signed integer type returned when subtracting two pointers.
-     *
-     * @see https://en.cppreference.com/w/cpp/types/ptrdiff_t
-     *
-     */
-    #define STONEYDSP_PTRDIFF_T ::std::ptrdiff_t
-
-  #else // !__cplusplus
-
-    /**
-     * @brief Signed integer type returned when subtracting two pointers.
-     *
-     * @see https://en.cppreference.com/w/c/types/ptrdiff_t
-     *
-     */
-    #define STONEYDSP_PTRDIFF_T ptrdiff_t
-
-  #endif // __cplusplus
+//==============================================================================
 
 /**
- * @brief Minimum value of `stoneydsp_ptr_t`.
- *
- */
-  #define STONEYDSP_PTRDIFF_MIN PTRDIFF_MIN
-
-/**
- * @brief Maximum value of `stoneydsp_ptr_t`.
- *
- */
-  #define STONEYDSP_PTRDIFF_MAX PTRDIFF_MAX
-
-//====================================================================//TYPEDEFS
-
-/**
- * @brief Signed integer type returned when subtracting two pointers.
+ * @brief
  *
  */
 typedef STONEYDSP_PTRDIFF_T stoneydsp_ptrdiff_t;
 
-//===================================================================//CONSTANTS
+//==============================================================================
 
-  #ifdef __cplusplus
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @param value
+     * @return `stoneydsp_ptrdiff_t`
+     */
+    stoneydsp_ptrdiff_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_PTRDIFF_C (value);
+}
 
-/**
- * @brief Minimum value of `stoneydsp::ptrdiff_t`.
- *
- * Expands to:
- *
- * `(-9223372036854775807L-1)`
- */
-constexpr ::stoneydsp_ptrdiff_t stoneydsp_ptrdiff_min = STONEYDSP_PTRDIFF_MIN;
+//==============================================================================
 
-/**
- * @brief Maximum value of `stoneydsp::ptrdiff_t`.
- *
- * Expands to:
- *
- * `(9223372036854775807L)`
- */
-constexpr ::stoneydsp_ptrdiff_t stoneydsp_ptrdiff_max = STONEYDSP_PTRDIFF_MAX;
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @return `stoneydsp_ptrdiff_t`
+     */
+    stoneydsp_ptrdiff_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_ptrdiff_c (STONEYDSP_PTRDIFF_MIN);
+}
 
-  #else // !__cplusplus
+//==============================================================================
 
-/**
- * @brief Minimum value of `stoneydsp_ptrdiff_t`.
- *
- * Expands to:
- *
- * `(-9223372036854775807L-1)`
- */
-static const stoneydsp_ptrdiff_t stoneydsp_ptrdiff_min = STONEYDSP_PTRDIFF_MIN;
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @return `stoneydsp_ptrdiff_t`
+     */
+    stoneydsp_ptrdiff_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_ptrdiff_c (STONEYDSP_PTRDIFF_MIN);
+}
 
-/**
- * @brief Maximum value of `stoneydsp_ptrdiff_t`.
- *
- * Expands to:
- *
- * `(9223372036854775807L)`
- */
-static const stoneydsp_ptrdiff_t stoneydsp_ptrdiff_max = STONEYDSP_PTRDIFF_MAX;
+//==============================================================================
 
-  #endif //  __cplusplus
+  #ifdef STONEYDSP_CXX
 
-//===================================================================//NAMESPACE
-
-  #ifdef __cplusplus
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -131,34 +90,61 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
 
+//==============================================================================
+
 /**
- * @brief Signed integer type returned when subtracting two pointers.
+ * @brief
  *
  */
 using ptrdiff_t = ::stoneydsp_ptrdiff_t;
 
-/**
- * @brief Minimum value of `stoneydsp::ptrdiff_t`.
- *
- * Expands to:
- *
- * `(-9223372036854775807L-1)`
- */
-constexpr ::stoneydsp::core::types::ptrdiff_t ptrdiff_min
-    = ::stoneydsp_ptrdiff_min;
+//==============================================================================
 
-/**
- * @brief Maximum value of `stoneydsp::ptrdiff_t`.
- *
- * Expands to:
- *
- * `(9223372036854775807L)`
+namespace literals
+{
+/** @addtogroup literals
+ * @{
  */
-constexpr ::stoneydsp::core::types::ptrdiff_t ptrdiff_max
-    = ::stoneydsp_ptrdiff_max;
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ * @param value
+ * @return `stoneydsp::ptrdiff_t`
+ *
+ */
+operator"" _ptrdiff_t (char value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_ptrdiff_c (value);
+}
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ * @param value
+ * @return `stoneydsp::ptrdiff_t`
+ *
+ */
+operator"" _ptrdiff_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_ptrdiff_c (value);
+}
+
+//==============================================================================
+
+/// @} literals
+} // namespace literals
 
 /// @} types
 } // namespace types
@@ -167,18 +153,9 @@ constexpr ::stoneydsp::core::types::ptrdiff_t ptrdiff_max
 } //  namespace core
 
 /// @} group stoneydsp
+} //  namespace stoneydsp
 
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::ptrdiff_t;
-
-using ::stoneydsp::core::types::ptrdiff_min;
-
-using ::stoneydsp::core::types::ptrdiff_max;
-
-} // namespace stoneydsp
-
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

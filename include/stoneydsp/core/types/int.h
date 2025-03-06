@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,40 +14,11 @@
 #ifndef STONEYDSP_CORE_TYPES_INT_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_INT_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <climits>
-  #else // !__cplusplus
-    #include <limits.h>
-  #endif // __cplusplus
+  #include "../../../stoneydsp/core/system/types.h"
 
-//=====================================================================//DEFINES
-
-  /**
-   * @brief Integer type with a width of exactly 8 bits.
-   * No padding.
-   *
-   */
-  #define STONEYDSP_INT_T int
-
-// Maximum constraints
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_INT_MIN INT_MIN
-
-// Minimum constraints
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_INT_MAX INT_MAX
-
-//====================================================================//TYPEDEFS
+//==============================================================================
 
 /**
  * @brief
@@ -55,41 +26,105 @@
  */
 typedef STONEYDSP_INT_T stoneydsp_int_t;
 
-//===================================================================//CONSTANTS
+//==============================================================================
 
-  #ifdef __cplusplus
-
-/**
- * @brief
- *
- */
-constexpr ::stoneydsp_int_t stoneydsp_int_min = STONEYDSP_INT_MIN;
-
-/**
- * @brief
- *
- */
-constexpr ::stoneydsp_int_t stoneydsp_int_max = STONEYDSP_INT_MAX;
-
-  #else // !__cplusplus
-
-/**
- * @brief
- *
- */
-static const stoneydsp_int_t stoneydsp_int_min = STONEYDSP_INT_MIN;
-
-/**
- * @brief
- *
- */
-static const stoneydsp_int_t stoneydsp_int_max = STONEYDSP_INT_MAX;
-
-  #endif // __cplusplus
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_int stoneydsp_int_t
 
 //==============================================================================
 
-  #ifdef __cplusplus
+typedef stoneydsp_int stoneydsp_int;
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @param value
+     * @return `stoneydsp_int_t`
+     */
+    stoneydsp_int_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_INT_C (value);
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * Guaranteed to be at least:
+     *
+     * - dec: `2147483647`
+     *
+     * - oct: `017777777777`
+     *
+     * - hex: `0x7FFFFFFF`
+     *
+     * @return `stoneydsp_int_t`
+     */
+    stoneydsp_int_max () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_int_c (STONEYDSP_INT_MAX);
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * Guaranteed to be at least:
+     *
+     * - dec: `-2147483648`
+     *
+     * - oct: `-080000000000`
+     *
+     * - hex: `-0x80000000`
+     *
+     * @return `stoneydsp_int_t`
+     */
+    stoneydsp_int_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_int_c (stoneydsp_int_c (-stoneydsp_int_max ()))
+         - (stoneydsp_int_c (1));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * Guaranteed to be at least:
+     *
+     * - dec: `-2147483648`
+     *
+     * - oct: `-080000000000`
+     *
+     * - hex: `-0x80000000`
+     *
+     * @return `stoneydsp_int_t`
+     */
+    stoneydsp_int_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_int_min ();
+}
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -106,26 +141,58 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
+
+//==============================================================================
 
 /**
  * @brief
  *
  */
-using int_t = ::stoneydsp_int_t;
+using int_t = stoneydsp_int;
 
+//==============================================================================
+
+namespace literals
+{
+/** @addtogroup literals
+ * @{
+ */
+
+//==============================================================================
+
+STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
+ * @param value
+ * @return `stoneydsp::int_t`
+ *
  */
-constexpr ::stoneydsp::core::types::int_t int_max = ::stoneydsp_int_max;
+operator"" _int_t (char value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_int_c (value);
+}
 
+//==============================================================================
+
+STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
+ * @param value
+ * @return `stoneydsp::int_t`
  */
-constexpr ::stoneydsp::core::types::int_t int_min = ::stoneydsp_int_min;
+operator"" _int_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_int_c (value);
+}
+
+//==============================================================================
+
+/// @} literals
+} // namespace literals
 
 /// @} types
 } // namespace types
@@ -133,19 +200,88 @@ constexpr ::stoneydsp::core::types::int_t int_min = ::stoneydsp_int_min;
 /// @} group core
 } //  namespace core
 
+//==============================================================================
+
+/**
+ * @brief
+ *
+ */
+template <>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
+STONEYDSP_ALIGN (alignof (STONEYDSP_INT_T)) numeric_limits<STONEYDSP_INT_T>
+{
+public:
+  /** True if the type is of type `signed`.  */
+  static STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T is_signed = true;
+
+  /** True if the type is of type `integer`.  */
+  static STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T is_integer = true;
+
+  STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Guaranteed to be at least:
+   *
+   * - dec: `2147483647`
+   *
+   * - oct: `017777777777`
+   *
+   * - hex: `0x7FFFFFFF`
+   *
+   * @return `stoneydsp::int_t`
+   */
+  max () STONEYDSP_NOEXCEPT
+  {
+    return ::stoneydsp_int_max ();
+  }
+
+  STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Guaranteed to be at least:
+   *
+   * - dec: `-2147483648`
+   *
+   * - oct: `-080000000000`
+   *
+   * - hex: `-0x80000000`
+   *
+   * @return `stoneydsp::int_t`
+   */
+  min () STONEYDSP_NOEXCEPT
+  {
+    return ::stoneydsp_int_min ();
+  }
+
+  STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_API
+  /**
+   * @brief
+   *
+   * Guaranteed to be at least:
+   *
+   * - dec: `-2147483648`
+   *
+   * - oct: `-080000000000`
+   *
+   * - hex: `-0x80000000`
+   *
+   * @return `stoneydsp::int_t`
+   */
+  lowest () STONEYDSP_NOEXCEPT
+  {
+    return ::stoneydsp_int_lowest ();
+  }
+
+} STONEYDSP_PACKED_STRUCT_END;
+
+//==============================================================================
+
 /// @} group stoneydsp
+} //  namespace stoneydsp
 
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::int_t;
-
-using ::stoneydsp::core::types::int_min;
-
-using ::stoneydsp::core::types::int_max;
-
-} // namespace stoneydsp
-
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

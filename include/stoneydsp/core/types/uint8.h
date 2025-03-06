@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,63 +14,17 @@
 #ifndef STONEYDSP_CORE_TYPES_UINT8_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_UINT8_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <cinttypes>
-  #else
-    #include <inttypes.h>
-  #endif // __cplusplus
+  #include "../../../stoneydsp/core/system/types.h"
 
-//=====================================================================//DEFINES
+//==============================================================================
 
-  #ifdef __cplusplus
+  #ifndef STONEYDSP_CORE_TYPES_UCHAR_H_INCLUDED
+    #include "../../../stoneydsp/core/types/uchar.h" // for numerical_limits<uchar_t>
+  #endif
 
-  /**
-   * @brief Integer type with a wdith of exactly 8 bits.
-   *
-   */
-    #define STONEYDSP_UINT8_T ::std::uint8_t
-
-  #else // !__cplusplus
-
-    /**
-     * @brief
-     *
-     */
-    #define STONEYDSP_UINT8_T uint8_t
-
-  #endif // __cplusplus
-
-// Maximum constraints
-
-  /**
-   * @brief Maximum value of exact-width unsigned type `stoneydsp_uint8_t`.
-   *
-   */
-  #define STONEYDSP_UINT8_MAX UINT8_MAX
-
-// Function helpers
-
-  /**
-   * @brief
-   *
-   */
-  #define STONEYDSP_UINT8_C UINT8_C
-
-  /**
-   * @brief
-   *
-   */
-  #define STONEYDSP_UINT8_PRINT_F PRIu8
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT8_SCAN_F SCNu8
-
-//====================================================================//TYPEDEFS
+//==============================================================================
 
 /**
  * @brief
@@ -78,35 +32,90 @@
  */
 typedef STONEYDSP_UINT8_T stoneydsp_uint8_t;
 
-//===================================================================//CONSTANTS
-
-  #ifdef __cplusplus
+//==============================================================================
 
 /**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint8_t`.
+ * @brief
  *
- * Equivalent to:
- *
- * `(255U)`
  */
-constexpr ::stoneydsp_uint8_t stoneydsp_uint8_max = STONEYDSP_UINT8_MAX;
+  #define stoneydsp_uint8 stoneydsp_uint8_t
 
-  #else // !__cplusplus
+//==============================================================================
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint8_t`.
- *
- * Equivalent to:
- *
- * `(255U)`
- */
-static const stoneydsp_uint8_t stoneydsp_uint8_max = STONEYDSP_UINT8_MAX;
+typedef stoneydsp_uint8 stoneydsp_uint8;
 
-  #endif // __cplusplus
+//==============================================================================
 
-//===================================================================//NAMESPACE
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint8_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_UINT8_C (value);
+}
 
-  #ifdef __cplusplus
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * Equivalent to:
+     *
+     * - dec: `255`
+     *
+     * - oct: `0377`
+     *
+     * - hex: `0xFF`
+     *
+     * @return `stoneydsp_uint8_t`
+     *
+     */
+    stoneydsp_uint8_max () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint8_c (
+      stoneydsp_uint8_c (STONEYDSP_INT8_MAX)
+          * (stoneydsp_uint8_c (STONEYDSP_UINT8_LITERAL (02)))
+      + (stoneydsp_uint8_c (STONEYDSP_UINT8_LITERAL (01))));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * Equivalent to:
+     *
+     * - dec: `0`
+     *
+     * - oct: `00`
+     *
+     * - hex: `0x00`
+     *
+     * @return `stoneydsp_uint8_t`
+     *
+     */
+    stoneydsp_uint8_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint8_c (STONEYDSP_UINT8_LITERAL (00));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint8_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint8_min ();
+}
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -123,46 +132,54 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
+
+//==============================================================================
 
 /**
  * @brief
  *
  */
-using uint8_t = ::stoneydsp_uint8_t;
+using uint8_t = stoneydsp_uint8;
 
-/**
- * @brief Maximum value of exact-width unsigned type
- * `stoneydsp::core::types::uint8_t`.
- *
- * Equivalent to:
- *
- * `(255U)`
- */
-constexpr ::stoneydsp::core::types::uint8_t uint8_max = ::stoneydsp_uint8_max;
-
-//====================================================================//LITERALS
+//==============================================================================
 
 namespace literals
 {
 /** @addtogroup literals
- *  @{
+ * @{
  */
 
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
  *
- * @returns stoneydsp_uint8_t
+ * @return `stoneydsp::uint8_t`
  *
  */
-inline constexpr ::stoneydsp_uint8_t
-operator"" _uint8 (unsigned long long value)
+operator"" _uint8_t (char value) STONEYDSP_NOEXCEPT
 {
-  return static_cast< ::stoneydsp_uint8_t> (value);
+  return ::stoneydsp_uint8_c (value);
 }
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _uint8_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_uint8_c (value);
+}
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -174,16 +191,9 @@ operator"" _uint8 (unsigned long long value)
 } //  namespace core
 
 /// @} group stoneydsp
-
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::uint8_t;
-
-using ::stoneydsp::core::types::uint8_max;
-
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

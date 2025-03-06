@@ -7,10 +7,18 @@
 
 //==============================================================================
 
-#if defined(STONEYDSP_BUILD_CORE) && defined(STONEYDSP_BUILD_TEST)
+#include <stoneydsp/stoneydsp.h>
 
-  #include <stoneydsp/stoneydsp.hpp>
+//==============================================================================
 
-  #include <catch2/catch_test_macros.hpp>
+#if defined(STONEYDSP_BUILD_TEST)
 
-#endif // defined (STONEYDSP_BUILD_CORE) && defined (STONEYDSP_BUILD_TEST)
+//==============================================================================
+
+  #include "../utils.test.hpp"
+
+//==============================================================================
+
+#endif // defined (STONEYDSP_BUILD_TEST)
+
+//==============================================================================

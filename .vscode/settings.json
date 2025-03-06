@@ -1,21 +1,52 @@
 {
+	"C_Cpp.default.defines": [
+		"STONEYDSP_BUILD_MAIN=1",
+		"STONEYDSP_BUILD_TEST=1",
+		"STONEYDSP_BUILD_CORE=1"
+	],
 	"makefile.configurations": [
 		{
 			"name": "Default",
 			"makeArgs": [
 				"BUILD_EXPORTS=1",
 				"BUILD_CORE=1",
-				"BUILD_SIMD=1",
+				"BUILD_SIMD=0",
+				"BUILD_DSP=0",
 				"BUILD_TEST=1",
-				"DEBUG=1"
+				"BUILD_MAIN=1",
+				"DEBUG=1",
+				"OPTIMIZATION=0"
+			],
+			"problemMatchers": [
+				"$gcc",
+				"$msvc"
+			]
+		},
+		{
+			"name": "Optimised3",
+			"makeArgs": [
+				"BUILD_EXPORTS=1",
+				"BUILD_CORE=1",
+				"BUILD_SIMD=0",
+				"BUILD_DSP=0",
+				"BUILD_TEST=1",
+				"BUILD_MAIN=1",
+				"DEBUG=1",
+				"OPTIMIZATION=3"
+			],
+			"problemMatchers": [
+				"$gcc",
+				"$msvc"
 			]
 		}
 	],
 	"cmake.configureArgs": [
-		"-DSTOEYDSP_EXPORTS:BOOL=ON",
+		"-DSTONEYDSP_EXPORTS:BOOL=ON",
 		"-DSTONEYDSP_BUILD_CORE:BOOL=ON",
-		"-DSTONEYDSP_BUILD_SIMD:BOOL=ON",
-		"-DSTONEYDSP_BUILD_TEST:BOOL=ON"
+		"-DSTONEYDSP_BUILD_SIMD:BOOL=OFF",
+		"-DSTONEYDSP_BUILD_DSP:BOOL=OFF",
+		"-DSTONEYDSP_BUILD_TEST:BOOL=ON",
+		"-DSTONEYDSP_BUILD_MAIN:BOOL=ON"
 	],
 	"makefile.launchConfigurations": [
 		{
@@ -166,7 +197,7 @@
 		"warning",
 		"note"
 	],
-	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
 	"C_Cpp.default.mergeConfigurations": true,
 	"C_Cpp.formatting": "clangFormat",
 	"C_Cpp.autoAddFileAssociations": true,
@@ -182,18 +213,15 @@
 	"C_Cpp.default.cppStandard": "c++14",
 	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 	"C_Cpp.default.compilerPath": "c++",
-	"C_Cpp.default.defines": [
-		"STONEYDSP_BUILD_MAIN=1",
-		"STONEYDSP_BUILD_TEST=1",
-		"STONEYDSP_BUILD_CORE=1"
-	],
 	"C_Cpp.default.includePath": [
 		"${workspaceFolder}/include"
 	],
 	"C_Cpp.default.browse.databaseFilename": "${workspaceFolder}/.vscode/.browse.vc.db",
 	"C_Cpp.files.exclude": {
 		"**/.vscode": true,
-		"**/.vs": true
+		"**/.vs": true,
+		"**/node_modules": true,
+		"**/.bak": true,
 	},
 	"files.associations": {
 		"**.d.ts": "typescript",
@@ -269,7 +297,8 @@
 		"typeindex": "cpp",
 		"unordered_set": "cpp",
 		"fstream": "cpp",
-		"future": "cpp"
+		"future": "cpp",
+		"cuchar": "cpp"
 	},
 	"json.schemas": [
 		{

@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,85 +14,82 @@
 #ifndef STONEYDSP_CORE_TYPES_SIZE_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_SIZE_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <cstddef>
-    #include <cstdint>
-  #else
-    #include <stddef.h>
-    #include <stdint.h>
-  #endif // __cplusplus
+  #include "../../../stoneydsp/core/system/types.h"
 
-//=====================================================================//DEFINES
-
-  #ifdef __cplusplus
-
-  /**
-   * @brief Unsigned integer type returned by the `sizeof` operator.
-   *
-   * @see https://en.cppreference.com/w/cpp/types/size_t
-   *
-   */
-    #define STONEYDSP_SIZE_T ::std::size_t
-
-  #else // !__cplusplus
-
-  /**
-   * @brief Unsigned integer type returned by the `sizeof` operator.
-   *
-   * @see https://en.cppreference.com/w/c/types/size_t
-   *
-   */
-    #define STONEYDSP_SIZE_T size_t
-
-  #endif // __cplusplus
-
-// Maximum constraints
-
-  /**
-   * @brief Maximum value of exact-width unsigned type `stoneydsp_size_t`.
-   *
-   */
-  #define STONEYDSP_SIZE_MAX SIZE_MAX
-
-//====================================================================//TYPEDEFS
+//==============================================================================
 
 /**
- * @brief Unsigned integer type returned by the `sizeof` operator.
+ * @brief
  *
  */
 typedef STONEYDSP_SIZE_T stoneydsp_size_t;
 
-//===================================================================//CONSTANTS
+//==============================================================================
 
-  #ifdef __cplusplus
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @param value
+     * @return `stoneydsp_size_t`
+     */
+    stoneydsp_size_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_SIZE_C (value);
+}
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_size_t`.
- *
- * On most systems, this is equivalent to:
- *
- * `(18446744073709551615UL)`
- */
-constexpr ::stoneydsp_size_t stoneydsp_size_max = STONEYDSP_SIZE_MAX;
+//==============================================================================
 
-  #else // !__cplusplus
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @return `stoneydsp_size_t`
+     */
+    stoneydsp_size_max () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_size_c ((stoneydsp_size_c (STONEYDSP_SIZE_MAX))
+                               * (stoneydsp_size_c (2UL))
+                           + (stoneydsp_size_c (1UL)));
+}
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_size_t`.
- *
- * On most systems, this is equivalent to:
- *
- * `(18446744073709551615UL)`
- */
-static const stoneydsp_size_t stoneydsp_size_max = STONEYDSP_SIZE_MAX;
+//==============================================================================
 
-  #endif // __cplusplus
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @return `stoneydsp_size_t`
+     */
+    stoneydsp_size_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_size_c (STONEYDSP_SIZE_LITERAL (0));
+}
 
-//===================================================================//NAMESPACE
+//==============================================================================
 
-  #ifdef __cplusplus
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * @return `stoneydsp_size_t`
+     */
+    stoneydsp_size_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_size_c (0U);
+}
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -109,8 +106,10 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
+
+//==============================================================================
 
 /**
  * @brief
@@ -118,14 +117,46 @@ namespace types
  */
 using size_t = ::stoneydsp_size_t;
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_size_t`.
- *
- * On most systems, this is equivalent to:
- *
- * `(18446744073709551615UL)`
+//==============================================================================
+
+namespace literals
+{
+/** @addtogroup literals
+ * @{
  */
-constexpr ::stoneydsp::core::types::size_t size_max = ::stoneydsp_size_max;
+
+//==============================================================================
+
+STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ * @param value
+ * @return `stoneydsp::size_t`
+ */
+operator"" _size_t (char value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_size_c (value);
+}
+
+//==============================================================================
+
+STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ * @param value
+ * @return `stoneydsp::size_t`
+ */
+operator"" _size_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_size_c (value);
+}
+
+//==============================================================================
+
+/// @} literals
+} // namespace literals
 
 /// @} types
 } // namespace types
@@ -134,16 +165,9 @@ constexpr ::stoneydsp::core::types::size_t size_max = ::stoneydsp_size_max;
 } //  namespace core
 
 /// @} group stoneydsp
-
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::size_t;
-
-using ::stoneydsp::core::types::size_max;
-
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

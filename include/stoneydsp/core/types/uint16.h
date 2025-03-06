@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,63 +14,17 @@
 #ifndef STONEYDSP_CORE_TYPES_UINT16_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_UINT16_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <cinttypes>
-  #else
-    #include <inttypes.h>
-  #endif // __cplusplus
+  #include "../../../stoneydsp/core/system/types.h"
 
-//=====================================================================//DEFINES
+//==============================================================================
 
-  #ifdef __cplusplus
+  #ifndef STONEYDSP_CORE_TYPES_USHRT_H_INCLUDED
+    #include <stoneydsp/core/types/ushrt.h> // for numerical_limits<ushrt_t>
+  #endif
 
-    /**
-     * @brief
-     *
-     */
-    #define STONEYDSP_UINT16_T ::std::uint16_t
-
-  #else // !__cplusplus
-
-    /**
-     * @brief
-     *
-     */
-    #define STONEYDSP_UINT16_T uint16_t
-
-  #endif // __cplusplus
-
-// Maximum constraints
-
-  /**
-   * @brief Maximum value of exact-width unsigned type `stoneydsp_uint16_t`.
-   *
-   */
-  #define STONEYDSP_UINT16_MAX UINT16_MAX
-
-// Function helpers
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT16_C UINT16_C
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT16_PRINT_F PRIu16
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT16_SCAN_F SCNu16
-
-//====================================================================//TYPEDEFS
+//==============================================================================
 
 /**
  * @brief
@@ -78,35 +32,62 @@
  */
 typedef STONEYDSP_UINT16_T stoneydsp_uint16_t;
 
-//===================================================================//CONSTANTS
-
-  #ifdef __cplusplus
+//==============================================================================
 
 /**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint16_t`.
+ * @brief
  *
- * Equivalent to:
- *
- * `(65535U)`
  */
-constexpr ::stoneydsp_uint16_t stoneydsp_uint16_max = STONEYDSP_UINT16_MAX;
+  #define stoneydsp_uint16 stoneydsp_uint16_t
 
-  #else // !__cplusplus
+//==============================================================================
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint16_t`.
- *
- * Equivalent to:
- *
- * `(65535U)`
- */
-static const stoneydsp_uint16_t stoneydsp_uint16_max = STONEYDSP_UINT16_MAX;
+typedef stoneydsp_uint16 stoneydsp_uint16;
 
-  #endif // __cplusplus
+//==============================================================================
 
-//===================================================================//NAMESPACE
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint16_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_UINT16_C (value);
+}
 
-  #ifdef __cplusplus
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint16_max () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint16_c (
+      (stoneydsp_uint16_c (STONEYDSP_INT16_MAX))
+          * (stoneydsp_uint16_c (STONEYDSP_UINT16_LITERAL (0x0002)))
+      + (stoneydsp_uint16_c (STONEYDSP_UINT16_LITERAL (0x0001))));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint16_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint16_c (STONEYDSP_UINT16_LITERAL (0x0000));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint16_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint16_min ();
+}
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -123,47 +104,56 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
+
+//==============================================================================
 
 /**
  * @brief
  *
  */
-using uint16_t = ::stoneydsp_uint16_t;
+using uint16_t = stoneydsp_uint16;
 
-/**
- * @brief Maximum value of exact-width unsigned type
- * `stoneydsp::core::types::uint16_t`.
- *
- * Equivalent to:
- *
- * `(65535U)`
- */
-constexpr ::stoneydsp::core::types::uint16_t uint16_max
-    = ::stoneydsp_uint16_max;
-
-//====================================================================//LITERALS
+//==============================================================================
 
 namespace literals
 {
 /** @addtogroup literals
- *  @{
+ * @{
  */
 
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
  *
- * @returns stoneydsp_uint16_t
+ * @return `stoneydsp::uint8_t`
  *
  */
-inline constexpr ::stoneydsp_uint16_t
-operator"" _uint16 (unsigned long long value)
+operator"" _uint16_t (char value) STONEYDSP_NOEXCEPT
 {
-  return static_cast< ::stoneydsp_uint16_t> (value);
+  return ::stoneydsp_uint16_c (value);
 }
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT16_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _uint16_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_uint16_c (value);
+}
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -175,16 +165,9 @@ operator"" _uint16 (unsigned long long value)
 } //  namespace core
 
 /// @} group stoneydsp
-
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::uint16_t;
-
-using ::stoneydsp::core::types::uint16_max;
-
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

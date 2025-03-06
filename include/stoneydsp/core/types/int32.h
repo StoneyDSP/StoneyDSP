@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,129 +14,107 @@
 #ifndef STONEYDSP_CORE_TYPES_INT32_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_INT32_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <cinttypes>
-  #else
-    #include <inttypes.h>
-  #endif // __cplusplus
+  #include "../../../stoneydsp/core/system/types.h"
 
-//=====================================================================//DEFINES
+//==============================================================================
 
-  #ifdef __cplusplus
+  #ifndef STONEYDSP_CORE_TYPES_INT_H_INCLUDED
+    #include "../../../stoneydsp/core/types/int.h" // for numerical_limits<int_t>
+  #endif
 
-    /**
-     * @brief Integer type with a width of exactly 32 bits.
-     *
-     */
-    #define STONEYDSP_INT32_T ::std::int32_t
-
-  #else // !__cplusplus
-
-    /**
-     * @brief Integer type with a width of exactly 32 bits.
-     *
-     */
-    #define STONEYDSP_INT32_T int32_t
-
-  #endif // __cplusplus
-
-// Minimum constraints
-
-  /**
-   * @brief Minimum value of exact-width signed type `stoneydsp_int32_t`.
-   *
-   */
-  #define STONEYDSP_INT32_MIN INT32_MIN
-
-// Maximum constraints
-
-  /**
-   * @brief Maximum value of exact-width signed type `stoneydsp_int32_t`.
-   *
-   */
-  #define STONEYDSP_INT32_MAX INT32_MAX
-
-// Function helpers
+//==============================================================================
 
 /**
  * @brief
- *
- */
-  #define STONEYDSP_INT32_C INT32_C
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_INT32_PRINT_F PRIi32
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_INT32_SCAN_F SCNi32
-
-//====================================================================//TYPEDEFS
-
-/**
- * @brief Integer type with a width of exactly 32 bits.
- *
- * Negative values are represented using 2's complement.
- *
- * No padding.
  *
  */
 typedef STONEYDSP_INT32_T stoneydsp_int32_t;
 
-//===================================================================//CONSTANTS
-
-  #ifdef __cplusplus
+//==============================================================================
 
 /**
- * @brief Minimum value of exact-width signed type `stoneydsp_int32_t`.
+ * @brief
  *
- * Equivalent to:
- *
- * `(-2147483647-1)`
  */
-constexpr ::stoneydsp_int32_t stoneydsp_int32_min = STONEYDSP_INT32_MIN;
+  #define stoneydsp_int32 stoneydsp_int32_t
 
-/**
- * @brief Maximum value of exact-width signed type `stoneydsp_int32_t`.
- *
- * Equivalent to:
- *
- * `(2147483647)`
- */
-constexpr ::stoneydsp_int32_t stoneydsp_int32_max = STONEYDSP_INT32_MAX;
+//==============================================================================
 
-  #else // !__cplusplus
+typedef stoneydsp_int32 stoneydsp_int32;
 
-/**
- * @brief Minimum value of exact-width signed type `stoneydsp_int32_t`.
- *
- * Equivalent to:
- *
- * `(-2147483647-1)`
- */
-static const stoneydsp_int32_t stoneydsp_int32_min = STONEYDSP_INT32_MIN;
+//==============================================================================
 
-/**
- * @brief Maximum value of exact-width signed type `stoneydsp_int32_t`.
- *
- * Equivalent to:
- *
- * `(2147483647)`
- */
-static const stoneydsp_int32_t stoneydsp_int32_max = STONEYDSP_INT32_MAX;
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_int32_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_INT32_C (value);
+}
 
-  #endif // __cplusplus
+//============================================================================//
 
-//===================================================================//NAMESPACE
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * Equivalent to:
+     *
+     * - dec: `2147483647`
+     *
+     * - oct: `017777777777`
+     *
+     * - hex: `0x7FFFFFFF`
+     *
+     * @return `stoneydsp_int32_t`
+     *
+     */
+    stoneydsp_int32_max () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_int32_c (STONEYDSP_INT32_MAX);
+}
 
-  #ifdef __cplusplus
+//============================================================================//
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    /**
+     * @brief
+     *
+     * Equivalent to:
+     *
+     * - dec: `-2147483648`
+     *
+     * - oct: `-020000000000`
+     *
+     * - hex: `-0x80000000`
+     *
+     * @return `stoneydsp_int32_t`
+     *
+     */
+    stoneydsp_int32_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_int32_c (
+      (-stoneydsp_int32_max ())
+      - (stoneydsp_int32_c (STONEYDSP_INT32_LITERAL (1))));
+}
+
+//============================================================================//
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_int32_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_int32_min ();
+}
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -153,38 +131,18 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
+
+//==============================================================================
 
 /**
- * @brief Integer type with a width of exactly 32 bits.
- *
- * Negative values are represented using 2's complement.
- *
- * No padding.
+ * @brief
  *
  */
-using int32_t = ::stoneydsp_int32_t;
+using int32_t = stoneydsp_int32;
 
-/**
- * @brief Minimum value of exact-width signed type `stoneydsp_int32_t`.
- *
- * Equivalent to:
- *
- * `(-2147483647-1)`
- */
-constexpr ::stoneydsp::core::types::int32_t int32_min = ::stoneydsp_int32_min;
-
-/**
- * @brief Maximum value of exact-width signed type `stoneydsp_int32_t`.
- *
- * Equivalent to:
- *
- * `(2147483647)`
- */
-constexpr ::stoneydsp::core::types::int32_t int32_max = ::stoneydsp_int32_max;
-
-//====================================================================//LITERALS
+//==============================================================================
 
 namespace literals
 {
@@ -192,24 +150,37 @@ namespace literals
  * @{
  */
 
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_INT32_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
- *
- * @returns stoneydsp_int32_t
- *
- * @example
- * ```cpp
- * stoneydsp_int32_t myInt = 5_int32;
- * ```
- *
+ * @return `stoneydsp::int32_t`
  */
-inline constexpr ::stoneydsp_int32_t
-operator"" _int32 (unsigned long long value)
+operator"" _int32_t (char value) STONEYDSP_NOEXCEPT
 {
-  return static_cast< ::stoneydsp_int32_t> (value);
+  return ::stoneydsp_int32_c (value);
 }
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_INT32_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ * @param value
+ * @return `stoneydsp::int32_t`
+ */
+operator"" _int32_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_int32_c (value);
+}
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -221,18 +192,9 @@ operator"" _int32 (unsigned long long value)
 } //  namespace core
 
 /// @} group stoneydsp
-
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::int32_t;
-
-using ::stoneydsp::core::types::int32_min;
-
-using ::stoneydsp::core::types::int32_max;
-
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

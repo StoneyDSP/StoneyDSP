@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,63 +14,32 @@
 #ifndef STONEYDSP_CORE_TYPES_UINT64_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_UINT64_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <cinttypes>
+  #include "../../../stoneydsp/core/system/types.h"
+
+//==============================================================================
+
+  #if defined(STONEYDSP_WINDOWS) || defined(STONEYDSP_32BIT)
+
+    #ifndef STONEYDSP_CORE_TYPES_ULLONG_H_INCLUDED
+      #include <stoneydsp/core/types/ullong.h> // for numerical_limits<llong_t>
+    #endif
+
+  #elif (defined(STONEYDSP_LINUX) || defined(STONEYDSP_MAC))                  \
+      && (defined(STONEYDSP_64BIT) || defined(STONEYDSP_ARM))
+
+    #ifndef STONEYDSP_CORE_TYPES_ULONG_H_INCLUDED
+      #include <stoneydsp/core/types/ulong.h> // for numerical_limits<long_t>
+    #endif
+
   #else
-    #include <inttypes.h>
-  #endif // __cplusplus
 
-//=====================================================================//DEFINES
+    #error unable to determine a suitable template for numerical_limits<uint64_t>
 
-  #ifdef __cplusplus
+  #endif
 
-    /**
-     * @brief
-     *
-     */
-    #define STONEYDSP_UINT64_T ::std::uint64_t
-
-  #else // !__cplusplus
-
-    /**
-     * @brief
-     *
-     */
-    #define STONEYDSP_UINT64_T uint64_t
-
-  #endif // __cplusplus
-
-// Maximum constraints
-
-  /**
-   * @brief Maximum value of exact-width unsigned type `stoneydsp_uint64_t`.
-   *
-   */
-  #define STONEYDSP_UINT64_MAX UINT64_MAX
-
-// Function helpers
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT64_C UINT64_C
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT64_PRINT_F PRIu64
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT64_SCAN_F SCNu64
-
-//====================================================================//TYPEDEFS
+//==============================================================================
 
 /**
  * @brief
@@ -78,35 +47,58 @@
  */
 typedef STONEYDSP_UINT64_T stoneydsp_uint64_t;
 
-//===================================================================//CONSTANTS
+//==============================================================================
 
-  #ifdef __cplusplus
+  #define stoneydsp_uint64 stoneydsp_uint64_t
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint64_t`.
- *
- * Equivalent to:
- *
- * `(18446744073709551615UL)`
- */
-constexpr ::stoneydsp_uint64_t stoneydsp_uint64_max = STONEYDSP_UINT64_MAX;
+//==============================================================================
 
-  #else // !__cplusplus
+typedef stoneydsp_uint64 stoneydsp_uint64;
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint64_t`.
- *
- * Equivalent to:
- *
- * `(18446744073709551615UL)`
- */
-static const stoneydsp_uint64_t stoneydsp_uint64_max = STONEYDSP_UINT64_MAX;
+//==============================================================================
 
-  #endif // __cplusplus
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_UINT64_C (value);
+}
 
-//===================================================================//NAMESPACE
+//==============================================================================
 
-  #ifdef __cplusplus
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_max () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint64_c (
+      (stoneydsp_uint64_c (STONEYDSP_INT64_MAX))
+          * (stoneydsp_uint64_c (STONEYDSP_UINT64_LITERAL (2)))
+      + (stoneydsp_uint64_c (STONEYDSP_UINT64_LITERAL (1))));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint64_c (STONEYDSP_UINT64_LITERAL (0));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint64_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint64_min ();
+}
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -123,47 +115,56 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
+
+//==============================================================================
 
 /**
  * @brief
  *
  */
-using uint64_t = ::stoneydsp_uint64_t;
+using uint64_t = stoneydsp_uint64;
 
-/**
- * @brief Maximum value of exact-width unsigned type
- * `stoneydsp::core::types::uint64_t`.
- *
- * Equivalent to:
- *
- * `(18446744073709551615UL)`
- */
-constexpr ::stoneydsp::core::types::uint64_t uint64_max
-    = ::stoneydsp_uint64_max;
-
-//====================================================================//LITERALS
+//==============================================================================
 
 namespace literals
 {
 /** @addtogroup literals
- *  @{
+ * @{
  */
 
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
- *
- * @returns stoneydsp_uint64_t
- *
+ * @return `stoneydsp::uint64_t`
  */
-inline constexpr ::stoneydsp_uint64_t
-operator"" _uint64 (unsigned long long value)
+operator"" _uint64_t (char value) STONEYDSP_NOEXCEPT
 {
-  return static_cast< ::stoneydsp_uint64_t> (value);
+  return ::stoneydsp_uint64_c (value);
 }
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ * @param value
+ * @return `stoneydsp::uint64_t`
+ */
+operator"" _uint64_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_uint64_c (value);
+}
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -175,16 +176,9 @@ operator"" _uint64 (unsigned long long value)
 } //  namespace core
 
 /// @} group stoneydsp
-
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::uint64_t;
-
-using ::stoneydsp::core::types::uint64_max;
-
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

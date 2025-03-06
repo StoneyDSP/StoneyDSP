@@ -163,7 +163,7 @@
  *
  */
 
-  #if STONEYDSP_MSVC
+  #ifdef STONEYDSP_MSVC
     #ifdef STONEYDSP_EXPORTS
       /** @brief Used to export a function or variable from a DLL. */
       #define STONEYDSP_API __declspec (dllexport)
@@ -180,6 +180,12 @@
       /** @brief Controls the visibility of symbols at build-time. */
       #define STONEYDSP_API
     #endif
+  #endif
+
+  #ifdef STONEYDSP_MSVC
+    #define STONEYDSP_INTERNAL
+  #else
+    #define STONEYDSP_INTERNAL __attribute__ ((visibility ("hidden")))
   #endif
 
   //==============================================================================
@@ -230,6 +236,16 @@
   #else
     #define STONEYDSP_MALLOC_ATTR __attribute__ ((malloc))
   #endif
+
+//==============================================================================
+
+  #if STONEYDSP_MSVC
+    #define STONEYDSP_INLINE_ATTR __forceinline
+  #else // STONEYDSP_GCC || STONEYDSP_CLANG
+    #define STONEYDSP_INLINE_ATTR __attribute__ ((always_inline))
+  #endif
+
+  #define STONEYDSP_INLINE inline STONEYDSP_INLINE_ATTR
 
 //==============================================================================
 

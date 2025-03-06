@@ -14,6 +14,22 @@
 #ifndef STONEYDSP_CORE_H_INCLUDED
   #define STONEYDSP_CORE_H_INCLUDED
 
+  #if 0
+/**
+ * BEGIN_JUCE_MODULE_DECLARATION
+ *
+ * ID:               stoneydsp_core
+ * vendor:           stoneydsp
+ * version:          @STONEYDSP_CORE_VERSION@
+ * name:             core
+ * description:      Core module
+ * website:          http://github.com/StoneyDSP/StoneyDSP
+ * license:          MIT
+ *
+ * END_JUCE_MODULE_DECLARATION
+ */
+  #endif
+
 //==============================================================================
 
   #ifdef __cplusplus
@@ -118,63 +134,90 @@ namespace literals
 
 //============================================================================//
 
-/* tring literal encoding the version number. */
+/* string literal encoding the version number. */
 extern char const *stoneydsp_version;
 
 //====================================================================//INCLUDES
 
-  #include "stoneydsp/core/system/compiler.h"
-  #include "stoneydsp/core/system/cxx.h"
-  #include "stoneydsp/core/system/languages.h"
   #include "stoneydsp/core/system/platform.h"
 
+  #include "stoneydsp/core/system/compiler.h"
+
+  #include "stoneydsp/core/system/languages.h"
+
+  #include "stoneydsp/core/system/cxx.h"
+
+  #include "stoneydsp/core/system/types.h"
+
 //==============================================================================
 
-// for `stoneydsp_int_t`
+  #include "stoneydsp/core/types/char.h"
+
+  #include "stoneydsp/core/types/schar.h"
+
+  #include "stoneydsp/core/types/uchar.h"
+
+  #include "stoneydsp/core/types/shrt.h"
+
+  #include "stoneydsp/core/types/ushrt.h"
+
   #include "stoneydsp/core/types/int.h"
-// for `stoneydsp_int8_t`
-  #include "stoneydsp/core/types/int8.h"
-// for `stoneydsp_int16_t`
-  #include "stoneydsp/core/types/int16.h"
-// for `stoneydsp_int32_t`
-  #include "stoneydsp/core/types/int32.h"
-// for `stoneydsp_int64_t`
-  #include "stoneydsp/core/types/int64.h"
-// for `stoneydsp_intmax_t`
-  #include "stoneydsp/core/types/intmax.h"
-// for `stoneydsp_intptr_t`
-  #include "stoneydsp/core/types/intptr.h"
 
-// for `stoneydsp_uint_t`
   #include "stoneydsp/core/types/uint.h"
-// for `stoneydsp_uint8_t`
-  #include "stoneydsp/core/types/uint8.h"
-// for `stoneydsp_uint16_t`
-  #include "stoneydsp/core/types/uint16.h"
-// for `stoneydsp_uint32_t`
-  #include "stoneydsp/core/types/uint32.h"
-// for `stoneydsp_uint64_t`
-  #include "stoneydsp/core/types/uint64.h"
-// for `stoneydsp_uintmax_t`
-  #include "stoneydsp/core/types/uintmax.h"
-// for `stoneydsp_uintptr_t`
-  #include "stoneydsp/core/types/uintptr.h"
 
-// for `stoneydsp_size_t`
+  #include "stoneydsp/core/types/long.h"
+
+  #include "stoneydsp/core/types/ulong.h"
+
+  #include "stoneydsp/core/types/llong.h"
+
+  #include "stoneydsp/core/types/ullong.h"
+
+  #include "stoneydsp/core/types/double.h"
+
+  #include "stoneydsp/core/types/ldouble.h"
+
+  #include "stoneydsp/core/types/float.h"
+
+  #include "stoneydsp/core/types/bool.h"
+
   #include "stoneydsp/core/types/size.h"
-// for `stoneydsp_ptrdiff_t`
-  #include "stoneydsp/core/types/ptrdiff.h"
-// for `stoneydsp_nullptr_t`
-  #include "stoneydsp/core/types/nullptr.h"
-// for `stoneydsp_max_align_t`
-  #include "stoneydsp/core/types/max_align.h"
 
-// for `stoneydsp_float_t`
-  #include "stoneydsp/core/types/math.h"
+  #include "stoneydsp/core/types/ptrdiff.h"
 
 //==============================================================================
 
-  #ifdef __cplusplus
+  #include "stoneydsp/core/types/int8.h"
+
+  #include "stoneydsp/core/types/int16.h"
+
+  #include "stoneydsp/core/types/int32.h"
+
+  #include "stoneydsp/core/types/int64.h"
+
+//==============================================================================
+
+  #include "stoneydsp/core/types/uint8.h"
+
+  #include "stoneydsp/core/types/uint16.h"
+
+  #include "stoneydsp/core/types/uint32.h"
+
+  #include "stoneydsp/core/types/uint64.h"
+
+//==============================================================================
+
+  #ifndef STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES
+    #define STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES 0
+  #endif
+
+  #ifndef STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES
+    #define STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES 1
+  #endif
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
 
 namespace stoneydsp
 {
@@ -182,23 +225,104 @@ namespace stoneydsp
  *  @{
  */
 
+template <typename... Types>
+void STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief Handy function for avoiding unused variables warning.
  *
  * @tparam Types
- * @return
  */
-template <typename... Types>
-STONEYDSP_PUBLIC_FUNCTION void
-ignoreUnused (Types &&...) noexcept
+ignoreUnused (Types &&...) STONEYDSP_NOEXCEPT
 {
   return;
 }
 
+  //=====================================================================//ALIASES
+
+    #if STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES
+
+/** @brief */
+using ::stoneydsp::core::types::bool_t;
+
+/** @brief */
+using ::stoneydsp::core::types::double_t;
+
+/** @brief */
+using ::stoneydsp::core::types::float_t;
+
+/** @brief */
+using ::stoneydsp::core::types::char_t;
+
+/** @brief */
+using ::stoneydsp::core::types::schar_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uchar_t;
+
+/** @brief */
+using ::stoneydsp::core::types::shrt_t;
+
+/** @brief */
+using ::stoneydsp::core::types::ushrt_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint_t;
+
+/** @brief */
+using ::stoneydsp::core::types::long_t;
+
+/** @brief */
+using ::stoneydsp::core::types::ulong_t;
+
+/** @brief */
+using ::stoneydsp::core::types::llong_t;
+
+/** @brief */
+using ::stoneydsp::core::types::ullong_t;
+
+    #endif // STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES
+
+  //==============================================================================
+
+    #if STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES
+
+/** @brief */
+using ::stoneydsp::core::types::int8_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int16_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int32_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int64_t;
+
+//==============================================================================
+
+/** @brief */
+using ::stoneydsp::core::types::uint8_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint16_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint32_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint64_t;
+
+    #endif // STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES
+
+//==============================================================================
+
 /// @} group stoneydsp
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

@@ -155,6 +155,21 @@ preset:
 
 ###########################################<<<-Standards, Flags, and Directories
 
+SOURCES :=
+OBJECTS :=
+INCLUDES ?=
+DEFINES ?=
+DEPS :=
+
+FLAGS ?=
+CPPFLAGS ?=
+ASMFLAGS ?=
+CFLAGS ?=
+CXXFLAGS ?=
+OBJCFLAGS ?=
+OBJCXXFLAGS ?=
+LDFLAGS ?=
+
 ## Standards
 C_STANDARD ?= 11
 CXX_STANDARD ?= 14
@@ -175,19 +190,22 @@ ifdef DEBUG
 	ASMFLAGS += -g
 endif
 
-## -O0: No optimization. This is the default level. It aims for the fastest compilation time and the best debugging experience.
-## -O1: Basic optimization. Enables optimizations that do not involve a space-speed tradeoff.
-## -O2: Further optimization. More optimizations are enabled that improve performance without significantly increasing the compilation time.
-## -O3: Aggressive optimization. It enables more aggressive optimizations that may increase the compilation time but aim to maximize the performance of the generated code.
-## -Os: Optimize for size. Enables all -O2 optimizations that do not typically increase code size and enables further optimizations to reduce code size.
-## -Ofast: Disregards strict standards compliance for the sake of optimization. Enables all -O3 optimizations along with other aggressive optimizations.
-OPTIMIZATION ?= -O0
-ASMFLAGS += $(OPTIMIZATION)
+## 0: No optimization. This is the default level. It aims for the fastest compilation time and the best debugging experience.
+## 1: Basic optimization. Enables optimizations that do not involve a space-speed tradeoff.
+## 2: Further optimization. More optimizations are enabled that improve performance without significantly increasing the compilation time.
+## 3: Aggressive optimization. It enables more aggressive optimizations that may increase the compilation time but aim to maximize the performance of the generated code.
+## s: Optimize for size. Enables all -O2 optimizations that do not typically increase code size and enables further optimizations to reduce code size.
+## fast: Disregards strict standards compliance for the sake of optimization. Enables all -O3 optimizations along with other aggressive optimizations.
+OPTIMIZATION ?= 0
+ASMFLAGS += -O$(OPTIMIZATION)
 
 ## Warnings and errors
 FLAGS += -Wall
 FLAGS += -Wextra
 FLAGS += -Werror
+# FLAGS += -Wpedantic
+# FLAGS += -Wunused-parameter
+# FLAGS += -Wunused-command-line-argument
 
 ifdef VERBOSE
 	FLAGS += -v
@@ -199,6 +217,37 @@ ifdef DEBUG
 else ifdef VERBOSE
 	FLAGS += -Wno-unused-parameter
 	FLAGS += -pedantic
+endif
+## TODO: The macro NDEBUG controls whether assert() statements are active or not.
+ifdef DEBUG
+	# DEFINES += -DDEBUG # consider Windows MSVC...
+	DEFINES += -D_DEBUG
+else
+	DEFINES += -DNDEBUG
+endif
+
+## Library type
+BUILD_SHARED ?= 1
+ifeq ($(BUILD_SHARED),1)
+	DEFINES += -DSTONEYDSP_BUILD_SHARED=$(BUILD_SHARED)
+	ifdef ARCH_WIN
+		LIB_EXT := dll
+	else
+		LIB_EXT := so
+	endif
+	BUILD_SHARED_FLAG := -shared
+else
+	LIB_EXT := a
+	BUILD_SHARED_FLAG :=
+endif
+
+# symbols visibility
+BUILD_EXPORTS ?= 1
+ifeq ($(BUILD_EXPORTS),1)
+	ASMFLAGS += -fvisibility=hidden
+	ASMFLAGS += -fvisibility-inlines-hidden
+else
+	ASMFLAGS += -fvisibility=default
 endif
 
 # In theory, we could leave -fPIC in place, since non-POSIX users are almost
@@ -242,31 +291,7 @@ LIB_DEPS := $(LIB_OBJS:.o=.d)
 
 ###################################################<<<-Feature Flags and Targets
 
-## Library type
-BUILD_SHARED ?= 1
-ifeq ($(BUILD_SHARED),1)
-	DEFINES += -DSTONEYDSP_BUILD_SHARED=$(BUILD_SHARED)
-	ifdef ARCH_WIN
-		LIB_EXT := dll
-	else
-		LIB_EXT := so
-	endif
-	BUILD_SHARED_FLAG := -shared
-else
-	LIB_EXT := a
-	BUILD_SHARED_FLAG :=
-endif
-
-## TODO: The macro NDEBUG controls whether assert() statements are active or not.
-ifdef DEBUG
-	# DEFINES += -DDEBUG # consider Windows MSVC...
-	DEFINES += -D_DEBUG
-else
-	DEFINES += -DNDEBUG
-endif
-
 ## Feature flags
-BUILD_EXPORTS ?= 1
 BUILD_CORE ?= 1
 BUILD_DSP ?= 0
 BUILD_SIMD ?= 0
@@ -301,13 +326,15 @@ endif
 ifeq ($(BUILD_TEST),1)
 	TEST_SRCS :=
 	ifeq ($(BUILD_CORE),1)
-		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/*.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/system/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/types/*.test.cpp)
-		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/core/core.test.cpp)
 	endif
 	ifeq ($(BUILD_SIMD),1)
 	endif
 	ifeq ($(BUILD_DSP),1)
+		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/widgets/*.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/dsp.test.cpp)
 	endif
 	TEST_TARGET := $(BUILD_DIR)/test/main
 	TEST_SRCS += $(wildcard $(TEST_DIR)/catch2session.test.cpp)
@@ -411,6 +438,7 @@ INCLUDES += -I$(BUILD_DIR)/vcpkg_installed/$(TRIPLET_ARCH)-$(TRIPLET_OS)/include
 
 ##################################################<<<-CMake and workflow targets
 
+TEST_ARGS ?= --skip-benchmarks --order decl --warn UnmatchedTestSpec
 CMAKE_ARGS ?=
 CMAKE_ARGS += -DSTONEYDSP_BUILD_CORE:BOOL=$(BUILD_CORE)
 CMAKE_ARGS += -DSTONEYDSP_BUILD_SIMD:BOOL=$(BUILD_SIMD)
@@ -510,40 +538,40 @@ OBJCXXFLAGS += $(FLAGS)
 LDFLAGS += $(FLAGS)
 
 # <CPP>
-CPP_CC_COMPILER := $(CC)
-CPP_CXX_COMPILER := $(CXX)
-CPP_OBJC_COMPILER := $(OBJC)
-CPP_OBJCXX_COMPILER := $(OBJCXX)
+CPP_CC_COMPILER := $(CC) $(C_STANDARD_FLAG)
+CPP_CXX_COMPILER := $(CXX) $(CXX_STANDARD_FLAG)
+CPP_OBJC_COMPILER := $(OBJC) $(C_STANDARD_FLAG)
+CPP_OBJCXX_COMPILER := $(OBJCXX) $(CXX_STANDARD_FLAG)
 
 # <ASM>
-ASM_CC_COMPILER := $(CC)
-ASM_CXX_COMPILER := $(CXX)
-ASM_OBJC_COMPILER := $(OBJC)
-ASM_OBJCXX_COMPILER := $(OBJCXX)
+ASM_CC_COMPILER := $(CC) $(C_STANDARD_FLAG)
+ASM_CXX_COMPILER := $(CXX) $(CXX_STANDARD_FLAG)
+ASM_OBJC_COMPILER := $(OBJC) $(C_STANDARD_FLAG)
+ASM_OBJCXX_COMPILER := $(OBJCXX) $(CXX_STANDARD_FLAG)
 
 # <C;CXX;OBJC;OBJCXX>
-CC_COMPILER := $(CC)
-CXX_COMPILER := $(CXX)
-OBJC_COMPILER := $(OBJC) -ObjC
-OBJCXX_COMPILER := $(OBJCXX) -ObjC++
+CC_COMPILER := $(CC) $(C_STANDARD_FLAG)
+CXX_COMPILER := $(CXX) $(CXX_STANDARD_FLAG)
+OBJC_COMPILER := $(OBJC) $(C_STANDARD_FLAG) -ObjC
+OBJCXX_COMPILER := $(OBJCXX) $(CXX_STANDARD_FLAG) -ObjC++
 
 # <CPP>
-CPP_CC_COMPILER_LAUNCHER := $(CPP_CC_COMPILER) -E $(CPPFLAGS) $(C_STANDARD_FLAG)
-CPP_CXX_COMPILER_LAUNCHER := $(CPP_CXX_COMPILER) -E $(CPPFLAGS) $(CXX_STANDARD_FLAG)
-CPP_OBJC_COMPILER_LAUNCHER := $(CPP_OBJC_COMPILER) -E $(CPPFLAGS) $(C_STANDARD_FLAG)
-CPP_OBJCXX_COMPILER_LAUNCHER := $(CPP_OBJCXX_COMPILER) -E $(CPPFLAGS) $(CXX_STANDARD_FLAG)
+CPP_CC_COMPILER_LAUNCHER := $(CPP_CC_COMPILER) -E $(CPPFLAGS)
+CPP_CXX_COMPILER_LAUNCHER := $(CPP_CXX_COMPILER) -E $(CPPFLAGS)
+CPP_OBJC_COMPILER_LAUNCHER := $(CPP_OBJC_COMPILER) -E $(CPPFLAGS)
+CPP_OBJCXX_COMPILER_LAUNCHER := $(CPP_OBJCXX_COMPILER) -E $(CPPFLAGS)
 
 # <ASM>
-ASM_CC_COMPILER_LAUNCHER := $(ASM_CC_COMPILER) -S $(ASMFLAGS) $(C_STANDARD_FLAG)
-ASM_CXX_COMPILER_LAUNCHER := $(ASM_CXX_COMPILER) -S $(ASMFLAGS) $(CXX_STANDARD_FLAG)
-ASM_OBJC_COMPILER_LAUNCHER := $(ASM_OBJC_COMPILER) -S $(ASMFLAGS)  $(C_STANDARD_FLAG)
-ASM_OBJCXX_COMPILER_LAUNCHER := $(ASM_OBJCXX_COMPILER) -S $(ASMFLAGS) $(CXX_STANDARD_FLAG)
+ASM_CC_COMPILER_LAUNCHER := $(ASM_CC_COMPILER) -S $(ASMFLAGS)
+ASM_CXX_COMPILER_LAUNCHER := $(ASM_CXX_COMPILER) -S $(ASMFLAGS)
+ASM_OBJC_COMPILER_LAUNCHER := $(ASM_OBJC_COMPILER) -S $(ASMFLAGS)
+ASM_OBJCXX_COMPILER_LAUNCHER := $(ASM_OBJCXX_COMPILER) -S $(ASMFLAGS)
 
 # <C;CXX;OBJC;OBJCXX>
-CC_COMPILER_LAUNCHER := $(CC_COMPILER) -c $(CFLAGS) $(C_STANDARD_FLAG)
-CXX_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(CXXFLAGS) $(CXX_STANDARD_FLAG)
-OBJC_COMPILER_LAUNCHER := $(OBJC_COMPILER) -c $(OBJCFLAGS) $(C_STANDARD_FLAG)
-OBJCXX_COMPILER_LAUNCHER := $(OBJCXX_COMPILER) -c $(OBJCXXFLAGS) $(CXX_STANDARD_FLAG)
+CC_COMPILER_LAUNCHER := $(CC_COMPILER) -c $(CFLAGS)
+CXX_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(CXXFLAGS)
+OBJC_COMPILER_LAUNCHER := $(OBJC_COMPILER) -c $(OBJCFLAGS)
+OBJCXX_COMPILER_LAUNCHER := $(OBJCXX_COMPILER) -c $(OBJCXXFLAGS)
 
 ##########################################################<<<-Patterns and rules
 
@@ -554,7 +582,7 @@ $(TARGET): $(OBJECTS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(BUILD_SHARED_FLAG) $(CPPFLAGS) $(ASMFLAGS) $(CXXFLAGS) $(FLAGS) $(DEFINES) $(INCLUDES) $(LDFLAGS) $^ -o $@
+	$(CXX_COMPILER) -O$(OPTIMIZATION) $(BUILD_SHARED_FLAG) $(DEFINES) $(INCLUDES) $(LDFLAGS) $^ -o $@
 	@echo Built target successfully: $@
 	@echo
 
@@ -763,7 +791,7 @@ $(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 
 check: catch2 $(TEST_TARGET)
-	$(TEST_TARGET) $(TEST_ARGS)
+	$(TEST_TARGET) $(TEST_ARGS) || exit $$?
 .PHONY: check
 
 ## <CXX>

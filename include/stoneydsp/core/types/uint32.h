@@ -3,7 +3,7 @@
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
- * @date 2025-01-30
+ * @date 2025-01-27
  *
  * @copyright Copyright (c) 2025
  *
@@ -14,63 +14,17 @@
 #ifndef STONEYDSP_CORE_TYPES_UINT32_H_INCLUDED
   #define STONEYDSP_CORE_TYPES_UINT32_H_INCLUDED
 
-//====================================================================//INCLUDES
+//==============================================================================
 
-  #ifdef __cplusplus
-    #include <cinttypes>
-  #else
-    #include <inttypes.h>
-  #endif // __cplusplus
+  #include "../../../stoneydsp/core/system/types.h"
 
-//=====================================================================//DEFINES
+//==============================================================================
 
-  #ifdef __cplusplus
+  #ifndef STONEYDSP_CORE_TYPES_UINT_H_INCLUDED
+    #include <stoneydsp/core/types/uint.h> // for numerical_limits<uint_t>
+  #endif
 
-    /**
-     * @brief
-     *
-     */
-    #define STONEYDSP_UINT32_T ::std::uint32_t
-
-  #else // !__cplusplus
-
-    /**
-     * @brief
-     *
-     */
-    #define STONEYDSP_UINT32_T uint32_t
-
-  #endif // __cplusplus
-
-// Maximum constraints
-
-  /**
-   * @brief Maximum value of exact-width unsigned type `stoneydsp_uint32_t`.
-   *
-   */
-  #define STONEYDSP_UINT32_MAX UINT32_MAX
-
-// Funtion helpers
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT32_C UINT32_C
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT32_PRINT_F PRIu32
-
-/**
- * @brief
- *
- */
-  #define STONEYDSP_UINT32_SCAN_F SCNu32
-
-//====================================================================//TYPEDEFS
+//==============================================================================
 
 /**
  * @brief
@@ -78,35 +32,62 @@
  */
 typedef STONEYDSP_UINT32_T stoneydsp_uint32_t;
 
-//===================================================================//CONSTANTS
-
-  #ifdef __cplusplus
+//==============================================================================
 
 /**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint32_t`.
+ * @brief
  *
- * Equivalent to:
- *
- * `(4294967295U)`
  */
-constexpr ::stoneydsp_uint32_t stoneydsp_uint32_max = STONEYDSP_UINT32_MAX;
+  #define stoneydsp_uint32 stoneydsp_uint32_t
 
-  #else // !__cplusplus
+//==============================================================================
 
-/**
- * @brief Maximum value of exact-width unsigned type `stoneydsp_uint32_t`.
- *
- * Equivalent to:
- *
- * `(4294967295U)`
- */
-static const stoneydsp_uint32_t stoneydsp_uint32_max = STONEYDSP_UINT32_MAX;
+typedef stoneydsp_uint32 stoneydsp_uint32;
 
-  #endif // __cplusplus
+//==============================================================================
 
-//===================================================================//NAMESPACE
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint32_c (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return STONEYDSP_UINT32_C (value);
+}
 
-  #ifdef __cplusplus
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint32_max () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint32_c (
+      (stoneydsp_uint32_c (STONEYDSP_INT32_MAX))
+          * (stoneydsp_uint32_c (STONEYDSP_UINT32_LITERAL (2)))
+      + (stoneydsp_uint32_c (STONEYDSP_UINT32_LITERAL (1))));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint32_min () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint32_c (STONEYDSP_UINT32_LITERAL (0));
+}
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T
+    STONEYDSP_PUBLIC_FUNCTION
+    stoneydsp_uint32_lowest () STONEYDSP_NOEXCEPT
+{
+  return stoneydsp_uint32_min ();
+}
+
+//==============================================================================
+
+  #ifdef STONEYDSP_CXX
+
+//==============================================================================
 
 namespace stoneydsp
 {
@@ -123,47 +104,56 @@ namespace core
 namespace types
 {
 /** @addtogroup types
- *  @{
+ * @{
  */
+
+//==============================================================================
 
 /**
  * @brief
  *
  */
-using uint32_t = ::stoneydsp_uint32_t;
+using uint32_t = stoneydsp_uint32;
 
-/**
- * @brief Maximum value of exact-width unsigned type
- * `stoneydsp::core::types::uint32_t`.
- *
- * Equivalent to:
- *
- * `(4294967295U)`
- */
-constexpr ::stoneydsp::core::types::uint32_t uint32_max
-    = ::stoneydsp_uint32_max;
-
-//====================================================================//LITERALS
+//==============================================================================
 
 namespace literals
 {
 /** @addtogroup literals
- *  @{
+ * @{
  */
 
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
  *
- * @returns stoneydsp_uint32_t
+ * @return `stoneydsp::uint32_t`
  *
  */
-inline constexpr ::stoneydsp_uint32_t
-operator"" _uint32 (unsigned long long value)
+operator"" _uint32_t (char value) STONEYDSP_NOEXCEPT
 {
-  return static_cast< ::stoneydsp_uint32_t> (value);
+  return ::stoneydsp_uint32_c (value);
 }
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_UINT32_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _uint32_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_uint32_c (value);
+}
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -175,16 +165,9 @@ operator"" _uint32 (unsigned long long value)
 } //  namespace core
 
 /// @} group stoneydsp
-
-//=====================================================================//ALIASES
-
-using ::stoneydsp::core::types::uint32_t;
-
-using ::stoneydsp::core::types::uint32_max;
-
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //==============================================================================
 

@@ -61,7 +61,12 @@ main (int argc, char *argv[])
         }
     }
 
-  ::stoneydsp::test::run ();
+  int status = ::stoneydsp::test::run ();
+
+  if (status != 0)
+    {
+      return status;
+    }
 
   return EXIT_SUCCESS;
 }
