@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include "stoneydsp/core/types/ullong.h"
 
 //==============================================================================
 
@@ -15,7 +15,14 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::ullong_t;
+}
+
+//==============================================================================
+
+  #include "../../../utils.test.hpp"
 
 //================================================================//requirements
 
@@ -167,7 +174,7 @@ STONEYDSP_TEST_CASE ("[core][types][ullong_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][ullong_t][rounding]",
                      "[core][types][ullong_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::ullong_t b
       = static_cast< ::stoneydsp::ullong_t> (::std::round (a));
   STONEYDSP_REQUIRE (

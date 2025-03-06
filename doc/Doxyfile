@@ -48,7 +48,7 @@ PROJECT_NAME           = StoneyDSP
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = v0.0.887.31343931333163
+PROJECT_NUMBER         = v0.0.953.30383265313963
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -2417,6 +2417,8 @@ PREDEFINED             += "STONEYDSP_EXPERIMENTAL"
 PREDEFINED             += "STONEYDSP_BUILD_DOCS"
 PREDEFINED             += "STONEYDSP_BUILD_TEST"
 PREDEFINED             += "STONEYDSP_BUILD_CORE"
+PREDEFINED             += "STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES=0"
+PREDEFINED             += "STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES=0"
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
@@ -2608,6 +2610,30 @@ EXPAND_AS_DEFINED      += "LDBL_MIN"
 EXPAND_AS_DEFINED      += "FLT_MIN"
 EXPAND_AS_DEFINED      += "SIZE_MIN"
 EXPAND_AS_DEFINED      += "PTRDIFF_MIN"
+
+EXPAND_AS_DEFINED      += "stoneydsp_char"
+EXPAND_AS_DEFINED      += "stoneydsp_schar"
+EXPAND_AS_DEFINED      += "stoneydsp_uchar"
+EXPAND_AS_DEFINED      += "stoneydsp_int"
+EXPAND_AS_DEFINED      += "stoneydsp_uint"
+EXPAND_AS_DEFINED      += "stoneydsp_shrt"
+EXPAND_AS_DEFINED      += "stoneydsp_ushrt"
+EXPAND_AS_DEFINED      += "stoneydsp_long"
+EXPAND_AS_DEFINED      += "stoneydsp_ulong"
+EXPAND_AS_DEFINED      += "stoneydsp_llong"
+EXPAND_AS_DEFINED      += "stoneydsp_ullong"
+EXPAND_AS_DEFINED      += "stoneydsp_int8"
+EXPAND_AS_DEFINED      += "stoneydsp_uint8"
+EXPAND_AS_DEFINED      += "stoneydsp_int16"
+EXPAND_AS_DEFINED      += "stoneydsp_uint16"
+EXPAND_AS_DEFINED      += "stoneydsp_int32"
+EXPAND_AS_DEFINED      += "stoneydsp_uint32"
+EXPAND_AS_DEFINED      += "stoneydsp_int64"
+EXPAND_AS_DEFINED      += "stoneydsp_uint64"
+EXPAND_AS_DEFINED      += "stoneydsp_bool"
+EXPAND_AS_DEFINED      += "stoneydsp_double"
+EXPAND_AS_DEFINED      += "stoneydsp_ldouble"
+EXPAND_AS_DEFINED      += "stoneydsp_float"
 
 EXPAND_AS_DEFINED      += "STONEYDSP_DELETE_CONSTRUCTOR"
 EXPAND_AS_DEFINED      += "STONEYDSP_DELETE_COPY_CONSTRUCTOR"

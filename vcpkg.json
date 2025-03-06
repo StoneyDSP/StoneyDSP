@@ -1,6 +1,6 @@
 {
 	"name": "stoneydsp",
-	"version": "0.0.887.31343931333163",
+	"version": "0.0.953.30383265313963",
 	"license": "MIT",
 	"description": "The StoneyDSP Audio Library.",
 	"homepage": "https://github.com/StoneyDSP/StoneyDSP",
@@ -34,7 +34,7 @@
 			"dependencies": [
 				{
 					"name": "stoneydsp",
-					"version>=": "0.0.616.61626265633436",
+					"version>=": "0.0.953.30383265313963",
 					"default-features": true
 				},
 				{
@@ -49,7 +49,7 @@
 			"dependencies": [
 				{
 					"name": "stoneydsp",
-					"version>=": "0.0.0",
+					"version>=": "0.0.953.30383265313963",
 					"default-features": true
 				}
 			]
@@ -59,7 +59,7 @@
 			"dependencies": [
 				{
 					"name": "stoneydsp",
-					"version>=": "0.0.0",
+					"version>=": "0.0.953.30383265313963",
 					"default-features": true
 				},
 				{
@@ -74,7 +74,7 @@
 			"dependencies": [
 				{
 					"name": "stoneydsp",
-					"version>=": "0.0.0",
+					"version>=": "0.0.953.30383265313963",
 					"default-features": true,
 					"features": [
 						"catch2session"
@@ -87,7 +87,7 @@
 			"dependencies": [
 				{
 					"name": "stoneydsp",
-					"version>=": "0.0.0",
+					"version>=": "0.0.953.30383265313963",
 					"default-features": true
 				}
 			]

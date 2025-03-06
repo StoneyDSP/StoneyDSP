@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include "stoneydsp/core/types/char.h"
 
 //==============================================================================
 
@@ -15,7 +15,14 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::char_t;
+}
+
+//==============================================================================
+
+  #include "../../../utils.test.hpp"
 
 //================================================================//requirements
 
@@ -172,7 +179,7 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][char_t][rounding]",
                      "[core][types][char_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::char_t b = static_cast< ::stoneydsp::char_t> (::std::round (a));
   STONEYDSP_REQUIRE (
       b == 2); // 1.5 rounded to nearest integer and cast to char_t
