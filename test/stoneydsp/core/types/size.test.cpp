@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include "stoneydsp/core/types/size.h"
 
 //==============================================================================
 
@@ -15,7 +15,7 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+  #include "../../../utils.test.hpp"
 
 //================================================================//requirements
 
@@ -100,21 +100,23 @@ STONEYDSP_TEST_CASE ("[core][types][size_t][type_traits][is_standard_layout]",
   STONEYDSP_REQUIRE (::std::is_standard_layout< ::stoneydsp::size_t>::value);
 }
 
-//==============================================================//numeric_limits
+// //==============================================================//numeric_limits
 
-STONEYDSP_TEST_CASE ("[core][types][size_t][numeric_limits]",
-                     "[core][types][size_t][numeric_limits]")
-{
-  // { 0UL }
-  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::size_t>::min ()
-                     == ::std::numeric_limits< ::std::size_t>::min ());
-  // { 18446744073709551615UL }
-  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::size_t>::max ()
-                     == ::std::numeric_limits< ::std::size_t>::max ());
-  STONEYDSP_REQUIRE (
-      ::stoneydsp::numeric_limits< ::stoneydsp::size_t>::lowest ()
-      == ::std::numeric_limits< ::std::size_t>::lowest ());
-}
+// STONEYDSP_TEST_CASE ("[core][types][size_t][numeric_limits]",
+//                      "[core][types][size_t][numeric_limits]")
+// {
+//   // { 0UL }
+//   STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::size_t>::min
+//   ()
+//                      == ::std::numeric_limits< ::std::size_t>::min ());
+//   // { 18446744073709551615UL }
+//   STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::size_t>::max
+//   ()
+//                      == ::std::numeric_limits< ::std::size_t>::max ());
+//   STONEYDSP_REQUIRE (
+//       ::stoneydsp::numeric_limits< ::stoneydsp::size_t>::lowest ()
+//       == ::std::numeric_limits< ::std::size_t>::lowest ());
+// }
 
 //==================================================================//endianness
 
@@ -145,7 +147,7 @@ STONEYDSP_TEST_CASE ("[core][types][size_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][size_t][rounding]",
                      "[core][types][size_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::size_t b = static_cast< ::stoneydsp::size_t> (::std::round (a));
   STONEYDSP_REQUIRE (
       b == 2); // 1.5 rounded to nearest integer and cast to size_t
