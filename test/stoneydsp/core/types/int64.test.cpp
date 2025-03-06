@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include <stoneydsp/core/system/types.h>
+#include <stoneydsp/core/types/int64.h>
 
 //==============================================================================
 
@@ -15,22 +15,14 @@
 
 //==============================================================================
 
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::int64_t;
+}
+
+//==============================================================================
+
   #include "../../../utils.test.hpp"
-
-  #if defined(STONEYDSP_WINDOWS) || defined(STONEYDSP_32BIT)
-
-    #include <stoneydsp/core/types/llong.h> // for numerical_limits<llong_t>
-
-  #elif (defined(STONEYDSP_LINUX) || defined(STONEYDSP_MAC))                  \
-      && (defined(STONEYDSP_64BIT) || defined(STONEYDSP_ARM))
-
-    #include <stoneydsp/core/types/long.h> // for numerical_limits<long_t>
-
-  #else
-
-    #error unable to determine a suitable template for numerical_limits<int64_t>
-
-  #endif
 
 //======================================================================//sizeof
 
