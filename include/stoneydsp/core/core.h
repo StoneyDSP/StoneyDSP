@@ -187,6 +187,36 @@ extern char const *stoneydsp_version;
 
 //==============================================================================
 
+  #include "stoneydsp/core/types/int8.h"
+
+  #include "stoneydsp/core/types/int16.h"
+
+  #include "stoneydsp/core/types/int32.h"
+
+  #include "stoneydsp/core/types/int64.h"
+
+//==============================================================================
+
+  #include "stoneydsp/core/types/uint8.h"
+
+  #include "stoneydsp/core/types/uint16.h"
+
+  #include "stoneydsp/core/types/uint32.h"
+
+  #include "stoneydsp/core/types/uint64.h"
+
+//==============================================================================
+
+  #ifndef STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES
+    #define STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES 0
+  #endif
+
+  #ifndef STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES
+    #define STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES 1
+  #endif
+
+//==============================================================================
+
   #ifdef STONEYDSP_CXX
 
 namespace stoneydsp
@@ -206,6 +236,88 @@ ignoreUnused (Types &&...) STONEYDSP_NOEXCEPT
 {
   return;
 }
+
+  //=====================================================================//ALIASES
+
+    #if STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES
+
+/** @brief */
+using ::stoneydsp::core::types::bool_t;
+
+/** @brief */
+using ::stoneydsp::core::types::double_t;
+
+/** @brief */
+using ::stoneydsp::core::types::float_t;
+
+/** @brief */
+using ::stoneydsp::core::types::char_t;
+
+/** @brief */
+using ::stoneydsp::core::types::schar_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uchar_t;
+
+/** @brief */
+using ::stoneydsp::core::types::shrt_t;
+
+/** @brief */
+using ::stoneydsp::core::types::ushrt_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint_t;
+
+/** @brief */
+using ::stoneydsp::core::types::long_t;
+
+/** @brief */
+using ::stoneydsp::core::types::ulong_t;
+
+/** @brief */
+using ::stoneydsp::core::types::llong_t;
+
+/** @brief */
+using ::stoneydsp::core::types::ullong_t;
+
+    #endif // STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES
+
+  //==============================================================================
+
+    #if STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES
+
+/** @brief */
+using ::stoneydsp::core::types::int8_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int16_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int32_t;
+
+/** @brief */
+using ::stoneydsp::core::types::int64_t;
+
+//==============================================================================
+
+/** @brief */
+using ::stoneydsp::core::types::uint8_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint16_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint32_t;
+
+/** @brief */
+using ::stoneydsp::core::types::uint64_t;
+
+    #endif // STONEYDSP_CORE_NS_USE_FIXED_TYPE_ALIASES
+
+//==============================================================================
 
 /// @} group stoneydsp
 } // namespace stoneydsp
