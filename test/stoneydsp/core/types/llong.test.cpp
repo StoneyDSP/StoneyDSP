@@ -1,5 +1,5 @@
 /**
- * @file long.test.cpp
+ * @file llong.test.cpp
  * @brief Test suite for stoneydsp::llong_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include "stoneydsp/core/types/llong.h"
 
 //==============================================================================
 
@@ -15,7 +15,14 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::llong_t;
+}
+
+//==============================================================================
+
+  #include "../../../utils.test.hpp"
 
 //================================================================//requirements
 
@@ -172,7 +179,7 @@ STONEYDSP_TEST_CASE ("[core][types][llong_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][llong_t][rounding]",
                      "[core][types][llong_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::llong_t b
       = static_cast< ::stoneydsp::llong_t> (::std::round (a));
   STONEYDSP_REQUIRE (
