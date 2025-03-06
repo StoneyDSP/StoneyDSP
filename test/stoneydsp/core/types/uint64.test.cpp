@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include <stoneydsp/core/system/types.h>
 
 //==============================================================================
 
@@ -15,7 +15,22 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+  #include "../../../utils.test.hpp"
+
+  #if defined(STONEYDSP_WINDOWS) || defined(STONEYDSP_32BIT)
+
+    #include <stoneydsp/core/types/ullong.h> // for numerical_limits<llong_t>
+
+  #elif (defined(STONEYDSP_LINUX) || defined(STONEYDSP_MAC))                  \
+      && (defined(STONEYDSP_64BIT) || defined(STONEYDSP_ARM))
+
+    #include <stoneydsp/core/types/ulong.h> // for numerical_limits<long_t>
+
+  #else
+
+    #error unable to determine a suitable template for numerical_limits<uint64_t>
+
+  #endif
 
 //======================================================================//sizeof
 
@@ -150,7 +165,7 @@ STONEYDSP_TEST_CASE ("[core][types][uint64_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][uint64_t][rounding]",
                      "[core][types][uint64_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::uint64_t b
       = static_cast< ::stoneydsp::uint64_t> (::std::round (a));
   STONEYDSP_REQUIRE (
