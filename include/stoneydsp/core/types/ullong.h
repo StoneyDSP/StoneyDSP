@@ -28,6 +28,18 @@ typedef STONEYDSP_ULLONG_T stoneydsp_ullong_t;
 
 //==============================================================================
 
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_ullong stoneydsp_ullong_t
+
+//==============================================================================
+
+typedef stoneydsp_ullong stoneydsp_ullong;
+
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
@@ -41,6 +53,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T
   return STONEYDSP_ULLONG_C (value);
 }
 
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
@@ -50,10 +64,13 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T
      */
     stoneydsp_ullong_max () STONEYDSP_NOEXCEPT
 {
-  return stoneydsp_ullong_c ((stoneydsp_ullong_c (STONEYDSP_LLONG_MAX))
-                                 * (STONEYDSP_ULLONG_LITERAL (2))
-                             + (STONEYDSP_ULLONG_LITERAL (1)));
+  return stoneydsp_ullong_c (
+      (stoneydsp_ullong_c (STONEYDSP_LLONG_MAX))
+          * (stoneydsp_ullong_c (STONEYDSP_ULLONG_LITERAL (2)))
+      + (stoneydsp_ullong_c (STONEYDSP_ULLONG_LITERAL (1))));
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -66,6 +83,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T
 {
   return stoneydsp_ullong_c (STONEYDSP_ULLONG_LITERAL (0));
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -109,7 +128,7 @@ namespace types
  * @brief
  *
  */
-using ullong_t = ::stoneydsp_ullong_t;
+using ullong_t = stoneydsp_ullong;
 
 //==============================================================================
 
@@ -118,6 +137,8 @@ namespace literals
 /** @addtogroup literals
  * @{
  */
+
+//==============================================================================
 
 STONEYDSP_INLINE
 STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
@@ -132,6 +153,8 @@ operator"" _ullong_t (char value) STONEYDSP_NOEXCEPT
   return ::stoneydsp_ullong_c (value);
 }
 
+//==============================================================================
+
 STONEYDSP_INLINE
 STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
 /**
@@ -144,6 +167,8 @@ operator"" _ullong_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ullong_c (value);
 }
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -184,18 +209,8 @@ STONEYDSP_ALIGN (alignof (STONEYDSP_ULLONG_T))
 
 //==============================================================================
 
-/**
- * @brief
- *
- */
-using ullong_t = ::stoneydsp::core::types::ullong_t;
-
-//==============================================================================
-
 /// @} group stoneydsp
 } //  namespace stoneydsp
-
-  //==============================================================================
 
   #endif // STONEYDSP_CXX
 

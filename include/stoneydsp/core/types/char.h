@@ -28,6 +28,18 @@ typedef STONEYDSP_CHAR_T stoneydsp_char_t;
 
 //==============================================================================
 
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_char stoneydsp_char_t
+
+//==============================================================================
+
+typedef stoneydsp_char stoneydsp_char;
+
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
@@ -41,6 +53,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T
 {
   return STONEYDSP_CHAR_C (value);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -63,12 +77,16 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T
   return stoneydsp_char_c (STONEYDSP_CHAR_MAX);
 }
 
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T
     STONEYDSP_PUBLIC_FUNCTION
     stoneydsp_char_min () STONEYDSP_NOEXCEPT
 {
   return stoneydsp_char_c (STONEYDSP_CHAR_MIN);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -107,7 +125,7 @@ namespace types
  * @brief
  *
  */
-using char_t = ::stoneydsp_char_t;
+using char_t = stoneydsp_char;
 
 //==============================================================================
 
@@ -116,6 +134,8 @@ namespace literals
 /** @addtogroup literals
  * @{
  */
+
+//==============================================================================
 
 STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
 /**
@@ -131,6 +151,8 @@ operator"" _char_t (char value) STONEYDSP_NOEXCEPT
   return ::stoneydsp_char_c (value);
 }
 
+//==============================================================================
+
 STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_CHAR_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
@@ -140,6 +162,8 @@ operator"" _char_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_char_c (value);
 }
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -221,18 +245,8 @@ STONEYDSP_ALIGN (alignof (STONEYDSP_CHAR_T)) numeric_limits<STONEYDSP_CHAR_T>
 
 //==============================================================================
 
-/**
- * @brief
- *
- */
-using char_t = ::stoneydsp::core::types::char_t;
-
-//==============================================================================
-
 /// @} group stoneydsp
 } //  namespace stoneydsp
-
-  //==============================================================================
 
   #endif // STONEYDSP_CXX
 

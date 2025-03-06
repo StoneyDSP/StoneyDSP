@@ -28,6 +28,18 @@ typedef STONEYDSP_BOOL_T stoneydsp_bool_t;
 
 //==============================================================================
 
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_bool stoneydsp_bool_t
+
+//==============================================================================
+
+typedef stoneydsp_bool stoneydsp_bool;
+
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T
     STONEYDSP_PUBLIC_FUNCTION
     stoneydsp_bool_c (STONEYDSP_BOOL_T value) STONEYDSP_NOEXCEPT
@@ -98,7 +110,7 @@ namespace types
  * @brief
  *
  */
-using bool_t = ::stoneydsp_bool_t;
+using bool_t = stoneydsp_bool;
 
 //==============================================================================
 
@@ -200,14 +212,6 @@ STONEYDSP_ALIGN (alignof (STONEYDSP_BOOL_T)) numeric_limits<STONEYDSP_BOOL_T>
   }
 
 } STONEYDSP_PACKED_STRUCT_END;
-
-//==============================================================================
-
-/**
- * @brief
- *
- */
-using bool_t = ::stoneydsp::core::types::bool_t;
 
 //==============================================================================
 

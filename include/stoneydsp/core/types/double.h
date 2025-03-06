@@ -28,12 +28,26 @@ typedef STONEYDSP_DBL_T stoneydsp_double_t;
 
 //==============================================================================
 
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_double stoneydsp_double_t
+
+//==============================================================================
+
+typedef stoneydsp_double stoneydsp_double;
+
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_DBL_T
     STONEYDSP_PUBLIC_FUNCTION
     stoneydsp_double_c (double value) STONEYDSP_NOEXCEPT
 {
   return STONEYDSP_DBL_C (value);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_DBL_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -48,6 +62,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_DBL_T
 {
   return stoneydsp_double_c (STONEYDSP_DBL_MIN);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_DBL_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -86,28 +102,32 @@ namespace types
  * @brief
  *
  */
-using double_t = ::stoneydsp_double_t;
+using double_t = stoneydsp_double;
 
 //==============================================================================
 
 namespace literals
 {
-  /** @addtogroup literals
-   * @{
-   */
+/** @addtogroup literals
+ * @{
+ */
 
-	 STONEYDSP_INLINE
-	 STONEYDSP_CONSTEXPR STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
-	 /**
-		* @brief
-		*
-		*/
-	 operator"" _double_t (long double value) STONEYDSP_NOEXCEPT
-	 {
-		 return ::stoneydsp_double_c (value);
-	 }
+//==============================================================================
 
-	/// @} literals
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _double_t (long double value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_double_c (value);
+}
+
+//==============================================================================
+
+/// @} literals
 } // namespace literals
 
 /// @} types
@@ -117,7 +137,6 @@ namespace literals
 } //  namespace core
 
 //==============================================================================
-
 
 template <>
 STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
@@ -146,23 +165,13 @@ STONEYDSP_ALIGN (alignof (STONEYDSP_DBL_T)) numeric_limits<STONEYDSP_DBL_T>
 
 //==============================================================================
 
-/**
- * @brief
- *
- */
-using double_t = ::stoneydsp::core::types::double_t;
-
-//==============================================================================
-
 /// @} group stoneydsp
 } //  namespace stoneydsp
-
-  //==============================================================================
 
   #endif // STONEYDSP_CXX
 
 //==============================================================================
 
-  #endif // STONEYDSP_CORE_TYPES_DBL_H_INCLUDED
+#endif // STONEYDSP_CORE_TYPES_DBL_H_INCLUDED
 
 //=========================================================================//EOF

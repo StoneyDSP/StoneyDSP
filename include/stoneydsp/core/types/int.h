@@ -28,6 +28,18 @@ typedef STONEYDSP_INT_T stoneydsp_int_t;
 
 //==============================================================================
 
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_int stoneydsp_int_t
+
+//==============================================================================
+
+typedef stoneydsp_int stoneydsp_int;
+
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
@@ -40,6 +52,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
 {
   return STONEYDSP_INT_C (value);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -61,6 +75,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
   return stoneydsp_int_c (STONEYDSP_INT_MAX);
 }
 
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
@@ -81,6 +97,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
   return stoneydsp_int_c (stoneydsp_int_c (-stoneydsp_int_max ()))
          - (stoneydsp_int_c (1));
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -132,7 +150,7 @@ namespace types
  * @brief
  *
  */
-using int_t = ::stoneydsp_int_t;
+using int_t = stoneydsp_int;
 
 //==============================================================================
 
@@ -141,6 +159,8 @@ namespace literals
 /** @addtogroup literals
  * @{
  */
+
+//==============================================================================
 
 STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
 /**
@@ -155,6 +175,8 @@ operator"" _int_t (char value) STONEYDSP_NOEXCEPT
   return ::stoneydsp_int_c (value);
 }
 
+//==============================================================================
+
 STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
@@ -166,6 +188,8 @@ operator"" _int_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_int_c (value);
 }
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -254,18 +278,8 @@ public:
 
 //==============================================================================
 
-/**
- * @brief
- *
- */
-using int_t = ::stoneydsp::core::types::int_t;
-
-//==============================================================================
-
 /// @} group stoneydsp
 } //  namespace stoneydsp
-
-  //==============================================================================
 
   #endif // STONEYDSP_CXX
 

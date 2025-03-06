@@ -1,5 +1,5 @@
 /**
- * @file ldouble.h
+ * @file int64.h
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
@@ -11,8 +11,8 @@
 
 #pragma once
 
-#ifndef STONEYDSP_CORE_TYPES_LDBL_H_INCLUDED
-  #define STONEYDSP_CORE_TYPES_LDBL_H_INCLUDED
+#ifndef STONEYDSP_CORE_TYPES_INT64_H_INCLUDED
+  #define STONEYDSP_CORE_TYPES_INT64_H_INCLUDED
 
 //==============================================================================
 
@@ -20,11 +20,28 @@
 
 //==============================================================================
 
+  #if defined(STONEYDSP_WINDOWS) || defined(STONEYDSP_32BIT)
+
+    #include "../../../stoneydsp/core/types/llong.h" // for numerical_limits<llong_t>
+
+  #elif (defined(STONEYDSP_LINUX) || defined(STONEYDSP_MAC))                  \
+      && (defined(STONEYDSP_64BIT) || defined(STONEYDSP_ARM))
+
+    #include "../../../stoneydsp/core/types/long.h" // for numerical_limits<long_t>
+
+  #else
+
+    #error unable to determine a suitable template for numerical_limits<int64_t>
+
+  #endif
+
+//==============================================================================
+
 /**
  * @brief
  *
  */
-typedef STONEYDSP_LDBL_T stoneydsp_ldouble_t;
+typedef STONEYDSP_INT64_T stoneydsp_int64_t;
 
 //==============================================================================
 
@@ -32,67 +49,60 @@ typedef STONEYDSP_LDBL_T stoneydsp_ldouble_t;
    * @brief
    *
    */
-  #define stoneydsp_ldouble stoneydsp_ldouble_t
+  #define stoneydsp_int64 stoneydsp_int64_t
 
 //==============================================================================
 
-typedef stoneydsp_ldouble stoneydsp_ldouble;
+typedef stoneydsp_int64 stoneydsp_int64;
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT64_T
     STONEYDSP_PUBLIC_FUNCTION
-    /**
-     * @brief
-     *
-     * @param value
-     * @return `stoneydsp_ldouble_t`
-     */
-    stoneydsp_ldouble_c (long double value) STONEYDSP_NOEXCEPT
+    stoneydsp_int64_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
-  return STONEYDSP_LDBL_C (value);
+  return (STONEYDSP_INT64_C (value));
 }
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT64_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
      * @brief
      *
-     * @return `stoneydsp_ldouble_t`
+     * @return `stoneydsp_int64_t`
+     *
      */
-    stoneydsp_ldouble_max () STONEYDSP_NOEXCEPT
+    stoneydsp_int64_max () STONEYDSP_NOEXCEPT
 {
-  return stoneydsp_ldouble_c (STONEYDSP_LDBL_MAX);
+  return stoneydsp_int64_c (STONEYDSP_INT64_MAX);
 }
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT64_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
      * @brief
      *
-     * @return `stoneydsp_ldouble_t`
+     * @return `stoneydsp_int64_t`
+     *
      */
-    stoneydsp_ldouble_min () STONEYDSP_NOEXCEPT
+    stoneydsp_int64_min () STONEYDSP_NOEXCEPT
 {
-  return stoneydsp_ldouble_c (STONEYDSP_LDBL_MIN);
+  return stoneydsp_int64_c (
+      (-stoneydsp_int64_max ())
+      - (stoneydsp_int64_c (STONEYDSP_INT64_LITERAL (1))));
 }
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT64_T
     STONEYDSP_PUBLIC_FUNCTION
-    /**
-     * @brief
-     *
-     * @return `stoneydsp_ldouble_t`
-     */
-    stoneydsp_ldouble_lowest () STONEYDSP_NOEXCEPT
+    stoneydsp_int64_lowest () STONEYDSP_NOEXCEPT
 {
-  return stoneydsp_ldouble_c (-STONEYDSP_LDBL_MAX);
+  return stoneydsp_int64_min ();
 }
 
 //==============================================================================
@@ -125,7 +135,7 @@ namespace types
  * @brief
  *
  */
-using ldouble_t = stoneydsp_ldouble;
+using int64_t = stoneydsp_int64;
 
 //==============================================================================
 
@@ -138,16 +148,31 @@ namespace literals
 //==============================================================================
 
 STONEYDSP_INLINE
-STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T STONEYDSP_PUBLIC_FUNCTION
+STONEYDSP_CONSTEXPR STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
- * @return `stoneydsp::ldouble_t`
+ *
+ * @return `stoneydsp::int64_t`
+ *
  */
-operator"" _ldouble_t (long double value) STONEYDSP_NOEXCEPT
+operator"" _int64_t (char value) STONEYDSP_NOEXCEPT
 {
-  return ::stoneydsp_ldouble_c (value);
+  return ::stoneydsp_int64_c (value);
+}
+
+//==============================================================================
+
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_INT64_T STONEYDSP_PUBLIC_FUNCTION
+/**
+ * @brief
+ *
+ */
+operator"" _int64_t (unsigned long long value) STONEYDSP_NOEXCEPT
+{
+  return ::stoneydsp_int64_c (value);
 }
 
 //==============================================================================
@@ -161,42 +186,13 @@ operator"" _ldouble_t (long double value) STONEYDSP_NOEXCEPT
 /// @} group core
 } //  namespace core
 
-//==============================================================================
-
-template <>
-STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
-STONEYDSP_ALIGN (alignof (STONEYDSP_LDBL_T)) numeric_limits<STONEYDSP_LDBL_T>
-{
-
-  STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T STONEYDSP_API
-  max () STONEYDSP_NOEXCEPT
-  {
-    return ::stoneydsp_ldouble_max ();
-  }
-
-  STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T STONEYDSP_API
-  min () STONEYDSP_NOEXCEPT
-  {
-    return ::stoneydsp_ldouble_min ();
-  }
-
-  STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T STONEYDSP_API
-  lowest () STONEYDSP_NOEXCEPT
-  {
-    return ::stoneydsp_ldouble_lowest ();
-  }
-
-} STONEYDSP_PACKED_STRUCT_END;
-
-//==============================================================================
-
 /// @} group stoneydsp
-} //  namespace stoneydsp
+} // namespace stoneydsp
 
   #endif // STONEYDSP_CXX
 
 //==============================================================================
 
-#endif // STONEYDSP_CORE_TYPES_LDBL_H_INCLUDED
+#endif // STONEYDSP_CORE_TYPES_INT64_H_INCLUDED
 
 //=========================================================================//EOF

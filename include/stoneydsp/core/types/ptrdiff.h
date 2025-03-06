@@ -41,6 +41,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T
   return STONEYDSP_PTRDIFF_C (value);
 }
 
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
@@ -52,6 +54,8 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T
 {
   return stoneydsp_ptrdiff_c (STONEYDSP_PTRDIFF_MIN);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -105,6 +109,8 @@ namespace literals
  * @{
  */
 
+//==============================================================================
+
 STONEYDSP_INLINE
 STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
 /**
@@ -118,6 +124,8 @@ operator"" _ptrdiff_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ptrdiff_c (value);
 }
+
+//==============================================================================
 
 STONEYDSP_INLINE
 STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
@@ -133,6 +141,8 @@ operator"" _ptrdiff_t (unsigned long long value) STONEYDSP_NOEXCEPT
   return ::stoneydsp_ptrdiff_c (value);
 }
 
+//==============================================================================
+
 /// @} literals
 } // namespace literals
 
@@ -142,20 +152,8 @@ operator"" _ptrdiff_t (unsigned long long value) STONEYDSP_NOEXCEPT
 /// @} group core
 } //  namespace core
 
-//==============================================================================
-
-/**
- * @brief
- *
- */
-using ptrdiff_t = ::stoneydsp::core::types::ptrdiff_t;
-
-//==============================================================================
-
 /// @} group stoneydsp
 } //  namespace stoneydsp
-
-  //==============================================================================
 
   #endif // STONEYDSP_CXX
 

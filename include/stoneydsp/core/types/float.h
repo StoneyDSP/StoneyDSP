@@ -28,12 +28,26 @@ typedef STONEYDSP_FLT_T stoneydsp_float_t;
 
 //==============================================================================
 
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_float stoneydsp_float_t
+
+//==============================================================================
+
+typedef stoneydsp_float stoneydsp_float;
+
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_FLT_T
     STONEYDSP_PUBLIC_FUNCTION
     stoneydsp_float_c (float value) STONEYDSP_NOEXCEPT
 {
   return STONEYDSP_FLT_C (value);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_FLT_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -42,12 +56,16 @@ STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_FLT_T
   return stoneydsp_float_c (STONEYDSP_FLT_MAX);
 }
 
+//==============================================================================
+
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_FLT_T
     STONEYDSP_PUBLIC_FUNCTION
     stoneydsp_float_min () STONEYDSP_NOEXCEPT
 {
   return stoneydsp_float_c (STONEYDSP_FLT_MIN);
 }
+
+//==============================================================================
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_FLT_T
     STONEYDSP_PUBLIC_FUNCTION
@@ -86,7 +104,7 @@ namespace types
  * @brief
  *
  */
-using float_t = ::stoneydsp_float_t;
+using float_t = stoneydsp_float;
 
 //==============================================================================
 
@@ -95,6 +113,8 @@ namespace literals
 /** @addtogroup literals
  * @{
  */
+
+//==============================================================================
 
 STONEYDSP_INLINE
 STONEYDSP_CONSTEXPR STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
@@ -106,6 +126,8 @@ operator"" _float_t (long double value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_float_c (value);
 }
+
+//==============================================================================
 
 /// @} literals
 } // namespace literals
@@ -145,18 +167,8 @@ STONEYDSP_ALIGN (alignof (STONEYDSP_FLT_T)) numeric_limits<STONEYDSP_FLT_T>
 
 //==============================================================================
 
-/**
- * @brief
- *
- */
-using float_t = ::stoneydsp::core::types::float_t;
-
-//==============================================================================
-
 /// @} group stoneydsp
 } //  namespace stoneydsp
-
-  //==============================================================================
 
   #endif // STONEYDSP_CXX
 

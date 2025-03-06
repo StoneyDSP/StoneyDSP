@@ -1,5 +1,5 @@
 /**
- * @file size.h
+ * @file int16.h
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @brief
  * @version @STONEYDSP_CORE_VERSION@
@@ -11,8 +11,8 @@
 
 #pragma once
 
-#ifndef STONEYDSP_CORE_TYPES_SIZE_H_INCLUDED
-  #define STONEYDSP_CORE_TYPES_SIZE_H_INCLUDED
+#ifndef STONEYDSP_CORE_TYPES_INT16_H_INCLUDED
+  #define STONEYDSP_CORE_TYPES_INT16_H_INCLUDED
 
 //==============================================================================
 
@@ -20,69 +20,94 @@
 
 //==============================================================================
 
+  #ifndef STONEYDSP_CORE_TYPES_SHRT_H_INCLUDED
+    #include "../../../stoneydsp/core/types/shrt.h" // for numerical_limits<shrt_t>
+  #endif
+
+//==============================================================================
+
 /**
  * @brief
  *
  */
-typedef STONEYDSP_SIZE_T stoneydsp_size_t;
+typedef STONEYDSP_INT16_T stoneydsp_int16_t;
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+  /**
+   * @brief
+   *
+   */
+  #define stoneydsp_int16 stoneydsp_int16_t
+
+//==============================================================================
+
+typedef stoneydsp_int16 stoneydsp_int16;
+
+//==============================================================================
+
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT16_T
     STONEYDSP_PUBLIC_FUNCTION
-    /**
-     * @brief
-     *
-     * @param value
-     * @return `stoneydsp_size_t`
-     */
-    stoneydsp_size_c (unsigned long long value) STONEYDSP_NOEXCEPT
+    stoneydsp_int16_c (unsigned long long value) STONEYDSP_NOEXCEPT
 {
-  return STONEYDSP_SIZE_C (value);
+  return STONEYDSP_INT16_C (value);
 }
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT16_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
      * @brief
      *
-     * @return `stoneydsp_size_t`
+     * Equivalent to:
+     *
+     * - dec: `32767`
+     *
+     * - oct: `077777`
+     *
+     * - hex: `0x7FFF`
+     *
+     * @return `stoneydsp_int16_t`
+     *
      */
-    stoneydsp_size_max () STONEYDSP_NOEXCEPT
+    stoneydsp_int16_max () STONEYDSP_NOEXCEPT
 {
-  return stoneydsp_size_c ((stoneydsp_size_c (STONEYDSP_SIZE_MAX))
-                               * (stoneydsp_size_c (2UL))
-                           + (stoneydsp_size_c (1UL)));
+  return stoneydsp_int16_c (STONEYDSP_INT16_MAX);
 }
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT16_T
     STONEYDSP_PUBLIC_FUNCTION
     /**
      * @brief
      *
-     * @return `stoneydsp_size_t`
+     * Equivalent to:
+     *
+     * - dec: `-32768`
+     *
+     * - oct: `-0100000`
+     *
+     * - hex: `-0x8000`
+     *
+     * @return `stoneydsp_int16_t`
+     *
      */
-    stoneydsp_size_min () STONEYDSP_NOEXCEPT
+    stoneydsp_int16_min () STONEYDSP_NOEXCEPT
 {
-  return stoneydsp_size_c (STONEYDSP_SIZE_LITERAL (0));
+  return stoneydsp_int16_c (
+      (-stoneydsp_int16_max ())
+      - (stoneydsp_int16_c (STONEYDSP_INT16_LITERAL (0x0001))));
 }
 
 //==============================================================================
 
-STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T
+STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_INT16_T
     STONEYDSP_PUBLIC_FUNCTION
-    /**
-     * @brief
-     *
-     * @return `stoneydsp_size_t`
-     */
-    stoneydsp_size_lowest () STONEYDSP_NOEXCEPT
+    stoneydsp_int16_lowest () STONEYDSP_NOEXCEPT
 {
-  return stoneydsp_size_c (0U);
+  return stoneydsp_int16_min ();
 }
 
 //==============================================================================
@@ -115,7 +140,7 @@ namespace types
  * @brief
  *
  */
-using size_t = ::stoneydsp_size_t;
+using int16_t = stoneydsp_int16;
 
 //==============================================================================
 
@@ -127,30 +152,32 @@ namespace literals
 
 //==============================================================================
 
-STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
- * @return `stoneydsp::size_t`
+ * @return `stoneydsp::int16_t`
  */
-operator"" _size_t (char value) STONEYDSP_NOEXCEPT
+operator"" _int16_t (char value) STONEYDSP_NOEXCEPT
 {
-  return ::stoneydsp_size_c (value);
+  return ::stoneydsp_int16_c (value);
 }
 
 //==============================================================================
 
-STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SIZE_T STONEYDSP_PUBLIC_FUNCTION
+STONEYDSP_INLINE
+STONEYDSP_CONSTEXPR STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
 /**
  * @brief
  *
  * @param value
- * @return `stoneydsp::size_t`
+ * @return `stoneydsp::int16_t`
  */
-operator"" _size_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator"" _int16_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
-  return ::stoneydsp_size_c (value);
+  return ::stoneydsp_int16_c (value);
 }
 
 //==============================================================================
@@ -171,6 +198,6 @@ operator"" _size_t (unsigned long long value) STONEYDSP_NOEXCEPT
 
 //==============================================================================
 
-#endif // STONEYDSP_CORE_TYPES_SIZE_H_INCLUDED
+#endif // STONEYDSP_CORE_TYPES_INT16_H_INCLUDED
 
 //=========================================================================//EOF
