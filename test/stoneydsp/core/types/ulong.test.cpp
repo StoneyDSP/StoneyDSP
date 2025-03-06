@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include "stoneydsp/core/types/ulong.h"
 
 //==============================================================================
 
@@ -15,7 +15,7 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+  #include "../../../utils.test.hpp"
 
 //================================================================//requirements
 
@@ -172,7 +172,7 @@ STONEYDSP_TEST_CASE ("[core][types][ulong_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][ulong_t][rounding]",
                      "[core][types][ulong_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::ulong_t b
       = static_cast< ::stoneydsp::ulong_t> (::std::round (a));
   STONEYDSP_REQUIRE (
