@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include "stoneydsp/core/types/uint.h"
 
 //==============================================================================
 
@@ -15,7 +15,14 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::uint_t;
+}
+
+//==============================================================================
+
+  #include "../../../utils.test.hpp"
 
 //================================================================//requirements
 
@@ -159,7 +166,7 @@ STONEYDSP_TEST_CASE ("[core][types][uint_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][uint_t][rounding]",
                      "[core][types][uint_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::uint_t b = static_cast< ::stoneydsp::uint_t> (::std::round (a));
   STONEYDSP_REQUIRE (
       b == 2); // 1.5 rounded to nearest integer and cast to uint_t
