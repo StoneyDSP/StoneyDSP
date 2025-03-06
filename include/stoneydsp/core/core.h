@@ -151,6 +151,42 @@ extern char const *stoneydsp_version;
 
 //==============================================================================
 
+  #include "stoneydsp/core/types/char.h"
+
+  #include "stoneydsp/core/types/schar.h"
+
+  #include "stoneydsp/core/types/uchar.h"
+
+  #include "stoneydsp/core/types/shrt.h"
+
+  #include "stoneydsp/core/types/ushrt.h"
+
+  #include "stoneydsp/core/types/int.h"
+
+  #include "stoneydsp/core/types/uint.h"
+
+  #include "stoneydsp/core/types/long.h"
+
+  #include "stoneydsp/core/types/ulong.h"
+
+  #include "stoneydsp/core/types/llong.h"
+
+  #include "stoneydsp/core/types/ullong.h"
+
+  #include "stoneydsp/core/types/double.h"
+
+  #include "stoneydsp/core/types/ldouble.h"
+
+  #include "stoneydsp/core/types/float.h"
+
+  #include "stoneydsp/core/types/bool.h"
+
+  #include "stoneydsp/core/types/size.h"
+
+  #include "stoneydsp/core/types/ptrdiff.h"
+
+//==============================================================================
+
   #ifdef STONEYDSP_CXX
 
 namespace stoneydsp
