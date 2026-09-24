@@ -17,9 +17,9 @@ set(_stoneydsp_simd_script_version "${_version}" CACHE INTERNAL "Current 'stoney
 set(_stoneydsp_simd_script_file "${CMAKE_CURRENT_LIST_FILE}" CACHE INTERNAL "Path to current 'stoneydsp-simd.cmake' script")
 
 #[============================[stoneydsp_add_simd]============================]
+include(CMakeDependentOption)
 cmake_dependent_option(STONEYDSP_SIMD_TARGET_INSTALL "Notes" ON "STONEYDSP_BUILD_SIMD" ON)
 cmake_dependent_option(STONEYDSP_SIMD_TARGET_EXPORT "Notes" ON "STONEYDSP_BUILD_SIMD" ON)
-include(CMakeDependentOption)
 
 #[==[
 Adds target: `stoneydsp::simd`
@@ -115,6 +115,8 @@ function(stoneydsp_add_simd)
 
     set_target_properties(${STONEYDSP_SIMD_TARGET_NAME}
         PROPERTIES
+
+        EXPORT_NAME "SIMD"
 
         VERSION "${STONEYDSP_SIMD_VERSION}"
         SOVERSION "${STONEYDSP_SIMD_VERSION_MAJOR}"
@@ -283,7 +285,7 @@ function(stoneydsp_add_simd)
         # Install export set
         install(EXPORT ${STONEYDSP_SIMD_TARGET_NAME}Install
             FILE "${STONEYDSP_SLUG}-${STONEYDSP_SIMD_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
             DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${STONEYDSP_BRAND}"
         )
     endif()
@@ -291,15 +293,9 @@ function(stoneydsp_add_simd)
     if(STONEYDSP_SIMD_TARGET_EXPORT)
         # Generate export set
         export(
-            SETUP ${STONEYDSP_SIMD_TARGET_NAME}Export
-            TARGET ${STONEYDSP_SIMD_TARGET_NAME}
-        )
-
-        # Install export set
-        export(
-            EXPORT ${STONEYDSP_SIMD_TARGET_NAME}Export
+            TARGETS ${STONEYDSP_SIMD_TARGET_NAME}
             FILE "lib/cmake/${STONEYDSP_BRAND}/${STONEYDSP_SLUG}-${STONEYDSP_SIMD_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
         )
     endif()
 

@@ -17,9 +17,9 @@ set(_stoneydsp_dsp_script_version "${_version}" CACHE INTERNAL "Current 'stoneyd
 set(_stoneydsp_dsp_script_file "${CMAKE_CURRENT_LIST_FILE}" CACHE INTERNAL "Path to current 'stoneydsp-dsp.cmake' script")
 
 #[============================[stoneydsp_add_dsp]============================]
+include(CMakeDependentOption)
 cmake_dependent_option(STONEYDSP_DSP_TARGET_INSTALL "Notes" ON "STONEYDSP_BUILD_DSP" ON)
 cmake_dependent_option(STONEYDSP_DSP_TARGET_EXPORT "Notes" ON "STONEYDSP_BUILD_DSP" ON)
-include(CMakeDependentOption)
 
 #[==[
 Adds target: `stoneydsp::dsp`
@@ -35,12 +35,14 @@ function(stoneydsp_add_dsp)
 
     # dsp.h|cpp
     set(STONEYDSP_DSP_H_FILE "${STONEYDSP_INCLUDE_DIR}/${STONEYDSP_SLUG}/${STONEYDSP_DSP_TARGET_NAME}/${STONEYDSP_DSP_TARGET_NAME}.h")
+    set(STONEYDSP_DSP_WIDGETS_GAIN_H_FILE "${STONEYDSP_INCLUDE_DIR}/${STONEYDSP_SLUG}/${STONEYDSP_DSP_TARGET_NAME}/widgets/gain.h")
     set(STONEYDSP_DSP_CPP_FILE "${STONEYDSP_SRC_DIR}/${STONEYDSP_SLUG}/${STONEYDSP_DSP_TARGET_NAME}/${STONEYDSP_DSP_TARGET_NAME}.cpp")
 
     # List header files (public)
     set(STONEYDSP_DSP_HEADER_FILES)
     list(APPEND STONEYDSP_DSP_HEADER_FILES
         ${STONEYDSP_DSP_H_FILE}
+        ${STONEYDSP_DSP_WIDGETS_GAIN_H_FILE}
     )
 
     # List source files (private)
@@ -71,6 +73,8 @@ function(stoneydsp_add_dsp)
 
     set_target_properties(${STONEYDSP_DSP_TARGET_NAME}
         PROPERTIES
+
+        EXPORT_NAME "DSP"
 
         VERSION "${STONEYDSP_DSP_VERSION}"
         SOVERSION "${STONEYDSP_DSP_VERSION_MAJOR}"
@@ -137,7 +141,7 @@ function(stoneydsp_add_dsp)
         # Install export set
         install(EXPORT ${STONEYDSP_DSP_TARGET_NAME}Install
             FILE "${STONEYDSP_SLUG}-${STONEYDSP_DSP_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
             DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${STONEYDSP_BRAND}"
         )
     endif()
@@ -145,15 +149,9 @@ function(stoneydsp_add_dsp)
     if(STONEYDSP_DSP_TARGET_EXPORT)
         # Generate export set
         export(
-            SETUP ${STONEYDSP_DSP_TARGET_NAME}Export
-            TARGET ${STONEYDSP_DSP_TARGET_NAME}
-        )
-
-        # Install export set
-        export(
-            EXPORT ${STONEYDSP_DSP_TARGET_NAME}Export
+            TARGETS ${STONEYDSP_DSP_TARGET_NAME}
             FILE "lib/cmake/${STONEYDSP_BRAND}/${STONEYDSP_SLUG}-${STONEYDSP_DSP_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
         )
     endif()
 
