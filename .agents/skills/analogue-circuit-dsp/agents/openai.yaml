@@ -1,0 +1,3 @@
+interface:
+  display_name: "Analogue Circuit DSP"
+  short_description: "Topology-informed behavioural analogue modelling for audio DSP and JSFX workbenches."

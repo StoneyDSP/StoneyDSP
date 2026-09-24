@@ -19,6 +19,7 @@ dist
 out
 
 .cache
+.agents/current-work/
 .DS_Store
 
 vcpkg_installed
