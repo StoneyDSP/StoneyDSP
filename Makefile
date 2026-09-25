@@ -333,7 +333,8 @@ ifeq ($(BUILD_TEST),1)
 	ifeq ($(BUILD_SIMD),1)
 	endif
 	ifeq ($(BUILD_DSP),1)
-		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/widgets/*.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/filters/*.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/widgets/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/dsp.test.cpp)
 	endif
 	TEST_TARGET := $(BUILD_DIR)/test/main
