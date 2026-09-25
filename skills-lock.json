@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "generatedFrom": ".agents/skills/**/SKILL.md",
+  "skills": [
+    {
+      "name": "analogue-circuit-dsp",
+      "description": "Develop and review behavioural analogue-circuit models for audio DSP, especially JSFX/EEL2 workbench experiments. Use when translating schematics, measurements, or circuit behaviour into reusable DSP blocks; deciding model boundaries; separating ideal controls from finite analogue stages; modelling rails, feedback, bandwidth, slew, noise, summing, filters, or nonlinearities; and designing validation/null tests. Prefer topology-informed, measurable abstractions over component cosplay, and keep project-specific evidence distinct from general modelling assumptions.",
+      "path": ".agents/skills/analogue-circuit-dsp/SKILL.md",
+      "sha256": "28509a848d41296af50fda437e10ec7b3cad5eea3572bc437ddbd5827a94f8f2"
+    }
+  ]
+}

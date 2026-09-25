@@ -855,6 +855,15 @@ doc: $(BUILD_DIR)/doc/html
 	@mkdir -p $(dir $@)
 .PHONY: doc
 
+## Agent skill metadata
+skills-lock:
+	@sh ./scripts/generate-skills-lock.sh
+.PHONY: skills-lock
+
+skills-lock-check:
+	@sh ./scripts/generate-skills-lock.sh --check
+.PHONY: skills-lock-check
+
 ## Release version protocol
 version-check:
 	@node ./scripts/bump-version.mjs --check
@@ -863,6 +872,40 @@ version-check:
 version-bump:
 	@node ./scripts/bump-version.mjs $(VERSION_INCREMENT)
 .PHONY: version-bump
+
+## Branch-local agent work-item notes
+current_work_slug ?=
+current_work_dir = .agents/current-work
+current_work_index_slug = 00-index
+current_work_file = $(current_work_dir)/$(if $(strip $(current_work_slug)),$(current_work_slug),$(current_work_index_slug)).md
+current_work_template = .agents/$(if $(strip $(current_work_slug)),current-work.template.md,current-work.index-template.md)
+
+agent-current-work:
+	@if [ -n "$(strip $(current_work_slug))" ]; then \
+		normalized_current_work_slug=$$(printf '%s' "$(current_work_slug)" | tr '[:upper:]' '[:lower:]'); \
+		case "$$normalized_current_work_slug" in \
+			$(current_work_index_slug)|index|template) \
+				echo "Invalid current_work_slug '$(current_work_slug)'. The 00-index, index, and template slugs are reserved."; \
+				exit 1; \
+				;; \
+		esac; \
+		case "$(current_work_slug)" in \
+			*[!A-Za-z0-9._-]*) \
+				echo "Invalid current_work_slug '$(current_work_slug)'. Use only letters, numbers, dots, underscores, and hyphens."; \
+				exit 1; \
+				;; \
+		esac; \
+	fi
+	@mkdir -p "$(current_work_dir)"
+	@if [ ! -e "$(current_work_file)" ]; then \
+		cp "$(current_work_template)" "$(current_work_file)"; \
+	fi
+	@echo "$(current_work_file)"
+.PHONY: agent-current-work
+
+agent-current-work-list:
+	@{ find "$(current_work_dir)" -maxdepth 1 -type f -name '*.md' -print 2>/dev/null; } | sort
+.PHONY: agent-current-work-list
 
 #############################################<<<-Part 10: Clean, Help, and utils
 
@@ -952,6 +995,12 @@ help:
 	@echo "... workflow"
 	@echo "... version-check"
 	@echo "... version-bump VERSION_INCREMENT=patch|minor|major"
+	@echo "... skills-lock"
+	@echo "... skills-lock-check"
+	@echo "... version-check"
+	@echo "... version-bump VERSION_INCREMENT=patch|minor|major"
+	@echo "... agent-current-work"
+	@echo "... agent-current-work-list"
 	@echo "... clean"
 	@echo "... version"
 	@echo "... help"
