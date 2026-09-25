@@ -1,7 +1,7 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO StoneyDSP/StoneyDSP
-    REF 9c60a2aca92c2640a3f94a5588540847e0348f11
+    REF 2211491a10242192f2afe5556ece1199fd0e9fea
     SHA512 0
     HEAD_REF feat/stoneydsp
 )
