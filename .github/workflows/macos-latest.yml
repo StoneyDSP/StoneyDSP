@@ -86,7 +86,7 @@ jobs:
         path: |
           ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
           ${{ env.VCPKG_DOWNLOADS }}
-        key: vcpkg-${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.architecture }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-${{ github.sha }}
+        key: vcpkg-${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.architecture }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
         restore-keys: |
           vcpkg-${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.architecture }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-
 
