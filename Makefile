@@ -338,7 +338,14 @@ ifeq ($(BUILD_TEST),1)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/widgets/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/dsp.test.cpp)
 	endif
-	TEST_TARGET := $(BUILD_DIR)/test/main
+TEST_TARGET := $(BUILD_DIR)/test/main
+ifeq ($(ARCH_WIN),1)
+TEST_RUNNER_ENV := PATH="$(BUILD_DIR)/lib:$$PATH"
+else ifeq ($(ARCH_LIN),1)
+TEST_RUNNER_ENV := LD_LIBRARY_PATH="$(BUILD_DIR)/lib:$$LD_LIBRARY_PATH"
+else ifeq ($(ARCH_MAC),1)
+TEST_RUNNER_ENV := DYLD_LIBRARY_PATH="$(BUILD_DIR)/lib:$$DYLD_LIBRARY_PATH"
+endif
 	TEST_SRCS += $(wildcard $(TEST_DIR)/catch2session.test.cpp)
 	TEST_SRCS += $(wildcard $(TEST_DIR)/utils.test.cpp)
 	TEST_SRCS += $(wildcard $(TEST_DIR)/main.test.cpp)
@@ -797,7 +804,7 @@ $(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 
 check: catch2 $(TEST_TARGET)
-	$(TEST_TARGET) $(TEST_ARGS) || exit $$?
+	$(TEST_RUNNER_ENV) $(TEST_TARGET) $(TEST_ARGS) || exit $$?
 .PHONY: check
 
 ## <CXX>
