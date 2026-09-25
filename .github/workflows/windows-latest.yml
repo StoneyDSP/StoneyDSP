@@ -99,11 +99,6 @@ jobs:
           vim
           tree
 
-    - name: version check
-      if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
-      shell: msys2 {0}
-      run: make version-check
-
     - name: Install MINGW64 toolchain
       if: matrix.msystem == 'MINGW64'
       shell: msys2 {0}
@@ -181,6 +176,11 @@ jobs:
           mingw-w64-i686-cmake
           mingw-w64-i686-ninja
           mingw-w64-i686-make
+
+    - name: version check
+      if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
+      shell: msys2 {0}
+      run: make version-check
 
       # MSYS steps
 
