@@ -78,17 +78,15 @@ jobs:
 
     - name: Set up MSVC environment (x64)
       if: matrix.arch == 'MSVC_x64'
-      shell: pwsh
-      run: |
-        Invoke-Expression -Command "& 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat'"
-        cl
+      uses: ilammy/msvc-dev-cmd@v1.13.0
+      with:
+        arch: x64
 
     - name: Set up MSVC environment (x86)
       if: matrix.arch == 'MSVC_x86'
-      shell: pwsh
-      run: |
-        Invoke-Expression -Command "& 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars32.bat'"
-        cl
+      uses: ilammy/msvc-dev-cmd@v1.13.0
+      with:
+        arch: x86
 
     - name: version check
       shell: pwsh
