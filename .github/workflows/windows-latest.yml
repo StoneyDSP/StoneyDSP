@@ -179,8 +179,8 @@ jobs:
 
     - name: version check
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
-      shell: msys2 {0}
-      run: make version-check
+      shell: pwsh
+      run: node ./scripts/bump-version.mjs --check
 
       # MSYS steps
 
