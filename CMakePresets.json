@@ -252,6 +252,62 @@
 			}
 		},
 		{
+			"name": "x86-msvc-windows-base",
+			"displayName": "x86 Windows MSVC configuration",
+			"description": "Windows x86 configuration using the Microsoft Visual C++ toolchain",
+			"hidden": true,
+			"inherits": [
+				"x86",
+				"windows"
+			],
+			"generator": "Visual Studio 17 2022",
+			"architecture": "Win32",
+			"cacheVariables": {
+				"VCPKG_HOST_TRIPLET": {
+					"value": "x64-windows",
+					"type": "STRING"
+				},
+				"VCPKG_TARGET_TRIPLET": {
+					"value": "x86-windows",
+					"type": "STRING"
+				}
+			},
+			"environment": {
+				"VCPKG_DEFAULT_TRIPLET": "x86-windows",
+				"VCPKG_DEFAULT_TARGET_TRIPLET": "x86-windows",
+				"VCPKG_DEFAULT_HOST_TRIPLET": "x64-windows",
+				"PKG_CONFIG_PATH": "${sourceDir}/build/vcpkg_installed/x86-windows/lib/pkgconfig${pathListSep}$penv{PKG_CONFIG_PATH}"
+			}
+		},
+		{
+			"name": "x64-msvc-windows-base",
+			"displayName": "x64 Windows MSVC configuration",
+			"description": "Windows x64 configuration using the Microsoft Visual C++ toolchain",
+			"hidden": true,
+			"inherits": [
+				"x64",
+				"windows"
+			],
+			"generator": "Visual Studio 17 2022",
+			"architecture": "x64",
+			"cacheVariables": {
+				"VCPKG_HOST_TRIPLET": {
+					"value": "x64-windows",
+					"type": "STRING"
+				},
+				"VCPKG_TARGET_TRIPLET": {
+					"value": "x64-windows",
+					"type": "STRING"
+				}
+			},
+			"environment": {
+				"VCPKG_DEFAULT_TRIPLET": "x64-windows",
+				"VCPKG_DEFAULT_TARGET_TRIPLET": "x64-windows",
+				"VCPKG_DEFAULT_HOST_TRIPLET": "x64-windows",
+				"PKG_CONFIG_PATH": "${sourceDir}/build/vcpkg_installed/x64-windows/lib/pkgconfig${pathListSep}$penv{PKG_CONFIG_PATH}"
+			}
+		},
+		{
 			"name": "x86-linux",
 			"hidden": true,
 			"inherits": [
@@ -315,6 +371,41 @@
 					"autoFormat": true,
 					"hostOS": "Linux",
 					"intelliSenseMode": "linux-gcc-x64",
+					"intelliSenseOptions": {
+						"useCompilerDefaults": true
+					}
+				}
+			}
+		},
+		{
+			"name": "arm64-linux",
+			"hidden": true,
+			"inherits": [
+				"arm64",
+				"linux"
+			],
+			"displayName": "ARM64 Linux-only configuration",
+			"description": "This build is only available on Linux ARM64",
+			"cacheVariables": {
+				"VCPKG_HOST_TRIPLET": {
+					"value": "arm64-linux",
+					"type": "STRING"
+				},
+				"VCPKG_TARGET_TRIPLET": {
+					"value": "arm64-linux",
+					"type": "STRING"
+				}
+			},
+			"environment": {
+				"VCPKG_DEFAULT_TRIPLET": "arm64-linux",
+				"VCPKG_DEFAULT_TARGET_TRIPLET": "arm64-linux",
+				"PKG_CONFIG_PATH": "${sourceDir}/build/vcpkg_installed/arm64-linux/lib/pkgconfig${pathListSep}$penv{PKG_CONFIG_PATH}"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"autoFormat": true,
+					"hostOS": "Linux",
+					"intelliSenseMode": "linux-gcc-arm64",
 					"intelliSenseOptions": {
 						"useCompilerDefaults": true
 					}
@@ -498,6 +589,54 @@
 				"x64-linux",
 				"release",
 				"verbose"
+			]
+		},
+		{
+			"name": "arm64-linux-debug",
+			"hidden": false,
+			"inherits": [
+				"arm64-linux",
+				"debug"
+			]
+		},
+		{
+			"name": "arm64-linux-release",
+			"hidden": false,
+			"inherits": [
+				"arm64-linux",
+				"release"
+			]
+		},
+		{
+			"name": "arm64-linux-debug-verbose",
+			"hidden": false,
+			"inherits": [
+				"arm64-linux",
+				"debug",
+				"verbose"
+			]
+		},
+		{
+			"name": "arm64-linux-release-verbose",
+			"hidden": false,
+			"inherits": [
+				"arm64-linux",
+				"release",
+				"verbose"
+			]
+		},
+		{
+			"name": "x86-msvc-windows",
+			"hidden": false,
+			"inherits": [
+				"x86-msvc-windows-base"
+			]
+		},
+		{
+			"name": "x64-msvc-windows",
+			"hidden": false,
+			"inherits": [
+				"x64-msvc-windows-base"
 			]
 		},
 		{

@@ -3,6 +3,22 @@ name: windows
 on:
   push:
   workflow_dispatch:
+    inputs:
+      run_msys2:
+        description: Run the MinGW/UCRT/Clang Windows matrix
+        required: false
+        type: boolean
+        default: true
+      run_msvc_x64:
+        description: Run the MSVC x64 build
+        required: false
+        type: boolean
+        default: true
+      run_msvc_x86:
+        description: Run the MSVC x86 compatibility build
+        required: false
+        type: boolean
+        default: true
 
 concurrency:
   group: windows-latest-${{ github.ref }}
@@ -21,12 +37,12 @@ env:
 
 jobs:
   build:
+    if: github.event_name != 'workflow_dispatch' || inputs.run_msys2
     runs-on: windows-latest
 
     strategy:
       matrix:
         msystem: [MINGW64, UCRT64, CLANG64, MINGW32]
-        # TODO: CLANG32, CLANGARM64, MSVC_x86, MSVC_x64
 
     defaults:
       run:
@@ -230,16 +246,46 @@ jobs:
           ${{ env.VCPKG_DOWNLOADS }}
         key: ${{ steps.vcpkg-cache.outputs.cache-primary-key }}
 
-    #   # MSVC steps (perhaps build CMake? It isn't installed by default on Win runners...)
+  # MSVC steps
 
-    # - name: Build with MSVC
-    #   if: matrix.msystem == 'MSVC_x86' || matrix.msystem == 'MSVC_x64'
-    #   shell: pwsh
-    #   run: |
-    #     cl /EHsc /Fe:program.exe main.cpp
+  msvc:
+    if: github.event_name != 'workflow_dispatch' || (matrix.architecture == 'x64' && inputs.run_msvc_x64) || (matrix.architecture == 'Win32' && inputs.run_msvc_x86)
+    name: MSVC ${{ matrix.architecture }}
+    runs-on: windows-latest
 
-    # - name: List artefact directories with MSVC
-    #   if: matrix.msystem == 'MSVC_x86' || matrix.msystem == 'MSVC_x64'
-    #   shell: pwsh
-    #   run: |
-    #     Get-ChildItem -Recurse
+    strategy:
+      matrix:
+        architecture: [x64, Win32]
+
+    defaults:
+      run:
+        shell: pwsh
+
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}\dep\vcpkg
+
+    steps:
+
+    - name: Enable GitHub Actions Cache backend
+      uses: actions/github-script@v8
+      with:
+        script: |
+          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+    - name: Checkout source code
+      uses: actions/checkout@v6
+      with:
+        submodules: true
+        fetch-depth: 0
+
+    - name: Configure with MSVC
+      run: |
+        $preset = if ('${{ matrix.architecture }}' -eq 'x64') { 'x64-msvc-windows' } else { 'x86-msvc-windows' }
+        cmake --preset $preset -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
+
+    - name: Build with MSVC
+      run: cmake --build build --config Release --parallel 3
+
+    - name: Test with MSVC
+      run: ctest --test-dir build -C Release --output-on-failure
