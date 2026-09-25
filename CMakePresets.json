@@ -260,8 +260,7 @@
 				"x86",
 				"windows"
 			],
-			"generator": "Visual Studio 17 2022",
-			"architecture": "Win32",
+			"generator": "Ninja",
 			"cacheVariables": {
 				"VCPKG_HOST_TRIPLET": {
 					"value": "x64-windows",
@@ -288,8 +287,7 @@
 				"x64",
 				"windows"
 			],
-			"generator": "Visual Studio 17 2022",
-			"architecture": "x64",
+			"generator": "Ninja",
 			"cacheVariables": {
 				"VCPKG_HOST_TRIPLET": {
 					"value": "x64-windows",
