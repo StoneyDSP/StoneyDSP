@@ -277,17 +277,9 @@ jobs:
         fetch-depth: 0
 
     - name: Set up MSVC environment
-      shell: pwsh
-      run: |
-        $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
-        $vsPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-        if (-not $vsPath) { throw 'Visual C++ Build Tools were not found on the runner.' }
-        $vcvars = Join-Path $vsPath 'VC\Auxiliary\Build\vcvars64.bat'
-        $envDump = cmd.exe /s /c "`"$vcvars`" && set"
-        $envDump | ForEach-Object {
-          if ($_ -match '^([^=]+)=(.*)$') { "$($Matches[1])=$($Matches[2])" | Out-File -FilePath $env:GITHUB_ENV -Append }
-        }
-        cl
+      uses: ilammy/msvc-dev-cmd@v1.13.0
+      with:
+        arch: x64
 
     - name: Configure with MSVC
       run: |
@@ -327,17 +319,9 @@ jobs:
         fetch-depth: 0
 
     - name: Set up MSVC environment
-      shell: pwsh
-      run: |
-        $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
-        $vsPath = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
-        if (-not $vsPath) { throw 'Visual C++ Build Tools were not found on the runner.' }
-        $vcvars = Join-Path $vsPath 'VC\Auxiliary\Build\vcvars32.bat'
-        $envDump = cmd.exe /s /c "`"$vcvars`" && set"
-        $envDump | ForEach-Object {
-          if ($_ -match '^([^=]+)=(.*)$') { "$($Matches[1])=$($Matches[2])" | Out-File -FilePath $env:GITHUB_ENV -Append }
-        }
-        cl
+      uses: ilammy/msvc-dev-cmd@v1.13.0
+      with:
+        arch: x86
 
     - name: Configure with MSVC
       run: cmake --preset x86-msvc-windows -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
