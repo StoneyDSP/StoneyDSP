@@ -71,7 +71,7 @@ public:
   void STONEYDSP_API setCoefficients (const Coefficients &coefficients)
       STONEYDSP_NOEXCEPT;
 
-  const Coefficients &STONEYDSP_API
+  STONEYDSP_API const Coefficients &
   getCoefficients () const STONEYDSP_NOEXCEPT;
 
   SampleType STONEYDSP_API getSampleRate () const STONEYDSP_NOEXCEPT;
