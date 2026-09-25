@@ -145,7 +145,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_LDBL_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::ldouble_t`
  */
-operator"" _ldouble_t (long double value) STONEYDSP_NOEXCEPT
+operator""_ldouble_t (long double value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ldouble_c (value);
 }

@@ -157,7 +157,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
  *
  * @return `stoneydsp::uchar_t`
  */
-operator"" _uchar_t (char value) STONEYDSP_NOEXCEPT
+operator""_uchar_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uchar_c (value);
 }
@@ -170,7 +170,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_UCHAR_T STONEYDSP_PUBLIC_FUNCTION
  * @brief
  *
  */
-operator"" _uchar_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_uchar_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uchar_c (value);
 }

@@ -160,7 +160,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::int16_t`
  */
-operator"" _int16_t (char value) STONEYDSP_NOEXCEPT
+operator""_int16_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_int16_c (value);
 }
@@ -175,7 +175,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_INT16_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::int16_t`
  */
-operator"" _int16_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_int16_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_int16_c (value);
 }

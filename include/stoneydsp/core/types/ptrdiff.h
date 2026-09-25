@@ -120,7 +120,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
  * @return `stoneydsp::ptrdiff_t`
  *
  */
-operator"" _ptrdiff_t (char value) STONEYDSP_NOEXCEPT
+operator""_ptrdiff_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ptrdiff_c (value);
 }
@@ -136,7 +136,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_PTRDIFF_T STONEYDSP_PUBLIC_FUNCTION
  * @return `stoneydsp::ptrdiff_t`
  *
  */
-operator"" _ptrdiff_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_ptrdiff_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ptrdiff_c (value);
 }

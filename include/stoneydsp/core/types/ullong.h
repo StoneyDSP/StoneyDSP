@@ -148,7 +148,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::ullong_t`
  */
-operator"" _ullong_t (char value) STONEYDSP_NOEXCEPT
+operator""_ullong_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ullong_c (value);
 }
@@ -163,7 +163,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_ULLONG_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::ullong_t`
  */
-operator"" _ullong_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_ullong_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ullong_c (value);
 }

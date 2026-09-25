@@ -150,7 +150,7 @@ STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SHRT_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::shrt_t`
  */
-operator"" _shrt_t (char value) STONEYDSP_NOEXCEPT
+operator""_shrt_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_shrt_c (value);
 }
@@ -164,7 +164,7 @@ STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_SHRT_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::shrt_t`
  */
-operator"" _shrt_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_shrt_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_shrt_c (value);
 }

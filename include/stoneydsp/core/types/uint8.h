@@ -161,7 +161,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
  * @return `stoneydsp::uint8_t`
  *
  */
-operator"" _uint8_t (char value) STONEYDSP_NOEXCEPT
+operator""_uint8_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uint8_c (value);
 }
@@ -174,7 +174,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_UINT8_T STONEYDSP_PUBLIC_FUNCTION
  * @brief
  *
  */
-operator"" _uint8_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_uint8_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uint8_c (value);
 }
