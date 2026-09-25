@@ -138,11 +138,19 @@ function(stoneydsp_add_core)
 
     # List link libraries (interface)
     set(STONEYDSP_CORE_LINK_LIBRARIES_INTERFACE)
-    list(APPEND STONEYDSP_CORE_LINK_LIBRARIES_INTERFACE)
+    list(APPEND STONEYDSP_CORE_LINK_LIBRARIES_INTERFACE
+        "$<INSTALL_INTERFACE:StoneyDSP::StoneyDSP>"
+    )
 
     # List compile definitions (private)
     set(STONEYDSP_CORE_COMPILE_DEFINITIONS_PRIVATE)
     list(APPEND STONEYDSP_CORE_COMPILE_DEFINITIONS_PRIVATE)
+
+    if(STONEYDSP_EXPORTS)
+        list(APPEND STONEYDSP_CORE_COMPILE_DEFINITIONS_PRIVATE
+            "-DSTONEYDSP_EXPORTS=1"
+        )
+    endif(STONEYDSP_EXPORTS)
 
     # List compile definitions (public)
     set(STONEYDSP_CORE_COMPILE_DEFINITIONS_PUBLIC)
@@ -153,12 +161,6 @@ function(stoneydsp_add_core)
         "-DSTONEYDSP_CORE_VERSION_BUILD=${STONEYDSP_CORE_VERSION_BUILD}"
         "-DSTONEYDSP_CORE_VERSION=${STONEYDSP_CORE_VERSION}"
     )
-
-    if(STONEYDSP_EXPORTS)
-        list(APPEND STONEYDSP_CORE_COMPILE_DEFINITIONS_PUBLIC
-            "-DSTONEYDSP_EXPORTS=1"
-        )
-    endif(STONEYDSP_EXPORTS)
 
     # List compile definitions (interface)
     set(STONEYDSP_CORE_COMPILE_DEFINITIONS_INTERFACE)

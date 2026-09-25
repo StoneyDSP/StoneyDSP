@@ -63,6 +63,24 @@ function(stoneydsp_add_dsp)
         ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_CORE_TARGET_NAME}
     )
 
+    # Installed OBJECT-library component targets carry usage requirements but
+    # no object files. Link the installed component facade to the aggregate
+    # binary which owns those objects.
+    set(STONEYDSP_DSP_LINK_LIBRARIES_INTERFACE)
+    list(APPEND STONEYDSP_DSP_LINK_LIBRARIES_INTERFACE
+        "$<INSTALL_INTERFACE:StoneyDSP::StoneyDSP>"
+    )
+
+    # List compile definitions (private)
+    set(STONEYDSP_DSP_COMPILE_DEFINITIONS_PRIVATE)
+    list(APPEND STONEYDSP_DSP_COMPILE_DEFINITIONS_PRIVATE)
+
+    if(STONEYDSP_EXPORTS)
+        list(APPEND STONEYDSP_DSP_COMPILE_DEFINITIONS_PRIVATE
+            "-DSTONEYDSP_EXPORTS=1"
+        )
+    endif(STONEYDSP_EXPORTS)
+
     # List compile definitions (public)
     set(STONEYDSP_DSP_COMPILE_DEFINITIONS_PUBLIC)
     list(APPEND STONEYDSP_DSP_COMPILE_DEFINITIONS_PUBLIC
@@ -131,6 +149,24 @@ function(stoneydsp_add_dsp)
         )
         message(VERBOSE "Target: ${STONEYDSP_DSP_TARGET_NAME} - linked library (public): ${STONEYDSP_DSP_LINK_LIBRARY}")
     endforeach(STONEYDSP_DSP_LINK_LIBRARY IN LISTS STONEYDSP_DSP_LINK_LIBRARIES_PUBLIC)
+
+    foreach(STONEYDSP_DSP_LINK_LIBRARY IN LISTS STONEYDSP_DSP_LINK_LIBRARIES_INTERFACE)
+        message(DEBUG "Target: ${STONEYDSP_DSP_TARGET_NAME} - linking library (interface): ${STONEYDSP_DSP_LINK_LIBRARY}")
+        target_link_libraries(${STONEYDSP_DSP_TARGET_NAME}
+            INTERFACE
+            ${STONEYDSP_DSP_LINK_LIBRARY}
+        )
+        message(VERBOSE "Target: ${STONEYDSP_DSP_TARGET_NAME} - linked library (interface): ${STONEYDSP_DSP_LINK_LIBRARY}")
+    endforeach(STONEYDSP_DSP_LINK_LIBRARY IN LISTS STONEYDSP_DSP_LINK_LIBRARIES_INTERFACE)
+
+    foreach(STONEYDSP_DSP_COMPILE_DEFINITION IN LISTS STONEYDSP_DSP_COMPILE_DEFINITIONS_PRIVATE)
+        message(DEBUG "Target: ${STONEYDSP_DSP_TARGET_NAME} - adding compile definition (private): ${STONEYDSP_DSP_COMPILE_DEFINITION}")
+        target_compile_definitions(${STONEYDSP_DSP_TARGET_NAME}
+            PRIVATE
+            ${STONEYDSP_DSP_COMPILE_DEFINITION}
+        )
+        message(VERBOSE "Target: ${STONEYDSP_DSP_TARGET_NAME} - added compile definition (private): ${STONEYDSP_DSP_COMPILE_DEFINITION}")
+    endforeach(STONEYDSP_DSP_COMPILE_DEFINITION IN LISTS STONEYDSP_DSP_COMPILE_DEFINITIONS_PRIVATE)
 
     if(STONEYDSP_DSP_TARGET_INSTALL)
         # Generate export set

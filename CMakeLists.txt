@@ -109,6 +109,10 @@ foreach(_requested_component ${@STONEYDSP_SLUG@_FIND_COMPONENTS})
     message(STATUS "Requested component: @STONEYDSP_BRAND@::${_requested_component}")
 endforeach()
 
+# Load the physical aggregate library before the component facades. Installed
+# OBJECT-library components link this binary to provide their compiled symbols.
+include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_TARGET_NAME@-targets.cmake")
+
 # Load all available component targets so transitive component dependencies are
 # available when a consumer requests only a higher-level component.
 foreach(_component_slug core simd dsp)
@@ -118,8 +122,6 @@ foreach(_component_slug core simd dsp)
 endforeach()
 unset(_component_slug)
 unset(_@STONEYDSP_SLUG@_supported_components)
-# 'always-on' library target
-include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_TARGET_NAME@-targets.cmake")
 # Tell the user what is happening
 message(STATUS "Imported target: @STONEYDSP_BRAND@::StoneyDSP")
 ]==])
