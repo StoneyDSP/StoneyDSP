@@ -14,7 +14,9 @@ env:
   CMAKE_INSTALL_PARALLEL_LEVEL: 3
   VCPKG_MAX_CONCURRENCY: 3
   VCPKG_MANIFEST_MODE: ON
-  VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.cache/vcpkg/archives
+  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg/downloads
+  VCPKG_BINARY_SOURCES: "clear;default,readwrite"
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -32,18 +34,29 @@ jobs:
 
     steps:
 
-    - name: Enable GitHub Actions Cache backend
-      uses: actions/github-script@v8
-      with:
-        script: |
-          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
-
     - name: Checkout source code
       uses: actions/checkout@v6
       with:
         submodules: true
         fetch-depth: 0
+
+    - name: Prepare vcpkg cache directories
+      shell: pwsh
+      run: |
+        New-Item -ItemType Directory -Force -Path $env:VCPKG_DEFAULT_BINARY_CACHE
+        New-Item -ItemType Directory -Force -Path $env:VCPKG_DOWNLOADS
+
+    - name: Restore vcpkg caches
+      id: vcpkg-cache
+      continue-on-error: true
+      uses: actions/cache/restore@v5
+      with:
+        path: |
+          ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+          ${{ env.VCPKG_DOWNLOADS }}
+        key: vcpkg-${{ runner.os }}-${{ matrix.msystem }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-${{ github.sha }}
+        restore-keys: |
+          vcpkg-${{ runner.os }}-${{ matrix.msystem }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-
 
     - name: Set up MSVC environment (x64)
       if: matrix.msystem == 'MSVC_x64'
@@ -202,6 +215,16 @@ jobs:
       env:
         MSYSTEM: ${{ matrix.msystem }}
       run: tree ./install
+
+    - name: Save vcpkg caches
+      if: success() && steps.vcpkg-cache.outcome != 'failure'
+      continue-on-error: true
+      uses: actions/cache/save@v5
+      with:
+        path: |
+          ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+          ${{ env.VCPKG_DOWNLOADS }}
+        key: ${{ steps.vcpkg-cache.outputs.cache-primary-key }}
 
     #   # MSVC steps (perhaps build CMake? It isn't installed by default on Win runners...)
 
