@@ -274,6 +274,7 @@ INCLUDE_DIR := $(BUILD_DIR)/include
 ## Source files
 CORE_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/core/core.cpp)
 DSP_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/dsp/dsp.cpp)
+DSP_SRCS += $(wildcard $(SRC_DIR)/stoneydsp/dsp/filters/*.cpp)
 SIMD_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/simd/simd.cpp)
 LIB_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/stoneydsp.cpp)
 
@@ -293,7 +294,7 @@ LIB_DEPS := $(LIB_OBJS:.o=.d)
 
 ## Feature flags
 BUILD_CORE ?= 1
-BUILD_DSP ?= 0
+BUILD_DSP ?= 1
 BUILD_SIMD ?= 0
 EXPERIMENTAL ?= 0
 
@@ -333,10 +334,18 @@ ifeq ($(BUILD_TEST),1)
 	ifeq ($(BUILD_SIMD),1)
 	endif
 	ifeq ($(BUILD_DSP),1)
-		# TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/widgets/*.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/filters/*.test.cpp)
+		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/widgets/*.test.cpp)
 		TEST_SRCS += $(wildcard $(TEST_DIR)/stoneydsp/dsp/dsp.test.cpp)
 	endif
-	TEST_TARGET := $(BUILD_DIR)/test/main
+TEST_TARGET := $(BUILD_DIR)/test/main
+ifeq ($(ARCH_WIN),1)
+TEST_RUNNER_ENV := PATH="$(BUILD_DIR)/lib:$$PATH"
+else ifeq ($(ARCH_LIN),1)
+TEST_RUNNER_ENV := LD_LIBRARY_PATH="$(BUILD_DIR)/lib:$$LD_LIBRARY_PATH"
+else ifeq ($(ARCH_MAC),1)
+TEST_RUNNER_ENV := DYLD_LIBRARY_PATH="$(BUILD_DIR)/lib:$$DYLD_LIBRARY_PATH"
+endif
 	TEST_SRCS += $(wildcard $(TEST_DIR)/catch2session.test.cpp)
 	TEST_SRCS += $(wildcard $(TEST_DIR)/utils.test.cpp)
 	TEST_SRCS += $(wildcard $(TEST_DIR)/main.test.cpp)
@@ -493,6 +502,9 @@ package_source: test
 	@echo Packaged source tree with CPack.
 .PHONY: package_source
 
+# Workflow presets own their configure options: `cmake --workflow` does not
+# accept command-line `-D` overrides. Keep the canonical full-project feature
+# set in CMakeOptions.json; use configure/build/test for Make-variable overrides.
 workflow: dep/vcpkg/vcpkg
 	@echo Running workflow with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
@@ -570,6 +582,7 @@ ASM_OBJCXX_COMPILER_LAUNCHER := $(ASM_OBJCXX_COMPILER) -S $(ASMFLAGS)
 # <C;CXX;OBJC;OBJCXX>
 CC_COMPILER_LAUNCHER := $(CC_COMPILER) -c $(CFLAGS)
 CXX_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(CXXFLAGS)
+CXX_ASSEMBLER_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(filter-out -pedantic,$(CXXFLAGS))
 OBJC_COMPILER_LAUNCHER := $(OBJC_COMPILER) -c $(OBJCFLAGS)
 OBJCXX_COMPILER_LAUNCHER := $(OBJCXX_COMPILER) -c $(OBJCXXFLAGS)
 
@@ -649,7 +662,7 @@ $(BUILD_DIR)/src/%.cpp.o: $(BUILD_DIR)/src/%.cpp.s
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	$(CXX_ASSEMBLER_COMPILER_LAUNCHER) -x assembler $< -o $@
 	@echo Built target successfully: $@
 	@echo
 
@@ -741,7 +754,7 @@ $(BUILD_DIR)/bin/main.cpp.o: $(BUILD_DIR)/bin/main.cpp.s
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	$(CXX_ASSEMBLER_COMPILER_LAUNCHER) -x assembler $< -o $@
 	@echo Built target successfully: $@
 	@echo
 
@@ -786,12 +799,12 @@ $(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(TEST_OBJS) -L$(BUILD_DIR)/lib -o $@ $(LDFLAGS) -lstoneydsp
+	$(CXX) $(TEST_OBJS) $(TARGET) -o $@ $(LDFLAGS)
 	@echo Built target successfully: $@
 	@echo
 
 check: catch2 $(TEST_TARGET)
-	$(TEST_TARGET) $(TEST_ARGS) || exit $$?
+	$(TEST_RUNNER_ENV) $(TEST_TARGET) $(TEST_ARGS) || exit $$?
 .PHONY: check
 
 ## <CXX>
@@ -819,7 +832,7 @@ $(BUILD_DIR)/test/%.test.cpp.o: $(BUILD_DIR)/test/%.test.cpp.s
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	$(CXX_ASSEMBLER_COMPILER_LAUNCHER) -x assembler $< -o $@
 	@echo Built target successfully: $@
 	@echo
 

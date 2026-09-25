@@ -44,7 +44,7 @@ option(STONEYDSP_EXPERIMENTAL "Use '-DSTONEYDSP_EXPERIMENTAL=ON|OFF' when config
 option(STONEYDSP_BUILD_DOCS "Use '-DSTONEYDSP_BUILD_DOCS=ON|OFF' when configuring to toggle this option." OFF)
 option(STONEYDSP_BUILD_CORE "Use '-DSTONEYDSP_BUILD_CORE=ON|OFF' when configuring to toggle this option." ON)
 cmake_dependent_option(STONEYDSP_BUILD_SIMD "Use '-DSTONEYDSP_BUILD_SIMD=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
-cmake_dependent_option(STONEYDSP_BUILD_DSP "Use '-DSTONEYDSP_BUILD_DSP=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
+cmake_dependent_option(STONEYDSP_BUILD_DSP "Use '-DSTONEYDSP_BUILD_DSP=ON|OFF' when configuring to toggle this option." ON "STONEYDSP_BUILD_CORE" OFF)
 cmake_dependent_option(STONEYDSP_BUILD_TEST "Use '-DSTONEYDSP_BUILD_TEST=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_IS_TOP_LEVEL;STONEYDSP_BUILD_CORE" OFF)
 
 set(STONEYDSP_TARGETS)
@@ -109,6 +109,10 @@ foreach(_requested_component ${@STONEYDSP_SLUG@_FIND_COMPONENTS})
     message(STATUS "Requested component: @STONEYDSP_BRAND@::${_requested_component}")
 endforeach()
 
+# Load the physical aggregate library before the component facades. Installed
+# OBJECT-library components link this binary to provide their compiled symbols.
+include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_TARGET_NAME@-targets.cmake")
+
 # Load all available component targets so transitive component dependencies are
 # available when a consumer requests only a higher-level component.
 foreach(_component_slug core simd dsp)
@@ -118,8 +122,6 @@ foreach(_component_slug core simd dsp)
 endforeach()
 unset(_component_slug)
 unset(_@STONEYDSP_SLUG@_supported_components)
-# 'always-on' library target
-include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_TARGET_NAME@-targets.cmake")
 # Tell the user what is happening
 message(STATUS "Imported target: @STONEYDSP_BRAND@::StoneyDSP")
 ]==])

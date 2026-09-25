@@ -107,27 +107,34 @@ function(stoneydsp_add_stoneydsp)
     set(STONEYDSP_LINK_LIBRARIES_PRIVATE)
     list(APPEND STONEYDSP_LINK_LIBRARIES_PRIVATE)
 
-    # List link libraries (public)
-    set(STONEYDSP_LINK_LIBRARIES_PUBLIC)
-    list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC)
+    # List object libraries whose compiled objects form the aggregate binary.
+    # These are collected directly so the installed aggregate target does not
+    # depend on the installed component facades which, in turn, link back to
+    # the aggregate binary.
+    set(STONEYDSP_OBJECT_LIBRARIES_PRIVATE)
+    list(APPEND STONEYDSP_OBJECT_LIBRARIES_PRIVATE)
 
     if(STONEYDSP_BUILD_CORE)
-        list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC
-            ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_CORE_TARGET_NAME}
+        list(APPEND STONEYDSP_OBJECT_LIBRARIES_PRIVATE
+            ${STONEYDSP_CORE_TARGET_NAME}
         )
     endif()
 
     if(STONEYDSP_BUILD_SIMD)
-        list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC
-            ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_SIMD_TARGET_NAME}
+        list(APPEND STONEYDSP_OBJECT_LIBRARIES_PRIVATE
+            ${STONEYDSP_SIMD_TARGET_NAME}
         )
     endif()
 
     if(STONEYDSP_BUILD_DSP)
-        list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC
-            ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_DSP_TARGET_NAME}
+        list(APPEND STONEYDSP_OBJECT_LIBRARIES_PRIVATE
+            ${STONEYDSP_DSP_TARGET_NAME}
         )
     endif()
+
+    # List link libraries (public)
+    set(STONEYDSP_LINK_LIBRARIES_PUBLIC)
+    list(APPEND STONEYDSP_LINK_LIBRARIES_PUBLIC)
 
     # List link libraries (interface)
     set(STONEYDSP_LINK_LIBRARIES_INTERFACE)
@@ -145,6 +152,24 @@ function(stoneydsp_add_stoneydsp)
         "-DSTONEYDSP_VERSION_BUILD=${STONEYDSP_VERSION_BUILD}"
         "-DSTONEYDSP_VERSION=${STONEYDSP_VERSION}"
     )
+
+    if(STONEYDSP_BUILD_CORE)
+        list(APPEND STONEYDSP_COMPILE_DEFINITIONS_PUBLIC
+            "-DSTONEYDSP_BUILD_CORE=1"
+        )
+    endif()
+
+    if(STONEYDSP_BUILD_SIMD)
+        list(APPEND STONEYDSP_COMPILE_DEFINITIONS_PUBLIC
+            "-DSTONEYDSP_BUILD_SIMD=1"
+        )
+    endif()
+
+    if(STONEYDSP_BUILD_DSP)
+        list(APPEND STONEYDSP_COMPILE_DEFINITIONS_PUBLIC
+            "-DSTONEYDSP_BUILD_DSP=1"
+        )
+    endif()
 
     # List compile definitions (interface)
     set(STONEYDSP_COMPILE_DEFINITIONS_INTERFACE)
@@ -185,6 +210,15 @@ function(stoneydsp_add_stoneydsp)
     add_library(${STONEYDSP_TARGET_NAME} ${_STONEYDSP_BUILD_STATIC_OR_DYNAMIC})
     add_library(${STONEYDSP_SLUG}::${STONEYDSP_TARGET_NAME} ALIAS ${STONEYDSP_TARGET_NAME})
     add_library(${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_TARGET_NAME} ALIAS ${STONEYDSP_TARGET_NAME})
+
+    foreach(STONEYDSP_OBJECT_LIBRARY IN LISTS STONEYDSP_OBJECT_LIBRARIES_PRIVATE)
+        message(DEBUG "Target: ${STONEYDSP_TARGET_NAME} - adding object library: ${STONEYDSP_OBJECT_LIBRARY}")
+        target_sources(${STONEYDSP_TARGET_NAME}
+            PRIVATE
+            $<TARGET_OBJECTS:${STONEYDSP_OBJECT_LIBRARY}>
+        )
+        message(VERBOSE "Target: ${STONEYDSP_TARGET_NAME} - added object library: ${STONEYDSP_OBJECT_LIBRARY}")
+    endforeach(STONEYDSP_OBJECT_LIBRARY IN LISTS STONEYDSP_OBJECT_LIBRARIES_PRIVATE)
 
     set_target_properties(${STONEYDSP_TARGET_NAME}
         PROPERTIES

@@ -53,6 +53,10 @@ namespace dsp
 
 //============================================================================//
 
+  #ifdef __cplusplus
+    #include "stoneydsp/dsp/filters/biquad.h"
+  #endif
+
   #include "stoneydsp/dsp/widgets/gain.h"
 
 //============================================================================//

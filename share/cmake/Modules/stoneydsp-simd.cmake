@@ -65,11 +65,19 @@ function(stoneydsp_add_simd)
 
     # List link libraries (interface)
     set(STONEYDSP_SIMD_LINK_LIBRARIES_INTERFACE)
-    list(APPEND STONEYDSP_SIMD_LINK_LIBRARIES_INTERFACE)
+    list(APPEND STONEYDSP_SIMD_LINK_LIBRARIES_INTERFACE
+        "$<INSTALL_INTERFACE:StoneyDSP::StoneyDSP>"
+    )
 
     # List compile definitions (private)
     set(STONEYDSP_SIMD_COMPILE_DEFINITIONS_PRIVATE)
     list(APPEND STONEYDSP_SIMD_COMPILE_DEFINITIONS_PRIVATE)
+
+    if(STONEYDSP_EXPORTS)
+        list(APPEND STONEYDSP_SIMD_COMPILE_DEFINITIONS_PRIVATE
+            "-DSTONEYDSP_EXPORTS=1"
+        )
+    endif(STONEYDSP_EXPORTS)
 
     # List compile definitions (public)
     set(STONEYDSP_SIMD_COMPILE_DEFINITIONS_PUBLIC)
