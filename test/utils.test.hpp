@@ -13,16 +13,17 @@
       #define CATCH_CONFIG_PREFIX_ALL
     #endif
 
-    #include "stoneydsp/core/system/compiler.h" // for `STONEYDSP_PUBLIC_FUNCTION`
-    #include <algorithm>                        // for `std::sort`
-    #include <catch2/benchmark/catch_benchmark.hpp>              //
-    #include <catch2/catch_test_macros.hpp>                      //
+    #include <algorithm>                            // for `std::sort`
+    #include <catch2/benchmark/catch_benchmark.hpp> //
+    #include <catch2/catch_test_macros.hpp>         //
     #include <catch2/matchers/catch_matchers_floating_point.hpp> //
     #include <cmath>                                             //
     #include <cstring>                                           //
-    #include <limits>      // for `std::numeric_limits`
-    #include <numeric>     // for `std::accumulate`
-    #include <sstream>     // for serialization tests
+    #include <limits>                           // for `std::numeric_limits`
+    #include <numeric>                          // for `std::accumulate`
+    #include <sstream>                          // for serialization tests
+    #include <stoneydsp/core/system/compiler.h> // for `STONEYDSP_PUBLIC_FUNCTION`
+    #include <stoneydsp/core/system/platform.h> //
     #include <type_traits> // for `is_signed` and `is_unsigned`
     #include <vector>      // for compatibility tests
 

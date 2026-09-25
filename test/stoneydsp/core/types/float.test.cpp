@@ -1,5 +1,5 @@
 /**
- * @file math.test.cpp
+ * @file float.test.cpp
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include "stoneydsp/core/types/float.h"
 
 //==============================================================================
 
@@ -15,7 +15,14 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::float_t;
+}
+
+//==============================================================================
+
+  #include "../../../utils.test.hpp"
 
 //==============================================================================
 

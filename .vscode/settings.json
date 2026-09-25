@@ -1,4 +1,9 @@
 {
+	"C_Cpp.default.defines": [
+		"STONEYDSP_BUILD_MAIN=1",
+		"STONEYDSP_BUILD_TEST=1",
+		"STONEYDSP_BUILD_CORE=1"
+	],
 	"makefile.configurations": [
 		{
 			"name": "Default",
@@ -192,7 +197,7 @@
 		"warning",
 		"note"
 	],
-	"C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
 	"C_Cpp.default.mergeConfigurations": true,
 	"C_Cpp.formatting": "clangFormat",
 	"C_Cpp.autoAddFileAssociations": true,
@@ -208,18 +213,15 @@
 	"C_Cpp.default.cppStandard": "c++14",
 	"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
 	"C_Cpp.default.compilerPath": "c++",
-	"C_Cpp.default.defines": [
-		"STONEYDSP_BUILD_MAIN=1",
-		"STONEYDSP_BUILD_TEST=1",
-		"STONEYDSP_BUILD_CORE=1"
-	],
 	"C_Cpp.default.includePath": [
 		"${workspaceFolder}/include"
 	],
 	"C_Cpp.default.browse.databaseFilename": "${workspaceFolder}/.vscode/.browse.vc.db",
 	"C_Cpp.files.exclude": {
 		"**/.vscode": true,
-		"**/.vs": true
+		"**/.vs": true,
+		"**/node_modules": true,
+		"**/.bak": true,
 	},
 	"files.associations": {
 		"**.d.ts": "typescript",

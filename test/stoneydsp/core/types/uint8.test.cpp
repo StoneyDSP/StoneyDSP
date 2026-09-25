@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include <stoneydsp/core/types/uint8.h>
 
 //==============================================================================
 
@@ -15,7 +15,14 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::uint8_t;
+}
+
+//==============================================================================
+
+  #include "../../../utils.test.hpp"
 
 //======================================================================//sizeof
 
@@ -141,7 +148,7 @@ STONEYDSP_TEST_CASE ("[core][types][uint8_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][uint8_t][rounding]",
                      "[core][types][uint8_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::uint8_t b
       = static_cast< ::stoneydsp::uint8_t> (::std::round (a));
   STONEYDSP_REQUIRE (

@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include <stoneydsp/core/core.h>
+#include <stoneydsp/core/system/platform.h>
 
 //==============================================================================
 
@@ -15,11 +15,12 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+  #include "../../../utils.test.hpp"
 
 //====================================================================//platform
 
-STONEYDSP_TEST_CASE ("[core][system][platform]", "[core][system][platform]")
+STONEYDSP_TEST_CASE ("[core][system][platform][os]",
+                     "[core][system][platform][os]")
 {
   bool result = false;
 
@@ -36,8 +37,8 @@ STONEYDSP_TEST_CASE ("[core][system][platform]", "[core][system][platform]")
 
 //================================================================//architecture
 
-STONEYDSP_TEST_CASE ("[core][system][architecture]",
-                     "[core][system][architecture]")
+STONEYDSP_TEST_CASE ("[core][system][platform][architecture]",
+                     "[core][system][platform][architecture]")
 {
   bool result = false;
 
@@ -52,7 +53,8 @@ STONEYDSP_TEST_CASE ("[core][system][architecture]",
 
 //=========================================================================//cpu
 
-STONEYDSP_TEST_CASE ("[core][system][cpu]", "[core][system][cpu]")
+STONEYDSP_TEST_CASE ("[core][system][platform][cpu]",
+                     "[core][system][platform][cpu]")
 {
   bool result = false;
 

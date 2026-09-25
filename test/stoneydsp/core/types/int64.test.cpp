@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/system/types.h"
+#include <stoneydsp/core/types/int64.h>
 
 //==============================================================================
 
@@ -15,7 +15,14 @@
 
 //==============================================================================
 
-  #include "utils.test.hpp"
+namespace stoneydsp
+{
+using ::stoneydsp::core::types::int64_t;
+}
+
+//==============================================================================
+
+  #include "../../../utils.test.hpp"
 
 //======================================================================//sizeof
 
@@ -146,7 +153,7 @@ STONEYDSP_TEST_CASE ("[core][types][int64_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][int64_t][rounding]",
                      "[core][types][int64_t][rounding]")
 {
-  ::stoneydsp::float_t a = 1.5f;
+  float a = 1.5f;
   ::stoneydsp::int64_t b
       = static_cast< ::stoneydsp::int64_t> (::std::round (a));
   STONEYDSP_REQUIRE (
