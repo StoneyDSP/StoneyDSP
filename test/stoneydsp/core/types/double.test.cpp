@@ -1,5 +1,5 @@
 /**
- * @file double.test.cpp
+ * @file math.test.cpp
  * @author StoneyDSP (nathanjhood@googlemail.com)
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/double.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -15,14 +15,7 @@
 
 //==============================================================================
 
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::double_t;
-}
-
-//==============================================================================
-
-  #include "../../../utils.test.hpp"
+  #include "utils.test.hpp"
 
 //==============================================================================
 
@@ -30,6 +23,7 @@ using ::stoneydsp::core::types::double_t;
 //
 // type tags:
 //
+// [float_t]
 // [double_t]
 //
 // size and alignment:

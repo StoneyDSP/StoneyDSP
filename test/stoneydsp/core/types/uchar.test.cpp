@@ -1,5 +1,5 @@
 /**
- * @file uchar.test.cpp
+ * @file uint8.test.cpp
  * @brief Test suite for stoneydsp::uchar_t
  * @copyright Copyright (c) 2025
  *
@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/uchar.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -15,14 +15,7 @@
 
 //==============================================================================
 
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::uchar_t;
-}
-
-//==============================================================================
-
-  #include "../../../utils.test.hpp"
+  #include "utils.test.hpp"
 
 //================================================================//requirements
 
@@ -163,7 +156,7 @@ STONEYDSP_TEST_CASE ("[core][types][uchar_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][uchar_t][rounding]",
                      "[core][types][uchar_t][rounding]")
 {
-  float a = 1.5f;
+  ::stoneydsp::float_t a = 1.5f;
   ::stoneydsp::uchar_t b
       = static_cast< ::stoneydsp::uchar_t> (::std::round (a));
   STONEYDSP_REQUIRE (

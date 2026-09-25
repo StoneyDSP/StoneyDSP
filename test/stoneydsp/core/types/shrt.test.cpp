@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include "stoneydsp/core/types/shrt.h"
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -15,14 +15,7 @@
 
 //==============================================================================
 
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::shrt_t;
-}
-
-//==============================================================================
-
-  #include "../../../utils.test.hpp"
+  #include "utils.test.hpp"
 
 //================================================================//requirements
 
@@ -174,7 +167,7 @@ STONEYDSP_TEST_CASE ("[core][types][shrt_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][shrt_t][rounding]",
                      "[core][types][shrt_t][rounding]")
 {
-  float a = 1.5f;
+  ::stoneydsp::float_t a = 1.5f;
   ::stoneydsp::shrt_t b = static_cast< ::stoneydsp::shrt_t> (::std::round (a));
   STONEYDSP_REQUIRE (
       b == 2); // 1.5 rounded to nearest integer and cast to shrt_t

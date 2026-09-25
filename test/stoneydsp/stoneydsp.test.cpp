@@ -7,18 +7,6 @@
 
 //==============================================================================
 
-#include <stoneydsp/stoneydsp.h>
+#if defined(STONEYDSP_BUILD_CORE) && defined(STONEYDSP_BUILD_TEST)
 
-//==============================================================================
-
-#if defined(STONEYDSP_BUILD_TEST)
-
-//==============================================================================
-
-  #include "../utils.test.hpp"
-
-//==============================================================================
-
-#endif // defined (STONEYDSP_BUILD_TEST)
-
-//==============================================================================
+#endif // defined (STONEYDSP_BUILD_CORE) && defined (STONEYDSP_BUILD_TEST)

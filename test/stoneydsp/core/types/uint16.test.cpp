@@ -7,7 +7,7 @@
 
 //==============================================================================
 
-#include <stoneydsp/core/types/uint16.h>
+#include "stoneydsp/core/system/types.h"
 
 //==============================================================================
 
@@ -15,14 +15,7 @@
 
 //==============================================================================
 
-namespace stoneydsp
-{
-using ::stoneydsp::core::types::uint16_t;
-}
-
-//==============================================================================
-
-  #include "../../../utils.test.hpp"
+  #include "utils.test.hpp"
 
 //======================================================================//sizeof
 
@@ -154,7 +147,7 @@ STONEYDSP_TEST_CASE ("[core][types][uint16_t][endianness]",
 STONEYDSP_TEST_CASE ("[core][types][uint16_t][rounding]",
                      "[core][types][uint16_t][rounding]")
 {
-  float a = 1.5f;
+  ::stoneydsp::float_t a = 1.5f;
   ::stoneydsp::uint16_t b
       = static_cast< ::stoneydsp::uint16_t> (::std::round (a));
   STONEYDSP_REQUIRE (
