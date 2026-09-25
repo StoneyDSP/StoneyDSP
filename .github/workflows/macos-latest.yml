@@ -90,10 +90,7 @@ jobs:
 
     - name: make workflow
       shell: bash
-      run: >-
-        make workflow
-        BUILD_CORE=1
-        BUILD_TEST=1
+      run: make workflow
 
     # Deployment workflow
 
@@ -102,6 +99,7 @@ jobs:
       run: >-
         make
         BUILD_CORE=1
+        BUILD_DSP=1
         BUILD_TEST=1
 
     - name: make check
@@ -109,6 +107,7 @@ jobs:
       run: >-
         make check
         BUILD_CORE=1
+        BUILD_DSP=1
         BUILD_TEST=1
         TEST_ARGS="--skip-benchmarks --order decl --warn UnmatchedTestSpec"
 

@@ -293,7 +293,7 @@ LIB_DEPS := $(LIB_OBJS:.o=.d)
 
 ## Feature flags
 BUILD_CORE ?= 1
-BUILD_DSP ?= 0
+BUILD_DSP ?= 1
 BUILD_SIMD ?= 0
 EXPERIMENTAL ?= 0
 
@@ -494,6 +494,9 @@ package_source: test
 	@echo Packaged source tree with CPack.
 .PHONY: package_source
 
+# Workflow presets own their configure options: `cmake --workflow` does not
+# accept command-line `-D` overrides. Keep the canonical full-project feature
+# set in CMakeOptions.json; use configure/build/test for Make-variable overrides.
 workflow: dep/vcpkg/vcpkg
 	@echo Running workflow with CMake...
 	@VCPKG_ROOT=$(VCPKG_ROOT) $(CMAKE) \
