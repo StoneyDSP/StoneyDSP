@@ -248,14 +248,10 @@ jobs:
 
   # MSVC steps
 
-  msvc:
-    if: github.event_name != 'workflow_dispatch' || (matrix.architecture == 'x64' && inputs.run_msvc_x64) || (matrix.architecture == 'Win32' && inputs.run_msvc_x86)
-    name: MSVC ${{ matrix.architecture }}
+  msvc-x64:
+    if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x64
+    name: MSVC x64
     runs-on: windows-latest
-
-    strategy:
-      matrix:
-        architecture: [x64, Win32]
 
     defaults:
       run:
@@ -281,8 +277,43 @@ jobs:
 
     - name: Configure with MSVC
       run: |
-        $preset = if ('${{ matrix.architecture }}' -eq 'x64') { 'x64-msvc-windows' } else { 'x86-msvc-windows' }
-        cmake --preset $preset -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
+        cmake --preset x64-msvc-windows -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
+
+    - name: Build with MSVC
+      run: cmake --build build --config Release --parallel 3
+
+    - name: Test with MSVC
+      run: ctest --test-dir build -C Release --output-on-failure
+
+  msvc-x86:
+    if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x86
+    name: MSVC x86
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: pwsh
+
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}\dep\vcpkg
+
+    steps:
+
+    - name: Enable GitHub Actions Cache backend
+      uses: actions/github-script@v8
+      with:
+        script: |
+          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+    - name: Checkout source code
+      uses: actions/checkout@v6
+      with:
+        submodules: true
+        fetch-depth: 0
+
+    - name: Configure with MSVC
+      run: cmake --preset x86-msvc-windows -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
 
     - name: Build with MSVC
       run: cmake --build build --config Release --parallel 3
