@@ -95,10 +95,14 @@ identity is generated in memory only when explicitly requesting
 
 ```sh
 make version-check
+make version-sync
 make version-bump VERSION_INCREMENT=patch
 ```
 
-The checker requires strict `MAJOR.MINOR.PATCH` semver and verifies that the
-vcpkg manifest agrees. A bump updates both release sources together. CI should
-run `make version-check`. A local pre-push hook may call the same check, but
+The checker requires strict `MAJOR.MINOR.PATCH` semver and verifies that
+`VERSION`, the root vcpkg manifest, `package.json`, and the port manifest
+agree. `version-sync` is an explicit migration command for bringing those
+manifests up to the tracked `VERSION`; it preserves their existing formatting
+and key order. A bump updates all release sources together. CI should run
+`make version-check`. A local pre-push hook may call the same check, but
 correctness must not depend on untracked hooks.
