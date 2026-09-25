@@ -9,40 +9,47 @@ const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1;
 const RELEASE_VERSION_PATTERN =
   /^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)$/;
-const GENERATED_VERSION_PATTERN =
-  /^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)\.(?<build>[0-9a-f]+)$/i;
+
+const VERSION_TARGETS = [
+  { path: 'vcpkg.json', key: 'version' },
+  { path: 'package.json', key: 'version' },
+  {
+    path: 'share/vcpkg/ports/stoneydsp/vcpkg.json',
+    key: 'version-semver',
+  },
+];
 
 export async function main(ctx) {
   const args = ctx.process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const checkOnly = args.includes('--check');
+  const syncOnly = args.includes('--sync');
   const increment = args.find((arg) => !arg.startsWith('--'));
   const versionPath = Path.resolve(
     Path.dirname(Url.fileURLToPath(import.meta.url)),
     '..',
     'VERSION'
   );
-  const portManifestPath = Path.resolve(
-    Path.dirname(versionPath),
-    'share/vcpkg/ports/stoneydsp/vcpkg.json'
-  );
+  const projectRoot = Path.dirname(versionPath);
 
   const current = String(await readFile(versionPath, 'utf8')).trim();
   const parsed = parseVersion(current);
-  const portManifest = JSON.parse(await readFile(portManifestPath, 'utf8'));
-  const manifestVersion = String(portManifest['version-semver'] ?? '');
-  if (manifestVersion !== formatReleaseVersion(parsed)) {
-    throw new Error(
-      `VERSION (${formatReleaseVersion(parsed)}) and vcpkg manifest (${manifestVersion}) differ.`
-    );
-  }
+  const targetFiles = await readVersionTargets(projectRoot);
 
   if (checkOnly) {
-    ctx.console.log(
-      parsed.generated
-        ? `${formatReleaseVersion(parsed)} (generated development version)`
-        : formatReleaseVersion(parsed)
+    assertTargetsMatch(targetFiles, formatReleaseVersion(parsed));
+    ctx.console.log(formatReleaseVersion(parsed));
+    return EXIT_SUCCESS;
+  }
+
+  if (syncOnly) {
+    await writeVersionTargets(
+      projectRoot,
+      targetFiles,
+      formatReleaseVersion(parsed),
+      false
     );
+    ctx.console.log(formatReleaseVersion(parsed));
     return EXIT_SUCCESS;
   }
 
@@ -53,30 +60,106 @@ export async function main(ctx) {
     return EXIT_FAILURE;
   }
 
+  assertTargetsMatch(targetFiles, formatReleaseVersion(parsed));
   const nextVersion = formatReleaseVersion(bumpVersion(parsed, increment));
-  if (!dryRun) await writeFile(versionPath, `${nextVersion}\n`);
   if (!dryRun) {
-    portManifest['version-semver'] = nextVersion;
-    await writeFile(portManifestPath, `${JSON.stringify(portManifest, null, 2)}\n`);
+    try {
+      await writeFile(versionPath, `${nextVersion}\n`);
+      await writeVersionTargets(projectRoot, targetFiles, nextVersion, false);
+    } catch (error) {
+      await writeFile(versionPath, `${current}\n`);
+      throw error;
+    }
+  } else {
+    await writeVersionTargets(projectRoot, targetFiles, nextVersion, true);
   }
   ctx.console.log(nextVersion);
   return EXIT_SUCCESS;
 }
 
+async function readVersionTargets(projectRoot) {
+  return Promise.all(
+    VERSION_TARGETS.map(async (target) => ({
+      ...target,
+      path: Path.resolve(projectRoot, target.path),
+      text: String(await readFile(Path.resolve(projectRoot, target.path), 'utf8')),
+    }))
+  );
+}
+
+function assertTargetsMatch(targetFiles, expectedVersion) {
+  for (const target of targetFiles) {
+    const actualVersion = extractTopLevelVersion(target.text, target.key, target.path);
+    if (actualVersion !== expectedVersion) {
+      throw new Error(
+        `${target.path} (${actualVersion}) does not match VERSION (${expectedVersion}).`
+      );
+    }
+  }
+}
+
+async function writeVersionTargets(projectRoot, targetFiles, nextVersion, dryRun) {
+  const updates = targetFiles.map((target) => ({
+    ...target,
+    nextText: replaceTopLevelVersion(target.text, target.key, nextVersion, target.path),
+  }));
+
+  if (dryRun) return;
+
+  const written = [];
+  try {
+    for (const target of updates) {
+      await writeFile(target.path, target.nextText);
+      written.push(target);
+    }
+  } catch (error) {
+    for (const target of written) await writeFile(target.path, target.text);
+    throw error;
+  }
+}
+
+function extractTopLevelVersion(text, key, path) {
+  const matches = [...text.matchAll(versionFieldPattern(key))];
+  if (matches.length === 0) {
+    throw new Error(`Expected a top-level ${key} field in ${path}.`);
+  }
+  const manifest = JSON.parse(text);
+  if (typeof manifest[key] !== 'string' || manifest[key] !== matches[0][2]) {
+    throw new Error(`Expected a top-level ${key} field in ${path}.`);
+  }
+  return matches[0][2];
+}
+
+function replaceTopLevelVersion(text, key, version, path) {
+  const matches = [...text.matchAll(versionFieldPattern(key))];
+  if (matches.length === 0) {
+    throw new Error(`Expected a top-level ${key} field in ${path}.`);
+  }
+  const manifest = JSON.parse(text);
+  if (typeof manifest[key] !== 'string' || manifest[key] !== matches[0][2]) {
+    throw new Error(`Expected a top-level ${key} field in ${path}.`);
+  }
+  return text.replace(matches[0][0], `${matches[0][1]}"${version}"`);
+}
+
+function versionFieldPattern(key) {
+  return new RegExp(
+    `(^[\\t ]*"${key}"[\\t ]*:[\\t ]*)"((?:[^"\\\\]|\\\\.)*)"`,
+    'gm'
+  );
+}
+
 function parseVersion(version) {
   const releaseMatch = RELEASE_VERSION_PATTERN.exec(version);
-  const generatedMatch = GENERATED_VERSION_PATTERN.exec(version);
-  const match = releaseMatch ?? generatedMatch;
-  if (!match?.groups) {
+  if (!releaseMatch?.groups) {
     throw new Error(
       `Unsupported VERSION value '${version}'. Expected MAJOR.MINOR.PATCH.`
     );
   }
   return {
-    major: Number(match.groups.major),
-    minor: Number(match.groups.minor),
-    patch: Number(match.groups.patch),
-    generated: Boolean(generatedMatch),
+    major: Number(releaseMatch.groups.major),
+    minor: Number(releaseMatch.groups.minor),
+    patch: Number(releaseMatch.groups.patch),
   };
 }
 

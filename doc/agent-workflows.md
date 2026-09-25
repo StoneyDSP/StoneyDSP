@@ -87,17 +87,22 @@ equivalent to CMake package validation.
 
 ## Versioning
 
-`VERSION` is the release-version source consumed by the vcpkg port when CMake
-is configured with `STONEYDSP_GENERATE_VERSIONS=OFF`. Use the checked-in script
-instead of editing it by hand:
+`VERSION` is the tracked release-version source consumed by CMake and the vcpkg
+port. Normal configure/build operations leave it untouched. Git-derived build
+identity is generated in memory only when explicitly requesting
+`STONEYDSP_GENERATE_VERSIONS=ON`. Use the checked-in script instead of editing
+`VERSION` or the vcpkg manifest by hand:
 
 ```sh
 make version-check
+make version-sync
 make version-bump VERSION_INCREMENT=patch
 ```
 
-The checker accepts the current four-part Git-derived development value and
-strict three-part release values. A bump writes `MAJOR.MINOR.PATCH`; normal
-development configuration may subsequently regenerate the fourth component.
-CI should run `make version-check`. A local pre-push hook may call the same
-check, but correctness must not depend on untracked hooks.
+The checker requires strict `MAJOR.MINOR.PATCH` semver and verifies that
+`VERSION`, the root vcpkg manifest, `package.json`, and the port manifest
+agree. `version-sync` is an explicit migration command for bringing those
+manifests up to the tracked `VERSION`; it preserves their existing formatting
+and key order. A bump updates all release sources together. CI should run
+`make version-check`. A local pre-push hook may call the same check, but
+correctness must not depend on untracked hooks.

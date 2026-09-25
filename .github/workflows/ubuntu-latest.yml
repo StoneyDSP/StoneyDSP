@@ -62,6 +62,10 @@ jobs:
         submodules: true
         fetch-depth: 0
 
+    - name: version check
+      shell: bash
+      run: make version-check
+
     - name: Prepare vcpkg cache directories
       shell: bash
       run: mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE" "$VCPKG_DOWNLOADS"

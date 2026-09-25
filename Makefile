@@ -882,6 +882,10 @@ version-check:
 	@node ./scripts/bump-version.mjs --check
 .PHONY: version-check
 
+version-sync:
+	@node ./scripts/bump-version.mjs --sync
+.PHONY: version-sync
+
 version-bump:
 	@node ./scripts/bump-version.mjs $(VERSION_INCREMENT)
 .PHONY: version-bump
@@ -1007,6 +1011,7 @@ help:
 	@echo "... package_source"
 	@echo "... workflow"
 	@echo "... version-check"
+	@echo "... version-sync"
 	@echo "... version-bump VERSION_INCREMENT=patch|minor|major"
 	@echo "... skills-lock"
 	@echo "... skills-lock-check"
