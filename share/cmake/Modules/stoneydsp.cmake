@@ -189,6 +189,8 @@ function(stoneydsp_add_stoneydsp)
     set_target_properties(${STONEYDSP_TARGET_NAME}
         PROPERTIES
 
+        EXPORT_NAME "StoneyDSP"
+
         VERSION "${STONEYDSP_VERSION}"
         SOVERSION "${STONEYDSP_VERSION_MAJOR}"
 
@@ -353,7 +355,7 @@ function(stoneydsp_add_stoneydsp)
         # Install export set
         install(EXPORT ${STONEYDSP_TARGET_NAME}Install
             FILE "${STONEYDSP_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
             DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${STONEYDSP_BRAND}"
         )
     endif()
@@ -361,15 +363,9 @@ function(stoneydsp_add_stoneydsp)
     if(STONEYDSP_TARGET_EXPORT)
         # Generate export set
         export(
-            SETUP ${STONEYDSP_TARGET_NAME}Export
-            TARGET ${STONEYDSP_TARGET_NAME}
-        )
-
-        # Install export set
-        export(
-            EXPORT ${STONEYDSP_TARGET_NAME}Export
+            TARGETS ${STONEYDSP_TARGET_NAME}
             FILE "lib/cmake/${STONEYDSP_BRAND}/${STONEYDSP_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
         )
 
         generate_export_header(${STONEYDSP_TARGET_NAME}

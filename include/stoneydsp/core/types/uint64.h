@@ -144,7 +144,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::uint64_t`
  */
-operator"" _uint64_t (char value) STONEYDSP_NOEXCEPT
+operator""_uint64_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uint64_c (value);
 }
@@ -159,7 +159,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_UINT64_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::uint64_t`
  */
-operator"" _uint64_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_uint64_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_uint64_c (value);
 }

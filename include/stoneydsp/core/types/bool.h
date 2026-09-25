@@ -127,7 +127,7 @@ STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::bool_t`
  */
-operator"" _bool_t (char value) STONEYDSP_NOEXCEPT
+operator""_bool_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_bool_c (value);
 }
@@ -139,7 +139,7 @@ STONEYDSP_INLINE STONEYDSP_CONSTEXPR STONEYDSP_BOOL_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::bool_t`
  */
-operator"" _bool_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_bool_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_bool_c (value);
 }

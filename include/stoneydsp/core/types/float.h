@@ -122,7 +122,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
  * @brief
  *
  */
-operator"" _float_t (long double value) STONEYDSP_NOEXCEPT
+operator""_float_t (long double value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_float_c (value);
 }

@@ -19,6 +19,7 @@ dist
 out
 
 .cache
+.DS_Store
 
 vcpkg_installed
 
@@ -29,3 +30,5 @@ CMakeCache.txt
 compile_commands.json
 
 node_modules
+
+.browse.vc.*

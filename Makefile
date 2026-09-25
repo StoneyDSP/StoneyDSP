@@ -855,6 +855,15 @@ doc: $(BUILD_DIR)/doc/html
 	@mkdir -p $(dir $@)
 .PHONY: doc
 
+## Release version protocol
+version-check:
+	@node ./scripts/bump-version.mjs --check
+.PHONY: version-check
+
+version-bump:
+	@node ./scripts/bump-version.mjs $(VERSION_INCREMENT)
+.PHONY: version-bump
+
 #############################################<<<-Part 10: Clean, Help, and utils
 
 ## default target
@@ -941,6 +950,8 @@ help:
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... workflow"
+	@echo "... version-check"
+	@echo "... version-bump VERSION_INCREMENT=patch|minor|major"
 	@echo "... clean"
 	@echo "... version"
 	@echo "... help"

@@ -21,10 +21,10 @@ if(NOT DEFINED STONEYDSP_BINARY_DIR)
 endif(NOT DEFINED STONEYDSP_BINARY_DIR)
 
 #[============================[stoneydsp_add_core]============================]
+include(CMakeDependentOption)
 option(STONEYDSP_EXPORTS "" ON)
 cmake_dependent_option(STONEYDSP_CORE_TARGET_INSTALL "Notes" ON "STONEYDSP_BUILD_CORE" ON)
 cmake_dependent_option(STONEYDSP_CORE_TARGET_EXPORT "Notes" ON "STONEYDSP_BUILD_CORE" ON)
-include(CMakeDependentOption)
 
 #[==[
 Adds target: `stoneydsp::core`
@@ -225,6 +225,8 @@ function(stoneydsp_add_core)
     set_target_properties(${STONEYDSP_CORE_TARGET_NAME}
         PROPERTIES
 
+        EXPORT_NAME "Core"
+
         VERSION "${STONEYDSP_CORE_VERSION}"
         SOVERSION "${STONEYDSP_CORE_VERSION_MAJOR}"
 
@@ -389,7 +391,7 @@ function(stoneydsp_add_core)
         # Install export set
         install(EXPORT ${STONEYDSP_CORE_TARGET_NAME}Install
             FILE "${STONEYDSP_SLUG}-${STONEYDSP_CORE_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
             DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${STONEYDSP_BRAND}"
         )
     endif()
@@ -397,15 +399,9 @@ function(stoneydsp_add_core)
     if(STONEYDSP_CORE_TARGET_EXPORT)
         # Generate export set
         export(
-            SETUP ${STONEYDSP_CORE_TARGET_NAME}Export
-            TARGET ${STONEYDSP_CORE_TARGET_NAME}
-        )
-
-        # Install export set
-        export(
-            EXPORT ${STONEYDSP_CORE_TARGET_NAME}Export
+            TARGETS ${STONEYDSP_CORE_TARGET_NAME}
             FILE "lib/cmake/${STONEYDSP_BRAND}/${STONEYDSP_SLUG}-${STONEYDSP_CORE_TARGET_NAME}-targets.cmake"
-            NAMESPACE ${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::
+            NAMESPACE StoneyDSP::
         )
     endif()
 

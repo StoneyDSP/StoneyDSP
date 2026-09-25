@@ -151,7 +151,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_USHRT_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::ushrt_t`
  */
-operator"" _ushrt_t (char value) STONEYDSP_NOEXCEPT
+operator""_ushrt_t (char value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ushrt_c (value);
 }
@@ -166,7 +166,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_USHRT_T STONEYDSP_PUBLIC_FUNCTION
  * @param value
  * @return `stoneydsp::ushrt_t`
  */
-operator"" _ushrt_t (unsigned long long value) STONEYDSP_NOEXCEPT
+operator""_ushrt_t (unsigned long long value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_ushrt_c (value);
 }

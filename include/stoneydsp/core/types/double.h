@@ -120,7 +120,7 @@ STONEYDSP_CONSTEXPR STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
  * @brief
  *
  */
-operator"" _double_t (long double value) STONEYDSP_NOEXCEPT
+operator""_double_t (long double value) STONEYDSP_NOEXCEPT
 {
   return ::stoneydsp_double_c (value);
 }

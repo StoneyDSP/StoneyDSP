@@ -12,7 +12,7 @@ list(APPEND CMAKE_MODULE_PATH "${STONEYDSP_DIR}/share/cmake/Modules")
 message(STATUS "CMake Module Path: ${CMAKE_MODULE_PATH}")
 
 # Add directory structure
-include(GNUInstallDirs)
+include(CMakeDependentOption)
 include(stoneydsp)
 stoneydsp_add_directories()
 include(stoneydsp-version-helpers)
@@ -31,6 +31,7 @@ project(STONEYDSP
     LANGUAGES C CXX
 )
 set(PROJECT_NAME "StoneyDSP")
+include(GNUInstallDirs)
 
 set(STONEYDSP_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}" CACHE STRING "" FORCE)
 set(STONEYDSP_VERSION_MINOR "${PROJECT_VERSION_MINOR}" CACHE STRING "" FORCE)
@@ -46,15 +47,15 @@ cmake_dependent_option(STONEYDSP_BUILD_SIMD "Use '-DSTONEYDSP_BUILD_SIMD=ON|OFF'
 cmake_dependent_option(STONEYDSP_BUILD_DSP "Use '-DSTONEYDSP_BUILD_DSP=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_BUILD_CORE" OFF)
 cmake_dependent_option(STONEYDSP_BUILD_TEST "Use '-DSTONEYDSP_BUILD_TEST=ON|OFF' when configuring to toggle this option." OFF "STONEYDSP_IS_TOP_LEVEL;STONEYDSP_BUILD_CORE" OFF)
 
-include(CMakeDependentOption)
-
 set(STONEYDSP_TARGETS)
+set(STONEYDSP_COMPONENTS)
 
 #[==============================[stoneydsp::core]==============================]
 if(STONEYDSP_BUILD_CORE)
     include(stoneydsp-core)
     stoneydsp_add_core()
     list(APPEND STONEYDSP_TARGETS "${STONEYDSP_CORE_TARGET_NAME}")
+    list(APPEND STONEYDSP_COMPONENTS "Core")
 endif()
 
 #[==============================[stoneydsp::simd]==============================]
@@ -62,6 +63,7 @@ if(STONEYDSP_BUILD_SIMD)
     include(stoneydsp-simd)
     stoneydsp_add_simd()
     list(APPEND STONEYDSP_TARGETS "${STONEYDSP_SIMD_TARGET_NAME}")
+    list(APPEND STONEYDSP_COMPONENTS "SIMD")
 endif()
 
 #[==============================[stoneydsp::dsp]==============================]
@@ -69,6 +71,7 @@ if(STONEYDSP_BUILD_DSP)
     include(stoneydsp-dsp)
     stoneydsp_add_dsp()
     list(APPEND STONEYDSP_TARGETS "${STONEYDSP_DSP_TARGET_NAME}")
+    list(APPEND STONEYDSP_COMPONENTS "DSP")
 endif()
 
 #[===========================[stoneydsp::stoneydsp]===========================]
@@ -83,10 +86,7 @@ file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/${STONEYDSP_SLUG}-config.cmake.in" [==[
 
 include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_SLUG@-config-version.cmake")
 
-set(_@STONEYDSP_SLUG@_supported_components)
-list(APPEND _@STONEYDSP_SLUG@_supported_components
-    @STONEYDSP_TARGETS@
-)
+set(_@STONEYDSP_SLUG@_supported_components @STONEYDSP_COMPONENTS@)
 
 ## Custom 'check_required_components' macro
 foreach(_requested_component ${@STONEYDSP_SLUG@_FIND_COMPONENTS})
@@ -95,16 +95,33 @@ foreach(_requested_component ${@STONEYDSP_SLUG@_FIND_COMPONENTS})
         set(@STONEYDSP_SLUG@_FOUND False)
         set(@STONEYDSP_SLUG@_NOT_FOUND_MESSAGE "Unsupported component: ${_requested_component}")
     endif()
-    include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_SLUG@-${_requested_component}-targets.cmake")
-    # Tell the user what is happening
-    message(STATUS "Imported target: @STONEYDSP_SLUG@::${_requested_component}")
+    if(_requested_component STREQUAL "Core")
+        set(_component_slug core)
+    elseif(_requested_component STREQUAL "SIMD")
+        set(_component_slug simd)
+    elseif(_requested_component STREQUAL "DSP")
+        set(_component_slug dsp)
+    endif()
+    if(NOT EXISTS "${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_SLUG@-${_component_slug}-targets.cmake")
+        message(FATAL_ERROR "Component '${_requested_component}' is not built in this package")
+    endif()
+    # The target file is loaded below with all available components.
+    message(STATUS "Requested component: @STONEYDSP_BRAND@::${_requested_component}")
 endforeach()
 
+# Load all available component targets so transitive component dependencies are
+# available when a consumer requests only a higher-level component.
+foreach(_component_slug core simd dsp)
+    if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_SLUG@-${_component_slug}-targets.cmake")
+        include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_SLUG@-${_component_slug}-targets.cmake")
+    endif()
+endforeach()
+unset(_component_slug)
 unset(_@STONEYDSP_SLUG@_supported_components)
 # 'always-on' library target
 include("${CMAKE_CURRENT_LIST_DIR}/@STONEYDSP_TARGET_NAME@-targets.cmake")
 # Tell the user what is happening
-message(STATUS "Imported target: @STONEYDSP_SLUG@::@STONEYDSP_TARGET_NAME@")
+message(STATUS "Imported target: @STONEYDSP_BRAND@::StoneyDSP")
 ]==])
 
 # create cmake config file

@@ -33,14 +33,14 @@ jobs:
     steps:
 
     - name: Enable GitHub Actions Cache backend
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       with:
         script: |
           core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
           core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
     - name: Checkout source code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         submodules: true
         fetch-depth: 0
@@ -61,7 +61,7 @@ jobs:
 
     - name: Set up MSYS2
       if: matrix.msystem != 'MSVC_x86' && matrix.msystem != 'MSVC_x64'
-      uses: msys2/setup-msys2@v2
+      uses: msys2/setup-msys2@v2.32.0
       with:
         msystem: MSYS
         update: true
