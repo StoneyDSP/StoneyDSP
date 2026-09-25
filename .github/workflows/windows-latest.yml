@@ -302,6 +302,8 @@ jobs:
 
     env:
       VCPKG_ROOT: ${{ github.workspace }}\dep\vcpkg
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}\.cache\vcpkg\archives
+      VCPKG_DOWNLOADS: ${{ github.workspace }}\.cache\vcpkg\downloads
 
     steps:
 
