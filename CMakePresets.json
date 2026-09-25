@@ -260,7 +260,6 @@
 				"x86",
 				"windows"
 			],
-			"generator": "Ninja",
 			"cacheVariables": {
 				"VCPKG_HOST_TRIPLET": {
 					"value": "x64-windows",
@@ -287,7 +286,6 @@
 				"x64",
 				"windows"
 			],
-			"generator": "Ninja",
 			"cacheVariables": {
 				"VCPKG_HOST_TRIPLET": {
 					"value": "x64-windows",
