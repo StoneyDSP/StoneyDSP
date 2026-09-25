@@ -23,7 +23,6 @@
     #include <cfloat>
     #include <cinttypes>
     #include <climits>
-    #include <cstdbool>
     #include <cstddef>
     #include <cstdint>
     #include <cuchar>

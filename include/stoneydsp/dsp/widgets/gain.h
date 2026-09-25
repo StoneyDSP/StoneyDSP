@@ -39,12 +39,12 @@ public:
   processSample (TSamples *sample)
   {
 
-    const auto &gain = this->getGain ();
+    const TGain gain = this->getGain ();
 
     this->applyGain (sample, 1U, gain);
   }
 
-  inline const TGain &STONEYDSP_API
+  inline TGain STONEYDSP_API
   getGain () const noexcept
   {
     return this->_gain;

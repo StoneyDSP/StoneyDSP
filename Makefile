@@ -274,6 +274,7 @@ INCLUDE_DIR := $(BUILD_DIR)/include
 ## Source files
 CORE_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/core/core.cpp)
 DSP_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/dsp/dsp.cpp)
+DSP_SRCS += $(wildcard $(SRC_DIR)/stoneydsp/dsp/filters/*.cpp)
 SIMD_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/simd/simd.cpp)
 LIB_SRCS := $(wildcard $(SRC_DIR)/stoneydsp/stoneydsp.cpp)
 
@@ -574,6 +575,7 @@ ASM_OBJCXX_COMPILER_LAUNCHER := $(ASM_OBJCXX_COMPILER) -S $(ASMFLAGS)
 # <C;CXX;OBJC;OBJCXX>
 CC_COMPILER_LAUNCHER := $(CC_COMPILER) -c $(CFLAGS)
 CXX_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(CXXFLAGS)
+CXX_ASSEMBLER_COMPILER_LAUNCHER := $(CXX_COMPILER) -c $(filter-out -pedantic,$(CXXFLAGS))
 OBJC_COMPILER_LAUNCHER := $(OBJC_COMPILER) -c $(OBJCFLAGS)
 OBJCXX_COMPILER_LAUNCHER := $(OBJCXX_COMPILER) -c $(OBJCXXFLAGS)
 
@@ -653,7 +655,7 @@ $(BUILD_DIR)/src/%.cpp.o: $(BUILD_DIR)/src/%.cpp.s
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	$(CXX_ASSEMBLER_COMPILER_LAUNCHER) -x assembler $< -o $@
 	@echo Built target successfully: $@
 	@echo
 
@@ -745,7 +747,7 @@ $(BUILD_DIR)/bin/main.cpp.o: $(BUILD_DIR)/bin/main.cpp.s
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	$(CXX_ASSEMBLER_COMPILER_LAUNCHER) -x assembler $< -o $@
 	@echo Built target successfully: $@
 	@echo
 
@@ -790,7 +792,7 @@ $(TEST_TARGET): $(TARGET) $(TEST_OBJS)
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX) $(TEST_OBJS) -L$(BUILD_DIR)/lib -o $@ $(LDFLAGS) -lstoneydsp
+	$(CXX) $(TEST_OBJS) $(TARGET) -o $@ $(LDFLAGS)
 	@echo Built target successfully: $@
 	@echo
 
@@ -823,7 +825,7 @@ $(BUILD_DIR)/test/%.test.cpp.o: $(BUILD_DIR)/test/%.test.cpp.s
 	@echo
 	@echo Building target: $@
 	@mkdir -p $(dir $@)
-	$(CXX_COMPILER_LAUNCHER) -x assembler $< -o $@
+	$(CXX_ASSEMBLER_COMPILER_LAUNCHER) -x assembler $< -o $@
 	@echo Built target successfully: $@
 	@echo
 
