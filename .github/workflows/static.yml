@@ -27,7 +27,9 @@ env:
   CMAKE_BUILD_PARALLEL_LEVEL: 3
   CMAKE_INSTALL_PARALLEL_LEVEL: 3
   VCPKG_MAX_CONCURRENCY: 3
-  VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.cache/vcpkg/archives
+  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg/downloads
+  VCPKG_BINARY_SOURCES: "clear;default,readwrite"
 
 jobs:
   # Single deploy job since we're just deploying
@@ -45,18 +47,26 @@ jobs:
           submodules: true
           fetch-depth: 0
 
+      - name: Prepare vcpkg cache directories
+        shell: bash
+        run: mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE" "$VCPKG_DOWNLOADS"
+
+      - name: Restore vcpkg caches
+        id: vcpkg-cache
+        continue-on-error: true
+        uses: actions/cache/restore@v5
+        with:
+          path: |
+            ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+            ${{ env.VCPKG_DOWNLOADS }}
+          key: vcpkg-${{ runner.os }}-docs-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-${{ github.sha }}
+          restore-keys: |
+            vcpkg-${{ runner.os }}-docs-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-
+
       - name: Install System Deps
         run: |
           sudo apt-get update
           sudo apt install coreutils make vim doxygen pkg-config ninja-build cmake graphviz ccache
-
-      # CI helpers
-      - name: Enable GitHub Actions Cache backend
-        uses: actions/github-script@v8
-        with:
-          script: |
-            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
-            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Configure StoneyDSP
         working-directory: ${{ github.workspace }}
@@ -67,6 +77,16 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           make doc BUILD_CORE=1
+
+      - name: Save vcpkg caches
+        if: success() && steps.vcpkg-cache.outcome != 'failure'
+        continue-on-error: true
+        uses: actions/cache/save@v5
+        with:
+          path: |
+            ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+            ${{ env.VCPKG_DOWNLOADS }}
+          key: ${{ steps.vcpkg-cache.outputs.cache-primary-key }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v6
