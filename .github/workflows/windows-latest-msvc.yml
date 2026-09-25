@@ -1,0 +1,111 @@
+name: windows
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      run_msvc_x64:
+        description: Run the MSVC x64 build
+        required: false
+        type: boolean
+        default: true
+      run_msvc_x86:
+        description: Run the MSVC x86 compatibility build
+        required: false
+        type: boolean
+        default: true
+
+concurrency:
+  group: windows-latest-msvc-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DISPLAY: :0
+  CMAKE_BUILD_PARALLEL_LEVEL: 3
+  CMAKE_INSTALL_PARALLEL_LEVEL: 3
+  VCPKG_MAX_CONCURRENCY: 3
+  VCPKG_MANIFEST_MODE: ON
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.cache/vcpkg/archives
+  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg/downloads
+  VCPKG_BINARY_SOURCES: "clear;default,readwrite"
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  windows:
+    if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x64 || inputs.run_msvc_x86
+    name: Windows ${{ matrix.arch }}
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        arch: [MSVC_x64, MSVC_x86]
+
+    defaults:
+      run:
+        shell: pwsh
+
+    steps:
+
+    - name: Enable GitHub Actions Cache backend
+      uses: actions/github-script@v8
+      with:
+        script: |
+          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
+
+    - name: Checkout source code
+      uses: actions/checkout@v6
+      with:
+        submodules: true
+        fetch-depth: 0
+
+    - name: Prepare vcpkg cache directories
+      run: |
+        New-Item -ItemType Directory -Force -Path $env:VCPKG_DEFAULT_BINARY_CACHE
+        New-Item -ItemType Directory -Force -Path $env:VCPKG_DOWNLOADS
+
+    - name: Restore vcpkg caches
+      id: vcpkg-cache
+      continue-on-error: true
+      uses: actions/cache/restore@v5
+      with:
+        path: |
+          ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+          ${{ env.VCPKG_DOWNLOADS }}
+        key: vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
+        restore-keys: |
+          vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-
+
+    - name: Set up MSVC environment (x64)
+      if: matrix.arch == 'MSVC_x64'
+      shell: pwsh
+      run: |
+        Invoke-Expression -Command "& 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat'"
+        cl
+
+    - name: Set up MSVC environment (x86)
+      if: matrix.arch == 'MSVC_x86'
+      shell: pwsh
+      run: |
+        Invoke-Expression -Command "& 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars32.bat'"
+        cl
+
+    - name: version check
+      shell: pwsh
+      run: node ./scripts/bump-version.mjs --check
+
+    - name: Configure with MSVC x64
+      if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x64
+      run: |
+        cmake --preset x64-msvc-windows -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
+
+    - name: Configure with MSVC x86
+      if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x86
+      run: |
+        cmake --preset x86-msvc-windows -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
+
+    - name: Build with MSVC
+      run: cmake --build build --config Release --parallel 3
+
+    - name: Test with MSVC
+      run: ctest --test-dir build -C Release --output-on-failure
