@@ -1,16 +1,48 @@
+/**
+ * @file biquad.h
+ * @author StoneyDSP (nathanjhood@googlemail.com)
+ * @brief
+ * @version @STONEYDSP_CORE_VERSION@
+ * @date 2025-01-27
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+
 #pragma once
 
 #ifndef STONEYDSP_DSP_FILTERS_BIQUAD_H_INCLUDED
   #define STONEYDSP_DSP_FILTERS_BIQUAD_H_INCLUDED
 
+//==============================================================================
+
   #include "stoneydsp/dsp/filters/biquad_coefficients.h"
+
+//==============================================================================
 
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ * @{
+ */
+
+//==============================================================================
+
 namespace dsp
 {
+/** @addtogroup dsp
+ * @{
+ */
+
+//==============================================================================
+
 namespace filters
 {
+/** @addtogroup filters
+ * @{
+ */
+
+//==============================================================================
 
 /** Available direct-form realisations of a biquad transfer function. */
 enum class BiquadTransformType
@@ -20,6 +52,8 @@ enum class BiquadTransformType
   directFormITransposed,
   directFormIITransposed
 };
+
+//==============================================================================
 
 /**
  * A single-channel, allocation-free realisation of the StoneyDSP Biquads
@@ -36,6 +70,9 @@ enum class BiquadTransformType
 template <typename SampleType = ::stoneydsp::core::types::double_t>
 class Biquad
 {
+
+  //============================================================================
+
 public:
   typedef BiquadCoefficients<SampleType> Coefficients;
   typedef BiquadFilterType FilterType;
@@ -88,7 +125,11 @@ public:
 
   bool STONEYDSP_API isPrepared () const STONEYDSP_NOEXCEPT;
 
+  //============================================================================
+
 private:
+  //============================================================================
+
   SampleType processDirectFormI (SampleType input) STONEYDSP_NOEXCEPT;
   SampleType processDirectFormII (SampleType input) STONEYDSP_NOEXCEPT;
   SampleType
@@ -114,15 +155,32 @@ private:
   SampleType _y2;
   bool _prepared;
 
+  //============================================================================
+
   STONEYDSP_DECLARE_NON_COPYABLE (Biquad)
   STONEYDSP_DECLARE_NON_MOVEABLE (Biquad)
 };
 
+//==============================================================================
+
 using Biquad_float_t = Biquad< ::stoneydsp::core::types::float_t>;
 using Biquad_double_t = Biquad< ::stoneydsp::core::types::double_t>;
 
+//==============================================================================
+
+/// @} group filters
 } // namespace filters
+
+//==============================================================================
+
+/// @} group dsp
 } // namespace dsp
-} // namespace stoneydsp
+
+//==============================================================================
+
+/// @} group stoneydsp
+} //  namespace stoneydsp
+
+//==============================================================================
 
 #endif // STONEYDSP_DSP_FILTERS_BIQUAD_H_INCLUDED

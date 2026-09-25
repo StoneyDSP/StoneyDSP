@@ -1,19 +1,53 @@
+/**
+ * @file biquad_coefficients.h
+ * @author StoneyDSP (nathanjhood@googlemail.com)
+ * @brief
+ * @version @STONEYDSP_CORE_VERSION@
+ * @date 2025-01-27
+ *
+ * @copyright Copyright (c) 2025
+ *
+ */
+
 #pragma once
 
 #ifndef STONEYDSP_DSP_FILTERS_BIQUAD_COEFFICIENTS_H_INCLUDED
   #define STONEYDSP_DSP_FILTERS_BIQUAD_COEFFICIENTS_H_INCLUDED
 
+//==============================================================================
+
   #include <stoneydsp/core/core.h>
+
+//==============================================================================
 
   #include <cmath>
   #include <type_traits>
 
+//==============================================================================
+
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ * @{
+ */
+
+//==============================================================================
+
 namespace dsp
 {
+/** @addtogroup dsp
+ * @{
+ */
+
+//==============================================================================
+
 namespace filters
 {
+/** @addtogroup filters
+ * @{
+ */
+
+//==============================================================================
 
 /** Filter responses implemented by the original StoneyDSP Biquads design. */
 enum class BiquadFilterType
@@ -34,6 +68,8 @@ enum class BiquadFilterType
   notch,
   allPass
 };
+
+//==============================================================================
 
 /**
  * Normalised coefficients for a first- or second-order IIR section.
@@ -56,25 +92,37 @@ struct BiquadCoefficients
   SampleType a1;
   SampleType a2;
 
-  STONEYDSP_CONSTEXPR BiquadCoefficients () STONEYDSP_NOEXCEPT
-      : b0 (static_cast<SampleType> (1)),
-        b1 (static_cast<SampleType> (0)),
-        b2 (static_cast<SampleType> (0)),
-        a1 (static_cast<SampleType> (0)),
-        a2 (static_cast<SampleType> (0))
+  STONEYDSP_CONSTEXPR
+  BiquadCoefficients () STONEYDSP_NOEXCEPT : b0 (static_cast<SampleType> (1)),
+                                             b1 (static_cast<SampleType> (0)),
+                                             b2 (static_cast<SampleType> (0)),
+                                             a1 (static_cast<SampleType> (0)),
+                                             a2 (static_cast<SampleType> (0))
   {
   }
 
-  STONEYDSP_CONSTEXPR BiquadCoefficients (
-      SampleType newB0, SampleType newB1, SampleType newB2,
-      SampleType newA1, SampleType newA2) STONEYDSP_NOEXCEPT
-      : b0 (newB0), b1 (newB1), b2 (newB2), a1 (newA1), a2 (newA2)
+  STONEYDSP_CONSTEXPR
+  BiquadCoefficients (SampleType newB0, SampleType newB1, SampleType newB2,
+                      SampleType newA1, SampleType newA2) STONEYDSP_NOEXCEPT
+      : b0 (newB0),
+        b1 (newB1),
+        b2 (newB2),
+        a1 (newA1),
+        a2 (newA2)
   {
   }
 };
 
+//==============================================================================
+
 namespace detail
 {
+/** @addtogroup detail
+ * @{
+ */
+
+//==============================================================================
+
 template <typename ValueType>
 STONEYDSP_INLINE ValueType
 clampBiquadValue (ValueType value, ValueType minimum,
@@ -82,7 +130,11 @@ clampBiquadValue (ValueType value, ValueType minimum,
 {
   return value < minimum ? minimum : (value > maximum ? maximum : value);
 }
+
+/// @} group detail
 } // namespace detail
+
+//==============================================================================
 
 /**
  * Calculates the coefficient set used by the Biquads plugin.
@@ -119,11 +171,10 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
   const SampleType cosine = std::cos (omega);
   const SampleType sine = std::sin (omega);
   const SampleType alpha = sine * (one - limitedResonance);
-  const SampleType amplitude = std::pow (
-      static_cast<SampleType> (10),
-      gainDecibels * static_cast<SampleType> (0.05L));
-  const SampleType shelfAlpha
-      = (std::sqrt (amplitude) * two) * alpha;
+  const SampleType amplitude
+      = std::pow (static_cast<SampleType> (10),
+                  gainDecibels * static_cast<SampleType> (0.05L));
+  const SampleType shelfAlpha = (std::sqrt (amplitude) * two) * alpha;
 
   SampleType b0 = one;
   SampleType b1 = zero;
@@ -189,13 +240,11 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
       break;
 
     case BiquadFilterType::lowShelf2:
-      b0 = (((amplitude + one) - ((amplitude - one) * cosine)
-             + shelfAlpha)
+      b0 = (((amplitude + one) - ((amplitude - one) * cosine) + shelfAlpha)
             * amplitude);
       b1 = (((amplitude - one) - ((amplitude + one) * cosine)) * two
             * amplitude);
-      b2 = (((amplitude + one) - ((amplitude - one) * cosine)
-             - shelfAlpha)
+      b2 = (((amplitude + one) - ((amplitude - one) * cosine) - shelfAlpha)
             * amplitude);
       a0 = (amplitude + one) + ((amplitude - one) * cosine) + shelfAlpha;
       a1 = -two * ((amplitude - one) + ((amplitude + one) * cosine));
@@ -203,10 +252,8 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
       break;
 
     case BiquadFilterType::lowShelf1:
-      b0 = one + ((omega / (one + omega))
-                  * (-one + (amplitude * amplitude)));
-      b1 = ((omega / (one + omega))
-            * (-one + (amplitude * amplitude)))
+      b0 = one + ((omega / (one + omega)) * (-one + (amplitude * amplitude)));
+      b1 = ((omega / (one + omega)) * (-one + (amplitude * amplitude)))
            - ((one - omega) / (one + omega));
       b2 = zero;
       a0 = one;
@@ -217,8 +264,9 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
     case BiquadFilterType::lowShelf1C:
       {
         const SampleType warpedOmega = omega / amplitude;
-        b0 = one + ((warpedOmega / (one + warpedOmega))
-                    * (-one + (amplitude * amplitude)));
+        b0 = one
+             + ((warpedOmega / (one + warpedOmega))
+                * (-one + (amplitude * amplitude)));
         b1 = ((warpedOmega / (one + warpedOmega))
               * (-one + (amplitude * amplitude)))
              - ((one - warpedOmega) / (one + warpedOmega));
@@ -230,13 +278,11 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
       break;
 
     case BiquadFilterType::highShelf2:
-      b0 = (((amplitude + one) + ((amplitude - one) * cosine)
-             + shelfAlpha)
+      b0 = (((amplitude + one) + ((amplitude - one) * cosine) + shelfAlpha)
             * amplitude);
       b1 = (-two * ((amplitude - one) + ((amplitude + one) * cosine))
             * amplitude);
-      b2 = (((amplitude + one) + ((amplitude - one) * cosine)
-             - shelfAlpha)
+      b2 = (((amplitude + one) + ((amplitude - one) * cosine) - shelfAlpha)
             * amplitude);
       a0 = (amplitude + one) - ((amplitude - one) * cosine) + shelfAlpha;
       a1 = two * ((amplitude - one) - ((amplitude + one) * cosine));
@@ -256,11 +302,9 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
     case BiquadFilterType::highShelf1C:
       {
         const SampleType warpedOmega = omega * amplitude;
-        b0 = one
-             + ((-one + (amplitude * amplitude)) / (one + warpedOmega));
+        b0 = one + ((-one + (amplitude * amplitude)) / (one + warpedOmega));
         b1 = -(((one - warpedOmega) / (one + warpedOmega))
-               + ((-one + (amplitude * amplitude))
-                  / (one + warpedOmega)));
+               + ((-one + (amplitude * amplitude)) / (one + warpedOmega)));
         b2 = zero;
         a0 = one;
         a1 = -(one - warpedOmega) / (one + warpedOmega);
@@ -297,13 +341,26 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
     }
 
   const SampleType inverseA0 = one / a0;
-  return BiquadCoefficients<SampleType> (
-      b0 * inverseA0, b1 * inverseA0, b2 * inverseA0,
-      -a1 * inverseA0, -a2 * inverseA0);
+  return BiquadCoefficients<SampleType> (b0 * inverseA0, b1 * inverseA0,
+                                         b2 * inverseA0, -a1 * inverseA0,
+                                         -a2 * inverseA0);
 }
 
+//==============================================================================
+
+/// @} group filters
 } // namespace filters
+
+//==============================================================================
+
+/// @} group dsp
 } // namespace dsp
+
+//==============================================================================
+
+/// @} group stoneydsp
 } // namespace stoneydsp
+
+//==============================================================================
 
 #endif // STONEYDSP_DSP_FILTERS_BIQUAD_COEFFICIENTS_H_INCLUDED

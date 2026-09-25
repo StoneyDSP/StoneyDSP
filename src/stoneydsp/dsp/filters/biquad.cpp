@@ -4,17 +4,40 @@
  * @copyright Copyright (c) 2026
  */
 
+//==============================================================================
+
 #include "stoneydsp/dsp/filters/biquad.h"
+
+//==============================================================================
 
 #include <cassert>
 #include <cmath>
 
+//==============================================================================
+
 namespace stoneydsp
 {
+/** @addtogroup stoneydsp
+ * @{
+ */
+
+//==============================================================================
+
 namespace dsp
 {
+/** @addtogroup dsp
+ * @{
+ */
+
+//==============================================================================
+
 namespace filters
 {
+/** @addtogroup filters
+ * @{
+ */
+
+//==============================================================================
 
 template <typename SampleType>
 Biquad<SampleType>::Biquad () STONEYDSP_NOEXCEPT
@@ -118,12 +141,11 @@ template <typename SampleType>
 SampleType
 Biquad<SampleType>::processDirectFormI (SampleType input) STONEYDSP_NOEXCEPT
 {
-  const SampleType output
-      = (input * this->_coefficients.b0)
-        + (this->_x1 * this->_coefficients.b1)
-        + (this->_x2 * this->_coefficients.b2)
-        + (this->_y1 * this->_coefficients.a1)
-        + (this->_y2 * this->_coefficients.a2);
+  const SampleType output = (input * this->_coefficients.b0)
+                            + (this->_x1 * this->_coefficients.b1)
+                            + (this->_x2 * this->_coefficients.b2)
+                            + (this->_y1 * this->_coefficients.a1)
+                            + (this->_y2 * this->_coefficients.a2);
 
   this->_x2 = this->_x1;
   this->_x1 = input;
@@ -136,9 +158,8 @@ template <typename SampleType>
 SampleType
 Biquad<SampleType>::processDirectFormII (SampleType input) STONEYDSP_NOEXCEPT
 {
-  const SampleType w
-      = input + (this->_w1 * this->_coefficients.a1)
-        + (this->_w2 * this->_coefficients.a2);
+  const SampleType w = input + (this->_w1 * this->_coefficients.a1)
+                       + (this->_w2 * this->_coefficients.a2);
   const SampleType output = (w * this->_coefficients.b0)
                             + (this->_w1 * this->_coefficients.b1)
                             + (this->_w2 * this->_coefficients.b2);
@@ -168,13 +189,12 @@ SampleType
 Biquad<SampleType>::processDirectFormIITransposed (SampleType input)
     STONEYDSP_NOEXCEPT
 {
-  const SampleType output
-      = (input * this->_coefficients.b0) + this->_x2;
+  const SampleType output = (input * this->_coefficients.b0) + this->_x2;
 
   this->_x2 = (input * this->_coefficients.b1) + this->_x1
               + (output * this->_coefficients.a1);
-  this->_x1 = (input * this->_coefficients.b2)
-              + (output * this->_coefficients.a2);
+  this->_x1
+      = (input * this->_coefficients.b2) + (output * this->_coefficients.a2);
   return output;
 }
 
@@ -306,13 +326,26 @@ Biquad<SampleType>::updateCoefficients () STONEYDSP_NOEXCEPT
   this->_frequency = detail::clampBiquadValue (
       this->_frequency, minimumFrequency, maximumFrequency);
   this->_coefficients = calculateBiquadCoefficients (
-      this->_filterType, this->_sampleRate, this->_frequency,
-      this->_resonance, this->_gainDecibels);
+      this->_filterType, this->_sampleRate, this->_frequency, this->_resonance,
+      this->_gainDecibels);
 }
+
+//==============================================================================
 
 template class Biquad< ::stoneydsp::core::types::float_t>;
 template class Biquad< ::stoneydsp::core::types::double_t>;
 
+//==============================================================================
+
+/// @} group filters
 } // namespace filters
+
+//==============================================================================
+
+/// @} group dsp
 } // namespace dsp
+
+//==============================================================================
+
+/// @} group stoneydsp
 } // namespace stoneydsp
