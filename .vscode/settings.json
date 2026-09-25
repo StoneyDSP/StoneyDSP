@@ -313,5 +313,14 @@
 			],
 			"url": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg-configuration.schema.json"
 		}
-	]
+	],
+	"chat.agentHost.githubMcpServer.enabled": true,
+	"chat.contextUsage.enabled": true,
+	"chat.mcp.discovery.enabled": {
+		"claude-desktop": false,
+		"copilot": false,
+		"windsurf": false,
+		"cursor-global": false,
+		"cursor-workspace": false
+	}
 }
