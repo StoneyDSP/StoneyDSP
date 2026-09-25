@@ -40,6 +40,10 @@ jobs:
         submodules: true
         fetch-depth: 0
 
+    - name: version check
+      shell: msys2 {0}
+      run: make version-check
+
     - name: Prepare vcpkg cache directories
       shell: pwsh
       run: |

@@ -1,4 +1,4 @@
-option(STONEYDSP_GENERATE_VERSIONS "" ON)
+option(STONEYDSP_GENERATE_VERSIONS "" OFF)
 
 set(_STONEYDSP_MANAGED_VERSION)
 
@@ -66,14 +66,6 @@ macro(stoneydsp_git_versions)
 
     set(_STONEYDSP_MANAGED_VERSION "0.0.${STONEYDSP_GIT_COMMIT_COUNT}.${STONEYDSP_GIT_REF_HEAD_SHORT}")
 endmacro(stoneydsp_git_versions)
-
-macro(stoneydsp_update_version_file)
-    set(STONEYDSP_VERSION_FILE "${STONEYDSP_SOURCE_DIR}/VERSION")
-    file(WRITE "${STONEYDSP_VERSION_FILE}.tmp" "${STONEYDSP_VERSION_MAJOR}.${STONEYDSP_VERSION_MINOR}.${STONEYDSP_VERSION_PATCH}.${STONEYDSP_VERSION_TWEAK}\n")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different "${STONEYDSP_VERSION_FILE}.tmp" "${STONEYDSP_VERSION_FILE}")
-    file(REMOVE "${STONEYDSP_VERSION_FILE}.tmp")
-    set(STONEYDSP_VERSION_FILE "${STONEYDSP_VERSION_FILE}" CACHE INTERNAL "STONEYDSP current version file." FORCE)
-endmacro(stoneydsp_update_version_file)
 
 macro(stoneydsp_git_module_versions MODULE)
     set(${MODULE}_VERSION_MAJOR "${STONEYDSP_VERSION_MAJOR}")

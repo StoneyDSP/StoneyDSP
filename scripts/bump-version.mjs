@@ -9,8 +9,6 @@ const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1;
 const RELEASE_VERSION_PATTERN =
   /^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)$/;
-const GENERATED_VERSION_PATTERN =
-  /^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)\.(?<build>[0-9a-f]+)$/i;
 
 export async function main(ctx) {
   const args = ctx.process.argv.slice(2);
@@ -38,11 +36,7 @@ export async function main(ctx) {
   }
 
   if (checkOnly) {
-    ctx.console.log(
-      parsed.generated
-        ? `${formatReleaseVersion(parsed)} (generated development version)`
-        : formatReleaseVersion(parsed)
-    );
+    ctx.console.log(formatReleaseVersion(parsed));
     return EXIT_SUCCESS;
   }
 
@@ -65,18 +59,15 @@ export async function main(ctx) {
 
 function parseVersion(version) {
   const releaseMatch = RELEASE_VERSION_PATTERN.exec(version);
-  const generatedMatch = GENERATED_VERSION_PATTERN.exec(version);
-  const match = releaseMatch ?? generatedMatch;
-  if (!match?.groups) {
+  if (!releaseMatch?.groups) {
     throw new Error(
       `Unsupported VERSION value '${version}'. Expected MAJOR.MINOR.PATCH.`
     );
   }
   return {
-    major: Number(match.groups.major),
-    minor: Number(match.groups.minor),
-    patch: Number(match.groups.patch),
-    generated: Boolean(generatedMatch),
+    major: Number(releaseMatch.groups.major),
+    minor: Number(releaseMatch.groups.minor),
+    patch: Number(releaseMatch.groups.patch),
   };
 }
 
