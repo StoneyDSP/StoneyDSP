@@ -139,7 +139,7 @@ operator""_double_t (long double value) STONEYDSP_NOEXCEPT
 //==============================================================================
 
 template <>
-STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
+STONEYDSP_PACKED_STRUCT_BEGIN struct
 STONEYDSP_ALIGN (alignof (STONEYDSP_DBL_T)) numeric_limits<STONEYDSP_DBL_T>
 {
 
