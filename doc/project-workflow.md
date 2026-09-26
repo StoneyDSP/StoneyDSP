@@ -1,4 +1,4 @@
-# Project workflow
+# Project workflow {#project_workflow}
 
 This document describes the normal public workflow for StoneyDSP library and
 consumer development. It is intentionally practical: the issue, project-board,
@@ -50,7 +50,7 @@ consumer repositories. Keep the board intentionally small and current:
 - `Ready`: scoped work that can be started;
 - `In Progress`: actively being implemented;
 - `Review`: a pull request is open and awaiting review or required checks;
-- `Testing`: implementation is merged or staged for focused validation;
+- `Test`: implementation is merged or staged for focused validation;
 - `Done`: acceptance criteria are satisfied.
 
 Use repository-filtered views when the organization project contains multiple

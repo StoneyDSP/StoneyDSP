@@ -1,7 +1,11 @@
 /**
  * @file stoneydsp.h
  * @author StoneyDSP (nathanjhood@googlemail.com)
- * @brief
+ * @brief Top-level public StoneyDSP umbrella header.
+ *
+ * Component headers remain independently usable; consumers that require a
+ * specific component may include its component header directly and should link
+ * the matching exported CMake target.
  * @version @STONEYDSP_VERSION@
  * @date 2025-01-27
  *

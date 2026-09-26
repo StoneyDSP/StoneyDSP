@@ -1,7 +1,12 @@
 /**
  * @file dsp.h
  * @author StoneyDSP (nathanjhood@googlemail.com)
- * @brief
+ * @brief Public umbrella for reusable C++ DSP primitives.
+ *
+ * The DSP component depends on the portable core surface. Stateful processors
+ * own their processing state; stateless coefficient and conversion helpers are
+ * provided separately. This header deliberately has no JUCE or product-host
+ * dependency.
  * @version @STONEYDSP_DSP_VERSION@
  * @date 2025-02-22
  *

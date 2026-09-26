@@ -9,10 +9,34 @@
       "sha256": "28509a848d41296af50fda437e10ec7b3cad5eea3572bc437ddbd5827a94f8f2"
     },
     {
+      "name": "dsp-discovery-promotion",
+      "description": "Promote a DSP idea from JSFX, Reaktor Core, legacy personal plugins, experiments, papers, or measurements into a small portable StoneyDSP primitive. Use when auditing candidate source, recovering a proven behaviour, defining its contract, or deciding whether it belongs in the library.",
+      "path": ".agents/skills/dsp-discovery-promotion/SKILL.md",
+      "sha256": "3b51c867d68936daad2b6336f0bfde676bcd697d723585b15f10104c8a024d7d"
+    },
+    {
+      "name": "juce-cmake-consumer-integration",
+      "description": "Integrate StoneyDSP into a JUCE CMake product without turning the library into a JUCE dependency or duplicating its implementation. Use when creating or reviewing a JUCE plugin, standalone app, consumer smoke test, or optional JUCE-module adapter.",
+      "path": ".agents/skills/juce-cmake-consumer-integration/SKILL.md",
+      "sha256": "4e8dfdbbd28e170e1f3a575a14f04bfbaa58c78cc25a0adbdf86e88776bb732c"
+    },
+    {
+      "name": "portable-api-evolution",
+      "description": "Change or review StoneyDSP C/C++ public declarations, visibility macros, ABI-sensitive types, or realtime processor ownership across GCC, Clang, MinGW, and MSVC. Use when compiler/linker failures involve exports, C linkage, variadic macros, templates, or installed consumer behaviour.",
+      "path": ".agents/skills/portable-api-evolution/SKILL.md",
+      "sha256": "420129c718fca07fddbb9fe189f21287843371c414b745be72a8a31f0146d05a"
+    },
+    {
       "name": "public-api-consumer-validation",
       "description": "Validate a portable C/C++ library as an external consumer across package targets, static/shared linkage, and representative toolchains. Use when adding or reviewing consumer smoke tests, install/export checks, ABI visibility coverage, or C compatibility validation in StoneyDSP.",
       "path": ".agents/skills/public-api-consumer-validation/SKILL.md",
       "sha256": "ef933065bdda66126378f696559ebb81e4344fa1e348e5edf116cba10ebd6e85"
+    },
+    {
+      "name": "web-ui-native-bridge",
+      "description": "Design and validate a bounded web-like UI to JUCE-native audio bridge while preserving host automation, realtime safety, and editor-independent audio. Use when a StoneyDSP product uses JUCE WebBrowserComponent, TypeScript, Canvas/WebGL, Lightning, DOM, or a future StoneyUI contract.",
+      "path": ".agents/skills/web-ui-native-bridge/SKILL.md",
+      "sha256": "f3bcc6d747c6cbbe5ce068f92cbddae78d454fd7a20060d97d732c49f27c0649"
     }
   ]
 }

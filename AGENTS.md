@@ -115,8 +115,9 @@ The separate WebAudio FFT/spectrogram/oscilloscope projects are validation and
 UI clients, not current StoneyDSP components. Keep analysis kernels,
 audio/bridge transport, and renderers separate if a future shared extraction is
 justified.
-The selected next vertical slice and its prerequisite package-contract repair
-are maintained in the active `.agents/current-work/` handoff note.
+The selected next vertical slice and its current prerequisites are maintained
+in the active `.agents/current-work/` handoff note. The package-contract repair
+is complete; retain the external consumer fixture as a regression gate.
 
 ## CMake, vcpkg, and Consumer Integration
 
@@ -128,9 +129,11 @@ stable public target/component names are:
 - `StoneyDSP::DSP`
 - the aggregate `StoneyDSP` target where applicable
 
-The current production checkout's refactored package exports must be reconciled
-with these names and revalidated through an external consumer before they are
-described as proven.
+The current production checkout's component exports have external C/C++ consumer
+smoke coverage. Revalidate that fixture whenever public headers, target names,
+install destinations, component dependencies, linkage mode, or port metadata
+change; do not describe a changed package contract as proven from a library
+build alone.
 
 Keep library builds, install/export tests, and vcpkg package tests aligned.
 Downstream consumers may use a local StoneyDSP checkout through a vcpkg port
