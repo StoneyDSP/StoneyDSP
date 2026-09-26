@@ -7,6 +7,12 @@
       "description": "Develop and review behavioural analogue-circuit models for audio DSP, especially JSFX/EEL2 workbench experiments. Use when translating schematics, measurements, or circuit behaviour into reusable DSP blocks; deciding model boundaries; separating ideal controls from finite analogue stages; modelling rails, feedback, bandwidth, slew, noise, summing, filters, or nonlinearities; and designing validation/null tests. Prefer topology-informed, measurable abstractions over component cosplay, and keep project-specific evidence distinct from general modelling assumptions.",
       "path": ".agents/skills/analogue-circuit-dsp/SKILL.md",
       "sha256": "28509a848d41296af50fda437e10ec7b3cad5eea3572bc437ddbd5827a94f8f2"
+    },
+    {
+      "name": "public-api-consumer-validation",
+      "description": "Validate a portable C/C++ library as an external consumer across package targets, static/shared linkage, and representative toolchains. Use when adding or reviewing consumer smoke tests, install/export checks, ABI visibility coverage, or C compatibility validation in StoneyDSP.",
+      "path": ".agents/skills/public-api-consumer-validation/SKILL.md",
+      "sha256": "ef933065bdda66126378f696559ebb81e4344fa1e348e5edf116cba10ebd6e85"
     }
   ]
 }
