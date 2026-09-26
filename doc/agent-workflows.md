@@ -60,6 +60,34 @@ When source headers, component behavior, presets, package exports, or test
 commands change, update the nearest durable documentation in the same change.
 Do not treat generated HTML as a source of truth.
 
+## GitHub board workflow
+
+Issues and pull requests are tracked as separate project items. Use the issue
+`Status ::` field for issues and the pull-request `PR ::` field for pull
+requests.
+
+Issue statuses:
+
+- `Status :: -1 :: Blocked`
+- `Status :: 0 :: Ready`
+- `Status :: 1 :: In Progress`
+- `Status :: 2 :: Review`
+- `Status :: 3 :: Test`
+- `Status :: 4 :: Done`
+
+Pull-request statuses:
+
+- `PR :: 0 :: Draft`
+- `PR :: 1 :: Review`
+- `PR :: 2 :: Feedback`
+- `PR :: 3 :: Approved`
+- `PR :: 4 :: Merged`
+
+Issues hold the work definition and acceptance criteria; pull requests hold
+the implementation and review state. Update the matching project field when
+the item changes state, without applying PR statuses to issues or issue
+statuses to pull requests.
+
 ## Validation rhythm
 
 Use the narrowest focused compile/test command while iterating. Before
