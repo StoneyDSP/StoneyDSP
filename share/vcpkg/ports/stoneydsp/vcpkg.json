@@ -1,6 +1,6 @@
 {
   "name": "stoneydsp",
-  "version-semver": "0.0.956",
+  "version-semver": "0.0.957",
   "description": "Portable C/C++ audio DSP library",
   "homepage": "https://github.com/StoneyDSP/StoneyDSP",
   "license": "MIT",

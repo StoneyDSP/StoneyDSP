@@ -207,6 +207,16 @@ extern char const *stoneydsp_version;
 
 //==============================================================================
 
+  #include "stoneydsp/core/maths/conversions.h"
+
+  #ifdef __cplusplus
+    #include "stoneydsp/core/maths/constants.h"
+    #include "stoneydsp/core/maths/functions.h"
+    #include "stoneydsp/core/maths/integer_functions.h"
+  #endif
+
+//==============================================================================
+
   #ifndef STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES
     #define STONEYDSP_CORE_NS_USE_GENERIC_TYPE_ALIASES 0
   #endif
