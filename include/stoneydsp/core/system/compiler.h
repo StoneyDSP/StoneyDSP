@@ -147,23 +147,26 @@
  * NOTE: `-DSTONEYDSP_EXPORTS` should only be set by StoneyDSP maintainers
  * and contributors.
  *
- * - *we* build StoneyDSP with `-DSTONEYDSP_EXPORTS` so that our library
- * exports its' symbols to consumers.
+ * - *we* build a shared StoneyDSP library with `-DSTONEYDSP_EXPORTS` so that
+ * the annotated symbols are exported to consumers.
  *
- * - *you* build your software against StoneyDSP without setting
- * `-DSTONEYDSP_EXPORTS` so that your software imports our symbols.
+ * - *you* build against a shared StoneyDSP library without setting
+ * `-DSTONEYDSP_EXPORTS` so that those symbols are imported.
  *
- * If StoneyDSP is being built from source, i.e., by a package manager and
- * build system, it should set `-DSTONEYDSP_EXPORTS` if compiling the StoneyDSP
- * library as a binary-compiled resource (i.e., a dynamic or static library).
+ * If StoneyDSP is being built as a shared library, its build should set
+ * `-DSTONEYDSP_EXPORTS`. Static builds and their consumers instead set
+ * `-DSTONEYDSP_STATIC`, since a static library has no DLL import table.
  *
- * If StoneyDSP is being linked with, for example as a pre-built binary in your
- * project's dependency chain, the flag should have already been compiled in,
- * meaning that consumers in this case should *not* be setting it.
+ * Static consumers must set `-DSTONEYDSP_STATIC`; the StoneyDSP CMake target
+ * supplies this definition automatically. Consumers must not set
+ * `-DSTONEYDSP_EXPORTS`.
  *
  */
 
-  #ifdef STONEYDSP_MSVC
+  #ifdef STONEYDSP_STATIC
+    /** @brief Static libraries do not export or import DLL symbols. */
+    #define STONEYDSP_API
+  #elif defined (STONEYDSP_MSVC)
     #ifdef STONEYDSP_EXPORTS
       /** @brief Used to export a function or variable from a DLL. */
       #define STONEYDSP_API __declspec (dllexport)

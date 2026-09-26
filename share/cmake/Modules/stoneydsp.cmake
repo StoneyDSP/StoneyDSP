@@ -211,8 +211,16 @@ function(stoneydsp_add_stoneydsp)
     add_library(${STONEYDSP_SLUG}::${STONEYDSP_TARGET_NAME} ALIAS ${STONEYDSP_TARGET_NAME})
     add_library(${STONEYDSP_BRAND}::${STONEYDSP_SLUG}::${STONEYDSP_TARGET_NAME} ALIAS ${STONEYDSP_TARGET_NAME})
 
+    if(_STONEYDSP_BUILD_STATIC_OR_DYNAMIC STREQUAL "STATIC")
+        # Propagate the static-link contract to build-tree and installed consumers.
+        target_compile_definitions(${STONEYDSP_TARGET_NAME} PUBLIC STONEYDSP_STATIC=1)
+    endif()
+
     foreach(STONEYDSP_OBJECT_LIBRARY IN LISTS STONEYDSP_OBJECT_LIBRARIES_PRIVATE)
         message(DEBUG "Target: ${STONEYDSP_TARGET_NAME} - adding object library: ${STONEYDSP_OBJECT_LIBRARY}")
+        if(_STONEYDSP_BUILD_STATIC_OR_DYNAMIC STREQUAL "STATIC")
+            target_compile_definitions(${STONEYDSP_OBJECT_LIBRARY} PRIVATE STONEYDSP_STATIC=1)
+        endif()
         target_sources(${STONEYDSP_TARGET_NAME}
             PRIVATE
             $<TARGET_OBJECTS:${STONEYDSP_OBJECT_LIBRARY}>
