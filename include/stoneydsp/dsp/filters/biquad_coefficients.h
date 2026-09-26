@@ -150,6 +150,8 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
                              SampleType frequency, SampleType resonance,
                              SampleType gainDecibels) STONEYDSP_NOEXCEPT
 {
+  typedef ::stoneydsp::core::maths::Constants<SampleType> Constants;
+
   const SampleType zero = static_cast<SampleType> (0);
   const SampleType one = static_cast<SampleType> (1);
   const SampleType two = static_cast<SampleType> (2);
@@ -165,15 +167,13 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
       frequency, minimumFrequency, maximumFrequency);
   const SampleType limitedResonance
       = detail::clampBiquadValue (resonance, zero, one);
-  const SampleType pi
-      = static_cast<SampleType> (3.14159265358979323846264338327950288L);
-  const SampleType omega = limitedFrequency * ((pi * two) / sampleRate);
+  const SampleType omega
+      = limitedFrequency * (Constants::twoPi / sampleRate);
   const SampleType cosine = std::cos (omega);
   const SampleType sine = std::sin (omega);
   const SampleType alpha = sine * (one - limitedResonance);
   const SampleType amplitude
-      = std::pow (static_cast<SampleType> (10),
-                  gainDecibels * static_cast<SampleType> (0.05L));
+      = ::stoneydsp::core::maths::decibelsToGain (gainDecibels);
   const SampleType shelfAlpha = (std::sqrt (amplitude) * two) * alpha;
 
   SampleType b0 = one;
