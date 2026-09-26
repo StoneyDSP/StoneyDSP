@@ -72,10 +72,11 @@ The intended stable public component targets are:
 Component options include `STONEYDSP_BUILD_CORE`, `STONEYDSP_BUILD_SIMD`,
 `STONEYDSP_BUILD_DSP`, and `STONEYDSP_BUILD_TEST`. Preserve exported target
 names, component dependencies, install destinations, generated version files,
-and public include paths when changing the build system. The current production
-checkout's generated install targets do not yet match the intended names, so
-package-contract repair and an external consumer test are required before the
-next product relies on them.
+and public include paths when changing the build system. The current component
+export contract and external C/C++ consumer smoke fixture have been repaired
+and validated for static and shared package consumption. Re-run that consumer
+evidence whenever exported targets, install destinations, public headers,
+component dependencies, or port metadata change.
 
 The Makefile remains a useful command facade and manual-development fallback.
 Some targets delegate to CMake (`configure`, `build`, `test`, `workflow`),
@@ -105,12 +106,11 @@ and installs it through CMake, then consumes the package with
 `StoneyDSP::SIMD`, and `StoneyDSP::DSP`.
 
 That consumer currently pins an older StoneyDSP layout. The present production
-checkout has since refactored its target names, namespace, package files, and
-build-tree exports. Do not claim the current package contract is proven until a
-fresh external consumer test installs this checkout through vcpkg and compiles
-against the intentionally selected public targets. Preserve the established
-`StoneyDSP::Core`, `StoneyDSP::SIMD`, and `StoneyDSP::DSP` names unless an
-explicit compatibility decision replaces them.
+checkout has separate external C/C++ package-consumer smoke coverage for its
+current component/export model. Preserve the established `StoneyDSP::Core`,
+`StoneyDSP::SIMD`, and `StoneyDSP::DSP` names unless an explicit compatibility
+decision replaces them, and keep revalidating the package consumer whenever
+that contract moves.
 
 The dependency pattern remains intentional and should be reused for future
 products:
@@ -127,6 +127,26 @@ StoneyDSP checkout and package that source through vcpkg. Release builds must
 remain reproducible from a pinned package/version or immutable commit. The
 package manager is the consumer boundary; a submodule or nested checkout is
 only source provisioning for development.
+
+## JUCE CMake integration boundary
+
+JUCE products should normally consume StoneyDSP with the ordinary CMake package
+API—`find_package(StoneyDSP CONFIG REQUIRED)` followed by a private link to the
+required `StoneyDSP::*` component target. This lets JUCE and StoneyDSP retain
+their own CMake and source-layout conventions.
+
+JUCE's `juce_add_module()` is a separate source-module mechanism. It derives a
+module from a directory name, matching root header, JUCE metadata, and sources
+recursively discovered below that directory. It is not the canonical StoneyDSP
+consumer mechanism: StoneyDSP intentionally separates `include/stoneydsp` from
+`src/stoneydsp`, and directly adapting that layout would bypass or duplicate
+the package/export contract.
+
+If a real consumer demonstrates that `juce_add_module()` compatibility is
+needed, create a separate thin adapter that forwards headers and links the
+actual StoneyDSP package targets. It must not compile a second copy of
+StoneyDSP sources or add JUCE as a library dependency. Track this validation in
+issue #203 and the `juce-cmake-consumer-integration` skill.
 
 ## Coding and compatibility principles
 
@@ -416,14 +436,12 @@ workflow.
 
 ## Recommended next move
 
-First repair and externally test the current CMake/vcpkg consumer contract;
-this is a bounded prerequisite because StoneyVCV proves an older package
-layout, not the current refactor. Then create a separate gain-utility product
-repository as the first full vertical slice. It should consume StoneyDSP via
-vcpkg, build selected JUCE plugin/standalone targets across the supported
-desktop matrix, and prove automation, state, embedded assets, and a minimal
-Canvas/WebGL native/web binding while keeping the audio engine independent of
-the browser lifecycle.
+The package contract is now externally smoke-tested. Create a separate
+gain-utility product repository as the first full vertical slice. It should
+consume StoneyDSP via vcpkg, build selected JUCE plugin/standalone targets
+across the supported desktop matrix, and prove automation, state, embedded
+assets, and a minimal Canvas/WebGL native/web binding while keeping the audio
+engine independent of the browser lifecycle.
 
 Use the active `.agents/current-work/` note as the detailed near-term scope and
 acceptance gate. The FFT analyser should be the second slice: it can reuse the

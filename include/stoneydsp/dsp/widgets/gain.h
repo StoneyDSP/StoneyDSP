@@ -1,3 +1,13 @@
+/**
+ * @file gain.h
+ * @brief Allocation-free clean gain processor templates.
+ *
+ * `Gain` stores one scalar gain and applies it to a sample or contiguous sample
+ * range. It does not perform smoothing, parameter ownership, host automation,
+ * clipping, or saturation; those policies belong to the caller or a higher
+ * level processor.
+ */
+
 #pragma once
 
 #ifndef STONEYDSP_DSP_WIDGETS_GAIN_H_INCLUDED
@@ -16,14 +26,16 @@ template <typename TSamples = ::stoneydsp::core::types::double_t,
 STONEYDSP_PACKED_STRUCT_BEGIN class STONEYDSP_ALIGN (alignof (TGain)) Gain
 {
 public:
+  /** Construct with unity gain. */
   Gain () noexcept = default;
 
   /**
-   * @brief Function to apply gain adjustment to audio samples.
+   * @brief Apply an explicit clean gain adjustment to a contiguous sample range.
    *
-   * @param samples
-   * @param numSamples
-   * @param gain
+   * @param samples First sample in the mutable range. Must be valid when
+   * `numSamples` is non-zero.
+   * @param numSamples Number of samples to process.
+   * @param gain Linear multiplier to apply.
    */
   inline void STONEYDSP_API
   applyGain (TSamples *samples, ::stoneydsp::core::types::size_t numSamples,
