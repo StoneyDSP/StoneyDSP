@@ -988,6 +988,20 @@ wipe: clean
 	@rm -rvf $(BUILD_DIR)
 .PHONY: wipe
 
+## Release and tagging commands
+
+release-check:
+	@echo ""
+.PHONY: release-check
+
+release-dry-run:
+	@echo ""
+.PHONY: release-dry-run
+
+release-tag:
+	@echo ""
+.PHONY: release-tag
+
 # Helper to debug Makefile variables, eg: "make echo ECHO_ARGS='STONEYDSP_SOURCES'"
 echo:
 	@echo $($(ECHO_ARGS))
