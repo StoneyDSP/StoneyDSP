@@ -31,12 +31,12 @@
 //==============================================================================
 
 STONEYDSP_EXTERN_C_BEGIN
-STONEYDSP_API stoneydsp_test_args stoneydspTestArgs = "";
+stoneydsp_test_args stoneydspTestArgs = "";
 STONEYDSP_EXTERN_C_END
 
 //==============================================================================
 
-int STONEYDSP_PUBLIC_FUNCTION
+int
 STONEYDSP_NAMESPACE_QUAL (stoneydsp::test) run ()
 {
 

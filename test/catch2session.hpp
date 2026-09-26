@@ -27,7 +27,7 @@
 STONEYDSP_NAMESPACE_BEGIN (stoneydsp)
 STONEYDSP_NAMESPACE_BEGIN (test)
 using args_t = ::std::string;
-int STONEYDSP_PUBLIC_FUNCTION run ();
+int run ();
 STONEYDSP_NAMESPACE_END
 STONEYDSP_NAMESPACE_END
 
@@ -35,7 +35,7 @@ STONEYDSP_EXTERN_C_BEGIN
 typedef STONEYDSP_NAMESPACE_QUAL (stoneydsp::test) args_t
     stoneydsp_test_args_t;
 typedef stoneydsp_test_args_t stoneydsp_test_args;
-STONEYDSP_API extern stoneydsp_test_args stoneydspTestArgs;
+extern stoneydsp_test_args stoneydspTestArgs;
 STONEYDSP_EXTERN_C_END
 
   #endif // defined (STONEYDSP_BUILD_TEST)

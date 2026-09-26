@@ -594,7 +594,7 @@ public:
 } //  namespace core
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
+STONEYDSP_PACKED_STRUCT_BEGIN struct
 STONEYDSP_ALIGN (alignof (T)) numeric_limits
     : public ::stoneydsp::core::types::__numeric_limits_base<T>
 {
@@ -630,21 +630,21 @@ public:
 } STONEYDSP_PACKED_STRUCT_END;
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
+STONEYDSP_PACKED_STRUCT_BEGIN struct
 STONEYDSP_ALIGN (alignof (T)) numeric_limits<const T>
     : public numeric_limits<T>
 {
 } STONEYDSP_PACKED_STRUCT_END;
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
+STONEYDSP_PACKED_STRUCT_BEGIN struct
 STONEYDSP_ALIGN (alignof (T)) numeric_limits<volatile T>
     : public numeric_limits<T>
 {
 } STONEYDSP_PACKED_STRUCT_END;
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_API
+STONEYDSP_PACKED_STRUCT_BEGIN struct
 STONEYDSP_ALIGN (alignof (T)) numeric_limits<const volatile T>
     : public numeric_limits<T>
 {

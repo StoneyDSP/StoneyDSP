@@ -88,7 +88,7 @@ jobs:
           ${{ env.VCPKG_DOWNLOADS }}
         key: vcpkg-${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.architecture }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
         restore-keys: |
-          vcpkg-${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.architecture }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-
+          vcpkg-${{ runner.os }}-${{ matrix.compiler }}-${{ matrix.architecture }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
 
     # Developer workflow
 

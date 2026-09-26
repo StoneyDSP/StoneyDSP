@@ -3,7 +3,8 @@
 The StoneyDSP audio Library.
 
 ---
-[![windows](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/windows-latest.yml/badge.svg)](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/windows-latest.yml)
+[![windows (MSVC)](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/windows-latest-msvc.yml/badge.svg)](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/windows-latest-msvc.yml)
+[![windows (MSYS2)](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/windows-latest.yml/badge.svg)](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/windows-latest.yml)
 [![macos](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/macos-latest.yml/badge.svg)](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/macos-latest.yml)
 [![ubuntu](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/ubuntu-latest.yml/badge.svg)](https://github.com/StoneyDSP/StoneyDSP/actions/workflows/ubuntu-latest.yml)
 

@@ -32,10 +32,10 @@
     #define STONEYDSP_REQUIRE(...) CATCH_REQUIRE (__VA_ARGS__)
     #define STONEYDSP_REQUIRE_FALSE(...) CATCH_REQUIRE_FALSE (__VA_ARGS__)
     #define STONEYDSP_REQUIRE_THROWS(...) CATCH_REQUIRE_THROWS (__VA_ARGS__)
-    #define STONEYDSP_REQUIRE_THROWS_AS(...)                                  \
-      CATCH_REQUIRE_THROWS_AS (__VA_ARGS__)
+    #define STONEYDSP_REQUIRE_THROWS_AS(expr, exceptionType)                  \
+      CATCH_REQUIRE_THROWS_AS (expr, exceptionType)
     #define STONEYDSP_REQUIRE_NOTHROW(...) CATCH_REQUIRE_NOTHROW (__VA_ARGS__)
-    #define STONEYDSP_REQUIRE_THAT(...) CATCH_REQUIRE_THAT (__VA_ARGS__)
+    #define STONEYDSP_REQUIRE_THAT(arg, matcher) CATCH_REQUIRE_THAT (arg, matcher)
 
     #define STONEYDSP_CHECK(...) CATCH_CHECK (__VA_ARGS__)
     #define STONEYDSP_CHECK_FALSE(...) CATCH_CHECK_FALSE (__VA_ARGS__)
