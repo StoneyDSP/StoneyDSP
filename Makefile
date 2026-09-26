@@ -998,6 +998,10 @@ release-dry-run:
 	@node ./scripts/release.mjs --dry-run
 .PHONY: release-dry-run
 
+release-artifact-test:
+	@node --test ./scripts/package-release.test.mjs ./scripts/promote-release-assets.test.mjs
+.PHONY: release-artifact-test
+
 RELEASE_ARGS ?=
 release-tag:
 	@node ./scripts/release.mjs --tag $(RELEASE_ARGS)
@@ -1032,6 +1036,7 @@ help:
 	@echo "... skills-lock-check"
 	@echo "... release-check"
 	@echo "... release-dry-run"
+	@echo "... release-artifact-test"
 	@echo "... release-tag RELEASE_ARGS=--confirm"
 	@echo "... agent-current-work"
 	@echo "... agent-current-work-list"
