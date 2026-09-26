@@ -25,10 +25,7 @@ jobs:
     strategy:
       matrix:
         arch: [x86, x64]
-          # - amd64
-          # - amd64_x86
-          # - amd64_arm64
-        # arch: [MSVC_x64, MSVC_x86]
+          # [x86_amd64, x86_arm, x86_arm64, amd64_x86, amd64_arm, amd64_arm64]
 
     defaults:
       run:
@@ -76,7 +73,7 @@ jobs:
           ${{ env.VCPKG_DOWNLOADS }}
         key: vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
         restore-keys: |
-          vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-¡
+          vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
 
     - name: version check
       shell: pwsh
