@@ -20,6 +20,7 @@ env:
 
 jobs:
   windows:
+    name: windows (MSVC_${{ matrix.arch }})
     runs-on: windows-latest
 
     strategy:

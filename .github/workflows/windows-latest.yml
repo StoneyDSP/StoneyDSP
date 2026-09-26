@@ -38,7 +38,7 @@ env:
 jobs:
   windows:
     if: github.event_name != 'workflow_dispatch' || inputs.run_msys2
-    name: Windows ${{ matrix.msystem }}
+    name: windows (${{ matrix.msystem }})
     runs-on: windows-latest
 
     strategy:

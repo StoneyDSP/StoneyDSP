@@ -385,6 +385,35 @@ branch-local note rather than silently freezing public parameter IDs, state
 formats, or UI bridge protocols. Preserve unrelated user changes and inspect
 `git status --short --branch` before edits.
 
+## GitHub project-board status conventions
+
+The global StoneyDSP project uses separate status vocabularies for issues and
+pull requests. When updating a project item, use the issue `Status ::` field
+for issues and the pull-request `PR ::` field for pull requests. Do not mix the
+two vocabularies.
+
+Issue status values, in workflow order, are:
+
+- `Status :: -1 :: Blocked`
+- `Status :: 0 :: Ready`
+- `Status :: 1 :: In Progress`
+- `Status :: 2 :: Review`
+- `Status :: 3 :: Test`
+- `Status :: 4 :: Done`
+
+Pull-request status values, in workflow order, are:
+
+- `PR :: 0 :: Draft`
+- `PR :: 1 :: Review`
+- `PR :: 2 :: Feedback`
+- `PR :: 3 :: Approved`
+- `PR :: 4 :: Merged`
+
+Issues are the durable work-item source of truth; pull requests track the
+implementation and review of that work. Keep the issue and PR board entries
+separate, and update the appropriate field as the item moves through the
+workflow.
+
 ## Recommended next move
 
 First repair and externally test the current CMake/vcpkg consumer contract;
