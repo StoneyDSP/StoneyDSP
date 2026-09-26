@@ -71,8 +71,12 @@ git pull --ff-only origin production
 git switch -c feature/<short-slug>
 ```
 
-Use `fix/<short-slug>` for defects and `feature/<short-slug>` for new
-capabilities. Keep a branch focused on one issue or one tightly coupled change.
+Use ticket-indexed names: `fix/<issue>-<short-slug>` for defects,
+`feature/<issue>-<short-slug>` for new capabilities, and
+`chore/<issue>-<short-slug>` for maintenance/documentation work. The issue
+number is the branch's indexical link to its work definition; the slug remains
+human-readable context. Keep a branch focused on one issue or one tightly
+coupled change.
 
 Open one pull request targeting `production`. Link the issue, state the affected
 public/package surface, record validation commands and results, and identify any

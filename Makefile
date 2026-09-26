@@ -988,6 +988,21 @@ wipe: clean
 	@rm -rvf $(BUILD_DIR)
 .PHONY: wipe
 
+## Release and tagging commands
+
+release-check:
+	@node ./scripts/release.mjs --check
+.PHONY: release-check
+
+release-dry-run:
+	@node ./scripts/release.mjs --dry-run
+.PHONY: release-dry-run
+
+RELEASE_ARGS ?=
+release-tag:
+	@node ./scripts/release.mjs --tag $(RELEASE_ARGS)
+.PHONY: release-tag
+
 # Helper to debug Makefile variables, eg: "make echo ECHO_ARGS='STONEYDSP_SOURCES'"
 echo:
 	@echo $($(ECHO_ARGS))
@@ -1015,8 +1030,9 @@ help:
 	@echo "... version-bump VERSION_INCREMENT=patch|minor|major"
 	@echo "... skills-lock"
 	@echo "... skills-lock-check"
-	@echo "... version-check"
-	@echo "... version-bump VERSION_INCREMENT=patch|minor|major"
+	@echo "... release-check"
+	@echo "... release-dry-run"
+	@echo "... release-tag RELEASE_ARGS=--confirm"
 	@echo "... agent-current-work"
 	@echo "... agent-current-work-list"
 	@echo "... clean"

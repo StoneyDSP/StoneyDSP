@@ -184,7 +184,8 @@ package surface, validation commands, and any downstream-consumer impact.
 
 The historical Git graph is retained as-is; do not rewrite it merely to make
 old branches look tidy. From the current integration boundary onward, use
-`feature/<slug>` branches from `production`, review through pull requests,
+ticket-indexed branches from `production`: `feature/<issue>-<slug>`,
+`fix/<issue>-<slug>`, or `chore/<issue>-<slug>`. Review through pull requests,
 require CI before integration, prefer squash or fast-forward merges, and tag
 releases from the stable branch. Treat stale feature branches as archive or
 cherry-pick sources after reviewing their unique commits. A future rename of

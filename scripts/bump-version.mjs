@@ -1,38 +1,87 @@
 #!/usr/bin/env node
 // @ts-check
 
-import { readFile, writeFile } from 'node:fs/promises';
-import Path from 'node:path';
-import Url from 'node:url';
+import { readFile, writeFile } from "node:fs/promises";
+import Path from "node:path";
+import Url from "node:url";
 
+/**
+ * @typedef {0} EXIT_SUCCESS
+ * @typedef {1} EXIT_FAILURE
+ */
+
+/**
+ * @typedef {typeof globalThis} Context
+ */
+
+/**
+ * @typedef {{
+ *  major: number,
+ *  minor: number,
+ *  patch: number,
+ * }} Version
+ */
+
+/**
+ * @typedef {{
+ *  path: string,
+ *  key: string,
+ *  text: string,
+ * }} VersionTarget
+ */
+
+/**
+ * @typedef {{
+ *  path: string,
+ *  key: string,
+ *  text: string,
+ *  nextText: string,
+ * }} VersionTargetUpdate
+ */
+
+/**
+ * @type {EXIT_SUCCESS}
+ */
 const EXIT_SUCCESS = 0;
+/**
+ * @type {EXIT_FAILURE}
+ */
 const EXIT_FAILURE = 1;
+
+/**
+ * @type {RegExp}
+ */
 const RELEASE_VERSION_PATTERN =
   /^(?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)\.(?<patch>0|[1-9]\d*)$/;
 
 const VERSION_TARGETS = [
-  { path: 'vcpkg.json', key: 'version' },
-  { path: 'package.json', key: 'version' },
+  { path: "vcpkg.json", key: "version" },
+  { path: "package.json", key: "version" },
   {
-    path: 'share/vcpkg/ports/stoneydsp/vcpkg.json',
-    key: 'version-semver',
+    path: "share/vcpkg/ports/stoneydsp/vcpkg.json",
+    key: "version-semver",
   },
 ];
 
+/**
+ *
+ * @param {Context} ctx
+ * @returns {Promise<EXIT_SUCCESS | EXIT_FAILURE>}
+ */
 export async function main(ctx) {
   const args = ctx.process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
-  const checkOnly = args.includes('--check');
-  const syncOnly = args.includes('--sync');
-  const increment = args.find((arg) => !arg.startsWith('--'));
+  const dryRun = args.includes("--dry-run");
+  const checkOnly = args.includes("--check");
+  const syncOnly = args.includes("--sync");
+  const increment = args.find((arg) => !arg.startsWith("--"));
   const versionPath = Path.resolve(
     Path.dirname(Url.fileURLToPath(import.meta.url)),
-    '..',
-    'VERSION'
+    "..",
+    "VERSION",
   );
   const projectRoot = Path.dirname(versionPath);
 
-  const current = String(await readFile(versionPath, 'utf8')).trim();
+  const current = String(await readFile(versionPath, "utf8")).trim();
   const parsed = parseVersion(current);
   const targetFiles = await readVersionTargets(projectRoot);
 
@@ -47,15 +96,15 @@ export async function main(ctx) {
       projectRoot,
       targetFiles,
       formatReleaseVersion(parsed),
-      false
+      false,
     );
     ctx.console.log(formatReleaseVersion(parsed));
     return EXIT_SUCCESS;
   }
 
-  if (!increment || !['patch', 'minor', 'major'].includes(increment)) {
+  if (!increment || !["patch", "minor", "major"].includes(increment)) {
     ctx.console.error(
-      'Usage: node scripts/bump-version.mjs <patch|minor|major> [--dry-run]'
+      "Usage: node scripts/bump-version.mjs <patch|minor|major> [--dry-run]",
     );
     return EXIT_FAILURE;
   }
@@ -77,31 +126,65 @@ export async function main(ctx) {
   return EXIT_SUCCESS;
 }
 
+/**
+ *
+ * @param {string} projectRoot
+ * @returns {Promise<VersionTarget[]>}
+ */
 async function readVersionTargets(projectRoot) {
   return Promise.all(
     VERSION_TARGETS.map(async (target) => ({
       ...target,
       path: Path.resolve(projectRoot, target.path),
-      text: String(await readFile(Path.resolve(projectRoot, target.path), 'utf8')),
-    }))
+      text: String(
+        await readFile(Path.resolve(projectRoot, target.path), "utf8"),
+      ),
+    })),
   );
 }
 
+/**
+ *
+ * @param {VersionTarget[]} targetFiles
+ * @param {string} expectedVersion
+ */
 function assertTargetsMatch(targetFiles, expectedVersion) {
   for (const target of targetFiles) {
-    const actualVersion = extractTopLevelVersion(target.text, target.key, target.path);
+    const actualVersion = extractTopLevelVersion(
+      target.text,
+      target.key,
+      target.path,
+    );
     if (actualVersion !== expectedVersion) {
       throw new Error(
-        `${target.path} (${actualVersion}) does not match VERSION (${expectedVersion}).`
+        `${target.path} (${actualVersion}) does not match VERSION (${expectedVersion}).`,
       );
     }
   }
 }
 
-async function writeVersionTargets(projectRoot, targetFiles, nextVersion, dryRun) {
+/**
+ *
+ * @param {string} projectRoot
+ * @param {VersionTarget[]} targetFiles
+ * @param {string} nextVersion
+ * @param {boolean} dryRun
+ * @returns {Promise<void>}
+ */
+async function writeVersionTargets(
+  projectRoot,
+  targetFiles,
+  nextVersion,
+  dryRun,
+) {
   const updates = targetFiles.map((target) => ({
     ...target,
-    nextText: replaceTopLevelVersion(target.text, target.key, nextVersion, target.path),
+    nextText: replaceTopLevelVersion(
+      target.text,
+      target.key,
+      nextVersion,
+      target.path,
+    ),
   }));
 
   if (dryRun) return;
@@ -118,42 +201,67 @@ async function writeVersionTargets(projectRoot, targetFiles, nextVersion, dryRun
   }
 }
 
+/**
+ *
+ * @param {VersionTarget['text']} text
+ * @param {VersionTarget['key']} key
+ * @param {VersionTarget['path']} path
+ * @returns {string}
+ */
 function extractTopLevelVersion(text, key, path) {
   const matches = [...text.matchAll(versionFieldPattern(key))];
   if (matches.length === 0) {
     throw new Error(`Expected a top-level ${key} field in ${path}.`);
   }
   const manifest = JSON.parse(text);
-  if (typeof manifest[key] !== 'string' || manifest[key] !== matches[0][2]) {
+  if (typeof manifest[key] !== "string" || manifest[key] !== matches[0][2]) {
     throw new Error(`Expected a top-level ${key} field in ${path}.`);
   }
   return matches[0][2];
 }
 
+/**
+ *
+ * @param {string} text
+ * @param {string} key
+ * @param {string} version
+ * @param {string} path
+ * @returns {string}
+ */
 function replaceTopLevelVersion(text, key, version, path) {
   const matches = [...text.matchAll(versionFieldPattern(key))];
   if (matches.length === 0) {
     throw new Error(`Expected a top-level ${key} field in ${path}.`);
   }
   const manifest = JSON.parse(text);
-  if (typeof manifest[key] !== 'string' || manifest[key] !== matches[0][2]) {
+  if (typeof manifest[key] !== "string" || manifest[key] !== matches[0][2]) {
     throw new Error(`Expected a top-level ${key} field in ${path}.`);
   }
   return text.replace(matches[0][0], `${matches[0][1]}"${version}"`);
 }
 
+/**
+ *
+ * @param {string} key
+ * @returns {RegExp}
+ */
 function versionFieldPattern(key) {
   return new RegExp(
     `(^[\\t ]*"${key}"[\\t ]*:[\\t ]*)"((?:[^"\\\\]|\\\\.)*)"`,
-    'gm'
+    "gm",
   );
 }
 
+/**
+ *
+ * @param {string} version
+ * @returns {Version}
+ */
 function parseVersion(version) {
   const releaseMatch = RELEASE_VERSION_PATTERN.exec(version);
   if (!releaseMatch?.groups) {
     throw new Error(
-      `Unsupported VERSION value '${version}'. Expected MAJOR.MINOR.PATCH.`
+      `Unsupported VERSION value '${version}'. Expected MAJOR.MINOR.PATCH.`,
     );
   }
   return {
@@ -163,12 +271,29 @@ function parseVersion(version) {
   };
 }
 
+/**
+ *
+ * @param {Version} version
+ * @param {string | undefined} increment
+ * @returns {Version}
+ */
 function bumpVersion(version, increment) {
-  if (increment === 'major') return { major: version.major + 1, minor: 0, patch: 0 };
-  if (increment === 'minor') return { major: version.major, minor: version.minor + 1, patch: 0 };
-  return { major: version.major, minor: version.minor, patch: version.patch + 1 };
+  if (increment === "major")
+    return { major: version.major + 1, minor: 0, patch: 0 };
+  if (increment === "minor")
+    return { major: version.major, minor: version.minor + 1, patch: 0 };
+  return {
+    major: version.major,
+    minor: version.minor,
+    patch: version.patch + 1,
+  };
 }
 
+/**
+ *
+ * @param {Version} version
+ * @returns {string}
+ */
 function formatReleaseVersion(version) {
   return `${version.major}.${version.minor}.${version.patch}`;
 }
@@ -176,6 +301,11 @@ function formatReleaseVersion(version) {
 const entryPoint = globalThis.process.argv[1];
 if (entryPoint && import.meta.url === Url.pathToFileURL(entryPoint).href) {
   void main(globalThis)
-    .then((exitCode) => { globalThis.process.exitCode = exitCode; })
-    .catch((error) => { globalThis.console.error(error); globalThis.process.exitCode = EXIT_FAILURE; });
+    .then((exitCode) => {
+      globalThis.process.exitCode = exitCode;
+    })
+    .catch((error) => {
+      globalThis.console.error(error);
+      globalThis.process.exitCode = EXIT_FAILURE;
+    });
 }
