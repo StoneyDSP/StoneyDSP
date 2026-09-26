@@ -3,24 +3,12 @@ name: windows
 on:
   push:
   workflow_dispatch:
-    inputs:
-      run_msvc_x64:
-        description: Run the MSVC x64 build
-        required: false
-        type: boolean
-        default: true
-      run_msvc_x86:
-        description: Run the MSVC x86 compatibility build
-        required: false
-        type: boolean
-        default: true
 
 concurrency:
   group: windows-latest-msvc-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  DISPLAY: :0
   CMAKE_BUILD_PARALLEL_LEVEL: 3
   CMAKE_INSTALL_PARALLEL_LEVEL: 3
   VCPKG_MAX_CONCURRENCY: 3
@@ -32,13 +20,15 @@ env:
 
 jobs:
   windows:
-    if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x64 || inputs.run_msvc_x86
-    name: Windows ${{ matrix.arch }}
     runs-on: windows-latest
 
     strategy:
       matrix:
-        arch: [MSVC_x64, MSVC_x86]
+        arch: [x86, x64]
+          # - amd64
+          # - amd64_x86
+          # - amd64_arm64
+        # arch: [MSVC_x64, MSVC_x86]
 
     defaults:
       run:
@@ -59,6 +49,18 @@ jobs:
         submodules: true
         fetch-depth: 0
 
+    - name: Set up MSVC environment (x64)
+      if: matrix.arch == 'x64'
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+
+    - name: Set up MSVC environment (x86)
+      if: matrix.arch == 'x86'
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x86
+
     - name: Prepare vcpkg cache directories
       run: |
         New-Item -ItemType Directory -Force -Path $env:VCPKG_DEFAULT_BINARY_CACHE
@@ -74,31 +76,19 @@ jobs:
           ${{ env.VCPKG_DOWNLOADS }}
         key: vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
         restore-keys: |
-          vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-
-
-    - name: Set up MSVC environment (x64)
-      if: matrix.arch == 'MSVC_x64'
-      uses: ilammy/msvc-dev-cmd@v1.13.0
-      with:
-        arch: x64
-
-    - name: Set up MSVC environment (x86)
-      if: matrix.arch == 'MSVC_x86'
-      uses: ilammy/msvc-dev-cmd@v1.13.0
-      with:
-        arch: x86
+          vcpkg-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}-¡
 
     - name: version check
       shell: pwsh
       run: node ./scripts/bump-version.mjs --check
 
     - name: Configure with MSVC x64
-      if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x64
+      if: matrix.arch == 'x64'
       run: |
         cmake --preset x64-msvc-windows -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
 
     - name: Configure with MSVC x86
-      if: github.event_name != 'workflow_dispatch' || inputs.run_msvc_x86
+      if: matrix.arch == 'x86'
       run: |
         cmake --preset x86-msvc-windows -DSTONEYDSP_BUILD_CORE=ON -DSTONEYDSP_BUILD_TEST=ON -DSTONEYDSP_GENERATE_VERSIONS=OFF
 
