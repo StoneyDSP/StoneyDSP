@@ -226,7 +226,7 @@ namespace stoneydsp
  */
 
 template <typename... Types>
-void STONEYDSP_PUBLIC_FUNCTION
+void
 /**
  * @brief Handy function for avoiding unused variables warning.
  *

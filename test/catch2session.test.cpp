@@ -36,7 +36,7 @@ STONEYDSP_EXTERN_C_END
 
 //==============================================================================
 
-int STONEYDSP_PUBLIC_FUNCTION
+int
 STONEYDSP_NAMESPACE_QUAL (stoneydsp::test) run ()
 {
 
