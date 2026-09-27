@@ -7,11 +7,11 @@ find_package(StoneyDSP CONFIG REQUIRED COMPONENTS Core DSP)
 
 add_executable(stoneydsp-consumer main.cpp)
 target_link_libraries(stoneydsp-consumer PRIVATE StoneyDSP::DSP)
-target_compile_features(stoneydsp-consumer PRIVATE cxx_std_11)
+target_compile_features(stoneydsp-consumer PRIVATE cxx_std_14)
 
 add_executable(stoneydsp-aggregate-consumer main.cpp)
 target_link_libraries(stoneydsp-aggregate-consumer PRIVATE StoneyDSP::StoneyDSP)
-target_compile_features(stoneydsp-aggregate-consumer PRIVATE cxx_std_11)
+target_compile_features(stoneydsp-aggregate-consumer PRIVATE cxx_std_14)
 
 add_executable(stoneydsp-c-consumer main.c)
 target_link_libraries(stoneydsp-c-consumer PRIVATE StoneyDSP::Core)
