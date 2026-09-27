@@ -22,21 +22,27 @@ on:
         required: false
         type: string
 
+  # Temporary PR #214 validation trigger. Remove after all six targets pass.
+  pull_request:
+    branches:
+      - production
+    paths:
+      - .github/workflows/release-artifacts.yml
+      - .github/workflows/release-build-target.yml
+      - scripts/bump-version.mjs
+      - scripts/package-release.mjs
+      - scripts/package-release.test.mjs
+      - scripts/promote-release-assets.mjs
+      - scripts/promote-release-assets.test.mjs
+
 permissions:
   contents: read
 
 concurrency:
-  group: release-artifacts-${{ inputs.release_ref }}
+  group: >-
+    release-artifacts-${{ github.event.pull_request.number ||
+    inputs.release_ref || github.ref }}
   cancel-in-progress: false
-
-env:
-  CMAKE_BUILD_PARALLEL_LEVEL: 3
-  CMAKE_INSTALL_PARALLEL_LEVEL: 3
-  VCPKG_MAX_CONCURRENCY: 3
-  VCPKG_MANIFEST_MODE: ON
-  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.cache/vcpkg/archives
-  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg/downloads
-  VCPKG_BINARY_SOURCES: clear;default,readwrite
 
 jobs:
   plan:
@@ -46,12 +52,13 @@ jobs:
       commit: ${{ steps.release.outputs.commit }}
       epoch: ${{ steps.release.outputs.epoch }}
       matrix: ${{ steps.matrix.outputs.matrix }}
+      vcpkg_commit: ${{ steps.release.outputs.vcpkg_commit }}
       version: ${{ steps.release.outputs.version }}
     steps:
       - name: Checkout selected ref
         uses: actions/checkout@v6
         with:
-          ref: ${{ inputs.release_ref }}
+          ref: ${{ github.event.pull_request.head.sha || inputs.release_ref }}
           submodules: true
           fetch-depth: 0
 
@@ -61,54 +68,72 @@ jobs:
           scripts/package-release.test.mjs
           scripts/promote-release-assets.test.mjs
 
+      - name: Validate version metadata
+        run: node scripts/bump-version.mjs --check
+
       - name: Resolve release identity
         id: release
         shell: bash
         run: |
           set -euo pipefail
-          node scripts/bump-version.mjs --check
           version=$(tr -d '[:space:]' < VERSION)
           commit=$(git rev-parse HEAD)
           epoch=$(git show -s --format=%ct HEAD)
+          vcpkg_commit=$(git -C dep/vcpkg rev-parse HEAD)
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "commit=$commit" >> "$GITHUB_OUTPUT"
           echo "epoch=$epoch" >> "$GITHUB_OUTPUT"
+          echo "vcpkg_commit=$vcpkg_commit" >> "$GITHUB_OUTPUT"
 
-      - name: Validate promotion target
-        if: ${{ inputs.promote }}
+      - name: Validate promotion request
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.promote }}
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ inputs.release_tag }}
           VERSION: ${{ steps.release.outputs.version }}
-          COMMIT: ${{ steps.release.outputs.commit }}
         run: |
           set -euo pipefail
           if [[ "$RELEASE_TAG" != "v$VERSION" ]]; then
             echo "Promotion requires release_tag=v$VERSION; received '$RELEASE_TAG'." >&2
             exit 1
           fi
+
+      - name: Validate promotion tag identity
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.promote }}
+        shell: bash
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          COMMIT: ${{ steps.release.outputs.commit }}
+        run: |
+          set -euo pipefail
           tag_commit=$(git rev-list -n 1 "$RELEASE_TAG" 2>/dev/null || true)
           if [[ "$tag_commit" != "$COMMIT" ]]; then
             echo "Release tag $RELEASE_TAG does not resolve to built commit $COMMIT." >&2
             exit 1
           fi
-          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" --silent
+
+      - name: Validate existing GitHub Release
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.promote }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" --silent
 
       - name: Select published target matrix
         id: matrix
         shell: bash
         env:
-          REQUESTED_TARGETS: ${{ inputs.targets }}
+          REQUESTED_TARGETS: ${{ inputs.targets || 'linux-x64,linux-arm64,macos-x64,macos-arm64,windows-msvc-x64,windows-mingw-x64' }}
         run: |
           set -euo pipefail
           catalog='[
-            {"id":"linux-x64","runner":"ubuntu-24.04","kind":"unix","system":"linux","architecture":"x86_64","compiler":"gcc","preset":"x64-linux-release","format":"tar.gz","assetSuffix":"linux-x86_64-gcc-static"},
-            {"id":"linux-arm64","runner":"ubuntu-24.04-arm","kind":"unix","system":"linux","architecture":"arm64","compiler":"gcc","preset":"arm64-linux-release","format":"tar.gz","assetSuffix":"linux-arm64-gcc-static"},
-            {"id":"macos-x64","runner":"macos-15-intel","kind":"unix","system":"macos","architecture":"x86_64","compiler":"clang","preset":"x64-osx-release","format":"tar.gz","assetSuffix":"macos-x86_64-clang-static"},
-            {"id":"macos-arm64","runner":"macos-15","kind":"unix","system":"macos","architecture":"arm64","compiler":"clang","preset":"arm64-osx-release","format":"tar.gz","assetSuffix":"macos-arm64-clang-static"},
-            {"id":"windows-msvc-x64","runner":"windows-2025","kind":"msvc","system":"windows","architecture":"x64","compiler":"msvc-md","preset":"x64-msvc-windows","format":"zip","assetSuffix":"windows-x64-msvc-md-static"},
-            {"id":"windows-mingw-x64","runner":"windows-2025","kind":"mingw","system":"windows","architecture":"x64","compiler":"mingw","preset":"x64-windows-release","format":"zip","assetSuffix":"windows-x64-mingw-static"}
+            {"id":"linux-x64","runner":"ubuntu-24.04","kind":"unix","system":"linux","architecture":"x86_64","compiler":"gcc","cc":"gcc","cxx":"g++","preset":"x64-linux-release","configureArgs":"","format":"tar.gz","assetSuffix":"linux-x86_64-gcc-static"},
+            {"id":"linux-arm64","runner":"ubuntu-24.04-arm","kind":"unix","system":"linux","architecture":"arm64","compiler":"gcc","cc":"gcc","cxx":"g++","preset":"arm64-linux-release","configureArgs":"","format":"tar.gz","assetSuffix":"linux-arm64-gcc-static"},
+            {"id":"macos-x64","runner":"macos-15-intel","kind":"unix","system":"macos","architecture":"x86_64","compiler":"clang","cc":"clang","cxx":"clang++","preset":"x64-osx-release","configureArgs":"","format":"tar.gz","assetSuffix":"macos-x86_64-clang-static"},
+            {"id":"macos-arm64","runner":"macos-15","kind":"unix","system":"macos","architecture":"arm64","compiler":"clang","cc":"clang","cxx":"clang++","preset":"arm64-osx-release","configureArgs":"-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0","format":"tar.gz","assetSuffix":"macos-arm64-clang-static"},
+            {"id":"windows-msvc-x64","runner":"windows-2025","kind":"msvc","system":"windows","architecture":"x64","compiler":"msvc-md","cc":"","cxx":"","preset":"x64-msvc-windows","configureArgs":"-DCMAKE_BUILD_TYPE=Release","format":"zip","assetSuffix":"windows-x64-msvc-md-static"},
+            {"id":"windows-mingw-x64","runner":"windows-2025","kind":"mingw","system":"windows","architecture":"x64","compiler":"mingw","cc":"","cxx":"","preset":"x64-windows-release","configureArgs":"","format":"zip","assetSuffix":"windows-x64-mingw-static"}
           ]'
           requested=${REQUESTED_TARGETS//[[:space:]]/}
           if [[ -z "$requested" ]]; then
@@ -139,233 +164,32 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
-    runs-on: ${{ matrix.runner }}
-    steps:
-      - name: Checkout resolved release commit
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ needs.plan.outputs.commit }}
-          submodules: true
-          fetch-depth: 0
-
-      - name: Set up MSVC x64
-        if: ${{ matrix.kind == 'msvc' }}
-        uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-
-      - name: Set up MinGW x64
-        if: ${{ matrix.kind == 'mingw' }}
-        uses: msys2/setup-msys2@v2.32.0
-        with:
-          msystem: MINGW64
-          update: true
-          install: >-
-            --needed
-            base-devel
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-ninja
-
-      - name: Select Unix compiler
-        if: ${{ matrix.kind == 'unix' }}
-        shell: bash
-        run: |
-          if [[ "${{ matrix.compiler }}" == "gcc" ]]; then
-            echo "CC=gcc" >> "$GITHUB_ENV"
-            echo "CXX=g++" >> "$GITHUB_ENV"
-          else
-            echo "CC=clang" >> "$GITHUB_ENV"
-            echo "CXX=clang++" >> "$GITHUB_ENV"
-          fi
-
-      - name: Prepare vcpkg cache directories on Unix
-        if: ${{ matrix.kind == 'unix' }}
-        shell: bash
-        run: mkdir -p "$VCPKG_DEFAULT_BINARY_CACHE" "$VCPKG_DOWNLOADS"
-
-      - name: Prepare vcpkg cache directories on Windows
-        if: ${{ matrix.kind != 'unix' }}
-        shell: pwsh
-        run: |
-          New-Item -ItemType Directory -Force -Path $env:VCPKG_DEFAULT_BINARY_CACHE
-          New-Item -ItemType Directory -Force -Path $env:VCPKG_DOWNLOADS
-
-      - name: Restore and save vcpkg caches
-        continue-on-error: true
-        uses: actions/cache@v5
-        with:
-          path: |
-            ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-            ${{ env.VCPKG_DOWNLOADS }}
-          key: release-vcpkg-${{ matrix.id }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
-
-      - name: Configure, build, test, and install on Unix
-        if: ${{ matrix.kind == 'unix' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          node scripts/bump-version.mjs --check
-          platform_args=()
-          if [[ "${{ matrix.id }}" == "macos-arm64" ]]; then
-            platform_args+=("-DCMAKE_OSX_DEPLOYMENT_TARGET=11.0")
-          fi
-          cmake --preset "${{ matrix.preset }}" \
-            -DSTONEYDSP_BUILD_SHARED=OFF \
-            -DSTONEYDSP_BUILD_TEST=ON \
-            -DSTONEYDSP_TEST_TARGET_INSTALL=OFF \
-            -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF \
-            "${platform_args[@]}"
-          cmake --build build --config Release --parallel 3
-          ctest --test-dir build -C Release -E benchmark --output-on-failure
-          cmake --install build --config Release --prefix install
-          cmake -S test/consumer -B build-consumer -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_PREFIX_PATH="$PWD/install"
-          cmake --build build-consumer --config Release --parallel 3
-          ctest --test-dir build-consumer -C Release --output-on-failure
-
-          cmake --preset "${{ matrix.preset }}" -B build-shared \
-            -DSTONEYDSP_BUILD_SHARED=ON \
-            -DSTONEYDSP_BUILD_TEST=ON \
-            -DSTONEYDSP_TEST_TARGET_INSTALL=OFF \
-            -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF \
-            "${platform_args[@]}"
-          cmake --build build-shared --config Release --parallel 3
-          ctest --test-dir build-shared -C Release -E benchmark --output-on-failure
-          cmake --install build-shared --config Release --prefix install-shared
-          cmake -S test/consumer -B build-consumer-shared -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_PREFIX_PATH="$PWD/install-shared"
-          cmake --build build-consumer-shared --config Release --parallel 3
-          if [[ "${{ matrix.system }}" == "macos" ]]; then
-            DYLD_LIBRARY_PATH="$PWD/install-shared/lib:${DYLD_LIBRARY_PATH:-}" \
-              ctest --test-dir build-consumer-shared -C Release --output-on-failure
-          else
-            LD_LIBRARY_PATH="$PWD/install-shared/lib:${LD_LIBRARY_PATH:-}" \
-              ctest --test-dir build-consumer-shared -C Release --output-on-failure
-          fi
-
-      - name: Configure, build, test, and install with MinGW
-        if: ${{ matrix.kind == 'mingw' }}
-        shell: msys2 {0}
-        run: |
-          set -euo pipefail
-          node scripts/bump-version.mjs --check
-          cmake --preset "${{ matrix.preset }}" \
-            -DSTONEYDSP_BUILD_SHARED=OFF \
-            -DSTONEYDSP_BUILD_TEST=ON \
-            -DSTONEYDSP_TEST_TARGET_INSTALL=OFF \
-            -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
-          cmake --build build --config Release --parallel 3
-          ctest --test-dir build -C Release -E benchmark --output-on-failure
-          cmake --install build --config Release --prefix install
-          cmake -S test/consumer -B build-consumer -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_PREFIX_PATH="$PWD/install"
-          cmake --build build-consumer --config Release --parallel 3
-          ctest --test-dir build-consumer -C Release --output-on-failure
-
-          cmake --preset "${{ matrix.preset }}" -B build-shared \
-            -DSTONEYDSP_BUILD_SHARED=ON \
-            -DSTONEYDSP_BUILD_TEST=ON \
-            -DSTONEYDSP_TEST_TARGET_INSTALL=OFF \
-            -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
-          cmake --build build-shared --config Release --parallel 3
-          ctest --test-dir build-shared -C Release -E benchmark --output-on-failure
-          cmake --install build-shared --config Release --prefix install-shared
-          cmake -S test/consumer -B build-consumer-shared -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_PREFIX_PATH="$PWD/install-shared"
-          cmake --build build-consumer-shared --config Release --parallel 3
-          PATH="$PWD/install-shared/bin:$PATH" \
-            ctest --test-dir build-consumer-shared -C Release --output-on-failure
-
-      - name: Configure, build, test, and install with MSVC
-        if: ${{ matrix.kind == 'msvc' }}
-        shell: pwsh
-        run: |
-          node scripts/bump-version.mjs --check
-          cmake --preset "${{ matrix.preset }}" `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DSTONEYDSP_BUILD_SHARED=OFF `
-            -DSTONEYDSP_BUILD_TEST=ON `
-            -DSTONEYDSP_TEST_TARGET_INSTALL=OFF `
-            -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake --build build --config Release --parallel 3
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ctest --test-dir build -C Release -E benchmark --output-on-failure
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake --install build --config Release --prefix install
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake -S test/consumer -B build-consumer -G Ninja `
-            -DCMAKE_BUILD_TYPE=Release `
-            "-DCMAKE_PREFIX_PATH=$PWD/install"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake --build build-consumer --config Release --parallel 3
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ctest --test-dir build-consumer -C Release --output-on-failure
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-          cmake --preset "${{ matrix.preset }}" -B build-shared `
-            -DCMAKE_BUILD_TYPE=Release `
-            -DSTONEYDSP_BUILD_SHARED=ON `
-            -DSTONEYDSP_BUILD_TEST=ON `
-            -DSTONEYDSP_TEST_TARGET_INSTALL=OFF `
-            -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake --build build-shared --config Release --parallel 3
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          ctest --test-dir build-shared -C Release -E benchmark --output-on-failure
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake --install build-shared --config Release --prefix install-shared
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake -S test/consumer -B build-consumer-shared -G Ninja `
-            -DCMAKE_BUILD_TYPE=Release `
-            "-DCMAKE_PREFIX_PATH=$PWD/install-shared"
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          cmake --build build-consumer-shared --config Release --parallel 3
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          $env:PATH = "$PWD/install-shared/bin;$env:PATH"
-          ctest --test-dir build-consumer-shared -C Release --output-on-failure
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-      - name: Package deterministic SDK archive
-        id: package
-        shell: bash
-        run: |
-          set -euo pipefail
-          asset_name="StoneyDSP-${{ needs.plan.outputs.version }}-${{ matrix.assetSuffix }}"
-          node scripts/package-release.mjs \
-            --install-dir install \
-            --output-dir dist \
-            --name "$asset_name" \
-            --format "${{ matrix.format }}" \
-            --version "${{ needs.plan.outputs.version }}" \
-            --commit "${{ needs.plan.outputs.commit }}" \
-            --system "${{ matrix.system }}" \
-            --architecture "${{ matrix.architecture }}" \
-            --compiler "${{ matrix.compiler }}" \
-            --linkage static \
-            --preset "${{ matrix.preset }}" \
-            --source-date-epoch "${{ needs.plan.outputs.epoch }}"
-          echo "asset_name=$asset_name" >> "$GITHUB_OUTPUT"
-
-      - name: Upload release archive for inspection
-        uses: actions/upload-artifact@v7
-        with:
-          name: ${{ steps.package.outputs.asset_name }}
-          path: |
-            dist/${{ steps.package.outputs.asset_name }}.*
-          if-no-files-found: error
-          retention-days: 14
-          compression-level: 0
-          overwrite: false
+    permissions:
+      contents: read
+    uses: ./.github/workflows/release-build-target.yml
+    with:
+      target_id: ${{ matrix.id }}
+      runner: ${{ matrix.runner }}
+      kind: ${{ matrix.kind }}
+      system: ${{ matrix.system }}
+      architecture: ${{ matrix.architecture }}
+      compiler: ${{ matrix.compiler }}
+      cc: ${{ matrix.cc }}
+      cxx: ${{ matrix.cxx }}
+      preset: ${{ matrix.preset }}
+      configure_args: ${{ matrix.configureArgs }}
+      archive_format: ${{ matrix.format }}
+      asset_suffix: ${{ matrix.assetSuffix }}
+      commit: ${{ needs.plan.outputs.commit }}
+      source_date_epoch: ${{ needs.plan.outputs.epoch }}
+      version: ${{ needs.plan.outputs.version }}
+      vcpkg_commit: ${{ needs.plan.outputs.vcpkg_commit }}
 
   promote:
     name: promote assets to GitHub Release
-    if: ${{ inputs.promote && needs.plan.result == 'success' && needs.build.result == 'success' }}
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' && inputs.promote &&
+      needs.plan.result == 'success' && needs.build.result == 'success' }}
     needs: [plan, build]
     runs-on: ubuntu-24.04
     environment: github-release
