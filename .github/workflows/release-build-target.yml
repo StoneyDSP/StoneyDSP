@@ -63,6 +63,7 @@ env:
   CMAKE_INSTALL_PARALLEL_LEVEL: 3
   VCPKG_MAX_CONCURRENCY: 3
   VCPKG_MANIFEST_MODE: ON
+  STONEYDSP_VCPKG_ROOT: ${{ github.workspace }}/dep/vcpkg
   VCPKG_ROOT: ${{ github.workspace }}/dep/vcpkg
   VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.cache/vcpkg/archives
   VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg/downloads
@@ -106,16 +107,18 @@ jobs:
           echo "CC=${{ inputs.cc }}" >> "$GITHUB_ENV"
           echo "CXX=${{ inputs.cxx }}" >> "$GITHUB_ENV"
 
-      - name: Bootstrap pinned vcpkg on Unix
+      - name: Restore pinned vcpkg root on Unix
         if: ${{ inputs.kind == 'unix' }}
         shell: bash
         run: |
-          "$VCPKG_ROOT/bootstrap-vcpkg.sh" -disableMetrics
+          echo "VCPKG_ROOT=$STONEYDSP_VCPKG_ROOT" >> "$GITHUB_ENV"
 
-      - name: Bootstrap pinned vcpkg on Windows
+      - name: Restore pinned vcpkg root on Windows
         if: ${{ inputs.kind != 'unix' }}
         shell: pwsh
-        run: '& "$env:VCPKG_ROOT/bootstrap-vcpkg.bat" -disableMetrics'
+        run: |
+          "VCPKG_ROOT=$env:STONEYDSP_VCPKG_ROOT" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Prepare vcpkg cache directories on Unix
         if: ${{ inputs.kind == 'unix' }}
@@ -141,6 +144,17 @@ jobs:
             ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
             ${{ env.VCPKG_DOWNLOADS }}
           key: release-vcpkg-${{ inputs.target_id }}-${{ inputs.vcpkg_commit }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
+
+      - name: Bootstrap pinned vcpkg on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: |
+          "$VCPKG_ROOT/bootstrap-vcpkg.sh" -disableMetrics
+
+      - name: Bootstrap pinned vcpkg on Windows
+        if: ${{ inputs.kind != 'unix' }}
+        shell: pwsh
+        run: '& "$env:VCPKG_ROOT/bootstrap-vcpkg.bat" -disableMetrics'
 
       - name: Validate version metadata on Unix
         if: ${{ inputs.kind == 'unix' }}

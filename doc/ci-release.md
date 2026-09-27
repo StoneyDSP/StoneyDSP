@@ -150,9 +150,12 @@ is archived in this first published matrix; the shared pass remains a release
 gate for export/import and runtime-loading coverage. A failed row does not
 cancel evidence from other rows, but the promotion job depends on the
 successful aggregate matrix result and therefore cannot run after any failure.
-Each row sets `VCPKG_ROOT` to the pinned `dep/vcpkg` submodule and bootstraps
-that checkout before configuration. Hosted-runner vcpkg installations are not
-used as an implicit substitute for the repository's selected revision.
+Each row restores `VCPKG_ROOT` to the pinned `dep/vcpkg` submodule after
+toolchain setup, creates and restores the configured vcpkg cache directories,
+and then bootstraps that checkout before configuration. Reasserting the value
+is required because MSVC setup exposes Visual Studio's bundled vcpkg through
+the same environment variable. Hosted-runner vcpkg installations are not used
+as an implicit substitute for the repository's selected revision.
 
 ### Promotion and reruns
 
