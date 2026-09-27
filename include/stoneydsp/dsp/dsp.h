@@ -25,7 +25,7 @@
 
 //==============================================================================
 
-  #ifdef __cplusplus
+  #ifdef STONEYDSP_CXX
 
 // Forward-declaration of dsp namespaces
 
@@ -54,13 +54,13 @@ namespace dsp
 /// @} group stoneydsp
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 //============================================================================//
 
   #include "stoneydsp/dsp/widgets/gain.h"
 
-  #ifdef __cplusplus
+  #ifdef STONEYDSP_CXX
     #include "stoneydsp/dsp/filters/biquad_coefficients.h"
 
     #include "stoneydsp/dsp/filters/biquad.h"

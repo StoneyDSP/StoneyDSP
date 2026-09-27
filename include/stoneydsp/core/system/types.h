@@ -541,7 +541,7 @@
 
 //==============================================================================
 
-  #ifdef __cplusplus
+  #ifdef STONEYDSP_CXX
 
 //==============================================================================
 
@@ -593,9 +593,8 @@ public:
 } //  namespace core
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct
-STONEYDSP_ALIGN (alignof (T)) numeric_limits
-    : public ::stoneydsp::core::types::__numeric_limits_base<T>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (alignof (T))
+    numeric_limits : public ::stoneydsp::core::types::__numeric_limits_base<T>
 {
 private:
   STONEYDSP_DECLARE_NON_COPYABLE (numeric_limits)
@@ -629,30 +628,27 @@ public:
 } STONEYDSP_PACKED_STRUCT_END;
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct
-STONEYDSP_ALIGN (alignof (T)) numeric_limits<const T>
-    : public numeric_limits<T>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (alignof (T))
+    numeric_limits<const T> : public numeric_limits<T>
 {
 } STONEYDSP_PACKED_STRUCT_END;
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct
-STONEYDSP_ALIGN (alignof (T)) numeric_limits<volatile T>
-    : public numeric_limits<T>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (alignof (T))
+    numeric_limits<volatile T> : public numeric_limits<T>
 {
 } STONEYDSP_PACKED_STRUCT_END;
 
 template <typename T>
-STONEYDSP_PACKED_STRUCT_BEGIN struct
-STONEYDSP_ALIGN (alignof (T)) numeric_limits<const volatile T>
-    : public numeric_limits<T>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (alignof (T))
+    numeric_limits<const volatile T> : public numeric_limits<T>
 {
 } STONEYDSP_PACKED_STRUCT_END;
 
 /// @} group stoneydsp
 } // namespace stoneydsp
 
-  #endif //_cplusplus
+  #endif // STONEYDSP_CXX
 
 //============================================================================//
 

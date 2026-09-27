@@ -71,21 +71,20 @@ namespace detail
 
 template <typename SampleType>
 STONEYDSP_INLINE BiquadCoefficients<SampleType>
-makeMatchedBiquadCoefficients (
-    ::stoneydsp::core::types::double_t b0,
-    ::stoneydsp::core::types::double_t b1,
-    ::stoneydsp::core::types::double_t b2,
-    ::stoneydsp::core::types::double_t a1,
-    ::stoneydsp::core::types::double_t a2) STONEYDSP_NOEXCEPT
+makeMatchedBiquadCoefficients (::stoneydsp::core::types::double_t b0,
+                               ::stoneydsp::core::types::double_t b1,
+                               ::stoneydsp::core::types::double_t b2,
+                               ::stoneydsp::core::types::double_t a1,
+                               ::stoneydsp::core::types::double_t a2)
+    STONEYDSP_NOEXCEPT
 {
   typedef ::stoneydsp::core::types::double_t WorkingType;
   const WorkingType one = static_cast<WorkingType> (1);
   const WorkingType two = static_cast<WorkingType> (2);
 
   if (!std::isfinite (b0) || !std::isfinite (b1) || !std::isfinite (b2)
-      || !std::isfinite (a1) || !std::isfinite (a2)
-      || !(std::abs (a1) < two) || !(std::abs (a1) - one < a2)
-      || !(a2 < one))
+      || !std::isfinite (a1) || !std::isfinite (a2) || !(std::abs (a1) < two)
+      || !(std::abs (a1) - one < a2) || !(a2 < one))
     return BiquadCoefficients<SampleType> ();
 
   const BiquadCoefficients<SampleType> coefficients (
@@ -101,8 +100,7 @@ makeMatchedBiquadCoefficients (
 
   if (!std::isfinite (storedB0) || !std::isfinite (storedB1)
       || !std::isfinite (storedB2) || !std::isfinite (storedA1)
-      || !std::isfinite (storedA2)
-      || !(std::abs (storedA1) < two)
+      || !std::isfinite (storedA2) || !(std::abs (storedA1) < two)
       || !(std::abs (storedA1) - one < storedA2) || !(storedA2 < one))
     return BiquadCoefficients<SampleType> ();
 
@@ -129,16 +127,17 @@ makeMatchedBiquadCoefficients (
  */
 template <typename SampleType>
 STONEYDSP_INLINE BiquadCoefficients<SampleType>
-calculateMatchedBiquadCoefficients (
-    MatchedBiquadFilterType type, SampleType sampleRate, SampleType frequency,
-    SampleType qualityFactor, SampleType gainDecibels) STONEYDSP_NOEXCEPT
+calculateMatchedBiquadCoefficients (MatchedBiquadFilterType type,
+                                    SampleType sampleRate,
+                                    SampleType frequency,
+                                    SampleType qualityFactor,
+                                    SampleType gainDecibels) STONEYDSP_NOEXCEPT
 {
   typedef ::stoneydsp::core::types::double_t WorkingType;
   typedef ::stoneydsp::core::maths::Constants<WorkingType> Constants;
   typedef ::stoneydsp::core::maths::Functions<WorkingType> Functions;
 
-  const WorkingType workingSampleRate
-      = static_cast<WorkingType> (sampleRate);
+  const WorkingType workingSampleRate = static_cast<WorkingType> (sampleRate);
   const WorkingType workingFrequency = static_cast<WorkingType> (frequency);
   const WorkingType q = static_cast<WorkingType> (qualityFactor);
   const WorkingType workingGainDecibels
@@ -149,15 +148,13 @@ calculateMatchedBiquadCoefficients (
   const WorkingType four = two * two;
   const WorkingType half = one / two;
 
-  if (!std::isfinite (workingSampleRate)
-      || !std::isfinite (workingFrequency) || !std::isfinite (q)
-      || !std::isfinite (workingGainDecibels)
+  if (!std::isfinite (workingSampleRate) || !std::isfinite (workingFrequency)
+      || !std::isfinite (q) || !std::isfinite (workingGainDecibels)
       || !(workingSampleRate > zero) || !(workingFrequency > zero)
       || !(workingFrequency < workingSampleRate * half) || !(q > zero))
     return BiquadCoefficients<SampleType> ();
 
-  if (type == MatchedBiquadFilterType::peak
-      && workingGainDecibels == zero)
+  if (type == MatchedBiquadFilterType::peak && workingGainDecibels == zero)
     return BiquadCoefficients<SampleType> ();
 
   const WorkingType omega
@@ -205,8 +202,8 @@ calculateMatchedBiquadCoefficients (
   const WorkingType responseAtFrequency
       = (phi0 * A0) + (phi1 * A1) + (phi2 * A2);
 
-  if (!std::isfinite (responseAtFrequency)
-      || !(responseAtFrequency >= zero) || !(phi1 > zero))
+  if (!std::isfinite (responseAtFrequency) || !(responseAtFrequency >= zero)
+      || !(phi1 > zero))
     return BiquadCoefficients<SampleType> ();
 
   WorkingType b0 = zero;
@@ -236,11 +233,9 @@ calculateMatchedBiquadCoefficients (
 
     case MatchedBiquadFilterType::bandPass:
       {
-        const WorkingType R2
-            = A1 - A0 + (four * (phi0 - phi1) * A2);
+        const WorkingType R2 = A1 - A0 + (four * (phi0 - phi1) * A2);
         const WorkingType B2
-            = (responseAtFrequency - (phi1 * R2))
-              / (four * phi1 * phi1);
+            = (responseAtFrequency - (phi1 * R2)) / (four * phi1 * phi1);
         const WorkingType B1 = R2 + (four * (phi1 - phi0) * B2);
         if (!(B1 >= zero))
           return BiquadCoefficients<SampleType> ();
@@ -261,16 +256,13 @@ calculateMatchedBiquadCoefficients (
         const WorkingType R2
             = (A1 - A0 + (four * (phi0 - phi1) * A2)) * gainSquared;
         const WorkingType B0 = A0;
-        const WorkingType B2
-            = (R1 - (phi1 * R2) - B0) / (four * phi1 * phi1);
-        const WorkingType B1
-            = R2 + B0 + (four * (phi1 - phi0) * B2);
+        const WorkingType B2 = (R1 - (phi1 * R2) - B0) / (four * phi1 * phi1);
+        const WorkingType B1 = R2 + B0 + (four * (phi1 - phi0) * B2);
         if (!(B0 >= zero) || !(B1 >= zero))
           return BiquadCoefficients<SampleType> ();
 
         b1 = half * (std::sqrt (B0) - std::sqrt (B1));
-        const WorkingType W
-            = half * (std::sqrt (B0) + std::sqrt (B1));
+        const WorkingType W = half * (std::sqrt (B0) + std::sqrt (B1));
         const WorkingType b0Argument = (W * W) + B2;
         if (!(b0Argument >= zero))
           return BiquadCoefficients<SampleType> ();

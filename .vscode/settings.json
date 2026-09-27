@@ -304,6 +304,13 @@
 	"json.schemas": [
 		{
 			"fileMatch": [
+				"CMakeOptions.json",
+				"CMakePresets.json"
+			],
+			"url": "https://raw.githubusercontent.com/Kitware/CMake/v3.31.0/Help/manual/presets/schema.json"
+		},
+		{
+			"fileMatch": [
 				"**/vcpkg.json"
 			],
 			"url": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json"

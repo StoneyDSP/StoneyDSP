@@ -14,7 +14,7 @@
 
   #include <stoneydsp/core/core.h>
 
-  #ifdef __cplusplus
+  #ifdef STONEYDSP_CXX
 
     #include <type_traits>
 
@@ -50,6 +50,6 @@ template <typename FloatType> struct Functions
 } // namespace core
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 #endif // STONEYDSP_CORE_MATHS_FUNCTIONS_H_INCLUDED

@@ -189,8 +189,8 @@ operator""_uint_t (unsigned long long value) STONEYDSP_NOEXCEPT
 //==============================================================================
 
 template <>
-STONEYDSP_PACKED_STRUCT_BEGIN struct
-STONEYDSP_ALIGN (alignof (STONEYDSP_UINT_T)) numeric_limits<STONEYDSP_UINT_T>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (
+    alignof (STONEYDSP_UINT_T)) numeric_limits<STONEYDSP_UINT_T>
 {
   STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_UINT_T STONEYDSP_API
   max () STONEYDSP_NOEXCEPT

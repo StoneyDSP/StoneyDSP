@@ -26,8 +26,7 @@ magnitudeAt (const Coefficients &coefficients, double omega)
       = std::exp (std::complex<double> (0.0, -omega));
   const std::complex<double> z2 = z1 * z1;
   const std::complex<double> numerator
-      = coefficients.b0 + (coefficients.b1 * z1)
-        + (coefficients.b2 * z2);
+      = coefficients.b0 + (coefficients.b1 * z1) + (coefficients.b2 * z2);
   const std::complex<double> denominator
       = 1.0 - (coefficients.a1 * z1) - (coefficients.a2 * z2);
   return std::abs (numerator / denominator);
@@ -53,8 +52,8 @@ STONEYDSP_TEST_CASE ("[dsp][matched-biquad][reference-constraints]",
 {
   const double sampleRate = 48000.0;
   const double frequencies[] = { 240.0, 2400.0, 9600.0, 19200.0 };
-  const double qualityFactors[] = { 0.5, Constants::oneDivSqrtTwo, 1.0, 3.0,
-                                    10.0 };
+  const double qualityFactors[]
+      = { 0.5, Constants::oneDivSqrtTwo, 1.0, 3.0, 10.0 };
 
   for (std::size_t frequencyIndex = 0;
        frequencyIndex < sizeof (frequencies) / sizeof (frequencies[0]);
@@ -65,8 +64,7 @@ STONEYDSP_TEST_CASE ("[dsp][matched-biquad][reference-constraints]",
       {
         const double frequency = frequencies[frequencyIndex];
         const double qualityFactor = qualityFactors[qIndex];
-        const double omega
-            = (Constants::twoPi * frequency) / sampleRate;
+        const double omega = (Constants::twoPi * frequency) / sampleRate;
 
         const Coefficients lowPass
             = ::stoneydsp::dsp::filters::calculateMatchedBiquadCoefficients (
@@ -83,12 +81,12 @@ STONEYDSP_TEST_CASE ("[dsp][matched-biquad][reference-constraints]",
 
         STONEYDSP_REQUIRE (
             approximatelyEqual (magnitudeAt (lowPass, 0.0), 1.0, 1.0e-9));
-        STONEYDSP_REQUIRE (approximatelyEqual (
-            magnitudeAt (lowPass, omega), qualityFactor, 1.0e-9));
+        STONEYDSP_REQUIRE (approximatelyEqual (magnitudeAt (lowPass, omega),
+                                               qualityFactor, 1.0e-9));
         STONEYDSP_REQUIRE (
             approximatelyEqual (magnitudeAt (highPass, 0.0), 0.0, 1.0e-9));
-        STONEYDSP_REQUIRE (approximatelyEqual (
-            magnitudeAt (highPass, omega), qualityFactor, 1.0e-9));
+        STONEYDSP_REQUIRE (approximatelyEqual (magnitudeAt (highPass, omega),
+                                               qualityFactor, 1.0e-9));
         STONEYDSP_REQUIRE (
             approximatelyEqual (magnitudeAt (bandPass, 0.0), 0.0, 1.0e-9));
         STONEYDSP_REQUIRE (
@@ -113,11 +111,11 @@ STONEYDSP_TEST_CASE ("[dsp][matched-biquad][peaking-response]",
           = ::stoneydsp::dsp::filters::calculateMatchedBiquadCoefficients (
               FilterType::peak, sampleRate, frequency, qualityFactor, gain);
 
-      STONEYDSP_REQUIRE (approximatelyEqual (
-          magnitudeAt (coefficients, 0.0), 1.0, 1.0e-8));
-      STONEYDSP_REQUIRE (approximatelyEqual (
-          magnitudeAt (coefficients, omega), std::pow (10.0, gain / 20.0),
-          1.0e-7));
+      STONEYDSP_REQUIRE (
+          approximatelyEqual (magnitudeAt (coefficients, 0.0), 1.0, 1.0e-8));
+      STONEYDSP_REQUIRE (approximatelyEqual (magnitudeAt (coefficients, omega),
+                                             std::pow (10.0, gain / 20.0),
+                                             1.0e-7));
     }
 
   STONEYDSP_REQUIRE (isIdentity (

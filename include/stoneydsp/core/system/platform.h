@@ -14,6 +14,10 @@
 #ifndef STONEYDSP_CORE_SYSTEM_PLATFORM_H_INCLUDED
   #define STONEYDSP_CORE_SYSTEM_PLATFORM_H_INCLUDED
 
+//==============================================================================
+
+  #include "stoneydsp/core/system/languages.h"
+
   //==============================================================================
 
   /**
@@ -182,7 +186,7 @@
   #if STONEYDSP_WINDOWS
     #define STONEYDSP_SUPPORTS_WIDECHARS 1
   #else
-    #if __cplusplus >= 201103L || (__GNUC__ >= 5)
+    #if (defined(STONEYDSP_CXX) && STONEYDSP_CXX >= 201103L) || (__GNUC__ >= 5)
       #define STONEYDSP_SUPPORTS_WIDECHARS 1
     #endif
   #endif

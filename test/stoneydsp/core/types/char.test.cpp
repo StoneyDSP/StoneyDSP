@@ -82,8 +82,8 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][is_integral]",
 STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][signedness]",
                      "[core][types][char_t][type_traits][signedness]")
 {
-  STONEYDSP_REQUIRE (
-      ::std::is_unsigned< ::stoneydsp::char_t>::value == (CHAR_MIN == 0));
+  STONEYDSP_REQUIRE (::std::is_unsigned< ::stoneydsp::char_t>::value
+                     == (CHAR_MIN == 0));
 }
 
 STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][is_arithmetic]",
@@ -277,10 +277,10 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][boundary][representable]",
   ::stoneydsp::char_t max_value
       = ::std::numeric_limits< ::stoneydsp::char_t>::max ();
 
-  STONEYDSP_REQUIRE (static_cast< int> (min_value) + 1
-                     > static_cast< int> (min_value));
-  STONEYDSP_REQUIRE (static_cast< int> (max_value) - 1
-                     < static_cast< int> (max_value));
+  STONEYDSP_REQUIRE (static_cast<int> (min_value) + 1
+                     > static_cast<int> (min_value));
+  STONEYDSP_REQUIRE (static_cast<int> (max_value) - 1
+                     < static_cast<int> (max_value));
 }
 
 //===============================================================//compatibility

@@ -184,8 +184,8 @@ operator""_ulong_t (unsigned long long value) STONEYDSP_NOEXCEPT
 //==============================================================================
 
 template <>
-STONEYDSP_PACKED_STRUCT_BEGIN struct
-STONEYDSP_ALIGN (alignof (STONEYDSP_ULONG_T)) numeric_limits<STONEYDSP_ULONG_T>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (
+    alignof (STONEYDSP_ULONG_T)) numeric_limits<STONEYDSP_ULONG_T>
 {
 
   STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_ULONG_T STONEYDSP_API

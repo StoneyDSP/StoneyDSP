@@ -166,7 +166,7 @@
   #ifdef STONEYDSP_STATIC
     /** @brief Static libraries do not export or import DLL symbols. */
     #define STONEYDSP_API
-  #elif defined (STONEYDSP_MSVC)
+  #elif defined(STONEYDSP_MSVC)
     #ifdef STONEYDSP_EXPORTS
       /** @brief Used to export a function or variable from a DLL. */
       #define STONEYDSP_API __declspec (dllexport)
