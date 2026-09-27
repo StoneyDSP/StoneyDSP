@@ -78,11 +78,9 @@ and promotion. `.github/workflows/release-build-target.yml` is the reusable
 per-target implementation and keeps configure, build, test, install, consumer,
 package, and upload failures visible as separate Actions steps.
 
-The permanent workflow is deliberately separate from ordinary push and
-pull-request validation, so large SDK archives are produced only when a
-maintainer requests them. PR #214 temporarily enables a path-scoped
-`pull_request` trigger solely to prove all six new target rows before merge;
-that trigger must be removed immediately after the evidence is captured.
+The workflow is deliberately separate from ordinary push and pull-request
+validation, so large SDK archives are produced only when a maintainer requests
+them.
 
 The dispatch inputs are:
 

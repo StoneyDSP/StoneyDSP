@@ -22,26 +22,12 @@ on:
         required: false
         type: string
 
-  # Temporary PR #214 validation trigger. Remove after all six targets pass.
-  pull_request:
-    branches:
-      - production
-    paths:
-      - .github/workflows/release-artifacts.yml
-      - .github/workflows/release-build-target.yml
-      - scripts/bump-version.mjs
-      - scripts/package-release.mjs
-      - scripts/package-release.test.mjs
-      - scripts/promote-release-assets.mjs
-      - scripts/promote-release-assets.test.mjs
-
 permissions:
   contents: read
 
 concurrency:
   group: >-
-    release-artifacts-${{ github.event.pull_request.number ||
-    inputs.release_ref || github.ref }}
+    release-artifacts-${{ inputs.release_ref }}
   cancel-in-progress: false
 
 jobs:
@@ -58,7 +44,7 @@ jobs:
       - name: Checkout selected ref
         uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.pull_request.head.sha || inputs.release_ref }}
+          ref: ${{ inputs.release_ref }}
           submodules: true
           fetch-depth: 0
 
