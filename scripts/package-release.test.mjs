@@ -69,6 +69,25 @@ test("creates byte-stable TGZ and ZIP archives with declared SDK metadata", asyn
       assert.match(stdout, /\/StoneyDSP-build-manifest\.json$/m);
       assert.match(stdout, /\/include\/stoneydsp\/test\.h$/m);
       assert.match(stdout, /\/lib\/libstoneydsp\.a$/m);
+
+      const extracted = Path.join(temporary, `extracted-${format}`);
+      await mkdir(extracted);
+      await execute("cmake", ["-E", "tar", "xf", first.archivePath], {
+        cwd: extracted,
+      });
+      assert.equal(
+        await readFile(
+          Path.join(
+            extracted,
+            `StoneyDSP-${version}-linux-x86_64-gcc-static`,
+            "include",
+            "stoneydsp",
+            "test.h",
+          ),
+          "utf8",
+        ),
+        "#pragma once\n",
+      );
     }
   } finally {
     await rm(temporary, { recursive: true, force: true });

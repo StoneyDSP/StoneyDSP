@@ -12,6 +12,7 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  readlink,
   readdir,
   rm,
   utimes,
@@ -43,7 +44,7 @@ const EXIT_FAILURE = 1;
 
 const FORMATS = new Map([
   ["tar.gz", { extension: ".tar.gz", flags: "czf", format: "gnutar" }],
-  ["zip", { extension: ".zip", flags: "cf", format: "zip" }],
+  ["zip", { extension: ".zip" }],
 ]);
 
 /**
@@ -174,32 +175,38 @@ export async function packageRelease(argv) {
 
     const archiveFiles = await listFiles(stagingParent);
     const timestamp = new Date(epoch * 1000);
-    const archiveTimestamp = timestamp
-      .toISOString()
-      .replace("T", " ")
-      .replace(".000Z", " UTC");
 
     await normalizeTree(archiveRoot, timestamp);
 
-    const fileListPath = Path.join(stagingParent, "archive-files.txt");
-
-    await writeFile(fileListPath, `${archiveFiles.join("\n")}\n`, "utf8");
-
-    await execFile(
-      "cmake",
-      [
-        "-E",
-        "tar",
-        format.flags,
+    if (options.format === "zip") {
+      await createDeterministicZip(
+        stagingParent,
+        archiveFiles,
         archivePath,
-        `--format=${format.format}`,
-        `--mtime=${archiveTimestamp}`,
-        `--files-from=${fileListPath}`,
-      ],
-      { cwd: stagingParent },
-    );
+        epoch,
+      );
+    } else {
+      const archiveTimestamp = timestamp
+        .toISOString()
+        .replace("T", " ")
+        .replace(".000Z", " UTC");
+      const fileListPath = Path.join(stagingParent, "archive-files.txt");
 
-    if (options.format === "tar.gz") {
+      await writeFile(fileListPath, `${archiveFiles.join("\n")}\n`, "utf8");
+      await execFile(
+        "cmake",
+        [
+          "-E",
+          "tar",
+          format.flags,
+          archivePath,
+          `--format=${format.format}`,
+          `--mtime=${archiveTimestamp}`,
+          `--files-from=${fileListPath}`,
+        ],
+        { cwd: stagingParent },
+      );
+
       await normalizeGzipTimestamp(archivePath, epoch);
     }
 
@@ -371,6 +378,148 @@ async function normalizeGzipTimestamp(archivePath, epoch) {
 
   archive.writeUInt32LE(epoch, 4);
   await writeFile(archivePath, archive);
+}
+
+/**
+ * Write a ZIP with stable ordering and no host-generated extra fields. Stored
+ * entries avoid zlib-version differences while retaining standard ZIP
+ * compatibility for the Windows SDK deliverables.
+ *
+ * @param {string} root
+ * @param {string[]} files
+ * @param {string} archivePath
+ * @param {number} epoch
+ */
+async function createDeterministicZip(root, files, archivePath, epoch) {
+  const { date, time } = zipTimestamp(epoch);
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+
+  if (files.length > 0xffff) {
+    throw new Error("ZIP archive contains too many entries for ZIP32.");
+  }
+
+  for (const relative of files) {
+    const absolute = Path.join(root, ...relative.split("/"));
+    const stat = await lstat(absolute);
+    const symbolicLink = stat.isSymbolicLink();
+    const data = symbolicLink
+      ? Buffer.from(await readlink(absolute), "utf8")
+      : await readFile(absolute);
+    const name = Buffer.from(relative, "utf8");
+    const checksum = crc32(data);
+    const mode = symbolicLink
+      ? 0o120777
+      : stat.mode & 0o111
+        ? 0o100755
+        : 0o100644;
+
+    if (name.length > 0xffff) {
+      throw new Error(`ZIP entry name is too long: ${relative}`);
+    }
+    if (data.length > 0xffffffff || offset > 0xffffffff) {
+      throw new Error("ZIP archive exceeds the supported ZIP32 size.");
+    }
+
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0);
+    local.writeUInt16LE(20, 4);
+    local.writeUInt16LE(0x0800, 6);
+    local.writeUInt16LE(0, 8);
+    local.writeUInt16LE(time, 10);
+    local.writeUInt16LE(date, 12);
+    local.writeUInt32LE(checksum, 14);
+    local.writeUInt32LE(data.length, 18);
+    local.writeUInt32LE(data.length, 22);
+    local.writeUInt16LE(name.length, 26);
+    local.writeUInt16LE(0, 28);
+
+    const central = Buffer.alloc(46);
+    central.writeUInt32LE(0x02014b50, 0);
+    central.writeUInt16LE((3 << 8) | 20, 4);
+    central.writeUInt16LE(20, 6);
+    central.writeUInt16LE(0x0800, 8);
+    central.writeUInt16LE(0, 10);
+    central.writeUInt16LE(time, 12);
+    central.writeUInt16LE(date, 14);
+    central.writeUInt32LE(checksum, 16);
+    central.writeUInt32LE(data.length, 20);
+    central.writeUInt32LE(data.length, 24);
+    central.writeUInt16LE(name.length, 28);
+    central.writeUInt16LE(0, 30);
+    central.writeUInt16LE(0, 32);
+    central.writeUInt16LE(0, 34);
+    central.writeUInt16LE(0, 36);
+    central.writeUInt32LE((mode << 16) >>> 0, 38);
+    central.writeUInt32LE(offset, 42);
+
+    localParts.push(local, name, data);
+    centralParts.push(central, name);
+    offset += local.length + name.length + data.length;
+  }
+
+  const centralSize = centralParts.reduce((size, part) => size + part.length, 0);
+  if (offset + centralSize > 0xffffffff) {
+    throw new Error("ZIP archive exceeds the supported ZIP32 size.");
+  }
+
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0);
+  end.writeUInt16LE(0, 4);
+  end.writeUInt16LE(0, 6);
+  end.writeUInt16LE(files.length, 8);
+  end.writeUInt16LE(files.length, 10);
+  end.writeUInt32LE(centralSize, 12);
+  end.writeUInt32LE(offset, 16);
+  end.writeUInt16LE(0, 20);
+
+  await writeFile(
+    archivePath,
+    Buffer.concat([...localParts, ...centralParts, end]),
+  );
+}
+
+/**
+ * @param {number} epoch
+ */
+function zipTimestamp(epoch) {
+  const timestamp = new Date(epoch * 1000);
+  const year = timestamp.getUTCFullYear();
+  if (year < 1980 || year > 2107) {
+    throw new Error("--source-date-epoch is outside the ZIP timestamp range.");
+  }
+
+  return {
+    date:
+      ((year - 1980) << 9) |
+      ((timestamp.getUTCMonth() + 1) << 5) |
+      timestamp.getUTCDate(),
+    time:
+      (timestamp.getUTCHours() << 11) |
+      (timestamp.getUTCMinutes() << 5) |
+      Math.floor(timestamp.getUTCSeconds() / 2),
+  };
+}
+
+/**
+ * @param {Buffer} data
+ */
+function crc32(data) {
+  let checksum = 0xffffffff;
+  for (const byte of data) {
+    checksum = CRC32_TABLE[(checksum ^ byte) & 0xff] ^ (checksum >>> 8);
+  }
+  return (checksum ^ 0xffffffff) >>> 0;
+}
+
+const CRC32_TABLE = new Uint32Array(256);
+for (let index = 0; index < CRC32_TABLE.length; index += 1) {
+  let value = index;
+  for (let bit = 0; bit < 8; bit += 1) {
+    value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;
+  }
+  CRC32_TABLE[index] = value >>> 0;
 }
 
 /**

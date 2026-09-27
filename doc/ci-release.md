@@ -136,11 +136,12 @@ and contains:
 
 The manifest records the version, commit, operating system, architecture,
 compiler identity, linkage, CMake preset, and source-date epoch. The packaging
-script sorts entries, normalizes permissions and timestamps to the selected
-commit time, asks CMake's archive implementation to record that time, and
-normalizes the outer gzip header that CMake otherwise timestamps at packaging
-time. Run `make release-artifact-test` to check stable archive bytes, required
-contents, and the release-asset conflict policy.
+script sorts entries and normalizes permissions and timestamps to the selected
+commit time. Tar archives use CMake's archive implementation with a normalized
+outer gzip timestamp. ZIP archives use stored entries with fixed metadata,
+avoiding host libarchive and zlib differences while remaining readable by
+standard ZIP tools. Run `make release-artifact-test` to check stable archive
+bytes, extraction, required contents, and the release-asset conflict policy.
 
 The matrix runs the behavioral unit suite (excluding benchmark-labelled cases)
 and then configures, builds, runs, installs, and tests the external C and C++
@@ -184,8 +185,10 @@ focused rebuilds.
 Actions artefact storage accrues while archives are retained and shares the
 account's artifact/package allowance. The explicit 14-day retention limits
 that cost; promoted GitHub Release assets remain until the release owner
-removes them. vcpkg dependency caches are separate from deliverable artefacts,
-are keyed per target and dependency inputs, and are non-fatal performance
-optimizations. Review GitHub's current billing and repository retention
-settings before substantially increasing archive size, retention, or matrix
-breadth.
+removes them. Windows ZIP entries are intentionally stored without compression
+to make their bytes independent of runner zlib versions, so those two archives
+trade some storage size for reproducibility. vcpkg dependency caches are
+separate from deliverable artefacts, are keyed per target and dependency
+inputs, and are non-fatal performance optimizations. Review GitHub's current
+billing and repository retention settings before substantially increasing
+archive size, retention, or matrix breadth.
