@@ -200,7 +200,7 @@ function(stoneydsp_add_stoneydsp)
     list(APPEND STONEYDSP_COMPILE_FEATURES_PUBLIC
 
         # <CXX>
-        cxx_std_11
+        cxx_std_14
 
         # <CC>
         #

@@ -7,7 +7,7 @@ authority for install/export claims.
 ## Required for the supported CMake path
 
 - a C11-capable C compiler;
-- a C++11-capable C++ compiler;
+- a C++14-capable C++ compiler;
 - CMake 3.23 or newer;
 - Ninja, as selected by the checked-in presets;
 - Git and the repository submodules, including vcpkg.
@@ -16,6 +16,10 @@ The active CI covers Clang/GCC environments where available and MSVC x86/x64
 on Windows. A named preset being present is not equivalent to a continuously
 tested production target; consult the workflows and current CI before making a
 support claim.
+
+C++14 is the shared minimum for the exported CMake targets, Make's native
+build and test path, the external C++ consumer fixture, and C++ tooling. The C
+API remains a separate C11 compatibility surface.
 
 ## Optional tools
 

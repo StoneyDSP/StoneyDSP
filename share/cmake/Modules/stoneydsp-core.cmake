@@ -198,7 +198,7 @@ function(stoneydsp_add_core)
     # List compile features (public)
     set(STONEYDSP_CORE_COMPILE_FEATURES_PUBLIC)
     list(APPEND STONEYDSP_CORE_COMPILE_FEATURES_PUBLIC
-        cxx_std_11
+        cxx_std_14
         cxx_rvalue_references
         cxx_range_for
         cxx_nullptr
