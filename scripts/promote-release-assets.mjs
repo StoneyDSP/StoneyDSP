@@ -9,7 +9,22 @@ import Url from "node:url";
 /**
  * @typedef {{ name: string, path: string, digest: string }} LocalAsset
  * @typedef {{ id: number, name: string, digest?: string | null, url: string }} RemoteAsset
+ * @typedef {0} EXIT_SUCCESS
+ * @typedef {1} EXIT_FAILURE
+ * @typedef {{
+ *   process: { argv: string[], env: Record<string, string | undefined>, exitCode?: number },
+ *   console: {
+ *     log: (...values: unknown[]) => void,
+ *     error: (...values: unknown[]) => void,
+ *   },
+ *   fetch: typeof fetch,
+ * }} Context
  */
+
+/** @type {EXIT_SUCCESS} */
+const EXIT_SUCCESS = 0;
+/** @type {EXIT_FAILURE} */
+const EXIT_FAILURE = 1;
 
 /**
  * Return the assets that are missing after proving that every same-named asset
@@ -52,10 +67,10 @@ export async function planAssetPromotion(
   return { upload, skip };
 }
 
-/** @param {string[]} argv */
-export async function promoteReleaseAssets(argv) {
+/** @param {string[]} argv @param {Context} ctx */
+export async function promoteReleaseAssets(argv, ctx) {
   const options = parseOptions(argv);
-  const token = process.env.GITHUB_TOKEN;
+  const token = ctx.process.env.GITHUB_TOKEN;
   if (!token) throw new Error("GITHUB_TOKEN is required.");
   if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(options.repository)) {
     throw new Error(`Invalid GitHub repository '${options.repository}'.`);
@@ -73,19 +88,28 @@ export async function promoteReleaseAssets(argv) {
   const release = await requestJson(
     `${apiBase}/releases/tags/${encodeURIComponent(options.tag)}`,
     token,
+    ctx.fetch,
   );
   if (!Number.isSafeInteger(release.id)) {
     throw new Error("GitHub returned an invalid release response.");
   }
-  const remoteAssets = await listRemoteAssets(apiBase, release.id, token);
+  const remoteAssets = await listRemoteAssets(
+    apiBase,
+    release.id,
+    token,
+    ctx.fetch,
+  );
 
   const plan = await planAssetPromotion(
     localAssets,
     remoteAssets,
     async (asset) => {
-      const response = await githubFetch(asset.url, token, {
-        headers: { Accept: "application/octet-stream" },
-      });
+      const response = await githubFetch(
+        asset.url,
+        token,
+        { headers: { Accept: "application/octet-stream" } },
+        ctx.fetch,
+      );
       return createHash("sha256")
         .update(Buffer.from(await response.arrayBuffer()))
         .digest("hex");
@@ -93,29 +117,40 @@ export async function promoteReleaseAssets(argv) {
   );
 
   for (const name of plan.skip) {
-    console.log(`skip identical asset: ${name}`);
+    ctx.console.log(`skip identical asset: ${name}`);
   }
   for (const asset of plan.upload) {
     const uploadUrl =
       `https://uploads.github.com/repos/${options.repository}/releases/` +
       `${release.id}/assets?name=${encodeURIComponent(asset.name)}`;
-    await githubFetch(uploadUrl, token, {
-      method: "POST",
-      headers: { "Content-Type": "application/octet-stream" },
-      body: await readFile(asset.path),
-    });
-    console.log(`uploaded asset: ${asset.name}`);
+    await githubFetch(
+      uploadUrl,
+      token,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/octet-stream" },
+        body: await readFile(asset.path),
+      },
+      ctx.fetch,
+    );
+    ctx.console.log(`uploaded asset: ${asset.name}`);
   }
 }
 
-/** @param {string} apiBase @param {number} releaseId @param {string} token */
-async function listRemoteAssets(apiBase, releaseId, token) {
+/**
+ * @param {string} apiBase
+ * @param {number} releaseId
+ * @param {string} token
+ * @param {typeof fetch} fetchImpl
+ */
+async function listRemoteAssets(apiBase, releaseId, token, fetchImpl) {
   /** @type {RemoteAsset[]} */
   const assets = [];
   for (let page = 1; ; page += 1) {
     const batch = await requestJson(
       `${apiBase}/releases/${releaseId}/assets?per_page=100&page=${page}`,
       token,
+      fetchImpl,
     );
     if (!Array.isArray(batch)) {
       throw new Error("GitHub returned an invalid release-assets response.");
@@ -174,9 +209,9 @@ function parseOptions(argv) {
   };
 }
 
-/** @param {string} url @param {string} token */
-async function requestJson(url, token) {
-  const response = await githubFetch(url, token);
+/** @param {string} url @param {string} token @param {typeof fetch} fetchImpl */
+async function requestJson(url, token, fetchImpl) {
+  const response = await githubFetch(url, token, {}, fetchImpl);
   return response.json();
 }
 
@@ -184,14 +219,15 @@ async function requestJson(url, token) {
  * @param {string} url
  * @param {string} token
  * @param {RequestInit} [options]
+ * @param {typeof fetch} [fetchImpl]
  */
-async function githubFetch(url, token, options = {}) {
+async function githubFetch(url, token, options = {}, fetchImpl = globalThis.fetch) {
   const headers = new Headers(options.headers);
   headers.set("Accept", headers.get("Accept") ?? "application/vnd.github+json");
   headers.set("Authorization", `Bearer ${token}`);
   headers.set("X-GitHub-Api-Version", "2026-03-10");
   headers.set("User-Agent", "StoneyDSP-release-artifacts");
-  const response = await fetch(url, { ...options, headers });
+  const response = await fetchImpl(url, { ...options, headers });
   if (!response.ok) {
     const detail = (await response.text()).slice(0, 1000);
     throw new Error(
@@ -201,9 +237,26 @@ async function githubFetch(url, token, options = {}) {
   return response;
 }
 
-if (process.argv[1] && Path.resolve(process.argv[1]) === Url.fileURLToPath(import.meta.url)) {
-  promoteReleaseAssets(process.argv.slice(2)).catch((error) => {
-    console.error(error instanceof Error ? error.message : error);
-    process.exitCode = 1;
+/**
+ * Own the command-line and network process boundary while keeping promotion
+ * planning independently testable.
+ *
+ * @param {Context} ctx
+ * @returns {Promise<EXIT_SUCCESS | EXIT_FAILURE>}
+ */
+export async function main(ctx) {
+  try {
+    await promoteReleaseAssets(ctx.process.argv.slice(2), ctx);
+    return EXIT_SUCCESS;
+  } catch (error) {
+    ctx.console.error(error instanceof Error ? error.message : error);
+    return EXIT_FAILURE;
+  }
+}
+
+const entryPoint = globalThis.process.argv[1];
+if (entryPoint && import.meta.url === Url.pathToFileURL(entryPoint).href) {
+  void main(globalThis).then((exitCode) => {
+    globalThis.process.exitCode = exitCode;
   });
 }

@@ -6,7 +6,7 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { test } from "node:test";
 
-import { packageRelease } from "./package-release.mjs";
+import { main, packageRelease } from "./package-release.mjs";
 
 const execute = promisify(execFile);
 const projectRoot = Path.resolve(import.meta.dirname, "..");
@@ -48,7 +48,7 @@ test("creates byte-stable TGZ and ZIP archives with declared SDK metadata", asyn
         ...common,
       ]);
 
-      assert.equal(first.digest, second.digest);
+      assert.equal(first.digest, second.digest, `${format} digest`);
       assert.deepEqual(
         await readFile(first.archivePath),
         await readFile(second.archivePath),
@@ -98,4 +98,18 @@ test("rejects an install tree without the package contract", async () => {
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }
+});
+
+test("CLI entry point owns argument errors through its injected context", async () => {
+  const errors = [];
+  const exitCode = await main({
+    process: { argv: ["node", "package-release.mjs"] },
+    console: {
+      log: () => {},
+      error: (...values) => errors.push(values.join(" ")),
+    },
+  });
+
+  assert.equal(exitCode, 1);
+  assert.match(errors.join("\n"), /Missing required option/);
 });

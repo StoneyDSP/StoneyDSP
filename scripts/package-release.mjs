@@ -24,6 +24,23 @@ import Url from "node:url";
 
 const execFile = promisify(nodeExecFile);
 
+/**
+ * @typedef {0} EXIT_SUCCESS
+ * @typedef {1} EXIT_FAILURE
+ * @typedef {{
+ *   process: { argv: string[], exitCode?: number },
+ *   console: {
+ *     log: (...values: unknown[]) => void,
+ *     error: (...values: unknown[]) => void,
+ *   },
+ * }} Context
+ */
+
+/** @type {EXIT_SUCCESS} */
+const EXIT_SUCCESS = 0;
+/** @type {EXIT_FAILURE} */
+const EXIT_FAILURE = 1;
+
 const FORMATS = new Map([
   ["tar.gz", { extension: ".tar.gz", flags: "czf", format: "gnutar" }],
   ["zip", { extension: ".zip", flags: "cf", format: "zip" }],
@@ -182,6 +199,10 @@ export async function packageRelease(argv) {
       { cwd: stagingParent },
     );
 
+    if (options.format === "tar.gz") {
+      await normalizeGzipTimestamp(archivePath, epoch);
+    }
+
     const digest = createHash("sha256")
       .update(await readFile(archivePath))
       .digest("hex");
@@ -330,18 +351,53 @@ async function normalizeTree(root, timestamp) {
   await utimes(root, timestamp, timestamp);
 }
 
-if (
-  process.argv[1] &&
-  Path.resolve(process.argv[1]) === Url.fileURLToPath(import.meta.url)
-) {
-  packageRelease(process.argv.slice(2))
-    .then(({ archivePath, checksumPath, digest }) => {
-      console.log(`archive=${archivePath}`);
-      console.log(`checksum=${checksumPath}`);
-      console.log(`sha256=${digest}`);
-    })
-    .catch((error) => {
-      console.error(error instanceof Error ? error.message : error);
-      process.exitCode = 1;
-    });
+/**
+ * CMake normalizes tar member timestamps but libarchive writes the current
+ * time into the outer gzip header. Replace that four-byte field with the
+ * declared source-date epoch so equal inputs remain byte-identical.
+ *
+ * @param {string} archivePath
+ * @param {number} epoch
+ */
+async function normalizeGzipTimestamp(archivePath, epoch) {
+  if (epoch > 0xffffffff) {
+    throw new Error("--source-date-epoch exceeds the gzip timestamp range.");
+  }
+
+  const archive = await readFile(archivePath);
+  if (archive.length < 10 || archive[0] !== 0x1f || archive[1] !== 0x8b) {
+    throw new Error(`CMake did not create a valid gzip archive: ${archivePath}`);
+  }
+
+  archive.writeUInt32LE(epoch, 4);
+  await writeFile(archivePath, archive);
+}
+
+/**
+ * Own the command-line process boundary while keeping archive construction
+ * callable without ambient process state.
+ *
+ * @param {Context} ctx
+ * @returns {Promise<EXIT_SUCCESS | EXIT_FAILURE>}
+ */
+export async function main(ctx) {
+  try {
+    const { archivePath, checksumPath, digest } = await packageRelease(
+      ctx.process.argv.slice(2),
+    );
+    ctx.console.log(`archive=${archivePath}`);
+    ctx.console.log(`checksum=${checksumPath}`);
+    ctx.console.log(`sha256=${digest}`);
+    return EXIT_SUCCESS;
+  } catch (error) {
+    ctx.console.error(error instanceof Error ? error.message : error);
+    return EXIT_FAILURE;
+  }
+}
+
+const entryPoint = globalThis.process.argv[1];
+if (entryPoint && import.meta.url === Url.pathToFileURL(entryPoint).href) {
+  void main(globalThis).then((exitCode) => {
+    globalThis.process.exitCode = exitCode;
+  });
 }

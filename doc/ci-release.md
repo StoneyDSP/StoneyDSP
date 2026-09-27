@@ -73,8 +73,16 @@ repositories. This repository owns the reusable library package and its proof.
 ## Release artefact workflow
 
 `.github/workflows/release-artifacts.yml` is the manual release-delivery path.
-It is deliberately separate from ordinary push and pull-request validation, so
-large SDK archives are produced only when a maintainer requests them.
+It coordinates selection, immutable release identity, the aggregate matrix,
+and promotion. `.github/workflows/release-build-target.yml` is the reusable
+per-target implementation and keeps configure, build, test, install, consumer,
+package, and upload failures visible as separate Actions steps.
+
+The permanent workflow is deliberately separate from ordinary push and
+pull-request validation, so large SDK archives are produced only when a
+maintainer requests them. PR #214 temporarily enables a path-scoped
+`pull_request` trigger solely to prove all six new target rows before merge;
+that trigger must be removed immediately after the evidence is captured.
 
 The dispatch inputs are:
 
@@ -129,9 +137,10 @@ and contains:
 The manifest records the version, commit, operating system, architecture,
 compiler identity, linkage, CMake preset, and source-date epoch. The packaging
 script sorts entries, normalizes permissions and timestamps to the selected
-commit time, and asks CMake's archive implementation to record that time. Run
-`make release-artifact-test` to check stable archive bytes, required contents,
-and the release-asset conflict policy.
+commit time, asks CMake's archive implementation to record that time, and
+normalizes the outer gzip header that CMake otherwise timestamps at packaging
+time. Run `make release-artifact-test` to check stable archive bytes, required
+contents, and the release-asset conflict policy.
 
 The matrix runs the behavioral unit suite (excluding benchmark-labelled cases)
 and then configures, builds, runs, installs, and tests the external C and C++
@@ -140,6 +149,9 @@ is archived in this first published matrix; the shared pass remains a release
 gate for export/import and runtime-loading coverage. A failed row does not
 cancel evidence from other rows, but the promotion job depends on the
 successful aggregate matrix result and therefore cannot run after any failure.
+Each row sets `VCPKG_ROOT` to the pinned `dep/vcpkg` submodule and bootstraps
+that checkout before configuration. Hosted-runner vcpkg installations are not
+used as an implicit substitute for the repository's selected revision.
 
 ### Promotion and reruns
 

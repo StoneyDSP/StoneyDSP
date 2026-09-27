@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 
-import { planAssetPromotion } from "./promote-release-assets.mjs";
+import { main, planAssetPromotion } from "./promote-release-assets.mjs";
 
 const local = [
   { name: "one.tar.gz", path: "/one.tar.gz", digest: "a".repeat(64) },
@@ -44,4 +44,31 @@ test("rejects conflicts before returning an upload plan", async () => {
     ),
     /already exists with different content.*No assets were uploaded/,
   );
+});
+
+test("CLI entry point owns process state through its injected context", async () => {
+  const errors = [];
+  const exitCode = await main({
+    process: {
+      argv: [
+        "node",
+        "promote-release-assets.mjs",
+        "--repository",
+        "StoneyDSP/StoneyDSP",
+        "--tag",
+        "v0.0.957",
+        "--assets-dir",
+        "dist",
+      ],
+      env: {},
+    },
+    console: {
+      log: () => {},
+      error: (...values) => errors.push(values.join(" ")),
+    },
+    fetch: globalThis.fetch,
+  });
+
+  assert.equal(exitCode, 1);
+  assert.match(errors.join("\n"), /GITHUB_TOKEN is required/);
 });

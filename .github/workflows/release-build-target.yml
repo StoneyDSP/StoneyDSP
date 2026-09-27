@@ -1,0 +1,475 @@
+name: release target
+
+on:
+  workflow_call:
+    inputs:
+      target_id:
+        required: true
+        type: string
+      runner:
+        required: true
+        type: string
+      kind:
+        required: true
+        type: string
+      system:
+        required: true
+        type: string
+      architecture:
+        required: true
+        type: string
+      compiler:
+        required: true
+        type: string
+      cc:
+        required: false
+        type: string
+        default: ""
+      cxx:
+        required: false
+        type: string
+        default: ""
+      preset:
+        required: true
+        type: string
+      configure_args:
+        required: false
+        type: string
+        default: ""
+      archive_format:
+        required: true
+        type: string
+      asset_suffix:
+        required: true
+        type: string
+      commit:
+        required: true
+        type: string
+      source_date_epoch:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      vcpkg_commit:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+env:
+  CMAKE_BUILD_PARALLEL_LEVEL: 3
+  CMAKE_INSTALL_PARALLEL_LEVEL: 3
+  VCPKG_MAX_CONCURRENCY: 3
+  VCPKG_MANIFEST_MODE: ON
+  VCPKG_ROOT: ${{ github.workspace }}/dep/vcpkg
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.cache/vcpkg/archives
+  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg/downloads
+  VCPKG_BINARY_SOURCES: clear;default,readwrite
+
+jobs:
+  build:
+    name: ${{ inputs.target_id }}
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - name: Checkout resolved release commit
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.commit }}
+          submodules: true
+          fetch-depth: 0
+
+      - name: Set up MSVC x64
+        if: ${{ inputs.kind == 'msvc' }}
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Set up MinGW x64
+        if: ${{ inputs.kind == 'mingw' }}
+        uses: msys2/setup-msys2@v2.32.0
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            --needed
+            base-devel
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+
+      - name: Select Unix compiler
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: |
+          echo "CC=${{ inputs.cc }}" >> "$GITHUB_ENV"
+          echo "CXX=${{ inputs.cxx }}" >> "$GITHUB_ENV"
+
+      - name: Bootstrap pinned vcpkg on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: |
+          "$VCPKG_ROOT/bootstrap-vcpkg.sh" -disableMetrics
+
+      - name: Bootstrap pinned vcpkg on Windows
+        if: ${{ inputs.kind != 'unix' }}
+        shell: pwsh
+        run: '& "$env:VCPKG_ROOT/bootstrap-vcpkg.bat" -disableMetrics'
+
+      - name: Prepare vcpkg cache directories on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          cmake -E make_directory
+          "${{ github.workspace }}/.cache/vcpkg/archives"
+          "${{ github.workspace }}/.cache/vcpkg/downloads"
+
+      - name: Prepare vcpkg cache directories on Windows
+        if: ${{ inputs.kind != 'unix' }}
+        shell: pwsh
+        run: >-
+          cmake -E make_directory
+          "${{ github.workspace }}/.cache/vcpkg/archives"
+          "${{ github.workspace }}/.cache/vcpkg/downloads"
+
+      - name: Restore and save vcpkg caches
+        continue-on-error: true
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+            ${{ env.VCPKG_DOWNLOADS }}
+          key: release-vcpkg-${{ inputs.target_id }}-${{ inputs.vcpkg_commit }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'dep/vcpkg-registry/**') }}
+
+      - name: Validate version metadata on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: node scripts/bump-version.mjs --check
+
+      - name: Validate version metadata on Windows
+        if: ${{ inputs.kind != 'unix' }}
+        shell: pwsh
+        run: node scripts/bump-version.mjs --check
+
+      - name: Configure static package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          cmake --preset "${{ inputs.preset }}"
+          -DSTONEYDSP_BUILD_SHARED=OFF
+          -DSTONEYDSP_BUILD_TEST=ON
+          -DSTONEYDSP_TEST_TARGET_INSTALL=OFF
+          -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
+          ${{ inputs.configure_args }}
+
+      - name: Configure static package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          cmake --preset "${{ inputs.preset }}"
+          -DSTONEYDSP_BUILD_SHARED=OFF
+          -DSTONEYDSP_BUILD_TEST=ON
+          -DSTONEYDSP_TEST_TARGET_INSTALL=OFF
+          -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
+
+      - name: Configure static package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: >-
+          cmake --preset "${{ inputs.preset }}"
+          -DSTONEYDSP_BUILD_SHARED=OFF
+          -DSTONEYDSP_BUILD_TEST=ON
+          -DSTONEYDSP_TEST_TARGET_INSTALL=OFF
+          -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
+          ${{ inputs.configure_args }}
+
+      - name: Build static package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: cmake --build build --config Release --parallel 3
+
+      - name: Build static package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: cmake --build build --config Release --parallel 3
+
+      - name: Build static package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: cmake --build build --config Release --parallel 3
+
+      - name: Test static package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: ctest --test-dir build -C Release -E benchmark --output-on-failure
+
+      - name: Test static package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: ctest --test-dir build -C Release -E benchmark --output-on-failure
+
+      - name: Test static package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: ctest --test-dir build -C Release -E benchmark --output-on-failure
+
+      - name: Install static package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: cmake --install build --config Release --prefix install
+
+      - name: Install static package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: cmake --install build --config Release --prefix install
+
+      - name: Install static package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: cmake --install build --config Release --prefix install
+
+      - name: Configure static installed consumers on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          cmake -S test/consumer -B build-consumer -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          "-DCMAKE_PREFIX_PATH=${{ github.workspace }}/install"
+
+      - name: Configure static installed consumers with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          cmake -S test/consumer -B build-consumer -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          "-DCMAKE_PREFIX_PATH=${{ github.workspace }}/install"
+
+      - name: Configure static installed consumers with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: >-
+          cmake -S test/consumer -B build-consumer -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          "-DCMAKE_PREFIX_PATH=${{ github.workspace }}/install"
+
+      - name: Build static installed consumers on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: cmake --build build-consumer --config Release --parallel 3
+
+      - name: Build static installed consumers with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: cmake --build build-consumer --config Release --parallel 3
+
+      - name: Build static installed consumers with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: cmake --build build-consumer --config Release --parallel 3
+
+      - name: Run static installed consumers on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          ctest --test-dir build-consumer -C Release --output-on-failure
+
+      - name: Run static installed consumers with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          ctest --test-dir build-consumer -C Release --output-on-failure
+
+      - name: Run static installed consumers with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: >-
+          ctest --test-dir build-consumer -C Release --output-on-failure
+
+      - name: Configure shared package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          cmake --preset "${{ inputs.preset }}" -B build-shared
+          -DSTONEYDSP_BUILD_SHARED=ON
+          -DSTONEYDSP_BUILD_TEST=ON
+          -DSTONEYDSP_TEST_TARGET_INSTALL=OFF
+          -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
+          ${{ inputs.configure_args }}
+
+      - name: Configure shared package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          cmake --preset "${{ inputs.preset }}" -B build-shared
+          -DSTONEYDSP_BUILD_SHARED=ON
+          -DSTONEYDSP_BUILD_TEST=ON
+          -DSTONEYDSP_TEST_TARGET_INSTALL=OFF
+          -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
+
+      - name: Configure shared package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: >-
+          cmake --preset "${{ inputs.preset }}" -B build-shared
+          -DSTONEYDSP_BUILD_SHARED=ON
+          -DSTONEYDSP_BUILD_TEST=ON
+          -DSTONEYDSP_TEST_TARGET_INSTALL=OFF
+          -DSTONEYDSP_TEST_CATCH2_SESSION_TARGET_INSTALL=OFF
+          ${{ inputs.configure_args }}
+
+      - name: Build shared package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: cmake --build build-shared --config Release --parallel 3
+
+      - name: Build shared package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: cmake --build build-shared --config Release --parallel 3
+
+      - name: Build shared package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: cmake --build build-shared --config Release --parallel 3
+
+      - name: Test shared package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          ctest --test-dir build-shared -C Release -E benchmark
+          --output-on-failure
+
+      - name: Test shared package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          ctest --test-dir build-shared -C Release -E benchmark
+          --output-on-failure
+
+      - name: Test shared package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: >-
+          ctest --test-dir build-shared -C Release -E benchmark
+          --output-on-failure
+
+      - name: Install shared package on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          cmake --install build-shared --config Release
+          --prefix install-shared
+
+      - name: Install shared package with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          cmake --install build-shared --config Release
+          --prefix install-shared
+
+      - name: Install shared package with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: >-
+          cmake --install build-shared --config Release
+          --prefix install-shared
+
+      - name: Configure shared installed consumers on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: >-
+          cmake -S test/consumer -B build-consumer-shared -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          "-DCMAKE_PREFIX_PATH=${{ github.workspace }}/install-shared"
+
+      - name: Configure shared installed consumers with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          cmake -S test/consumer -B build-consumer-shared -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          "-DCMAKE_PREFIX_PATH=${{ github.workspace }}/install-shared"
+
+      - name: Configure shared installed consumers with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: >-
+          cmake -S test/consumer -B build-consumer-shared -G Ninja
+          -DCMAKE_BUILD_TYPE=Release
+          "-DCMAKE_PREFIX_PATH=${{ github.workspace }}/install-shared"
+
+      - name: Build shared installed consumers on Unix
+        if: ${{ inputs.kind == 'unix' }}
+        shell: bash
+        run: cmake --build build-consumer-shared --config Release --parallel 3
+
+      - name: Build shared installed consumers with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: cmake --build build-consumer-shared --config Release --parallel 3
+
+      - name: Build shared installed consumers with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: cmake --build build-consumer-shared --config Release --parallel 3
+
+      - name: Run shared installed consumers on Linux
+        if: ${{ inputs.system == 'linux' }}
+        shell: bash
+        run: >-
+          LD_LIBRARY_PATH="$PWD/install-shared/lib:${LD_LIBRARY_PATH:-}"
+          ctest --test-dir build-consumer-shared -C Release --output-on-failure
+
+      - name: Run shared installed consumers on macOS
+        if: ${{ inputs.system == 'macos' }}
+        shell: bash
+        run: >-
+          DYLD_LIBRARY_PATH="$PWD/install-shared/lib:${DYLD_LIBRARY_PATH:-}"
+          ctest --test-dir build-consumer-shared -C Release --output-on-failure
+
+      - name: Run shared installed consumers with MinGW
+        if: ${{ inputs.kind == 'mingw' }}
+        shell: msys2 {0}
+        run: >-
+          PATH="$PWD/install-shared/bin:$PATH"
+          ctest --test-dir build-consumer-shared -C Release --output-on-failure
+
+      - name: Run shared installed consumers with MSVC
+        if: ${{ inputs.kind == 'msvc' }}
+        shell: pwsh
+        run: |
+          $env:PATH = "$PWD/install-shared/bin;$env:PATH"
+          ctest --test-dir build-consumer-shared -C Release --output-on-failure
+
+      - name: Package deterministic SDK archive
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          asset_name="StoneyDSP-${{ inputs.version }}-${{ inputs.asset_suffix }}"
+          node scripts/package-release.mjs \
+            --install-dir install \
+            --output-dir dist \
+            --name "$asset_name" \
+            --format "${{ inputs.archive_format }}" \
+            --version "${{ inputs.version }}" \
+            --commit "${{ inputs.commit }}" \
+            --system "${{ inputs.system }}" \
+            --architecture "${{ inputs.architecture }}" \
+            --compiler "${{ inputs.compiler }}" \
+            --linkage static \
+            --preset "${{ inputs.preset }}" \
+            --source-date-epoch "${{ inputs.source_date_epoch }}"
+          echo "asset_name=$asset_name" >> "$GITHUB_OUTPUT"
+
+      - name: Upload release archive for inspection
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ steps.package.outputs.asset_name }}
+          path: |
+            dist/${{ steps.package.outputs.asset_name }}.*
+          if-no-files-found: error
+          retention-days: 14
+          compression-level: 0
+          overwrite: false
