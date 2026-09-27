@@ -147,10 +147,10 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][special_values]",
       = ::std::numeric_limits< ::stoneydsp::char_t>::min ();
   ::stoneydsp::char_t max_val
       = ::std::numeric_limits< ::stoneydsp::char_t>::max ();
-  STONEYDSP_REQUIRE (min_val
-                     == ::std::numeric_limits< ::stoneydsp::char_t>::min ());
-  STONEYDSP_REQUIRE (max_val
-                     == ::std::numeric_limits< ::stoneydsp::char_t>::max ());
+  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::char_t>::min ()
+                     == min_val);
+  STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::char_t>::max ()
+                     == max_val);
 }
 
 //==================================================================//endianness
@@ -277,10 +277,10 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][boundary][representable]",
   ::stoneydsp::char_t max_value
       = ::std::numeric_limits< ::stoneydsp::char_t>::max ();
 
-  STONEYDSP_REQUIRE (min_value
-                     == ::std::numeric_limits< ::stoneydsp::char_t>::min ());
-  STONEYDSP_REQUIRE (max_value
-                     == ::std::numeric_limits< ::stoneydsp::char_t>::max ());
+  STONEYDSP_REQUIRE (static_cast< int> (min_value) + 1
+                     > static_cast< int> (min_value));
+  STONEYDSP_REQUIRE (static_cast< int> (max_value) - 1
+                     < static_cast< int> (max_value));
 }
 
 //===============================================================//compatibility
