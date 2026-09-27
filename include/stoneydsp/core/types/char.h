@@ -21,7 +21,13 @@
 //==============================================================================
 
 /**
- * @brief
+ * @brief Platform-native character storage type.
+ *
+ * This alias intentionally preserves plain C/C++ `char` semantics. Its
+ * signedness is implementation-defined and must not be assumed by consumers.
+ * For example, some Linux ARM64 toolchains define plain `char` as unsigned.
+ * Use `schar_t`, `uchar_t`, or an exact-width integer alias when signedness or
+ * width is part of the contract.
  *
  */
 typedef STONEYDSP_CHAR_T stoneydsp_char_t;
@@ -122,7 +128,13 @@ namespace types
 //==============================================================================
 
 /**
- * @brief
+ * @brief Platform-native character storage type.
+ *
+ * This alias intentionally preserves plain C/C++ `char` semantics. Its
+ * signedness is implementation-defined and must not be assumed by consumers.
+ * For example, some Linux ARM64 toolchains define plain `char` as unsigned.
+ * Use `schar_t`, `uchar_t`, or an exact-width integer alias when signedness or
+ * width is part of the contract.
  *
  */
 using char_t = stoneydsp_char;
