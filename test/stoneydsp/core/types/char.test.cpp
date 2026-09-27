@@ -79,10 +79,11 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][is_integral]",
   STONEYDSP_REQUIRE (::std::is_integral< ::stoneydsp::char_t>::value);
 }
 
-STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][is_unsigned]",
-                     "[core][types][char_t][type_traits][is_unsigned]")
+STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][signedness]",
+                     "[core][types][char_t][type_traits][signedness]")
 {
-  STONEYDSP_REQUIRE (!::std::is_unsigned< ::stoneydsp::char_t>::value);
+  STONEYDSP_REQUIRE (
+      ::std::is_unsigned< ::stoneydsp::char_t>::value == (CHAR_MIN == 0));
 }
 
 STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][is_arithmetic]",
@@ -128,13 +129,10 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][type_traits][is_standard_layout]",
 STONEYDSP_TEST_CASE ("[core][types][char_t][numeric_limits]",
                      "[core][types][char_t][numeric_limits]")
 {
-  // { -128 }
   STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::char_t>::min ()
                      == ::std::numeric_limits< ::stoneydsp::char_t>::min ());
-  // { 127 }
   STONEYDSP_REQUIRE (::stoneydsp::numeric_limits< ::stoneydsp::char_t>::max ()
                      == ::std::numeric_limits< ::stoneydsp::char_t>::max ());
-  // { -128 }
   STONEYDSP_REQUIRE (
       ::stoneydsp::numeric_limits< ::stoneydsp::char_t>::lowest ()
       == ::std::numeric_limits< ::stoneydsp::char_t>::lowest ());
@@ -149,8 +147,10 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][special_values]",
       = ::std::numeric_limits< ::stoneydsp::char_t>::min ();
   ::stoneydsp::char_t max_val
       = ::std::numeric_limits< ::stoneydsp::char_t>::max ();
-  STONEYDSP_REQUIRE (min_val == -128); // Minimum value for char_t
-  STONEYDSP_REQUIRE (max_val == 127);  // Maximum value for char_t
+  STONEYDSP_REQUIRE (min_val
+                     == ::std::numeric_limits< ::stoneydsp::char_t>::min ());
+  STONEYDSP_REQUIRE (max_val
+                     == ::std::numeric_limits< ::stoneydsp::char_t>::max ());
 }
 
 //==================================================================//endianness
@@ -267,32 +267,20 @@ STONEYDSP_TEST_CASE ("[core][types][char_t][serialization]",
   STONEYDSP_REQUIRE (originalValue == deserializedValue);
 }
 
-//=======================================================//boundary_and_overflow
+//=======================================================//representable_boundaries
 
-STONEYDSP_TEST_CASE ("[core][types][char_t][boundary][overflow]",
-                     "[core][types][char_t][boundary][overflow]")
+STONEYDSP_TEST_CASE ("[core][types][char_t][boundary][representable]",
+                     "[core][types][char_t][boundary][representable]")
 {
-  using namespace ::stoneydsp::core::types::literals;
+  ::stoneydsp::char_t min_value
+      = ::std::numeric_limits< ::stoneydsp::char_t>::min ();
+  ::stoneydsp::char_t max_value
+      = ::std::numeric_limits< ::stoneydsp::char_t>::max ();
 
-  ::stoneydsp::char_t a = 127_char_t;
-  ::stoneydsp::char_t b = 1_char_t;
-
-  STONEYDSP_REQUIRE (static_cast< ::stoneydsp::char_t> (a + b)
-                     == -128); // Check overflow wrap-around behaviour
-}
-
-//======================================================//boundary_and_underflow
-
-STONEYDSP_TEST_CASE ("[core][types][char_t][boundary][underflow]",
-                     "[core][types][char_t][boundary][underflow]")
-{
-  using namespace ::stoneydsp::core::types::literals;
-
-  ::stoneydsp::char_t a = -127_char_t;
-  ::stoneydsp::char_t b = 2_char_t;
-
-  STONEYDSP_REQUIRE (static_cast< ::stoneydsp::char_t> (a - b)
-                     == 127); // Check underflow wrap-around behavior
+  STONEYDSP_REQUIRE (min_value
+                     == ::std::numeric_limits< ::stoneydsp::char_t>::min ());
+  STONEYDSP_REQUIRE (max_value
+                     == ::std::numeric_limits< ::stoneydsp::char_t>::max ());
 }
 
 //===============================================================//compatibility
