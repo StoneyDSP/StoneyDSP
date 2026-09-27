@@ -22,22 +22,18 @@ approximatelyEqual (ValueType actual, ValueType expected, ValueType tolerance)
 }
 } // namespace
 
-STONEYDSP_TEST_CASE ("[core][maths][constants]",
-                     "[core][maths][constants]")
+STONEYDSP_TEST_CASE ("[core][maths][constants]", "[core][maths][constants]")
 {
   typedef ::stoneydsp::core::maths::Constants<double> Constants;
 
   const double &pi = Constants::pi;
-  STONEYDSP_REQUIRE (
-      approximatelyEqual (pi, 3.14159265358979323846, 1.0e-15));
+  STONEYDSP_REQUIRE (approximatelyEqual (pi, 3.14159265358979323846, 1.0e-15));
   STONEYDSP_REQUIRE (Constants::tau == Constants::twoPi);
-  STONEYDSP_REQUIRE (
-      approximatelyEqual (Constants::oneDivSqrtTwo * Constants::sqrtTwo,
-                          1.0, 1.0e-15));
+  STONEYDSP_REQUIRE (approximatelyEqual (
+      Constants::oneDivSqrtTwo * Constants::sqrtTwo, 1.0, 1.0e-15));
 }
 
-STONEYDSP_TEST_CASE ("[core][maths][functions]",
-                     "[core][maths][functions]")
+STONEYDSP_TEST_CASE ("[core][maths][functions]", "[core][maths][functions]")
 {
   typedef ::stoneydsp::core::maths::Functions<double> Functions;
   typedef ::stoneydsp::core::maths::IntegerFunctions<int> IntegerFunctions;
@@ -56,25 +52,21 @@ STONEYDSP_TEST_CASE ("[core][maths][conversions]",
   STONEYDSP_REQUIRE (approximatelyEqual (
       ::stoneydsp::core::maths::decibelsToGain (oneBitDecibels), 2.0,
       1.0e-15));
-  STONEYDSP_REQUIRE (approximatelyEqual (
-      ::stoneydsp::core::maths::gainToDecibels (2.0), oneBitDecibels,
-      1.0e-15));
   STONEYDSP_REQUIRE (
-      ::stoneydsp::core::maths::bitsToGain (1.0) == 2.0);
-  STONEYDSP_REQUIRE (
-      ::stoneydsp::core::maths::gainToBits (0.5) == -1.0);
+      approximatelyEqual (::stoneydsp::core::maths::gainToDecibels (2.0),
+                          oneBitDecibels, 1.0e-15));
+  STONEYDSP_REQUIRE (::stoneydsp::core::maths::bitsToGain (1.0) == 2.0);
+  STONEYDSP_REQUIRE (::stoneydsp::core::maths::gainToBits (0.5) == -1.0);
 
   STONEYDSP_REQUIRE (approximatelyEqual (
       stoneydsp_double_decibels_to_gain (oneBitDecibels), 2.0, 1.0e-15));
-  STONEYDSP_REQUIRE (
-      stoneydsp_float_bits_to_gain (1.0F) == 2.0F);
+  STONEYDSP_REQUIRE (stoneydsp_float_bits_to_gain (1.0F) == 2.0F);
 
-  STONEYDSP_REQUIRE (std::isinf (
-      ::stoneydsp::core::maths::gainToDecibels (0.0)));
   STONEYDSP_REQUIRE (
-      ::stoneydsp::core::maths::gainToDecibels (0.0) < 0.0);
-  STONEYDSP_REQUIRE (std::isnan (
-      ::stoneydsp::core::maths::gainToDecibels (-1.0)));
+      std::isinf (::stoneydsp::core::maths::gainToDecibels (0.0)));
+  STONEYDSP_REQUIRE (::stoneydsp::core::maths::gainToDecibels (0.0) < 0.0);
+  STONEYDSP_REQUIRE (
+      std::isnan (::stoneydsp::core::maths::gainToDecibels (-1.0)));
 }
 
 #endif // defined(STONEYDSP_BUILD_TEST)

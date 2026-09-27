@@ -167,8 +167,7 @@ calculateBiquadCoefficients (BiquadFilterType type, SampleType sampleRate,
       frequency, minimumFrequency, maximumFrequency);
   const SampleType limitedResonance
       = detail::clampBiquadValue (resonance, zero, one);
-  const SampleType omega
-      = limitedFrequency * (Constants::twoPi / sampleRate);
+  const SampleType omega = limitedFrequency * (Constants::twoPi / sampleRate);
   const SampleType cosine = std::cos (omega);
   const SampleType sine = std::sin (omega);
   const SampleType alpha = sine * (one - limitedResonance);

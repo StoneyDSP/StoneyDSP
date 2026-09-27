@@ -17,19 +17,15 @@
   #include <stoneydsp/core/core.h>
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
-stoneydsp_float_decibels_to_gain (STONEYDSP_FLT_T decibels)
-    STONEYDSP_NOEXCEPT
+stoneydsp_float_decibels_to_gain (STONEYDSP_FLT_T decibels) STONEYDSP_NOEXCEPT
 {
-  return powf (STONEYDSP_FLT_C (10.0),
-               decibels * STONEYDSP_FLT_C (0.05));
+  return powf (STONEYDSP_FLT_C (10.0), decibels * STONEYDSP_FLT_C (0.05));
 }
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_DBL_T STONEYDSP_PUBLIC_FUNCTION
-stoneydsp_double_decibels_to_gain (STONEYDSP_DBL_T decibels)
-    STONEYDSP_NOEXCEPT
+stoneydsp_double_decibels_to_gain (STONEYDSP_DBL_T decibels) STONEYDSP_NOEXCEPT
 {
-  return pow (STONEYDSP_DBL_C (10.0),
-              decibels * STONEYDSP_DBL_C (0.05));
+  return pow (STONEYDSP_DBL_C (10.0), decibels * STONEYDSP_DBL_C (0.05));
 }
 
 STONEYDSP_EXTERN_C STONEYDSP_INLINE STONEYDSP_FLT_T STONEYDSP_PUBLIC_FUNCTION
@@ -68,7 +64,7 @@ stoneydsp_double_gain_to_bits (STONEYDSP_DBL_T gain) STONEYDSP_NOEXCEPT
   return log2 (gain);
 }
 
-  #ifdef __cplusplus
+  #ifdef STONEYDSP_CXX
 
     #include <cmath>
     #include <type_traits>
@@ -129,6 +125,6 @@ gainToBits (FloatType gain) STONEYDSP_NOEXCEPT
 } // namespace core
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 #endif // STONEYDSP_CORE_MATHS_CONVERSIONS_H_INCLUDED

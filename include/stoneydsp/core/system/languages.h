@@ -85,15 +85,15 @@
 
 //==============================================================================
 
-#ifdef STONEYDSP_CXX
-  #ifdef _NOEXCEPT
-    #define STONEYDSP_NOEXCEPT _NOEXCEPT
+  #ifdef STONEYDSP_CXX
+    #ifdef _NOEXCEPT
+      #define STONEYDSP_NOEXCEPT _NOEXCEPT
+    #else
+      #define STONEYDSP_NOEXCEPT noexcept
+    #endif
   #else
-    #define STONEYDSP_NOEXCEPT noexcept
+    #define STONEYDSP_NOEXCEPT
   #endif
-#else
-  #define STONEYDSP_NOEXCEPT
-#endif
 
 //==============================================================================
 

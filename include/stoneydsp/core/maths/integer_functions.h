@@ -14,7 +14,7 @@
 
   #include <stoneydsp/core/core.h>
 
-  #ifdef __cplusplus
+  #ifdef STONEYDSP_CXX
 
     #include <type_traits>
 
@@ -26,8 +26,7 @@ namespace maths
 {
 
 /** Commonly used integer mathematical functions. */
-template <typename IntType>
-struct IntegerFunctions
+template <typename IntType> struct IntegerFunctions
 {
   static_assert (std::is_integral<IntType>::value,
                  "IntegerFunctions requires an integer type");
@@ -44,6 +43,6 @@ struct IntegerFunctions
 } // namespace core
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 #endif // STONEYDSP_CORE_MATHS_INTEGER_FUNCTIONS_H_INCLUDED

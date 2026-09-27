@@ -2,10 +2,10 @@
  * @file gain.h
  * @brief Allocation-free clean gain processor templates.
  *
- * `Gain` stores one scalar gain and applies it to a sample or contiguous sample
- * range. It does not perform smoothing, parameter ownership, host automation,
- * clipping, or saturation; those policies belong to the caller or a higher
- * level processor.
+ * `Gain` stores one scalar gain and applies it to a sample or contiguous
+ * sample range. It does not perform smoothing, parameter ownership, host
+ * automation, clipping, or saturation; those policies belong to the caller or
+ * a higher level processor.
  */
 
 #pragma once
@@ -30,7 +30,8 @@ public:
   Gain () noexcept = default;
 
   /**
-   * @brief Apply an explicit clean gain adjustment to a contiguous sample range.
+   * @brief Apply an explicit clean gain adjustment to a contiguous sample
+   * range.
    *
    * @param samples First sample in the mutable range. Must be valid when
    * `numSamples` is non-zero.
@@ -79,56 +80,40 @@ private:
 } // namespace stoneydsp
 
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::double_t,
-    ::stoneydsp::core::types::double_t>;
+    ::stoneydsp::core::types::double_t, ::stoneydsp::core::types::double_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::float_t,
-    ::stoneydsp::core::types::double_t>;
+    ::stoneydsp::core::types::float_t, ::stoneydsp::core::types::double_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::int8_t,
-    ::stoneydsp::core::types::double_t>;
+    ::stoneydsp::core::types::int8_t, ::stoneydsp::core::types::double_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::int16_t,
-    ::stoneydsp::core::types::double_t>;
+    ::stoneydsp::core::types::int16_t, ::stoneydsp::core::types::double_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::uint8_t,
-    ::stoneydsp::core::types::double_t>;
+    ::stoneydsp::core::types::uint8_t, ::stoneydsp::core::types::double_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::uint16_t,
-    ::stoneydsp::core::types::double_t>;
+    ::stoneydsp::core::types::uint16_t, ::stoneydsp::core::types::double_t>;
 
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::double_t,
-    ::stoneydsp::core::types::float_t>;
+    ::stoneydsp::core::types::double_t, ::stoneydsp::core::types::float_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::float_t,
-    ::stoneydsp::core::types::float_t>;
+    ::stoneydsp::core::types::float_t, ::stoneydsp::core::types::float_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::int8_t,
-    ::stoneydsp::core::types::float_t>;
+    ::stoneydsp::core::types::int8_t, ::stoneydsp::core::types::float_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::int16_t,
-    ::stoneydsp::core::types::float_t>;
+    ::stoneydsp::core::types::int16_t, ::stoneydsp::core::types::float_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::uint8_t,
-    ::stoneydsp::core::types::float_t>;
+    ::stoneydsp::core::types::uint8_t, ::stoneydsp::core::types::float_t>;
 template class ::stoneydsp::dsp::widgets::Gain<
-    ::stoneydsp::core::types::uint16_t,
-    ::stoneydsp::core::types::float_t>;
+    ::stoneydsp::core::types::uint16_t, ::stoneydsp::core::types::float_t>;
 
-  #define STONEYDSP_GAIN_DOUBLE_T                                           \
-    ::stoneydsp::dsp::widgets::Gain<                                       \
-        ::stoneydsp::core::types::double_t,                                \
-        ::stoneydsp::core::types::double_t>
-  #define STONEYDSP_GAIN_FLOAT_T                                            \
-    ::stoneydsp::dsp::widgets::Gain<                                       \
-        ::stoneydsp::core::types::float_t,                                 \
-        ::stoneydsp::core::types::float_t>
+  #define STONEYDSP_GAIN_DOUBLE_T                                             \
+    ::stoneydsp::dsp::widgets::Gain< ::stoneydsp::core::types::double_t,      \
+                                     ::stoneydsp::core::types::double_t>
+  #define STONEYDSP_GAIN_FLOAT_T                                              \
+    ::stoneydsp::dsp::widgets::Gain< ::stoneydsp::core::types::float_t,       \
+                                     ::stoneydsp::core::types::float_t>
 
 typedef STONEYDSP_GAIN_DOUBLE_T stoneydsp_gain_double_t;
 typedef STONEYDSP_GAIN_FLOAT_T stoneydsp_gain_float_t;
-
-
 
 namespace stoneydsp
 {

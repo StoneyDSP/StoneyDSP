@@ -183,8 +183,8 @@ operator""_shrt_t (unsigned long long value) STONEYDSP_NOEXCEPT
 //==============================================================================
 
 template <>
-STONEYDSP_PACKED_STRUCT_BEGIN struct
-STONEYDSP_ALIGN (alignof (STONEYDSP_SHRT_T)) numeric_limits<STONEYDSP_SHRT_T>
+STONEYDSP_PACKED_STRUCT_BEGIN struct STONEYDSP_ALIGN (
+    alignof (STONEYDSP_SHRT_T)) numeric_limits<STONEYDSP_SHRT_T>
 {
 
   STONEYDSP_INLINE static STONEYDSP_CONSTEXPR STONEYDSP_SHRT_T STONEYDSP_API

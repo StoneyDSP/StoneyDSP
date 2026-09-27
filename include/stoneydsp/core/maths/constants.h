@@ -14,7 +14,7 @@
 
   #include <stoneydsp/core/core.h>
 
-  #ifdef __cplusplus
+  #ifdef STONEYDSP_CXX
 
     #include <type_traits>
 
@@ -26,8 +26,7 @@ namespace maths
 {
 
 /** Commonly used floating-point mathematical constants. */
-template <typename FloatType>
-struct Constants
+template <typename FloatType> struct Constants
 {
   static_assert (std::is_floating_point<FloatType>::value,
                  "Constants requires a floating-point type");
@@ -127,6 +126,6 @@ STONEYDSP_CONSTEXPR FloatType Constants<FloatType>::lnTen;
 } // namespace core
 } // namespace stoneydsp
 
-  #endif // __cplusplus
+  #endif // STONEYDSP_CXX
 
 #endif // STONEYDSP_CORE_MATHS_CONSTANTS_H_INCLUDED
