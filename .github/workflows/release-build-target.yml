@@ -75,7 +75,7 @@ jobs:
     runs-on: ${{ inputs.runner }}
     steps:
       - name: Checkout resolved release commit
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.commit }}
           submodules: true
