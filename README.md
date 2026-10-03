@@ -74,7 +74,7 @@ target_link_libraries(MyProduct
 ```
 
 The intended public components are `StoneyDSP::Core`, `StoneyDSP::SIMD`, and
-`StoneyDSP::DSP`, with an aggregate package target where appropriate. For
+`StoneyDSP::DSP` (so far), with an aggregate package target where appropriate. For
 local tandem development, a product may provision a pinned StoneyDSP checkout
 through a vcpkg overlay port; a release build must pin an immutable commit or
 version.
@@ -98,21 +98,6 @@ For package, linkage, C API, and JUCE-consumer guidance, see
 `DEBUG=1` and `VERBOSE=1` select matching Make/CMake preset variants. Consult
 [CMake presets](doc/presets.md) before assuming every nominal platform and
 architecture combination is continuously tested.
-
-## Project boundaries
-
-StoneyDSP is the portable engine and package layer. It is not the place for:
-
-- JUCE `AudioProcessor` classes, plugin formats, host automation, or product
-  state trees;
-- web application code, WebGL renderers, browser assets, or product UI scenes;
-- REAPER deployment files or JSFX runtime code;
-- proprietary presets, product strategy, licensing policy, or release assets.
-
-Those concerns belong in consumer repositories. Experiments in JSFX,
-Reaktor Core, WebAudio, legacy plugins, and hardware-inspired DSP are valuable
-inputs, but become StoneyDSP code only after their stable, portable behaviour
-has been specified and tested.
 
 ## Documentation
 
