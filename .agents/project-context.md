@@ -19,6 +19,21 @@ developed beside or with a pinned checkout of StoneyDSP, but product UI,
 licensing, presets, host integration, packaging, and commercial decisions do
 not belong in this repository unless explicitly requested.
 
+## Project boundaries
+
+StoneyDSP is the portable engine and package layer. It is not the place for:
+
+- JUCE `AudioProcessor` classes, plugin formats, host automation, or product
+  state trees;
+- web application code, WebGL renderers, browser assets, or product UI scenes;
+- REAPER deployment files or JSFX runtime code;
+- proprietary presets, product strategy, licensing policy, or release assets.
+
+Those concerns belong in consumer repositories. Experiments in JSFX,
+Reaktor Core, WebAudio, legacy plugins, and hardware-inspired DSP are valuable
+inputs, but become StoneyDSP code only after their stable, portable behaviour
+has been specified and tested.
+
 ## Repository map
 
 - `include/stoneydsp/`: public C/C++ headers and module APIs.
