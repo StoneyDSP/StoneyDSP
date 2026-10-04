@@ -81,7 +81,7 @@ jobs:
     - name: Restore vcpkg caches
       id: vcpkg-cache
       continue-on-error: true
-      uses: actions/cache/restore@v5
+      uses: actions/cache/restore@v6
       with:
         path: |
           ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
@@ -125,7 +125,7 @@ jobs:
     - name: Save vcpkg caches
       if: success() && steps.vcpkg-cache.outcome != 'failure'
       continue-on-error: true
-      uses: actions/cache/save@v5
+      uses: actions/cache/save@v6
       with:
         path: |
           ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
