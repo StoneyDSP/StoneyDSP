@@ -138,7 +138,7 @@ jobs:
 
       - name: Restore and save vcpkg caches
         continue-on-error: true
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: |
             ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
