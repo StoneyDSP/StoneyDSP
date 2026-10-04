@@ -65,7 +65,7 @@ jobs:
         echo "CXX=$CXX"
 
     - name: checkout StoneyDSP
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         submodules: true
         fetch-depth: 0

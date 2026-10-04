@@ -42,7 +42,7 @@ jobs:
       version: ${{ steps.release.outputs.version }}
     steps:
       - name: Checkout selected ref
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.release_ref }}
           submodules: true
@@ -183,7 +183,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout resolved release commit
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ needs.plan.outputs.commit }}
           fetch-depth: 0
